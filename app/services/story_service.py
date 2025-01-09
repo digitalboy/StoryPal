@@ -13,6 +13,18 @@ class StoryService:
         self.scene_storage = JSONStorage("data/scenes.json")
         self.word_storage = JSONStorage("data/words.json")
 
+    def get_story(self, story_id: str) -> dict:
+        """根据 ID 获取故事。"""
+        return Story.find_by_id(story_id)
+
+    def update_story(self, story_id: str, updated_data: dict) -> bool:
+        """更新故事信息。"""
+        return Story.update(story_id, updated_data)
+
+    def delete_story(self, story_id: str) -> bool:
+        """删除故事。"""
+        return Story.delete(story_id)
+
     def generate_story(
         self,
         vocabulary_level: int,
@@ -21,7 +33,14 @@ class StoryService:
         new_char_rate: float,
         key_word_ids: list,
     ) -> Story:
-        """生成符合要求的故事。"""
+        """
+        生成符合要求的故事。
+        - vocabulary_level: 目标词汇级别（1-100）
+        - scene_id: 场景ID
+        - word_count: 故事字数
+        - new_char_rate: 目标生字率（0-1）
+        - key_word_ids: 重点词汇ID列表
+        """
         # 1. 根据 scene_id 获取场景
         scene = Scene.find_by_id(scene_id)
         if not scene:
@@ -64,25 +83,3 @@ class StoryService:
         """调用 DeepSeek API 生成故事内容（伪代码）。"""
         # 这里可以集成 DeepSeek API 的实际调用逻辑
         return "这是一个生成的故事内容..."
-
-    def adjust_story_level(self, story_id: str, target_level: int) -> Story:
-        """调整故事的词汇级别（升级/降级）。"""
-        story_data = Story.find_by_id(story_id)
-        if not story_data:
-            raise ValueError(f"Story with ID {story_id} not found")
-
-        # 1. 更新故事的词汇级别
-        story_data["vocabulary_level"] = target_level
-
-        # 2. 更新故事内容（此处为伪代码）
-        story_data["content"] = self._call_deepseek_api(
-            target_level,
-            Scene.find_by_id(story_data["scene_id"]),
-            story_data["word_count"],
-            story_data["new_char_rate"],
-            story_data["key_words"],
-        )
-
-        # 3. 保存更新后的故事
-        self.story_storage.update(story_id, story_data)
-        return Story(**story_data)

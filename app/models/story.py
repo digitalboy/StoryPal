@@ -31,7 +31,19 @@ class Story(BaseModel):
 
     def save(self):
         """保存故事数据到 JSON 文件。"""
-        story_data = self.to_dict()  # 使用父类的 to_dict 方法
+        story_data = {
+            "id": self.id,
+            "title": self.title,
+            "content": self.content,
+            "vocabulary_level": self.vocabulary_level,
+            "scene_id": self.scene_id,
+            "word_count": self.word_count,
+            "new_words": self.new_words,
+            "new_char_rate": self.new_char_rate,
+            "key_words": self.key_words,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+        }
         self._storage.add(story_data)
 
     @classmethod
@@ -42,3 +54,25 @@ class Story(BaseModel):
             if story.get("id") == story_id:
                 return story
         return None
+
+    @classmethod
+    def update(cls, story_id: str, updated_data: dict) -> bool:
+        """更新故事数据。"""
+        stories = cls._storage.load()
+        for index, story in enumerate(stories):
+            if story.get("id") == story_id:
+                stories[index].update(updated_data)
+                cls._storage.save(stories)
+                return True
+        return False
+
+    @classmethod
+    def delete(cls, story_id: str) -> bool:
+        """删除故事数据。"""
+        stories = cls._storage.load()
+        for index, story in enumerate(stories):
+            if story.get("id") == story_id:
+                stories.pop(index)
+                cls._storage.save(stories)
+                return True
+        return False
