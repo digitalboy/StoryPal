@@ -89,25 +89,78 @@
   - 例句
   - 创建时间
   - 更新时间
-- 字词JSON Schema示例：
+- 字词JSON Schema：
   ```json
   {
-    "word_id": "string", // 词唯一ID
-    "word": "string", // 词
-    "pinyin": "string", // 拼音
-    "definition": "string", // 释义
-    "part_of_speech": "string", // 词性（枚举：名词、动词、形容词、副词等）
-    "chaotong_level": "int", // 超童级别
-    "characters": [ // 词中包含的字
-      {
-        "character": "string", // 字
-        "pinyin": "string", // 拼音
-        "definition": "string" // 释义
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "word_id": {
+        "type": "string",
+        "format": "uuid",
+        "description": "词唯一ID，使用UUID"
+      },
+      "word": {
+        "type": "string",
+        "description": "词"
+      },
+      "pinyin": {
+        "type": "string",
+        "description": "拼音"
+      },
+      "definition": {
+        "type": "string",
+        "description": "释义"
+      },
+      "part_of_speech": {
+        "type": "string",
+        "enum": ["名词", "动词", "形容词", "副词", "其他"],
+        "description": "词性"
+      },
+      "chaotong_level": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 100,
+        "description": "超童级别"
+      },
+      "characters": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "character": {
+              "type": "string",
+              "description": "字"
+            },
+            "pinyin": {
+              "type": "string",
+              "description": "拼音"
+            },
+            "definition": {
+              "type": "string",
+              "description": "释义"
+            }
+          },
+          "required": ["character", "pinyin", "definition"]
+        },
+        "description": "词中包含的字"
+      },
+      "example": {
+        "type": "string",
+        "description": "例句"
+      },
+      "created_at": {
+        "type": "string",
+        "format": "date-time",
+        "description": "创建时间"
+      },
+      "updated_at": {
+        "type": "string",
+        "format": "date-time",
+        "description": "更新时间"
       }
-    ],
-    "example": "string", // 例句
-    "created_at": "string", // 创建时间
-    "updated_at": "string" // 更新时间
+    },
+    "required": ["word_id", "word", "pinyin", "definition", "part_of_speech", "chaotong_level"]
   }
   ```
 
@@ -119,14 +172,37 @@
   - 场景描述
   - 创建时间
   - 更新时间
-- 场景JSON Schema示例：
+- 场景JSON Schema：
   ```json
   {
-    "scene_id": "string", // 场景唯一ID
-    "name": "string", // 场景名称
-    "description": "string", // 场景描述
-    "created_at": "string", // 创建时间
-    "updated_at": "string" // 更新时间
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "scene_id": {
+        "type": "string",
+        "format": "uuid",
+        "description": "场景唯一ID，使用UUID"
+      },
+      "name": {
+        "type": "string",
+        "description": "场景名称"
+      },
+      "description": {
+        "type": "string",
+        "description": "场景描述"
+      },
+      "created_at": {
+        "type": "string",
+        "format": "date-time",
+        "description": "创建时间"
+      },
+      "updated_at": {
+        "type": "string",
+        "format": "date-time",
+        "description": "更新时间"
+      }
+    },
+    "required": ["scene_id", "name", "description"]
   }
   ```
 
@@ -142,32 +218,112 @@
 - 故事生成API返回的JSON格式如下：
   ```json
   {
-    "story_id": "string", // 故事唯一ID
-    "title": "string", // 故事标题
-    "content": "string", // 故事内容
-    "vocabulary_level": "int", // 超童级别
-    "scene": "string", // 场景标签（如：问路、打车、点餐）
-    "word_count": "int", // 故事字数
-    "new_words": [ // 生词列表
-      {
-        "word": "string", // 生词
-        "pinyin": "string", // 拼音
-        "definition": "string", // 释义
-        "part_of_speech": "string", // 词性（枚举：名词、动词、形容词、副词等）
-        "example": "string" // 例句
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "story_id": {
+        "type": "string",
+        "format": "uuid",
+        "description": "故事唯一ID，使用UUID"
+      },
+      "title": {
+        "type": "string",
+        "description": "故事标题"
+      },
+      "content": {
+        "type": "string",
+        "description": "故事内容"
+      },
+      "vocabulary_level": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 100,
+        "description": "超童级别"
+      },
+      "scene": {
+        "type": "string",
+        "format": "uuid",
+        "description": "场景ID，使用UUID"
+      },
+      "word_count": {
+        "type": "integer",
+        "description": "故事字数"
+      },
+      "new_words": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "word": {
+              "type": "string",
+              "description": "生词"
+            },
+            "pinyin": {
+              "type": "string",
+              "description": "拼音"
+            },
+            "definition": {
+              "type": "string",
+              "description": "释义"
+            },
+            "part_of_speech": {
+              "type": "string",
+              "enum": ["名词", "动词", "形容词", "副词", "其他"],
+              "description": "词性"
+            },
+            "example": {
+              "type": "string",
+              "description": "例句"
+            }
+          },
+          "required": ["word", "pinyin", "definition"]
+        },
+        "description": "生词列表"
+      },
+      "new_char_rate": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "description": "实际生字率"
+      },
+      "key_words": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "word": {
+              "type": "string",
+              "description": "重点词汇"
+            },
+            "pinyin": {
+              "type": "string",
+              "description": "拼音"
+            },
+            "definition": {
+              "type": "string",
+              "description": "释义"
+            },
+            "part_of_speech": {
+              "type": "string",
+              "enum": ["名词", "动词", "形容词", "副词", "其他"],
+              "description": "词性"
+            },
+            "example": {
+              "type": "string",
+              "description": "例句"
+            }
+          },
+          "required": ["word", "pinyin", "definition"]
+        },
+        "description": "重点词汇列表"
+      },
+      "created_at": {
+        "type": "string",
+        "format": "date-time",
+        "description": "生成时间"
       }
-    ],
-    "new_char_rate": "float", // 实际生字率
-    "key_words": [ // 重点词汇列表
-      {
-        "word": "string", // 重点词汇
-        "pinyin": "string", // 拼音
-        "definition": "string", // 释义
-        "part_of_speech": "string", // 词性（枚举：名词、动词、形容词、副词等）
-        "example": "string" // 例句
-      }
-    ],
-    "created_at": "string" // 生成时间
+    },
+    "required": ["story_id", "content", "vocabulary_level", "scene"]
   }
   ```
 
@@ -260,64 +416,221 @@
 ### 10.1 字词表 JSON Schema
 ```json
 {
-  "word_id": "string", // 词唯一ID
-  "word": "string", // 词
-  "pinyin": "string", // 拼音
-  "definition": "string", // 释义
-  "part_of_speech": "string", // 词性（枚举：名词、动词、形容词、副词等）
-  "chaotong_level": "int", // 超童级别
-  "characters": [ // 词中包含的字
-    {
-      "character": "string", // 字
-      "pinyin": "string", // 拼音
-      "definition": "string" // 释义
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "word_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "词唯一ID，使用UUID"
+    },
+    "word": {
+      "type": "string",
+      "description": "词"
+    },
+    "pinyin": {
+      "type": "string",
+      "description": "拼音"
+    },
+    "definition": {
+      "type": "string",
+      "description": "释义"
+    },
+    "part_of_speech": {
+      "type": "string",
+      "enum": ["名词", "动词", "形容词", "副词", "其他"],
+      "description": "词性"
+    },
+    "chaotong_level": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100,
+      "description": "超童级别"
+    },
+    "characters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "character": {
+            "type": "string",
+            "description": "字"
+          },
+          "pinyin": {
+            "type": "string",
+            "description": "拼音"
+          },
+          "definition": {
+            "type": "string",
+            "description": "释义"
+          }
+        },
+        "required": ["character", "pinyin", "definition"]
+      },
+      "description": "词中包含的字"
+    },
+    "example": {
+      "type": "string",
+      "description": "例句"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "创建时间"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "更新时间"
     }
-  ],
-  "example": "string", // 例句
-  "created_at": "string", // 创建时间
-  "updated_at": "string" // 更新时间
+  },
+  "required": ["word_id", "word", "pinyin", "definition", "part_of_speech", "chaotong_level"]
 }
 ```
 
 ### 10.2 场景数据 JSON Schema
 ```json
 {
-  "scene_id": "string", // 场景唯一ID
-  "name": "string", // 场景名称
-  "description": "string", // 场景描述
-  "created_at": "string", // 创建时间
-  "updated_at": "string" // 更新时间
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "scene_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "场景唯一ID，使用UUID"
+    },
+    "name": {
+      "type": "string",
+      "description": "场景名称"
+    },
+    "description": {
+      "type": "string",
+      "description": "场景描述"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "创建时间"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "更新时间"
+    }
+  },
+  "required": ["scene_id", "name", "description"]
 }
 ```
 
 ### 10.3 故事数据 JSON Schema
 ```json
 {
-  "story_id": "string", // 故事唯一ID
-  "title": "string", // 故事标题
-  "content": "string", // 故事内容
-  "vocabulary_level": "int", // 超童级别
-  "scene": "string", // 场景标签（如：问路、打车、点餐）
-  "word_count": "int", // 故事字数
-  "new_words": [ // 生词列表
-    {
-      "word": "string", // 生词
-      "pinyin": "string", // 拼音
-      "definition": "string", // 释义
-      "part_of_speech": "string", // 词性（枚举：名词、动词、形容词、副词等）
-      "example": "string" // 例句
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "story_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "故事唯一ID，使用UUID"
+    },
+    "title": {
+      "type": "string",
+      "description": "故事标题"
+    },
+    "content": {
+      "type": "string",
+      "description": "故事内容"
+    },
+    "vocabulary_level": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100,
+      "description": "超童级别"
+    },
+    "scene": {
+      "type": "string",
+      "format": "uuid",
+      "description": "场景ID，使用UUID"
+    },
+    "word_count": {
+      "type": "integer",
+      "description": "故事字数"
+    },
+    "new_words": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "word": {
+            "type": "string",
+            "description": "生词"
+          },
+          "pinyin": {
+            "type": "string",
+            "description": "拼音"
+          },
+          "definition": {
+            "type": "string",
+            "description": "释义"
+          },
+          "part_of_speech": {
+            "type": "string",
+            "enum": ["名词", "动词", "形容词", "副词", "其他"],
+            "description": "词性"
+          },
+          "example": {
+            "type": "string",
+            "description": "例句"
+          }
+        },
+        "required": ["word", "pinyin", "definition"]
+      },
+      "description": "生词列表"
+    },
+    "new_char_rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "实际生字率"
+    },
+    "key_words": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "word": {
+            "type": "string",
+            "description": "重点词汇"
+          },
+          "pinyin": {
+            "type": "string",
+            "description": "拼音"
+          },
+          "definition": {
+            "type": "string",
+            "description": "释义"
+          },
+          "part_of_speech": {
+            "type": "string",
+            "enum": ["名词", "动词", "形容词", "副词", "其他"],
+            "description": "词性"
+          },
+          "example": {
+            "type": "string",
+            "description": "例句"
+          }
+        },
+        "required": ["word", "pinyin", "definition"]
+      },
+      "description": "重点词汇列表"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "生成时间"
     }
-  ],
-  "new_char_rate": "float", // 实际生字率
-  "key_words": [ // 重点词汇列表
-    {
-      "word": "string", // 重点词汇
-      "pinyin": "string", // 拼音
-      "definition": "string", // 释义
-      "part_of_speech": "string", // 词性（枚举：名词、动词、形容词、副词等）
-      "example": "string" // 例句
-    }
-  ],
-  "created_at": "string" // 生成时间
+  },
+  "required": ["story_id", "content", "vocabulary_level", "scene"]
 }
 ```
+
