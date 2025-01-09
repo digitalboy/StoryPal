@@ -8,8 +8,6 @@ class JSONStorage:
     """JSON 文件存储工具类，用于数据的加载和保存。"""
 
     def __init__(self, filepath: str):
-        # 确保目录存在
-        os.makedirs(os.path.dirname(filepath), exist_ok=True)
         self.filepath = filepath
         if not os.path.exists(filepath):
             with open(filepath, "w", encoding="utf-8") as f:
@@ -17,8 +15,13 @@ class JSONStorage:
 
     def load(self) -> List[Dict[str, Any]]:
         """从 JSON 文件加载数据。"""
-        with open(self.filepath, "r", encoding="utf-8") as f:
-            return json.load(f)
+        try:
+            with open(self.filepath, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except json.JSONDecodeError:
+            # 如果文件损坏，返回空列表并修复文件
+            self.save([])
+            return []
 
     def save(self, data: List[Dict[str, Any]]) -> None:
         """将数据保存到 JSON 文件。"""

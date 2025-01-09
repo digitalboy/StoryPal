@@ -10,13 +10,13 @@ class Word(BaseModel):
 
     def __init__(
         self,
-        word,
-        pinyin,
-        definition,
-        part_of_speech,
-        chaotong_level,
-        characters,
-        example,
+        word=None,
+        pinyin=None,
+        definition=None,
+        part_of_speech=None,
+        chaotong_level=None,
+        characters=None,
+        example=None,
     ):
         super().__init__()
         self.word = word  # 词
@@ -28,28 +28,17 @@ class Word(BaseModel):
         self.example = example  # 例句
 
     def save(self):
-        """保存字词数据到 JSON 文件。"""
-        word_data = {
-            "id": self.id,
-            "word": self.word,
-            "pinyin": self.pinyin,
-            "definition": self.definition,
-            "part_of_speech": self.part_of_speech,
-            "chaotong_level": self.chaotong_level,
-            "characters": self.characters,
-            "example": self.example,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at,
-        }
+        """保存 Word 对象到 JSON 文件。"""
+        word_data = self.to_dict()  # 使用父类的 to_dict 方法
         self._storage.add(word_data)
 
     @classmethod
     def find_by_id(cls, word_id: str):
-        """根据 ID 查找字词。"""
+        """根据 ID 查找字词，返回字典格式的数据。"""
         words = cls._storage.load()
-        for word in words:
-            if word.get("id") == word_id:
-                return word
+        for word_data in words:
+            if word_data.get("id") == word_id:
+                return word_data  # 返回字典格式的数据
         return None
 
     @classmethod

@@ -31,19 +31,7 @@ class Story(BaseModel):
 
     def save(self):
         """保存故事数据到 JSON 文件。"""
-        story_data = {
-            "id": self.id,
-            "title": self.title,
-            "content": self.content,
-            "vocabulary_level": self.vocabulary_level,
-            "scene_id": self.scene_id,
-            "word_count": self.word_count,
-            "new_words": self.new_words,
-            "new_char_rate": self.new_char_rate,
-            "key_words": self.key_words,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at,
-        }
+        story_data = self.to_dict()  # 使用父类的 to_dict 方法
         self._storage.add(story_data)
 
     @classmethod

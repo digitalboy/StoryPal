@@ -15,13 +15,7 @@ class Scene(BaseModel):
 
     def save(self):
         """保存场景数据到 JSON 文件。"""
-        scene_data = {
-            "id": self.id,
-            "name": self.name,
-            "description": self.description,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at,
-        }
+        scene_data = self.to_dict()  # 使用父类的 to_dict 方法
         self._storage.add(scene_data)
 
     @classmethod

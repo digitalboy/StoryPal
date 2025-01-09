@@ -14,3 +14,11 @@ class BaseModel:
     def update(self):
         """更新模型的更新时间。"""
         self.updated_at = datetime.now(UTC).isoformat()  # 使用时区感知的时间
+
+    def to_dict(self):
+        """将模型对象转换为字典格式。"""
+        return {
+            key: value
+            for key, value in self.__dict__.items()
+            if not key.startswith("_")  # 排除私有属性
+        }
