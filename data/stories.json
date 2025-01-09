@@ -1,0 +1,52 @@
+[
+  {
+    "id": "0c437336-c2bb-4b7b-8d0d-f3df88920c4c",
+    "title": "问路的故事",
+    "content": "有一天，小明想去公园...",
+    "vocabulary_level": 35,
+    "scene_id": "550e8400-e29b-41d4-a716-446655440000",
+    "word_count": 120,
+    "new_words": [
+      {
+        "word": "公园",
+        "pinyin": "gōngyuán",
+        "definition": "public park"
+      }
+    ],
+    "new_char_rate": 0.02,
+    "key_words": [
+      {
+        "word": "问路",
+        "pinyin": "wènlù",
+        "definition": "ask for directions"
+      }
+    ],
+    "created_at": "2025-01-09T09:08:15.804522",
+    "updated_at": "2025-01-09T09:08:15.804522"
+  },
+  {
+    "id": "756609c8-405b-422e-973d-d16836535137",
+    "title": "问路的故事",
+    "content": "有一天，小明想去公园...",
+    "vocabulary_level": 35,
+    "scene_id": "550e8400-e29b-41d4-a716-446655440000",
+    "word_count": 120,
+    "new_words": [
+      {
+        "word": "公园",
+        "pinyin": "gōngyuán",
+        "definition": "public park"
+      }
+    ],
+    "new_char_rate": 0.02,
+    "key_words": [
+      {
+        "word": "问路",
+        "pinyin": "wènlù",
+        "definition": "ask for directions"
+      }
+    ],
+    "created_at": "2025-01-09T09:10:04.844770+00:00",
+    "updated_at": "2025-01-09T09:10:04.844770+00:00"
+  }
+]
