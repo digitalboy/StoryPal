@@ -47,7 +47,7 @@ def init_word_routes(app):
                 {
                     "code": 200,
                     "message": "Word created successfully",
-                    "data": word,
+                    "data": {"word_id": word.id},
                 }
             ), 200
 
@@ -152,6 +152,8 @@ def init_word_routes(app):
             # 解析查询参数
             level = request.args.get("level", type=int)
             part_of_speech = request.args.get("part_of_speech")
+            page = request.args.get("page", default=1, type=int)
+            page_size = request.args.get("page_size", default=10, type=int)
 
             # 调用字词查询服务
             if level:
@@ -159,14 +161,23 @@ def init_word_routes(app):
             elif part_of_speech:
                 words = word_service.get_words_by_part_of_speech(part_of_speech)
             else:
-                words = []
+                words = word_service.get_all_words()
+
+            # 分页处理
+            start = (page - 1) * page_size
+            end = start + page_size
+            paged_words = words[start:end]
+            total = len(words)
 
             # 返回成功响应
             return jsonify(
                 {
                     "code": 200,
                     "message": "Words retrieved successfully",
-                    "data": words,
+                    "data": {
+                        "words": [word.to_dict() for word in paged_words],
+                        "total": total,
+                    },
                 }
             ), 200
 

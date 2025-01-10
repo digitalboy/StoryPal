@@ -40,7 +40,7 @@ def init_scene_routes(app):
                 {
                     "code": 200,
                     "message": "Scene created successfully",
-                    "data": scene.to_dict(),
+                    "data": {"scene_id": scene.id},
                 }
             ), 200
 
@@ -63,7 +63,7 @@ def init_scene_routes(app):
                     {
                         "code": 200,
                         "message": "Scene retrieved successfully",
-                        "data": scene,
+                        "data": scene.to_dict(),
                     }
                 ), 200
             else:

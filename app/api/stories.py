@@ -23,7 +23,7 @@ def init_story_routes(app):
                     {
                         "code": 200,
                         "message": "Story retrieved successfully",
-                        "data": story,
+                        "data": story.to_dict(),
                     }
                 ), 200
             else:
@@ -128,12 +128,15 @@ def init_story_routes(app):
             for field in required_fields:
                 if field not in data:
                     return handle_error(400, f"缺少必填字段: {field}", 4001)
-                
-            print(f"Request data: {data}")
+
             if not (1 <= vocabulary_level <= 100):
-                print(f"Invalid vocabulary_level: {vocabulary_level}")
+                return handle_error(
+                    422, f"Invalid vocabulary_level: {vocabulary_level}", 4222
+                )
             if not (0 <= new_char_rate <= 1):
-                print(f"Invalid new_char_rate: {new_char_rate}")
+                return handle_error(
+                    422, f"Invalid new_char_rate: {new_char_rate}", 4221
+                )
 
             # 调用故事生成服务
             story = story_service.generate_story(

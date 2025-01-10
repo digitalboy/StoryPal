@@ -1,3 +1,4 @@
+# filepath: tests/test_api_stories.py
 import pytest
 from flask import Flask, jsonify
 from app.api.stories import init_story_routes
@@ -9,6 +10,7 @@ from app.utils.error_handling import handle_error
 class MockStoryService:
     def __init__(self):
         self.stories = {}
+        self.next_id = 1  # 初始化一个 ID 生成器
 
     def get_story(self, story_id):
         return self.stories.get(story_id)
@@ -25,26 +27,24 @@ class MockStoryService:
             return True
         return False
 
-    def test_generate_story(client):
-        # 生成故事
-        response = client.post(
-            "/v1/stories/generate",
-            json={
-                "vocabulary_level": 35,
-                "scene_id": "550e8400-e29b-41d4-a716-446655440001",  # 确保是有效的 UUID
-                "word_count": 120,
-                "new_char_rate": 0.02,
-                "key_word_ids": ["550e8400-e29b-41d4-a716-446655440002"],  # 确保是有效的 UUID
-            },
-        )
-        assert response.status_code == 200
-        data = response.get_json()
-        assert data["code"] == 200
-        assert data["data"]["id"] == "550e8400-e29b-41d4-a716-446655440000"
-        assert data["data"]["vocabulary_level"] == 35
-        assert data["data"]["scene_id"] == "550e8400-e29b-41d4-a716-446655440001"
-        assert data["data"]["word_count"] == 120
-        assert data["data"]["new_char_rate"] == 0.02
+    def generate_story(
+        self, vocabulary_level, scene_id, word_count, new_char_rate, key_word_ids
+    ):
+        story_id = str(self.next_id)
+        self.next_id += 1
+        story = {
+            "id": story_id,
+            "title": "Test Story",
+            "content": "This is a test story.",
+            "vocabulary_level": vocabulary_level,
+            "scene_id": scene_id,
+            "word_count": word_count,
+            "new_char_rate": new_char_rate,
+            "key_words": key_word_ids,
+            "new_words": [],
+        }
+        self.stories[story_id] = story
+        return story
 
 
 # 创建 Flask 应用并初始化路由
@@ -66,7 +66,7 @@ def client(app):
 # 测试获取故事
 def test_get_story(client):
     # 模拟一个故事
-    story_id = "550e8400-e29b-41d4-a716-446655440000"
+    story_id = "1"
     response = client.get(f"/v1/stories/{story_id}")
     assert response.status_code == 404  # 故事不存在
 
@@ -83,6 +83,8 @@ def test_get_story(client):
     )
     assert response.status_code == 200
 
+    data = response.get_json()
+    story_id = data["data"]["id"]
     # 获取生成的故事
     response = client.get(f"/v1/stories/{story_id}")
     assert response.status_code == 200
@@ -94,7 +96,6 @@ def test_get_story(client):
 # 测试更新故事
 def test_update_story(client):
     # 生成一个故事
-    story_id = "550e8400-e29b-41d4-a716-446655440000"
     response = client.post(
         "/v1/stories/generate",
         json={
@@ -106,7 +107,8 @@ def test_update_story(client):
         },
     )
     assert response.status_code == 200
-
+    data = response.get_json()
+    story_id = data["data"]["id"]
     # 更新故事
     response = client.put(
         f"/v1/stories/{story_id}",
@@ -130,7 +132,6 @@ def test_update_story(client):
 # 测试删除故事
 def test_delete_story(client):
     # 生成一个故事
-    story_id = "550e8400-e29b-41d4-a716-446655440000"
     response = client.post(
         "/v1/stories/generate",
         json={
@@ -142,6 +143,8 @@ def test_delete_story(client):
         },
     )
     assert response.status_code == 200
+    data = response.get_json()
+    story_id = data["data"]["id"]
 
     # 删除故事
     response = client.delete(f"/v1/stories/{story_id}")
@@ -170,7 +173,7 @@ def test_generate_story(client):
     assert response.status_code == 200
     data = response.get_json()
     assert data["code"] == 200
-    assert data["data"]["id"] == "550e8400-e29b-41d4-a716-446655440000"
+    assert data["data"]["id"] == "1"
     assert data["data"]["vocabulary_level"] == 35
     assert data["data"]["scene_id"] == "550e8400-e29b-41d4-a716-446655440001"
     assert data["data"]["word_count"] == 120
