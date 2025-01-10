@@ -1,74 +1,189 @@
-# filepath: tests/test_story_service.py
-import unittest
+# tests/services/test_story_service.py
+import pytest
 from app.services.story_service import StoryService
-from app.models.scene_model import Scene
-from app.models.word_model import Word
+from unittest.mock import patch, MagicMock
+from app.config import Config
 
 
-class TestStoryService(unittest.TestCase):
-    def setUp(self):
-        self.story_service = StoryService()
-        # 创建一个测试场景
-        self.scene = Scene("问路", "一个关于问路的场景")
-        self.scene.save()
-        # 创建一个测试词汇
-        self.word = Word(
-            word="公园",
-            pinyin="gōngyuán",
-            definition="public park",
-            part_of_speech="名词",
-            chaotong_level=35,
-            characters=[{"character": "公", "pinyin": "gōng", "definition": "public"}],
-            example="我们去公园玩吧。",
-        )
-        self.word.save()
-
-    def test_generate_story(self):
-        """测试生成故事的功能。"""
-        # 调用 generate_story 方法
-        story = self.story_service.generate_story(
-            vocabulary_level=35,
-            scene_id=self.scene.id,
-            word_count=120,
-            new_char_rate=0.02,
-            key_word_ids=[self.word.id],
-        )
-
-        # 验证返回的故事对象
-        self.assertIsNotNone(story)
-        self.assertEqual(story.vocabulary_level, 35)
-        self.assertEqual(story.scene_id, self.scene.id)
-        self.assertEqual(story.word_count, 120)
-        self.assertEqual(story.new_char_rate, 0.02)
-        self.assertEqual(len(story.key_words), 1)
-        self.assertEqual(story.key_words[0]["word"], "公园")
-
-    def test_generate_story_with_invalid_scene(self):
-        """测试使用无效的场景 ID 生成故事时的错误处理。"""
-        with self.assertRaises(ValueError) as context:
-            self.story_service.generate_story(
-                vocabulary_level=35,
-                scene_id="invalid-scene-id",
-                word_count=120,
-                new_char_rate=0.02,
-                key_word_ids=[self.word.id],
-            )
-        self.assertTrue(
-            "Scene with ID invalid-scene-id not found" in str(context.exception)
-        )
-
-    def test_generate_story_with_invalid_word(self):
-        """测试使用无效的词汇 ID 生成故事时的行为。"""
-        story = self.story_service.generate_story(
-            vocabulary_level=35,
-            scene_id=self.scene.id,
-            word_count=120,
-            new_char_rate=0.02,
-            key_word_ids=["invalid-word-id"],
-        )
-        # 无效的词汇 ID 应该被忽略，key_words 列表为空
-        self.assertEqual(len(story.key_words), 0)
+@pytest.fixture
+def story_service():
+    return StoryService()
 
 
-if __name__ == "__main__":
-    unittest.main()
+def test_calculate_literacy_rate(story_service):
+    text = "你好，我喜欢跑步。"
+    known_rate, unknown_rate = story_service._calculate_literacy_rate(text, 20)
+    assert known_rate > 0
+    assert unknown_rate < 1
+
+
+def test_calculate_literacy_rate_empty_text(story_service):
+    text = ""
+    known_rate, unknown_rate = story_service._calculate_literacy_rate(text, 20)
+    assert known_rate == 1
+    assert unknown_rate == 0
+
+
+def test_load_known_words(story_service):
+    known_words_dict = story_service._load_known_words(20)
+    assert len(known_words_dict) > 0
+    assert "好" in known_words_dict
+    assert "跑" in known_words_dict
+    assert "早" in known_words_dict
+    assert "公" in known_words_dict
+
+
+def test_generate_prompt(story_service):
+    prompt_messages = story_service._generate_prompt(
+        vocabulary_level=10,
+        scene_id="f0e9d8c7-b6a5-4321-9876-543210fedcba",
+        story_word_count=100,
+        key_word_ids=[
+            "a1b2c3d4-e5f6-7890-1234-567890abcde1",
+            "f0e9d8c7-b6a5-4321-9876-543210fedcb1",
+        ],
+    )
+    assert len(prompt_messages) == 3
+    assert "你是一个专业的中文故事生成器" in prompt_messages[0]["content"]
+    assert "以下是一些已知词汇，你可以参考" in prompt_messages[1]["content"]
+    assert "请你根据以上需求，编写故事" in prompt_messages[2]["content"]
+
+
+def test_generate_prompt_scene_not_found(story_service):
+    prompt_messages = story_service._generate_prompt(
+        vocabulary_level=10,
+        scene_id="non_existent_id",
+        story_word_count=100,
+        key_word_ids=[
+            "a1b2c3d4-e5f6-7890-1234-567890abcde1",
+            "f0e9d8c7-b6a5-4321-9876-543210fedcb1",
+        ],
+    )
+    assert prompt_messages is None
+
+
+def test_generate_prompt_key_word_not_found(story_service):
+    prompt_messages = story_service._generate_prompt(
+        vocabulary_level=10,
+        scene_id="f0e9d8c7-b6a5-4321-9876-543210fedcba",
+        story_word_count=100,
+        key_word_ids=["non_existent_id", "f0e9d8c7-b6a5-4321-9876-543210fedcb1"],
+    )
+    assert prompt_messages is None
+
+
+@patch("app.services.story_service.DeepSeekAPI.chat_completions")
+def test_generate_story_success(mock_chat_completions, story_service):
+    mock_response = {
+        "choices": [
+            {
+                "message": {
+                    "content": """
+                     {
+                         "title": "测试故事",
+                         "content": "你好，我喜欢跑步。",
+                         "key_words": [
+                             {
+                                "word": "喜欢",
+                                "pinyin": null,
+                                "definition": null,
+                                 "part_of_speech": "动词",
+                                "example": null
+                            },
+                            {
+                              "word": "跑步",
+                                "pinyin": null,
+                              "definition": null,
+                               "part_of_speech": "动词",
+                              "example": null
+                             }
+                          ]
+                     }
+                     """
+                }
+            }
+        ]
+    }
+    mock_chat_completions.return_value = mock_response
+    story = story_service.generate_story(
+        vocabulary_level=20,
+        scene_id="f0e9d8c7-b6a5-4321-9876-543210fedcba",
+        story_word_count=10,
+        new_char_rate=0.2,
+        key_word_ids=[
+            "a1b2c3d4-e5f6-7890-1234-567890abcde1",
+            "f0e9d8c7-b6a5-4321-9876-543210fedcb1",
+        ],
+    )
+    assert story.title == "测试故事"
+    assert story.content == "你好，我喜欢跑步。"
+    assert story.vocabulary_level == 20
+    assert story.scene == "f0e9d8c7-b6a5-4321-9876-543210fedcba"
+    assert story.word_count == 7
+    assert story.new_char_rate < 1
+    assert story.new_char > 0
+    assert len(story.key_words) > 0
+    mock_chat_completions.assert_called_once()
+
+
+@patch("app.services.story_service.DeepSeekAPI.chat_completions")
+def test_generate_story_failed_deepseek_api(mock_chat_completions, story_service):
+    mock_chat_completions.side_effect = Exception("DeepSeek API Error")
+    story = story_service.generate_story(
+        vocabulary_level=20,
+        scene_id="f0e9d8c7-b6a5-4321-9876-543210fedcba",
+        story_word_count=10,
+        new_char_rate=0.2,
+        key_word_ids=[
+            "a1b2c3d4-e5f6-7890-1234-567890abcde1",
+            "f0e9d8c7-b6a5-4321-9876-543210fedcb1",
+        ],
+    )
+    assert story is None
+
+
+@patch("app.services.story_service.DeepSeekAPI.chat_completions")
+def test_generate_story_failed_json_parse(mock_chat_completions, story_service):
+    mock_response = {"choices": [{"message": {"content": "invalid json"}}]}
+    mock_chat_completions.return_value = mock_response
+    story = story_service.generate_story(
+        vocabulary_level=20,
+        scene_id="f0e9d8c7-b6a5-4321-9876-543210fedcba",
+        story_word_count=10,
+        new_char_rate=0.2,
+        key_word_ids=[
+            "a1b2c3d4-e5f6-7890-1234-567890abcde1",
+            "f0e9d8c7-b6a5-4321-9876-543210fedcb1",
+        ],
+    )
+    assert story is None
+
+
+@patch("app.services.story_service.DeepSeekAPI.chat_completions")
+def test_generate_story_failed_missing_field(mock_chat_completions, story_service):
+    mock_response = {
+        "choices": [
+            {
+                "message": {
+                    "content": """
+                     {
+                         "title": "测试故事",
+                         "content": "你好，我喜欢跑步。"
+                     }
+                     """
+                }
+            }
+        ]
+    }
+    mock_chat_completions.return_value = mock_response
+    story = story_service.generate_story(
+        vocabulary_level=20,
+        scene_id="f0e9d8c7-b6a5-4321-9876-543210fedcba",
+        story_word_count=10,
+        new_char_rate=0.2,
+        key_word_ids=[
+            "a1b2c3d4-e5f6-7890-1234-567890abcde1",
+            "f0e9d8c7-b6a5-4321-9876-543210fedcb1",
+        ],
+    )
+    assert story is None

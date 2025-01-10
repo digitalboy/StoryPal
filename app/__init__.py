@@ -1,16 +1,14 @@
-# filepath: app/__init__.py
-from flask import Flask
-from app.api.stories_api import init_story_routes
-from app.api.scenes_api import init_scene_routes
-from app.api.words_api import init_word_routes
+import logging
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
-def create_app():
-    app = Flask(__name__)
+# 配置日志记录
+logging.basicConfig(
+    level=logging.DEBUG if os.getenv("DEBUG", False) == "True" else logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(filename)s - %(lineno)d - %(message)s",
+)
 
-    # 注册 API 路由
-    init_story_routes(app)
-    init_scene_routes(app)
-    init_word_routes(app)
-
-    return app
+logging.info("logging is configured")
+logging.debug("debug level log")

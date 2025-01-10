@@ -1,75 +1,57 @@
-# filepath: app/models/story.py
-from .base_model import BaseModel
-from app.utils.json_storage import JSONStorage
+# app/models/story_model.py
+from app.models.base_model import BaseModel
 
 
-class Story(BaseModel):
-    """故事数据模型。"""
-
-    _storage = JSONStorage("data/stories.json")  # 指定存储文件路径
-
+class StoryModel(BaseModel):
     def __init__(
         self,
+        story_id,
         title,
         content,
         vocabulary_level,
-        scene_id,
+        scene,
         word_count,
-        new_words,
         new_char_rate,
+        new_char,
         key_words,
-        id=None,
-        created_at=None,
-        updated_at=None,
+        **kwargs,
     ):
-        super().__init__()
+        super().__init__(id=story_id, **kwargs)
+        self.story_id = self.id
         self.title = title
         self.content = content
         self.vocabulary_level = vocabulary_level
-        self.scene_id = scene_id
+        self.scene = scene
         self.word_count = word_count
-        self.new_words = new_words
         self.new_char_rate = new_char_rate
+        self.new_char = new_char
         self.key_words = key_words
-        if id:
-            self.id = id
-        if created_at:
-            self.created_at = created_at
-        if updated_at:
-            self.updated_at = updated_at
 
-    def save(self):
-        """保存故事数据到 JSON 文件。"""
-        story_data = self.to_dict()  # 使用父类的 to_dict 方法
-        self._storage.add(story_data)
-
-    @classmethod
-    def find_by_id(cls, story_id: str):
-        """根据 ID 查找故事。"""
-        stories = cls._storage.load()
-        for story in stories:
-            if story.get("id") == story_id:
-                return cls(**story)
-        return None
+    def to_dict(self):
+        return {
+            "story_id": self.story_id,
+            "title": self.title,
+            "content": self.content,
+            "vocabulary_level": self.vocabulary_level,
+            "scene": self.scene,
+            "word_count": self.word_count,
+            "new_char_rate": self.new_char_rate,
+            "new_char": self.new_char,
+            "key_words": self.key_words,
+            "created_at": self.created_at,
+        }
 
     @classmethod
-    def update(cls, story_id: str, updated_data: dict) -> bool:
-        """更新故事数据。"""
-        stories = cls._storage.load()
-        for index, story in enumerate(stories):
-            if story.get("id") == story_id:
-                stories[index].update(updated_data)
-                cls._storage.save(stories)
-                return True
-        return False
-
-    @classmethod
-    def delete(cls, story_id: str) -> bool:
-        """删除故事数据。"""
-        stories = cls._storage.load()
-        for index, story in enumerate(stories):
-            if story.get("id") == story_id:
-                stories.pop(index)
-                cls._storage.save(stories)
-                return True
-        return False
+    def from_dict(cls, data):
+        return cls(
+            story_id=data.get("story_id"),
+            title=data.get("title"),
+            content=data.get("content"),
+            vocabulary_level=data.get("vocabulary_level"),
+            scene=data.get("scene"),
+            word_count=data.get("word_count"),
+            new_char_rate=data.get("new_char_rate"),
+            new_char=data.get("new_char"),
+            key_words=data.get("key_words"),
+            created_at=data.get("created_at"),
+        )

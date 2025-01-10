@@ -1,24 +1,20 @@
-# filepath: app/models/base.py
-from datetime import datetime, UTC
-from uuid import uuid4
+# app/models/base_model.py
+ import uuid
+ from datetime import datetime, timezone
 
+ class BaseModel:
+    def __init__(self, **kwargs):
+         # 如果有 id， 直接赋值， 否则生成一个新的 uuid
+        self.id = kwargs.get('id') if kwargs.get('id') else str(uuid.uuid4())
+        self.created_at = kwargs.get('created_at') if kwargs.get('created_at') else datetime.now(timezone.utc).isoformat()
 
-class BaseModel:
-    """基础数据模型，其他模型继承自此类。"""
-
-    def __init__(self):
-        self.id = str(uuid4())  # 使用UUID作为唯一ID
-        self.created_at = datetime.now(UTC).isoformat()  # 使用时区感知的时间
-        self.updated_at = self.created_at  # 更新时间
-
-    def update(self):
-        """更新模型的更新时间。"""
-        self.updated_at = datetime.now(UTC).isoformat()  # 使用时区感知的时间
 
     def to_dict(self):
-        """将模型对象转换为字典格式。"""
-        return {
-            key: value
-            for key, value in self.__dict__.items()
-            if not key.startswith("_")  # 排除私有属性
-        }
+         return self.__dict__
+
+    @classmethod
+    def from_dict(cls, data):
+      return cls(**data)
+
+    def __repr__(self):
+     return f"<{self.__class__.__name__} id={self.id}>"
