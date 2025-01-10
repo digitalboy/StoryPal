@@ -1,8 +1,8 @@
 # filepath: app/__init__.py
 from flask import Flask
-from app.api.stories import init_story_routes
-from app.api.scenes import init_scene_routes
-from app.api.words import init_word_routes
+from app.api.stories_api import init_story_routes
+from app.api.scenes_api import init_scene_routes
+from app.api.words_api import init_word_routes
 
 
 def create_app():

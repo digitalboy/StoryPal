@@ -1,8 +1,8 @@
 # filepath: tests/test_story_service.py
 import unittest
 from app.services.story_service import StoryService
-from app.models.scene import Scene
-from app.models.word import Word
+from app.models.scene_model import Scene
+from app.models.word_model import Word
 
 
 class TestStoryService(unittest.TestCase):

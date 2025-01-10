@@ -1,5 +1,5 @@
 # filepath: app/models/word.py
-from .base import BaseModel
+from .base_model import BaseModel
 from app.utils.json_storage import JSONStorage
 
 
@@ -17,6 +17,9 @@ class Word(BaseModel):
         chaotong_level=None,
         characters=None,
         example=None,
+        id=None,
+        created_at=None,
+        updated_at=None,
     ):
         super().__init__()
         self.word = word  # 词
@@ -26,6 +29,12 @@ class Word(BaseModel):
         self.chaotong_level = chaotong_level  # 超童级别
         self.characters = characters  # 词中包含的字
         self.example = example  # 例句
+        if id:
+            self.id = id
+        if created_at:
+            self.created_at = created_at
+        if updated_at:
+            self.updated_at = updated_at
 
     def save(self):
         """保存 Word 对象到 JSON 文件。"""
@@ -38,7 +47,7 @@ class Word(BaseModel):
         words = cls._storage.load()
         for word_data in words:
             if word_data.get("id") == word_id:
-                return word_data  # 返回字典格式的数据
+                return cls(**word_data)  # 返回Word对象
         return None
 
     @classmethod

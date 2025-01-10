@@ -1,6 +1,6 @@
 # filepath: tests/test_story.py
 import unittest
-from app.models.story import Story
+from app.models.story_model import Story
 
 
 class TestStoryModel(unittest.TestCase):

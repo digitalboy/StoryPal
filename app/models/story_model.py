@@ -1,5 +1,5 @@
 # filepath: app/models/story.py
-from .base import BaseModel
+from .base_model import BaseModel
 from app.utils.json_storage import JSONStorage
 
 
@@ -18,6 +18,9 @@ class Story(BaseModel):
         new_words,
         new_char_rate,
         key_words,
+        id=None,
+        created_at=None,
+        updated_at=None,
     ):
         super().__init__()
         self.title = title
@@ -28,22 +31,16 @@ class Story(BaseModel):
         self.new_words = new_words
         self.new_char_rate = new_char_rate
         self.key_words = key_words
+        if id:
+            self.id = id
+        if created_at:
+            self.created_at = created_at
+        if updated_at:
+            self.updated_at = updated_at
 
     def save(self):
         """保存故事数据到 JSON 文件。"""
-        story_data = {
-            "id": self.id,
-            "title": self.title,
-            "content": self.content,
-            "vocabulary_level": self.vocabulary_level,
-            "scene_id": self.scene_id,
-            "word_count": self.word_count,
-            "new_words": self.new_words,
-            "new_char_rate": self.new_char_rate,
-            "key_words": self.key_words,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at,
-        }
+        story_data = self.to_dict()  # 使用父类的 to_dict 方法
         self._storage.add(story_data)
 
     @classmethod
@@ -52,7 +49,7 @@ class Story(BaseModel):
         stories = cls._storage.load()
         for story in stories:
             if story.get("id") == story_id:
-                return story
+                return cls(**story)
         return None
 
     @classmethod

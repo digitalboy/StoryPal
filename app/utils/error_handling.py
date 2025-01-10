@@ -32,6 +32,8 @@ EXTENDED_ERROR_CODES = {
 
 def handle_error(code, message=None, extended_code=None):
     """通用错误处理函数"""
+    if extended_code and message is None:
+        message = EXTENDED_ERROR_CODES.get(extended_code, "未知错误")
     error_message = message if message else ERROR_CODES.get(code, "未知错误")
     response = {
         "code": extended_code if extended_code else code,

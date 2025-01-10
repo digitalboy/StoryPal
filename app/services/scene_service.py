@@ -1,34 +1,25 @@
 # filepath: app/services/scene_service.py
-from app.models.scene import Scene
-from app.utils.json_storage import JSONStorage
+from app.models.scene_model import Scene
 
 
 class SceneService:
-    """场景服务类，负责场景的 CRUD 操作。"""
-
-    def __init__(self):
-        self.storage = JSONStorage("data/scenes.json")
+    """场景服务，用于处理场景的业务逻辑。"""
 
     def create_scene(self, name: str, description: str) -> Scene:
-        """创建新场景。"""
-        scene = Scene(name, description)
+        """创建场景。"""
+        scene = Scene(name=name, description=description)
         scene.save()
         return scene
 
-    def get_scene(self, scene_id: str) -> dict:
+    def get_scene(self, scene_id: str) -> Scene:
         """根据 ID 获取场景。"""
         return Scene.find_by_id(scene_id)
 
     def update_scene(self, scene_id: str, name: str, description: str) -> bool:
-        """更新场景信息。"""
-        scene_data = Scene.find_by_id(scene_id)
-        if scene_data:
-            scene_data["name"] = name
-            scene_data["description"] = description
-            self.storage.update(scene_id, scene_data)
-            return True
-        return False
+        """更新场景。"""
+        updated_data = {"name": name, "description": description}
+        return Scene.update(scene_id, updated_data)
 
     def delete_scene(self, scene_id: str) -> bool:
         """删除场景。"""
-        return self.storage.delete(scene_id)
+        return Scene.delete(scene_id)

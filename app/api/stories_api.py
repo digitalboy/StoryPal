@@ -152,13 +152,11 @@ def init_story_routes(app):
                 {
                     "code": 200,
                     "message": "Story generated successfully",
-                    "data": story.to_dict(),
+                    "data": {"story_id": story.id},
                 }
             ), 200
 
-        except ValueError as e:
-            # 处理参数错误
-            return handle_error(400, str(e), 4003)
         except Exception as e:
             # 处理其他错误
+            print(e)
             return handle_error(500, str(e), 5002)

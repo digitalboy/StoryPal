@@ -1,218 +1,302 @@
 [
   {
-    "id": null,
-    "word": "公园",
-    "pinyin": "gōngyuán",
-    "definition": "public park",
+    "id": "a384a9d8-522d-48ee-87e2-0977648a8df0",
+    "created_at": "2025-01-10T05:33:01.098578+00:00",
+    "updated_at": "2025-01-10T05:33:01.098578+00:00",
+    "word": "词语0",
+    "pinyin": "ciyu0",
+    "definition": "definition0",
     "part_of_speech": "名词",
-    "chaotong_level": 35,
-    "characters": [
-      {
-        "character": "公",
-        "pinyin": "gōng",
-        "definition": "public"
-      }
-    ],
-    "example": "我们去公园玩吧。",
-    "created_at": "2025-01-09T09:59:26.509038+00:00",
-    "updated_at": "2025-01-09T09:59:26.509038+00:00"
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
   },
   {
-    "id": null,
-    "word": "公园",
-    "pinyin": "gōngyuán",
-    "definition": "public park",
+    "id": "aacfc56f-8f3d-4ad4-90d0-4cb1647fface",
+    "created_at": "2025-01-10T05:33:01.099559+00:00",
+    "updated_at": "2025-01-10T05:33:01.099559+00:00",
+    "word": "词语1",
+    "pinyin": "ciyu1",
+    "definition": "definition1",
     "part_of_speech": "名词",
-    "chaotong_level": 35,
-    "characters": [
-      {
-        "character": "公",
-        "pinyin": "gōng",
-        "definition": "public"
-      }
-    ],
-    "example": "我们去公园玩吧。",
-    "created_at": "2025-01-09T09:59:26.546531+00:00",
-    "updated_at": "2025-01-09T09:59:26.546531+00:00"
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
   },
   {
-    "id": null,
-    "word": "公园",
-    "pinyin": "gōngyuán",
-    "definition": "public park",
+    "id": "9e456b9a-cdda-4fc2-9470-a99e80289afe",
+    "created_at": "2025-01-10T05:33:01.100615+00:00",
+    "updated_at": "2025-01-10T05:33:01.100615+00:00",
+    "word": "词语2",
+    "pinyin": "ciyu2",
+    "definition": "definition2",
     "part_of_speech": "名词",
-    "chaotong_level": 35,
-    "characters": [
-      {
-        "character": "公",
-        "pinyin": "gōng",
-        "definition": "public"
-      }
-    ],
-    "example": "我们去公园玩吧。",
-    "created_at": "2025-01-09T09:59:26.555361+00:00",
-    "updated_at": "2025-01-09T09:59:26.555361+00:00"
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
   },
   {
-    "id": null,
-    "word": "公园",
-    "pinyin": "gōngyuán",
-    "definition": "public park",
+    "id": "01eec6d5-3a0f-4f6c-91ad-b0e36201640e",
+    "created_at": "2025-01-10T05:33:01.112455+00:00",
+    "updated_at": "2025-01-10T05:33:01.112455+00:00",
+    "word": "词语3",
+    "pinyin": "ciyu3",
+    "definition": "definition3",
     "part_of_speech": "名词",
-    "chaotong_level": 35,
-    "characters": [
-      {
-        "character": "公",
-        "pinyin": "gōng",
-        "definition": "public"
-      }
-    ],
-    "example": "我们去公园玩吧。",
-    "created_at": "2025-01-09T10:02:36.750195+00:00",
-    "updated_at": "2025-01-09T10:02:36.750195+00:00"
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
   },
   {
-    "id": null,
-    "word": "公园",
-    "pinyin": "gōngyuán",
-    "definition": "public park",
+    "id": "d62844c1-771d-4505-aaf7-2f9cc646a3aa",
+    "created_at": "2025-01-10T05:33:01.112455+00:00",
+    "updated_at": "2025-01-10T05:33:01.112455+00:00",
+    "word": "词语4",
+    "pinyin": "ciyu4",
+    "definition": "definition4",
     "part_of_speech": "名词",
-    "chaotong_level": 35,
-    "characters": [
-      {
-        "character": "公",
-        "pinyin": "gōng",
-        "definition": "public"
-      }
-    ],
-    "example": "我们去公园玩吧。",
-    "created_at": "2025-01-09T10:02:36.764205+00:00",
-    "updated_at": "2025-01-09T10:02:36.764205+00:00"
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
   },
   {
-    "id": null,
-    "word": "公园",
-    "pinyin": "gōngyuán",
-    "definition": "public park",
+    "id": "9e96f5de-7551-4602-92e6-ea3a2b0dddd1",
+    "created_at": "2025-01-10T05:33:01.124884+00:00",
+    "updated_at": "2025-01-10T05:33:01.124884+00:00",
+    "word": "词语5",
+    "pinyin": "ciyu5",
+    "definition": "definition5",
     "part_of_speech": "名词",
-    "chaotong_level": 35,
-    "characters": [
-      {
-        "character": "公",
-        "pinyin": "gōng",
-        "definition": "public"
-      }
-    ],
-    "example": "我们去公园玩吧。",
-    "created_at": "2025-01-09T10:02:36.772397+00:00",
-    "updated_at": "2025-01-09T10:02:36.772397+00:00"
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
   },
   {
-    "id": null,
-    "word": "公园",
-    "pinyin": "gōngyuán",
-    "definition": "public park",
+    "id": "f4479375-0c33-4a64-ace4-0163b2f30bd4",
+    "created_at": "2025-01-10T05:33:01.131261+00:00",
+    "updated_at": "2025-01-10T05:33:01.131261+00:00",
+    "word": "词语6",
+    "pinyin": "ciyu6",
+    "definition": "definition6",
     "part_of_speech": "名词",
-    "chaotong_level": 35,
-    "characters": [
-      {
-        "character": "公",
-        "pinyin": "gōng",
-        "definition": "public"
-      }
-    ],
-    "example": "我们去公园玩吧。",
-    "created_at": "2025-01-09T10:26:54.583604+00:00",
-    "updated_at": "2025-01-09T10:26:54.583604+00:00"
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
   },
   {
-    "id": null,
-    "word": "公园",
-    "pinyin": "gōngyuán",
-    "definition": "public park",
+    "id": "196919da-0131-4703-8592-88955c8bf89d",
+    "created_at": "2025-01-10T05:33:01.131261+00:00",
+    "updated_at": "2025-01-10T05:33:01.131261+00:00",
+    "word": "词语7",
+    "pinyin": "ciyu7",
+    "definition": "definition7",
     "part_of_speech": "名词",
-    "chaotong_level": 35,
-    "characters": [
-      {
-        "character": "公",
-        "pinyin": "gōng",
-        "definition": "public"
-      }
-    ],
-    "example": "我们去公园玩吧。",
-    "created_at": "2025-01-09T10:26:54.593475+00:00",
-    "updated_at": "2025-01-09T10:26:54.593475+00:00"
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
   },
   {
-    "id": null,
-    "word": "公园",
-    "pinyin": "gōngyuán",
-    "definition": "public park",
+    "id": "a2e57556-bf9a-4586-80a6-3e0bb7521808",
+    "created_at": "2025-01-10T05:33:01.142665+00:00",
+    "updated_at": "2025-01-10T05:33:01.142665+00:00",
+    "word": "词语8",
+    "pinyin": "ciyu8",
+    "definition": "definition8",
     "part_of_speech": "名词",
-    "chaotong_level": 35,
-    "characters": [
-      {
-        "character": "公",
-        "pinyin": "gōng",
-        "definition": "public"
-      }
-    ],
-    "example": "我们去公园玩吧。",
-    "created_at": "2025-01-09T10:29:13.534851+00:00",
-    "updated_at": "2025-01-09T10:29:13.534851+00:00"
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
   },
   {
-    "id": null,
-    "word": "公园",
-    "pinyin": "gōngyuán",
-    "definition": "public park",
+    "id": "17a19f73-e2b7-44ff-b016-5f22c100ae94",
+    "created_at": "2025-01-10T05:33:01.147046+00:00",
+    "updated_at": "2025-01-10T05:33:01.147046+00:00",
+    "word": "词语9",
+    "pinyin": "ciyu9",
+    "definition": "definition9",
     "part_of_speech": "名词",
-    "chaotong_level": 35,
-    "characters": [
-      {
-        "character": "公",
-        "pinyin": "gōng",
-        "definition": "public"
-      }
-    ],
-    "example": "我们去公园玩吧。",
-    "created_at": "2025-01-09T10:29:13.541017+00:00",
-    "updated_at": "2025-01-09T10:29:13.541017+00:00"
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
   },
   {
-    "id": "31ad8401-2184-42f6-a47c-80f6b8779b4c",
-    "created_at": "2025-01-09T10:35:27.739436+00:00",
-    "updated_at": "2025-01-09T10:35:27.739436+00:00",
-    "word": "公园",
-    "pinyin": "gōngyuán",
-    "definition": "public park",
+    "id": "12793803-0e77-4cab-a012-58ee212f6478",
+    "created_at": "2025-01-10T05:33:01.147046+00:00",
+    "updated_at": "2025-01-10T05:33:01.147046+00:00",
+    "word": "词语10",
+    "pinyin": "ciyu10",
+    "definition": "definition10",
     "part_of_speech": "名词",
-    "chaotong_level": 35,
-    "characters": [
-      {
-        "character": "公",
-        "pinyin": "gōng",
-        "definition": "public"
-      }
-    ],
-    "example": "我们去公园玩吧。"
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
   },
   {
-    "id": "d9ab937a-5e37-4b7c-a3ff-e4f6ac6be2fc",
-    "created_at": "2025-01-09T10:35:27.747634+00:00",
-    "updated_at": "2025-01-09T10:35:27.747634+00:00",
-    "word": "公园",
-    "pinyin": "gōngyuán",
-    "definition": "public park",
+    "id": "2fc0b5fc-cbaa-46c6-91f8-f00fdbbb6ea1",
+    "created_at": "2025-01-10T05:33:01.158390+00:00",
+    "updated_at": "2025-01-10T05:33:01.158390+00:00",
+    "word": "词语11",
+    "pinyin": "ciyu11",
+    "definition": "definition11",
     "part_of_speech": "名词",
-    "chaotong_level": 35,
-    "characters": [
-      {
-        "character": "公",
-        "pinyin": "gōng",
-        "definition": "public"
-      }
-    ],
-    "example": "我们去公园玩吧。"
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
+  },
+  {
+    "id": "7f2cba35-0752-49c0-aa2a-e650464561ec",
+    "created_at": "2025-01-10T05:33:01.158390+00:00",
+    "updated_at": "2025-01-10T05:33:01.158390+00:00",
+    "word": "词语12",
+    "pinyin": "ciyu12",
+    "definition": "definition12",
+    "part_of_speech": "名词",
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
+  },
+  {
+    "id": "7846c51d-d786-4b04-ad58-63bcf1d0df1c",
+    "created_at": "2025-01-10T05:33:01.158390+00:00",
+    "updated_at": "2025-01-10T05:33:01.158390+00:00",
+    "word": "词语13",
+    "pinyin": "ciyu13",
+    "definition": "definition13",
+    "part_of_speech": "名词",
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
+  },
+  {
+    "id": "7a6692a9-8227-4f0a-ac54-e0839549dbbe",
+    "created_at": "2025-01-10T05:33:01.182429+00:00",
+    "updated_at": "2025-01-10T05:33:01.182429+00:00",
+    "word": "词语14",
+    "pinyin": "ciyu14",
+    "definition": "definition14",
+    "part_of_speech": "名词",
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
+  },
+  {
+    "id": "0c7c5ab9-c930-48ee-abc4-5b53bd14fab4",
+    "created_at": "2025-01-10T05:33:01.191953+00:00",
+    "updated_at": "2025-01-10T05:33:01.191953+00:00",
+    "word": "词语15",
+    "pinyin": "ciyu15",
+    "definition": "definition15",
+    "part_of_speech": "名词",
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
+  },
+  {
+    "id": "a6ae59bc-5935-4ad2-8a6c-36dbb31995de",
+    "created_at": "2025-01-10T05:33:01.197467+00:00",
+    "updated_at": "2025-01-10T05:33:01.197467+00:00",
+    "word": "词语16",
+    "pinyin": "ciyu16",
+    "definition": "definition16",
+    "part_of_speech": "名词",
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
+  },
+  {
+    "id": "7c826c08-7256-459e-9024-a2c0ed3a98da",
+    "created_at": "2025-01-10T05:33:01.202470+00:00",
+    "updated_at": "2025-01-10T05:33:01.202470+00:00",
+    "word": "词语17",
+    "pinyin": "ciyu17",
+    "definition": "definition17",
+    "part_of_speech": "名词",
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
+  },
+  {
+    "id": "a586b750-46fe-4e3a-9c10-63ae9624e241",
+    "created_at": "2025-01-10T05:33:01.208613+00:00",
+    "updated_at": "2025-01-10T05:33:01.208613+00:00",
+    "word": "词语18",
+    "pinyin": "ciyu18",
+    "definition": "definition18",
+    "part_of_speech": "名词",
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
+  },
+  {
+    "id": "aa77c195-a07a-44a1-b09b-3e84aad14713",
+    "created_at": "2025-01-10T05:33:01.208613+00:00",
+    "updated_at": "2025-01-10T05:33:01.208613+00:00",
+    "word": "词语19",
+    "pinyin": "ciyu19",
+    "definition": "definition19",
+    "part_of_speech": "名词",
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
+  },
+  {
+    "id": "f381221c-3e19-40bc-b6e1-a52d11a839a6",
+    "created_at": "2025-01-10T05:33:01.208613+00:00",
+    "updated_at": "2025-01-10T05:33:01.208613+00:00",
+    "word": "词语20",
+    "pinyin": "ciyu20",
+    "definition": "definition20",
+    "part_of_speech": "名词",
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
+  },
+  {
+    "id": "f9feab23-b3f3-4f13-8c36-1c306a5a9197",
+    "created_at": "2025-01-10T05:33:01.224243+00:00",
+    "updated_at": "2025-01-10T05:33:01.224243+00:00",
+    "word": "词语21",
+    "pinyin": "ciyu21",
+    "definition": "definition21",
+    "part_of_speech": "名词",
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
+  },
+  {
+    "id": "b6e79699-c8d1-4732-ad94-d9dd4d26e531",
+    "created_at": "2025-01-10T05:33:01.224243+00:00",
+    "updated_at": "2025-01-10T05:33:01.224243+00:00",
+    "word": "词语22",
+    "pinyin": "ciyu22",
+    "definition": "definition22",
+    "part_of_speech": "名词",
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
+  },
+  {
+    "id": "31aece9b-19a6-495d-af54-5b8ce45904a1",
+    "created_at": "2025-01-10T05:33:01.224243+00:00",
+    "updated_at": "2025-01-10T05:33:01.224243+00:00",
+    "word": "词语23",
+    "pinyin": "ciyu23",
+    "definition": "definition23",
+    "part_of_speech": "名词",
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
+  },
+  {
+    "id": "67471fb0-2ad9-480a-9c0f-7158ec72877c",
+    "created_at": "2025-01-10T05:33:01.239962+00:00",
+    "updated_at": "2025-01-10T05:33:01.239962+00:00",
+    "word": "词语24",
+    "pinyin": "ciyu24",
+    "definition": "definition24",
+    "part_of_speech": "名词",
+    "chaotong_level": 1,
+    "characters": null,
+    "example": null
   }
 ]

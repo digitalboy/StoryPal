@@ -70,6 +70,7 @@ def init_scene_routes(app):
                 return handle_error(404, "Scene not found", 4041)
         except Exception as e:
             # 处理其他错误
+            print(e)  # 添加打印异常信息
             return handle_error(500, str(e), 5001)
 
     @app.route("/v1/scenes/<scene_id>", methods=["PUT"])
@@ -97,9 +98,10 @@ def init_scene_routes(app):
                 return handle_error(400, "缺少必填字段: name", 4001)
             if not description:
                 return handle_error(400, "缺少必填字段: description", 4001)
-
             # 调用场景更新服务
+            print(f"update_scene data: {data}")
             success = scene_service.update_scene(scene_id, name, description)
+            print(f"update_scene success: {success}")
             if success:
                 return jsonify(
                     {
@@ -112,6 +114,7 @@ def init_scene_routes(app):
                 return handle_error(404, "Scene not found", 4041)
         except Exception as e:
             # 处理其他错误
+            print(e)
             return handle_error(500, str(e), 5001)
 
     @app.route("/v1/scenes/<scene_id>", methods=["DELETE"])

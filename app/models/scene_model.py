@@ -1,5 +1,5 @@
 # filepath: app/models/scene.py
-from .base import BaseModel
+from .base_model import BaseModel
 from app.utils.json_storage import JSONStorage
 
 
@@ -8,10 +8,16 @@ class Scene(BaseModel):
 
     _storage = JSONStorage("data/scenes.json")  # 指定存储文件路径
 
-    def __init__(self, name, description):
+    def __init__(self, name, description, id=None, created_at=None, updated_at=None):
         super().__init__()
         self.name = name  # 场景名称
         self.description = description  # 场景描述
+        if id:
+            self.id = id
+        if created_at:
+            self.created_at = created_at
+        if updated_at:
+            self.updated_at = updated_at
 
     def save(self):
         """保存场景数据到 JSON 文件。"""
@@ -22,9 +28,16 @@ class Scene(BaseModel):
     def find_by_id(cls, scene_id: str):
         """根据 ID 查找场景。"""
         scenes = cls._storage.load()
+        print(f"find_by_id scenes: {scenes}")
         for scene in scenes:
             if scene.get("id") == scene_id:
-                return scene
+                return cls(
+                    name=scene["name"],
+                    description=scene["description"],
+                    id=scene["id"],
+                    created_at=scene["created_at"],
+                    updated_at=scene["updated_at"],
+                )
         return None
 
     @classmethod

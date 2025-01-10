@@ -1,7 +1,7 @@
 # filepath: tests/test_scene_service.py
 import pytest
 from app.services.scene_service import SceneService
-from app.models.scene import Scene
+from app.models.scene_model import Scene
 
 
 @pytest.fixture

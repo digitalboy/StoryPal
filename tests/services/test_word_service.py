@@ -1,7 +1,7 @@
 # filepath: tests/test_word_service.py
 import pytest
 from app.services.word_service import WordService
-from app.models.word import Word
+from app.models.word_model import Word
 
 
 @pytest.fixture

@@ -53,6 +53,7 @@ def init_word_routes(app):
 
         except Exception as e:
             # 处理其他错误
+            print(e)
             return handle_error(500, str(e), 5001)
 
     @app.route("/v1/words/<word_id>", methods=["GET"])
@@ -70,7 +71,7 @@ def init_word_routes(app):
                     {
                         "code": 200,
                         "message": "Word retrieved successfully",
-                        "data": word,
+                        "data": word.to_dict(),
                     }
                 ), 200
             else:
@@ -183,4 +184,5 @@ def init_word_routes(app):
 
         except Exception as e:
             # 处理其他错误
+            print(e)
             return handle_error(500, str(e), 5001)
