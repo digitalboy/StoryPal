@@ -34,7 +34,7 @@
         },
         "part_of_speech": {
             "type": "string",
-            "enum": ["名词", "动词", "形容词", "副词", "语气词"],
+            "enum": ["名词", "动词", "形容词", "副词", "语气词", "其他"],
             "description": "词性"
         },
        "hsk_level": {
@@ -52,11 +52,11 @@
                         },
                     "part_of_speech": {
                          "type": "string",
-                           "enum": ["名词", "动词", "形容词", "副词", "语气词"],
+                           "enum": ["名词", "动词", "形容词", "副词", "语气词", "其他"],
                          "description": "字在当前词语中的词性"
                         }
                     },
-                "required": ["character", "part_of_speech"]
+                "required": ["character"]
                },
             "description": "词语中包含的字列表"
         }
@@ -189,24 +189,24 @@
             "description": "重点词汇"
           },
           "pinyin": {
-            "type": "string",
+            "type": ["string", "null"],
             "description": "拼音"
           },
           "definition": {
-            "type": "string",
+            "type": ["string", "null"],
             "description": "释义"
           },
          "part_of_speech": {
             "type": "string",
-            "enum": ["名词", "动词", "形容词", "副词", "语气词"],
-             "description": "词性"
+            "enum": ["名词", "动词", "形容词", "副词", "语气词", "其他"],
+             "description": "词性",
             },
           "example": {
-            "type": "string",
+            "type": ["string", "null"],
             "description": "例句"
           }
         },
-        "required": ["word", "pinyin", "definition"]
+        "required": ["word"]
       },
       "description": "重点词汇列表"
     },
@@ -216,7 +216,7 @@
       "description": "生成时间, ISO 8601 格式"
     }
   },
-  "required": ["story_id", "content", "vocabulary_level", "scene", "word_count", "new_char_rate", "new_char", "key_words", "created_at"]
+  "required": ["story_id", "title", "content", "vocabulary_level", "scene", "word_count", "new_char_rate", "new_char", "key_words", "created_at"]
 }
 ```
 
@@ -236,12 +236,6 @@
         {
             "word": "火车站",
             "pinyin": "huǒ chē zhàn",
-            "definition": "  "new_char_rate": 0.05,
-   "new_char": 2,
-    "key_words": [
-        {
-            "word": "火车站",
-            "pinyin": "huǒ chē zhàn",
             "definition": " train station",
              "part_of_speech": "名词",
              "example": "火车站很大。"
@@ -250,3 +244,4 @@
    "created_at": "2025-01-10T10:00:00Z"
 }
 ```
+

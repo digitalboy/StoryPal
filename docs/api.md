@@ -1,6 +1,3 @@
-好的，我将根据最新的 API 设计和数据模型更新 `api.md` 文件。以下是更新后的 `api.md` 内容：
-
-```markdown
 # API 文档
 
 ## 1. 概述
@@ -58,7 +55,7 @@
   {
     "vocabulary_level": "integer", // 目标词汇级别（1-100）
     "scene_id": "string", // 场景ID（UUID）
-    "word_count": "integer", // 故事字数
+    "story_word_count": "integer", // 故事字数
     "new_char_rate": "float", // 目标生字率（0-1）
     "key_word_ids": ["string"] // 重点词汇ID列表（UUID），可选
   }
@@ -78,16 +75,16 @@
       "content": "string", // 故事内容
       "vocabulary_level": "integer", // 实际词汇级别
       "scene": "string", // 场景ID（UUID）
-      "word_count": "integer", // 实际故事字数
+      "story_word_count": "integer", // 实际故事字数
       "new_char_rate": "float", // 实际生字率
        "new_char": "integer", // 实际生字数量
       "key_words": [ // 重点词汇列表
         {
           "word": "string", // 重点词汇
-          "pinyin": "string", // 拼音
-          "definition": "string", // 释义
+          "pinyin": ["string", "null"], // 拼音
+          "definition": ["string", "null"], // 释义
            "part_of_speech": "string", // 词性
-          "example": "string" // 例句
+          "example": ["string", "null"] // 例句
         }
       ],
        "created_at": "string" // 生成时间
@@ -284,10 +281,10 @@
     "key_words": [
       {
         "word": "string", // 重点词汇
-        "pinyin": "string", // 拼音
-        "definition": "string", // 释义
+        "pinyin": ["string", "null"], // 拼音
+        "definition": ["string", "null"], // 释义
         "part_of_speech": "string", // 词性
-        "example": "string" // 例句
+        "example": ["string", "null"] // 例句
       }
     ]
   }
@@ -315,7 +312,7 @@ curl -X POST https://api.chinese-learning.com/v1/stories/generate \
 -d '{
   "vocabulary_level": 35,
   "scene_id": "550e8400-e29b-41d4-a716-446655440000",
-  "word_count": 120,
+  "story_word_count": 120,
   "new_char_rate": 0.02,
   "key_word_ids": ["550e8400-e29b-41d4-a716-446655440001"]
 }'
@@ -333,7 +330,7 @@ curl -X POST https://api.chinese-learning.com/v1/stories/generate \
     "content": "小明喜欢跑步，他每天早上都会去公园跑步，他觉得很开心",
     "vocabulary_level": 30,
     "scene": "550e8400-e29b-41d4-a716-446655440000",
-    "word_count": 13,
+    "story_word_count": 13,
     "new_char_rate": 0.23,
     "new_char": 3,
     "key_words": [

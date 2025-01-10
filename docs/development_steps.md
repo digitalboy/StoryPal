@@ -16,7 +16,7 @@
     source venv/bin/activate  # On macOS and Linux
     # venv\Scripts\activate # On Windows
     ```
-4.  **配置环境变量**: 创建 `.env` 文件，配置项目所需的敏感信息，例如 API Key、数据库连接信息等。
+4.  **配置环境变量**: 创建 `.env` 文件，配置项目所需的敏感信息和可配置参数，例如 API Key、DeepSeek API Key、容差值等。具体请参考 `docs/config.md`。
 5.  **安装 Docker**:  安装 Docker 用于部署项目。
 
 ### 2.2 代码仓库
@@ -218,7 +218,12 @@ def calculate_literacy_rate(text, target_level, known_word_pos_dict):
       if known_word_pos_dict.get(char_in_text) and pos_in_text in known_word_pos_dict.get(char_in_text):
         known_words_count += 1
 
-  known_rate = known_words_count / total_chinese_words
+  known_rate = known_则认为是已知字
+      if known_word_pos_dict.get(char_in_text) and pos_in_text in known_word_pos_dict.get(char_in_text):
+        known_words_count += 1
+
+  known_rate = known_```
+words_count / total_chinese_words
   unknown_rate = 1 - known_rate
 
   return (known_rate, unknown_rate)
@@ -244,6 +249,8 @@ def calculate_literacy_rate(text, target_level, known_word_pos_dict):
 
 1.  **创建服务**: 在 `app/services` 目录下创建业务逻辑服务文件，例如 `word_service.py`、`scene_service.py` 和 `story_service.py`。
 2.  **实现业务逻辑**: 在服务层实现业务逻辑，例如故事的生成、字词的查询、场景的管理。 **核心的生字率计算算法应该在这里实现， 可以参考 `3.2 核心算法：生字率计算`, `3.3 生字率检测流程图` `3.4 伪代码` 和 `3.5 示例代码`。**
+      *  **多轮对话**:  实现多轮对话的逻辑， 根据 `prompt_engineering.md` 中定义的模板， 构建提示语。
+       *   **验证**:  实现故事的验证逻辑，包括生字率验证、重点词汇验证和字数验证。 计算 `new_char_rate` 和 `new_char`。
 3.  **调用模型层**:  服务层应调用模型层的方法来操作数据。
 4.  **添加单元测试**: 在 `tests/services` 目录下创建单元测试，验证业务逻辑的正确性。
 
@@ -256,9 +263,37 @@ def calculate_literacy_rate(text, target_level, known_word_pos_dict):
         *   使用 `request` 对象获取请求参数。
         *   使用 `jsonify` 函数返回 JSON 响应。
         *   使用装饰器来处理 API 鉴权和错误处理。
+    *   **故事生成 API**:
+        *   **URL**: `/v1/stories/generate`
+        *   **Method**: `POST`
+        *   **请求参数**:  `vocabulary_level` (integer, 必填), `scene_id` (string, 必填), `story_word_count` (integer, 必填), `new_char_rate` (float, 必填), `key_word_ids` (array of string, 可选)。
+        *  **响应**: 返回生成的 `story_id`， 以及其他故事详情。
+    *   **字词查询 API**:
+         *   **URL**: `/v1/words`
+        *   **Method**: `GET`
+        *   **请求参数**:  `level` (integer, 可选), `part_of_speech` (string, 可选), `page` (integer, 默认1, 可选), `page_size` (integer, 默认10, 可选)。
+    *  **场景管理 API**:
+          *   **创建场景**:
+             *   **URL**: `/v1/scenes`
+             *   **Method**: `POST`
+             *   **请求参数**: `name` (string, 必填), `description` (string, 必填)。
+          *   **获取场景**:
+              *   **URL**: `/v1/scenes/{scene_id}`
+              *   **Method**: `GET`
+          *   **更新场景**:
+                *   **URL**: `/v1/scenes/{scene_id}`
+              *   **Method**: `PUT`
+              *    **请求参数**: `name` (string, 必填), `description` (string, 必填)。
+          *   **删除场景**:
+                 *   **URL**: `/v1/scenes/{scene_id}`
+              *   **Method**: `DELETE`
+    * **故事升级/降级 API**:
+           *   **URL**: `/v1/stories/{story_id}/adjust`
+           *  **Method**: `POST`
+           *  **请求参数**: `target_level` (integer, 必填)
 3.  **调用服务层**:  API 层应调用服务层的方法来处理请求。
 4.  **处理错误**:  使用 `app/utils/error_handling.py` 中提供的 `handle_error` 函数统一处理 API 的错误，确保错误码和错误信息与 API 设计指南一致。
-5. **数据验证**: 在API 层， 需要对输入的数据进行验证，例如:  `vocabulary_level` 的取值范围， `new_char_rate` 的取值范围。可以使用 JSON Schema 进行验证， 确保数据类型和格式的正确性。
+5.  **数据验证**: 在API 层， 需要对输入的数据进行验证，例如:  `vocabulary_level` 的取值范围， `new_char_rate` 的取值范围， 字数范围，以及 `NEW_CHAR_RATE_TOLERANCE`, `WORD_COUNT_TOLERANCE`, `REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 的值，可以使用 JSON Schema 进行验证， 确保数据类型和格式的正确性。API 请求参数的优先级高于 `.env` 文件中的配置。
 6.  **API 鉴权示例**:
     *  使用 `app/utils/api_key_auth.py` 中提供的 API Key 认证，并使用装饰器进行 API 鉴权。
     ```python
@@ -293,15 +328,15 @@ def calculate_literacy_rate(text, target_level, known_word_pos_dict):
     ```
 7.  **添加集成测试**:  在 `tests/api` 目录下创建集成测试，验证 API 接口的正确性。
 
-### 3.5 错误处理
+### 4.5 错误处理
 
 1.  **使用 `handle_error` 函数**:  在 API 层使用 `handle_error` 函数统一处理 API 的错误。
 2.  **定义错误码**:  在 `docs/error_codes.md` 文件中定义错误码，确保错误码的清晰和准确。
 3.  **添加详细的错误信息**:  确保 API 返回的错误信息清晰、具体，方便定位问题。
 
-### 3.6 配置管理
+### 4.6 配置管理
 
-1.  **配置 `config.py`**:  在 `app/config.py` 文件中定义项目配置，并使用 `python-dotenv` 加载 `.env` 文件中的环境变量。
+1.  **配置 `config.py`**:  在 `app/config.py` 文件中定义项目配置，并使用 `python-dotenv` 加载 `.env` 文件中的环境变量。 **请参考 `docs/config.md` 文件，了解如何配置和使用**。
 
     ```python
     # app/config.py
@@ -317,6 +352,19 @@ def calculate_literacy_rate(text, target_level, known_word_pos_dict):
         # 如果是开发环境，可以设置 DEBUG = True
         DEBUG = os.getenv("DEBUG", False) == "True"
         # 配置其他
+          # 生字率容差值
+        NEW_CHAR_RATE_TOLERANCE = float(os.getenv("NEW_CHAR_RATE_TOLERANCE", 0.1))
+        # 字数容差值
+        WORD_COUNT_TOLERANCE = float(os.getenv("WORD_COUNT_TOLERANCE", 0.2))
+        # API 请求频率限制
+        REQUEST_LIMIT = int(os.getenv("REQUEST_LIMIT", 100))
+
+        # 故事字数容差值
+        STORY_WORD_COUNT_TOLERANCE = int(os.getenv("STORY_WORD_COUNT_TOLERANCE", 20))
+          # 加载词汇数据的路径
+        WORDS_FILE_PATH = os.getenv("WORDS_FILE_PATH", "app/data/words.json")
+        SCENES_FILE_PATH = os.getenv("SCENES_FILE_PATH", "app/data/scenes.json")
+    
     def get_api_key_from_config():
         return Config.API_KEY
     ```
@@ -328,13 +376,19 @@ def calculate_literacy_rate(text, target_level, known_word_pos_dict):
     api_key = Config.API_KEY
     deepseek_key = Config.DEEPSEEK_API_KEY
     debug = Config.DEBUG
+     new_char_rate_tolerance = Config.NEW_CHAR_RATE_TOLERANCE
+    word_count_tolerance = Config.WORD_COUNT_TOLERANCE
+     request_limit = Config.REQUEST_LIMIT
+    story_word_count_tolerance = Config.STORY_WORD_COUNT_TOLERANCE
+    words_file_path = Config.WORDS_FILE_PATH
+    scenes_file_path = Config.SCENES_FILE_PATH
     ```
-
-3.   **配置文件说明**:
-    *   `.env` 文件存储敏感信息，例如 API Key, DeepSeek API Key。
+3.  **配置文件说明**:
+    *   `.env` 文件存储敏感信息，例如 API Key, DeepSeek API Key， 以及一些可配置的参数（生字率容差值，字数容差值, API 请求频率限制, 字数容差值）。
     *   `config.py`  文件加载 `.env` 中的环境变量，并使用 `Config` 类来获取配置参数。
+    *   **重要**:  `NEW_CHAR_RATE_TOLERANCE`, `WORD_COUNT_TOLERANCE`, `REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 的值也可以通过 API 请求参数动态设置， API 请求参数的优先级高于 `.env` 文件中的值。 详细信息请参考 `docs/config.md`
 
-### 3.7 日志记录
+### 4.7 日志记录
 
 1.  **配置 `logging`**:  使用 Python 的 `logging` 模块配置日志记录。
     ```python
@@ -358,19 +412,19 @@ def calculate_literacy_rate(text, target_level, known_word_pos_dict):
 
     ```
 
-### 3.8 单元测试
+### 4.8 单元测试
 
 1.  **编写单元测试**:  为每个模块编写单元测试，确保代码的每个分支都被测试到。
     *  **测试驱动开发 (TDD)**： 鼓励开发人员使用测试驱动开发，先编写测试用例，再编写代码。
 2.  **运行单元测试**:  使用 `pytest` 运行单元测试，确保测试通过。
 3.  **提高代码覆盖率**:  努力提高单元测试的代码覆盖率，确保代码的健壮性。
 
-### 3.9 集成测试
+### 4.9 集成测试
 
 1.  **编写集成测试**:  为每个 API 接口编写集成测试，确保 API 接口的请求参数验证、业务逻辑处理和响应格式是否正确。
 2.  **运行集成测试**: 使用测试客户端 (`Flask` 提供的 `test_client`) 来模拟 API 请求，确保测试通过。
 
-### 3.10 代码审查
+### 4.10 代码审查
 
 1.  **代码审查**:  在代码提交之前，进行代码审查，确保代码质量。
     *  **代码规范**: 遵循代码规范，例如 PEP 8。
@@ -382,7 +436,7 @@ def calculate_literacy_rate(text, target_level, known_word_pos_dict):
         *  **常量**: 使用大写字母，单词之间使用下划线分隔，例如  `MAX_WORD_COUNT`, `DEFAULT_PAGE_SIZE`
 2.  **修复缺陷**:  根据代码审查结果，修复代码中的缺陷。
 
-### 3.11 持续集成
+### 4.11 持续集成
 
 1.  **配置持续集成**:  将代码集成到持续集成平台（例如 GitHub Actions），每次提交代码都自动运行测试，确保代码质量。
 2.  **及时修复问题**: 及时修复持续集成平台中发现的问题。
@@ -410,17 +464,25 @@ def calculate_literacy_rate(text, target_level, known_word_pos_dict):
           run: |
             python -m pip install --upgrade pip
             pip install -r requirements.txt
-        - name: Run tests
+        -12
+          uses: actions/setup-python@v4
+          with:
+            python-version: "3.12"
+        - name: Install dependencies
+          run: |
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
+        -- name: Run tests
           run: |
             pytest
     ```
 
-### 3.12  部署
+### 4.12  部署
 
 1.  **构建 Docker 镜像**:  使用 Dockerfile 构建 Docker 镜像。
 2.  **部署 Docker 容器**: 使用 `docker-compose.yml` 文件部署 Docker 容器。
 
-## 4. 开发规范
+## 5. 开发规范
 
 *   **遵循代码规范**: 遵循代码规范，例如 PEP 8，确保代码的可读性。
 *   **测试驱动开发 (TDD)**： 鼓励开发人员使用测试驱动开发，先编写测试用例，再编写代码。
@@ -428,12 +490,14 @@ def calculate_literacy_rate(text, target_level, known_word_pos_dict):
 *   **代码审查**:  在代码提交之前，进行代码审查，确保代码质量。
 *  **使用版本控制**:  使用 Git 进行代码版本控制。
 
-## 5. 开发中的注意事项
+## 6. 开发中的注意事项
 
 *   **保持代码简洁**:  尽量保持代码简洁易懂，避免使用过于复杂的结构或算法。
 *   **及时沟通**:  在开发过程中，及时与团队成员沟通，解决开发中遇到的问题。
-*   **及时更新文档**:  及时更新文档，确保文档与代码保持同步。
-*   **注重代码质量**:  注重代码质量，确保代码的健壮性和可维护性。
-*  **先测试后开发**: 编写单元测试之后再进行开发。
+*   **及时更新文档。
 
+## 6. 开发中的注意事项
 
+*   **保持代码简洁**:  尽量保持代码简洁易懂，避免使用过于复杂的结构或算法。
+*   **及时沟通**:  在开发过程中，及时与团队成员沟通，解决开发中遇到的问题。
+*   **及时更新文档**: 确保文档与代码保持同步。

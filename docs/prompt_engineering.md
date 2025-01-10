@@ -43,10 +43,10 @@
                         "word": {"type": "string"},
                         "pinyin": {"type": ["string", "null"]},
                        "definition": {"type": ["string", "null"]},
-                      "part_of_speech": {"type": "string",  "enum": ["名词", "动词", "形容词", "副词", "语气词"]},
+                      "part_of_speech": {"type": "string",  "enum": ["名词", "动词", "形容词", "副词", "语气词", "其他"]},
                       "example": {"type": ["string", "null"]}
                      },
-                    "required": ["word", "part_of_speech"]
+                    "required": ["word"]
                     }
                    }
                },
@@ -207,3 +207,4 @@
 ## 7. 总结
 
 提示语工程是控制 AI 生成故事质量的关键。通过遵循清晰、具体、简洁和可控的设计原则，使用动态的模板引擎，多轮对话策略，并结合多次尝试和迭代优化，我们可以生成高质量的故事，满足用户的需求。
+
