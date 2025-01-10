@@ -1,8 +1,8 @@
 # app/models/base_model.py
- import uuid
- from datetime import datetime, timezone
+import uuid
+from datetime import datetime, timezone
 
- class BaseModel:
+class BaseModel:
     def __init__(self, **kwargs):
          # 如果有 id， 直接赋值， 否则生成一个新的 uuid
         self.id = kwargs.get('id') if kwargs.get('id') else str(uuid.uuid4())
