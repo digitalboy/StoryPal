@@ -1,6 +1,3 @@
-好的，这是更新后的 `error_codes.md` 文件内容：
-
-```markdown
 # 错误码说明
 
 ## 1. 概述
@@ -38,12 +35,14 @@
 | 4221   | 生字率超出范围                 | 请求的生字率超出允许的范围 (0-1)。                                          |
 | 4222   | 目标级别超出范围               | 请求的目标级别超出允许的范围 (1-100)。                                    |
 | 4223  |  故事字数超出范围             |   请求的故事字数超出范围。                                               |
-| 4291   | 请求过于频繁                 | 请求频率超出限制，需等待一段时间后重试。 |
+| 4291   | 请求过于频繁                 | 请求频率超出限制，需等待一段时间后重试。                               |
 | 5001   | 数据库连接失败                 | 连接数据库时发生错误。                                               |
 | 5002   | 第三方服务调用失败             | 调用第三方服务时发生错误，例如 DeepSeek API 调用失败。                               |
-| 5003   | 文件读取失败                  | 读取文件时发生错误，例如读取CSV文件失败。                                                  |
-|5004   | 数据校验失败                   |   数据校验失败， 例如 Json Schema 验证失败。                                              |
-|5005   |  未知错误             |  未知的服务器错误， 请联系管理员。                                                  |
+| 5003   | 文件读取失败                  | 读取文件时发生错误，例如读取 JSON 文件失败。                                                |
+| 5004   | 数据校验失败                   |   数据校验失败， 例如 Json Schema 验证失败。                                              |
+| 5005   |  未知错误             |  未知的服务器错误， 请联系管理员。                                                  |
+| 5006 | AI 服务调用失败       | 调用 AI 服务生成故事时发生错误。                                               |
+| 5007  |  重点词汇不存在                |   请求的重点词汇在词汇表中不存在。                                        |
 
 ## 4. 错误响应格式
 
@@ -67,8 +66,8 @@
 2.  **错误码分类**：
     -   使用标准的 HTTP 状态码（如 400、401、404 等）表示错误类别。
     -   在 `code` 字段中提供更细粒度的错误码（如 `4001` 表示缺少字段，`4002` 表示字段类型错误）。
-3. **详细的错误数据**：
-     - 错误数据 (`data`) 字段中提供额外的错误上下文信息，例如：
+3.  **详细的错误数据**：
+    -   错误数据 (`data`) 字段中提供额外的错误上下文信息，例如：
 
         ```json
         {
@@ -139,6 +138,14 @@ def generate_story():
       if not 0 <= new_char_rate <= 1:
             return handle_error(4221, "Validation failed: 'new_char_rate' must be between 0 and 1")
 
+      # 重点词汇是否存在验证
+      # 这里只是一个示例，假设函数check_key_word_exist() 会去数据库中验证
+      if key_word_ids:
+        for word_id in key_word_ids:
+             if not check_key_word_exist(word_id):
+                  return handle_error(5007, f"key word id {word_id} not exist")
+
+
       # 调用 AI 服务生成故事
       # story_id = generate_story_from_deepseek(vocabulary_level, scene_id, word_count, new_char_rate, key_word_ids)
       story_id = "550e8400-e29b-41d4-a716-446655440002" # 示例，替换成实际的逻辑
@@ -155,19 +162,8 @@ def generate_story():
       return handle_error(5001, f"Internal server error: {str(e)}")
 
 
-if __name__ == '__ "Story generated successfully",
-             "data": {
-              "story_id": story_id
-                }
-            })
-
-    except Exception as e:
-      return handle_error(5001, f"Internal server error: {str(e)}")
-
-
 if __name__ == '__main__':
     app.run(debug=True)
 
 ```
-
 

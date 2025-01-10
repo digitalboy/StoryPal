@@ -1,3 +1,6 @@
+好的，我将根据最新的 API 设计和数据模型更新 `api.md` 文件。以下是更新后的 `api.md` 内容：
+
+```markdown
 # API 文档
 
 ## 1. 概述
@@ -70,7 +73,24 @@
     "code": 200,
     "message": "Story generated successfully",
     "data": {
-      "story_id": "string" // 故事ID（UUID）
+      "story_id": "string", // 故事ID（UUID）
+      "title": "string", // 故事标题
+      "content": "string", // 故事内容
+      "vocabulary_level": "integer", // 实际词汇级别
+      "scene": "string", // 场景ID（UUID）
+      "word_count": "integer", // 实际故事字数
+      "new_char_rate": "float", // 实际生字率
+       "new_char": "integer", // 实际生字数量
+      "key_words": [ // 重点词汇列表
+        {
+          "word": "string", // 重点词汇
+          "pinyin": "string", // 拼音
+          "definition": "string", // 释义
+           "part_of_speech": "string", // 词性
+          "example": "string" // 例句
+        }
+      ],
+       "created_at": "string" // 生成时间
     }
   }
   ```
@@ -133,8 +153,6 @@
         "scene_id": "string", // 场景ID（UUID）
         "name": "string", // 场景名称
         "description": "string", // 场景描述
-        "created_at": "string", // 创建时间
-        "updated_at": "string" // 更新时间
         }
     }
     ```
@@ -212,20 +230,15 @@
       {
         "word_id": "string", // 词ID（UUID）
         "word": "string", // 词
-        "pinyin": "string", // 拼音
-        "definition": "string", // 释义
-        "part_of_speech": "string", // 词性
         "chaotong_level": "integer", // 超童级别
-         "characters": [ // 词中包含的字，可选
+        "part_of_speech": "string", // 词性
+        "hsk_level": "integer", // HSK级别
+        "characters": [ // 词中包含的字，以及字的词性，可选
             {
                 "character": "string", // 字
-                "pinyin": "string", // 字的拼音
-                "definition": "string" // 字的释义
+                "part_of_speech": "string" // 字的词性
                 }
-         ],
-        "example": "string", // 例句
-        "created_at": "string", // 创建时间
-        "updated_at": "string" // 更新时间
+         ]
         }
     ],
     "total": "integer" // 总词数
@@ -267,12 +280,13 @@
     "content": "string", // 更新后的故事内容
     "vocabulary_level": "integer", // 新的超童级别
     "new_char_rate": "float", // 新的生字率
+    "new_char": "integer", // 新的生字数量
     "key_words": [
       {
         "word": "string", // 重点词汇
         "pinyin": "string", // 拼音
         "definition": "string", // 释义
-         "part_of_speech": "string", // 词性
+        "part_of_speech": "string", // 词性
         "example": "string" // 例句
       }
     ]
@@ -309,12 +323,36 @@ curl -X POST https://api.chinese-learning.com/v1/stories/generate \
 
 **响应**：
 
-```json
+  ```json
 {
   "code": 200,
   "message": "Story generated successfully",
   "data": {
-    "story_id": "550e8400-e29b-41d4-a716-446655440002"
-    }
+    "story_id": "550e8400-e29b-41d4-a716-446655440002",
+    "title": "小明的一天",
+    "content": "小明喜欢跑步，他每天早上都会去公园跑步，他觉得很开心",
+    "vocabulary_level": 30,
+    "scene": "550e8400-e29b-41d4-a716-446655440000",
+    "word_count": 13,
+    "new_char_rate": 0.23,
+    "new_char": 3,
+    "key_words": [
+      {
+        "word": "喜欢",
+        "pinyin": null,
+        "definition": null,
+        "part_of_speech": "v",
+        "example": null
+      },
+      {
+        "word": "跑步",
+        "pinyin": null,
+        "definition": null,
+        "part_of_speech": "v",
+        "example": null
+      }
+    ],
+    "created_at": "2025-01-10T14:00:00Z"
+  }
 }
-```
+  ```

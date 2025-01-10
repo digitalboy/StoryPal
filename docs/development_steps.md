@@ -73,7 +73,8 @@ StroyPal/
 │   ├── data_models.md       # 数据模型文档
 │   ├── testing.md          # 测试策略文档
 │   ├── error_codes.md        # 错误码文档
-│   └── development_steps.md # 开发步骤文档
+│   ├── development_steps.md # 开发步骤文档
+│   └── prompt_engineering.md # 提示语工程文档
 ├── .env                     # 环境变量
 ├── requirements.txt         # 依赖列表
 ├── README.md                # 项目说明
@@ -81,30 +82,172 @@ StroyPal/
 └── Dockerfile               # Dockerfile 文件
 ```
 
-## 3. 开发步骤
+## 3. 核心逻辑与算法
 
-### 3.1 需求分析
+### 3.1 核心概念
+
+1.  **字 (Character) 与 词 (Word)**：
+    *   **字 (Character)**：汉字是中文的基本书写单位，例如 "我"、"你"、"好"。
+    *   **词 (Word)**：词是由一个或多个汉字组成的具有完整语义的语言单位，例如 "你好"、"朋友"、"学习"。
+    *   **明确区分**：在中文处理中，需要明确区分字和词的概念，因为它们在分词、词性标注以及生字率计算中扮演不同的角色。
+
+2.  **词汇级别 (Vocabulary Level)**：
+    *   **超童级别**：每个词汇都有一个对应的级别，例如 1 到 100，表示词汇的难度。
+    *   **级别划分**：词汇级别可以基于 HSK 等标准，并进一步细分为 100 个超童级别。
+
+3.  **生字率 (New Character Rate)**：
+    *   **定义**：生字率指的是文本中 **不属于** 目标级别及其以下级别已知词汇的字的比例。
+    *   **重要性**：生字率是衡量文本难度的一个关键指标，直接影响学习者的阅读体验和学习效果。
+
+4.  **已知字 (Known Character) 和 生字 (New Character)**：
+    *   **已知字**：在指定目标级别及其以下级别中，所有词汇包含的字，被认为是已知字。
+    *   **生字**：在指定目标级别及其以下级别中，所有词汇不包含的字，被认为是生字。
+    *   **词性影响**: 同一个字，如果在不同词性的词语中出现，如果词性的词语不在已知词汇中，那么这个字也属于生字。例如 “白” 字，在 “白色” 中是形容词，在“白说”中是动词，如果只知道“白色”，那么 “白说” 中的 “白” 属于生字。
+
+### 3.2 核心算法：生字率计算
+
+1.  **数据准备**：
+    *   **词汇表加载**:  从 `word.json` 文件中加载所有词汇数据到内存，构建一个 `known_words_dict`。
+    *   `known_words_dict` 的结构:
+        *   Key 是字 (character)。
+        *   Value 是一个集合 (set)， 包含该字在目标级别以下出现过的所有词性 (part of speech)。
+        *   例如: `{"好": {"a", "ad"}, "人": {"n"}, "学": {"v"}}`
+        *   只加载 `chaotong_level` 小于等于目标级别的词汇。
+
+2.  **文本预处理**：
+    *   **提取中文**: 使用正则表达式提取文本中的所有中文字符。
+    *   **分词和词性标注**:  **可以使用** `jieba.posseg.cut` **进行分词和词性标注，但这不是唯一选择。开发者可以根据实际情况选择其他分词方法，或者自定义分词规则。**
+
+3.  **生字率计算逻辑**：
+    *   **遍历文本中的每个字符**：遍历文本中的每个字符 (character)，并获取其词性 (part of speech)。
+    *   **判断已知字**：如果一个字 (character) 存在于 `known_words_dict` 的 keys 中，并且该字的词性 (part of speech) 也存在于该字对应的 `known_words_dict` 的 value 中，则认为该字是已知字。
+    *   **生字计数**：统计文本中所有字的数量，以及已知字的个数。
+    *   **生字率计算**：使用以下公式计算生字率和生字数量：
+        *   **已知字率 = 已知字数 / 总字数**。 *其中，已知字数和总字数都不考虑去重，且不包含任何标点符号和非中文字符。*
+        *   `生字率 = 1 - 已知字率`
+        *   `生字数量 = 总字数 * 生字率`
+
+### 3.3 生字率检测流程图
+
+```mermaid
+graph LR
+    A[开始] --> B(加载词汇表);
+    B --> C(文本预处理);
+    C --> D{判断已知字?};
+    D -- 是 --> E(已知字计数+1);
+    D -- 否 --> F(跳过);
+    E --> G{是否遍历完所有字};
+    F --> G;
+    G -- 是 --> H(生字率计算);
+    H --> I[结束];
+```
+
+### 3.4 伪代码
+
+```
+function calculate_literacy_rate(text, target_level):
+  known_words_dict = load_known_words(target_level)
+  chinese_chars = extract_chinese_characters(text)
+  total_chinese_words = length(chinese_chars)
+  known_words_count = 0
+
+  for each char in chinese_chars:
+      char_pos =  get_char_and_pos(text, char)
+      if char_pos not None:
+            char_in_text, pos_in_text = char_pos
+            if char_in_text in known_words_dict and pos_in_text in known_words_dict[char_in_text]
+                  known_words_count = known_words_count + 1
+
+  known_rate = known_words_count / total_chinese_words
+  unknown_rate = 1 - known_rate
+  return known_rate, unknown_rate
+```
+
+### 3.5 示例代码 (Python)
+
+```python
+import re
+# import jieba  # 注释掉 jieba 的导入
+# import jieba.posseg as pseg  # 注释掉 jieba.posseg 的导入
+
+def calculate_literacy_rate(text, target_level, known_word_pos_dict):
+  """
+  计算指定级别已知字率和生字率。
+
+  Args:
+    text: 待分析的文本字符串。
+    target_level: 目标级别 (整数)。
+    known_word_pos_dict: 字典，key为字，value为词性集合(set), 例如 {"好": {"a", "ad"}, "人": {"n"}, "学": {"v"}}
+  Returns:
+    一个包含已知字率和生字率的元组 (known_rate, unknown_rate)。
+  """
+
+  chinese_chars = re.findall(r'[\u4e00-\u9fff]', text)
+  total_chinese_words = len(chinese_chars)
+
+  if total_chinese_words == 0:
+    return (1, 0)
+
+  known_words_count = 0
+
+  # 使用 jieba.posseg.cut 进行分词和词性标注
+  # seg_list = pseg.cut(text) # 注释掉使用 jieba 分词的代码
+
+  # 模拟分词和词性标注， 假设已经完成
+  text_word_pos = {}
+  # 这部分代码需要根据实际情况调整
+  start = 0
+  for char in chinese_chars:
+      # 这里需要根据实际选择的分词方法进行调整
+      # text_word_pos[start] = (char, "n")  # 假设所有词都是名词
+      start += 1
+  
+  # for word, flag in seg_list: # 注释掉使用 jieba 的循环
+  #   for i in range(len(word)):
+  #       text_word_pos[start] = (word[i], flag)
+  #       start += 1
+
+
+  for i in range(len(chinese_chars)):
+    char = chinese_chars[i]
+    char_pos = text_word_pos.get(i)
+    if char_pos is not None:
+      char_in_text, pos_in_text = char_pos
+
+      # 如果字在已知字词典中，并且词性也在该字的已知词性集合中，则认为是已知字
+      if known_word_pos_dict.get(char_in_text) and pos_in_text in known_word_pos_dict.get(char_in_text):
+        known_words_count += 1
+
+  known_rate = known_words_count / total_chinese_words
+  unknown_rate = 1 - known_rate
+
+  return (known_rate, unknown_rate)
+```
+
+## 4. 开发步骤
+
+### 4.1 需求分析
 
 1.  **熟悉文档**:  仔细阅读产品需求文档 (PRD) 和 API 设计指南，明确每个 API 的功能、输入参数、输出格式和错误处理逻辑。
-2. **理解数据模型**:  仔细阅读数据模型文档，理解数据结构，字段类型，和取值范围。
+2.  **理解数据模型**:  仔细阅读数据模型文档，理解数据结构，字段类型，和取值范围。
 3.  **分解任务**: 将 PRD 中的需求分解为可执行的开发任务。
 4.  **制定计划**:  根据任务的优先级，制定开发计划。
 
-### 3.2 模型层开发
+### 4.2 模型层开发
 
 1.  **创建模型**: 在 `app/models` 目录下创建数据模型文件，例如 `word.py`、`scene.py` 和 `story.py`。
 2.  **定义属性**:  根据 `docs/data_models.md` 定义数据模型的属性。
-3. **定义方法**: 定义数据模型的 CRUD 操作方法。
-4. **添加单元测试**:  在 `tests/models` 目录下创建单元测试，验证数据模型的正确性。
+3.  **定义方法**: 定义数据模型的 CRUD 操作方法。
+4.  **添加单元测试**:  在 `tests/models` 目录下创建单元测试，验证数据模型的正确性。
 
-### 3.3 服务层开发
+### 4.3 服务层开发
 
 1.  **创建服务**: 在 `app/services` 目录下创建业务逻辑服务文件，例如 `word_service.py`、`scene_service.py` 和 `story_service.py`。
-2.  **实现业务逻辑**: 在服务层实现业务逻辑，例如故事的生成、字词的查询、场景的管理。
-3. **调用模型层**:  服务层应调用模型层的方法来操作数据。
+2.  **实现业务逻辑**: 在服务层实现业务逻辑，例如故事的生成、字词的查询、场景的管理。 **核心的生字率计算算法应该在这里实现， 可以参考 `3.2 核心算法：生字率计算`, `3.3 生字率检测流程图` `3.4 伪代码` 和 `3.5 示例代码`。**
+3.  **调用模型层**:  服务层应调用模型层的方法来操作数据。
 4.  **添加单元测试**: 在 `tests/services` 目录下创建单元测试，验证业务逻辑的正确性。
 
-### 3.4 API 层开发
+### 4.4 API 层开发
 
 1.  **创建 API 路由**: 在 `app/api` 目录下创建 API 路由文件，例如 `word_api.py`、`scene_api.py` 和 `story_api.py`。
 2.  **定义 API 接口**: 根据 `docs/api.md` 定义 API 接口的路由、请求方法、请求参数和响应格式。
@@ -113,9 +256,10 @@ StroyPal/
         *   使用 `request` 对象获取请求参数。
         *   使用 `jsonify` 函数返回 JSON 响应。
         *   使用装饰器来处理 API 鉴权和错误处理。
-3. **调用服务层**:  API 层应调用服务层的方法来处理请求。
+3.  **调用服务层**:  API 层应调用服务层的方法来处理请求。
 4.  **处理错误**:  使用 `app/utils/error_handling.py` 中提供的 `handle_error` 函数统一处理 API 的错误，确保错误码和错误信息与 API 设计指南一致。
-5.  **API 鉴权示例**:
+5. **数据验证**: 在API 层， 需要对输入的数据进行验证，例如:  `vocabulary_level` 的取值范围， `new_char_rate` 的取值范围。可以使用 JSON Schema 进行验证， 确保数据类型和格式的正确性。
+6.  **API 鉴权示例**:
     *  使用 `app/utils/api_key_auth.py` 中提供的 API Key 认证，并使用装饰器进行 API 鉴权。
     ```python
     from functools import wraps
@@ -147,7 +291,7 @@ StroyPal/
         # API 代码
         pass
     ```
-6.  **添加集成测试**:  在 `tests/api` 目录下创建集成测试，验证 API 接口的正确性。
+7.  **添加集成测试**:  在 `tests/api` 目录下创建集成测试，验证 API 接口的正确性。
 
 ### 3.5 错误处理
 
@@ -186,6 +330,10 @@ StroyPal/
     debug = Config.DEBUG
     ```
 
+3.   **配置文件说明**:
+    *   `.env` 文件存储敏感信息，例如 API Key, DeepSeek API Key。
+    *   `config.py`  文件加载 `.env` 中的环境变量，并使用 `Config` 类来获取配置参数。
+
 ### 3.7 日志记录
 
 1.  **配置 `logging`**:  使用 Python 的 `logging` 模块配置日志记录。
@@ -197,13 +345,6 @@ StroyPal/
 2.  **在代码中使用 `logging`**: 使用 `logging.info()`, `logging.error()`, `logging.debug()` 等函数记录日志。
 
     ```python
-    import logging
-    def generate_story():
-        logging.info("Start generate story")
-        try:
-            # 代码逻辑
-            logging.info("Story generated successfully")
-            returnpython
     import logging
     def generate_story():
         logging.info("Start generate story")
@@ -245,6 +386,34 @@ StroyPal/
 
 1.  **配置持续集成**:  将代码集成到持续集成平台（例如 GitHub Actions），每次提交代码都自动运行测试，确保代码质量。
 2.  **及时修复问题**: 及时修复持续集成平台中发现的问题。
+3. **持续集成示例**: 可以使用 GitHub Actions 来实现持续集成， 例如:
+    ```yaml
+    name: CI
+
+    on:
+      push:
+        branches: [ "main" ]
+      pull_request:
+        branches: [ "main" ]
+
+    jobs:
+      build:
+        runs-on: ubuntu-latest
+
+        steps:
+        - uses: actions/checkout@v3
+        - name: Set up Python 3.12
+          uses: actions/setup-python@v4
+          with:
+            python-version: "3.12"
+        - name: Install dependencies
+          run: |
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
+        - name: Run tests
+          run: |
+            pytest
+    ```
 
 ### 3.12  部署
 
@@ -267,15 +436,4 @@ StroyPal/
 *   **注重代码质量**:  注重代码质量，确保代码的健壮性和可维护性。
 *  **先测试后开发**: 编写单元测试之后再进行开发。
 
-## 6. 总结
 
-*  **理解需求**: 务必充分理解产品需求文档 (PRD) 和 API 设计指南。
-*  **分层开发**:  按照模型层、服务层、API 层进行开发。
-*   **测试优先**: 使用 TDD， 先编写测试用例，然后再编写代码。
-*   **持续集成**: 将代码集成到持续集成平台，每次提交代码都运行测试。
-*   **保持沟通**: 在开发过程中，与测试人员和团队成员保持良好的沟通。
-*   **保持学习**:  不断学习新的开发技术和工具，提高开发效率。
-
-*   **持续集成**: 将代码集成到持续集成平台，每次提交代码都运行测试。
-*   **保持沟通**: 在开发过程中，与测试人员和团队成员保持良好的沟通。
-*   **保持学习**:  不断学习新的开发技术和工具，提高开发效率。
