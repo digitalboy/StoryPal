@@ -9,8 +9,9 @@
 ### 2.1 环境配置
 
 1.  **安装 Python 3.12**: 确保你的开发环境中安装了 Python 3.12 或更高版本。
-2.  **安装依赖**: 使用 `pip` 安装项目所需的依赖包，例如 `Flask`, `pytest`, `requests`, `python-dotenv`等。可以使用 `pip install -r requirements.txt` 安装所有依赖包。
-3. **配置虚拟环境**: 建议使用虚拟环境来管理项目依赖，避免不同项目之间的依赖冲突。例如使用 `venv`, 可以执行以下步骤创建和激活虚拟环境：
+2.  **安装依赖**: 使用 `pip` 安装项目所需的依赖包，例如 `Flask`, `pytest`, `requests`, `python-dotenv` 等。可以使用 `pip install -r requirements.txt` 安装所有依赖包。
+3.  **配置虚拟环境**: 建议使用虚拟环境来管理项目依赖，避免不同项目之间的依赖冲突。例如使用 `venv`, 可以执行以下步骤创建和激活虚拟环境：
+
     ```bash
     python -m venv venv
     source venv/bin/activate  # On macOS and Linux
@@ -116,7 +117,7 @@ StroyPal/
 
 2.  **文本预处理**：
     *   **提取中文**: 使用正则表达式提取文本中的所有中文字符。
-    *   **分词和词性标注**:  **可以使用** `jieba.posseg.cut` **进行分词和词性标注，但这不是唯一选择。开发者可以根据实际情况选择其他分词方法，或者自定义分词规则。**
+    *   **分词和词性标注**:  使用 `jieba.posseg.cut` 进行分词和词性标注。
 
 3.  **生字率计算逻辑**：
     *   **遍历文本中的每个字符**：遍历文本中的每个字符 (character)，并获取其词性 (part of speech)。
@@ -167,8 +168,8 @@ function calculate_literacy_rate(text, target_level):
 
 ```python
 import re
-# import jieba  # 注释掉 jieba 的导入
-# import jieba.posseg as pseg  # 注释掉 jieba.posseg 的导入
+import jieba
+import jieba.posseg as pseg
 
 def calculate_literacy_rate(text, target_level, known_word_pos_dict):
   """
@@ -191,21 +192,17 @@ def calculate_literacy_rate(text, target_level, known_word_pos_dict):
   known_words_count = 0
 
   # 使用 jieba.posseg.cut 进行分词和词性标注
-  # seg_list = pseg.cut(text) # 注释掉使用 jieba 分词的代码
+  seg_list = pseg.cut(text)
 
   # 模拟分词和词性标注， 假设已经完成
   text_word_pos = {}
   # 这部分代码需要根据实际情况调整
   start = 0
-  for char in chinese_chars:
-      # 这里需要根据实际选择的分词方法进行调整
-      # text_word_pos[start] = (char, "n")  # 假设所有词都是名词
-      start += 1
-  
-  # for word, flag in seg_list: # 注释掉使用 jieba 的循环
-  #   for i in range(len(word)):
-  #       text_word_pos[start] = (word[i], flag)
-  #       start += 1
+
+  for word, flag in seg_list:
+    for i in range(len(word)):
+        text_word_pos[start] = (word[i], flag)
+        start += 1
 
 
   for i in range(len(chinese_chars)):
@@ -218,12 +215,7 @@ def calculate_literacy_rate(text, target_level, known_word_pos_dict):
       if known_word_pos_dict.get(char_in_text) and pos_in_text in known_word_pos_dict.get(char_in_text):
         known_words_count += 1
 
-  known_rate = known_则认为是已知字
-      if known_word_pos_dict.get(char_in_text) and pos_in_text in known_word_pos_dict.get(char_in_text):
-        known_words_count += 1
-
-  known_rate = known_```
-words_count / total_chinese_words
+  known_rate = known_words_count / total_chinese_words
   unknown_rate = 1 - known_rate
 
   return (known_rate, unknown_rate)
@@ -249,7 +241,7 @@ words_count / total_chinese_words
 
 1.  **创建服务**: 在 `app/services` 目录下创建业务逻辑服务文件，例如 `word_service.py`、`scene_service.py` 和 `story_service.py`。
 2.  **实现业务逻辑**: 在服务层实现业务逻辑，例如故事的生成、字词的查询、场景的管理。 **核心的生字率计算算法应该在这里实现， 可以参考 `3.2 核心算法：生字率计算`, `3.3 生字率检测流程图` `3.4 伪代码` 和 `3.5 示例代码`。**
-      *  **多轮对话**:  实现多轮对话的逻辑， 根据 `prompt_engineering.md` 中定义的模板， 构建提示语。
+      *  **多轮对话**:  实现多轮对话的逻辑， 根据 `prompt_engineering.md` 中定义的模板， 构建提示语。 **使用状态机管理对话流程，根据用户的反馈动态调整对话策略。**
        *   **验证**:  实现故事的验证逻辑，包括生字率验证、重点词汇验证和字数验证。 计算 `new_char_rate` 和 `new_char`。
 3.  **调用模型层**:  服务层应调用模型层的方法来操作数据。
 4.  **添加单元测试**: 在 `tests/services` 目录下创建单元测试，验证业务逻辑的正确性。
@@ -293,13 +285,14 @@ words_count / total_chinese_words
            *  **请求参数**: `target_level` (integer, 必填)
 3.  **调用服务层**:  API 层应调用服务层的方法来处理请求。
 4.  **处理错误**:  使用 `app/utils/error_handling.py` 中提供的 `handle_error` 函数统一处理 API 的错误，确保错误码和错误信息与 API 设计指南一致。
-5.  **数据验证**: 在API 层， 需要对输入的数据进行验证，例如:  `vocabulary_level` 的取值范围， `new_char_rate` 的取值范围， 字数范围，以及 `NEW_CHAR_RATE_TOLERANCE`, `WORD_COUNT_TOLERANCE`, `REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 的值，可以使用 JSON Schema 进行验证， 确保数据类型和格式的正确性。API 请求参数的优先级高于 `.env` 文件中的配置。
+5.  **数据验证**: 在API 层， 需要对输入的数据进行验证，例如:  `vocabulary_level` 的取值范围， `new_char_rate` 的取值范围， 字数范围，以及 `NEW_CHAR_RATE_TOLERANCE`, `WORD_COUNT_TOLERANCE`, `REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 的值，可以使用 JSON Schema 进行验证， 确保数据类型和格式的正确性。API 请求参数的优先级高于 `.env` 文件中的配置。 **在 API 层对 `NEW_CHAR_RATE_TOLERANCE`、`WORD_COUNT_TOLERANCE`、`REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 进行类型验证**
 6.  **API 鉴权示例**:
     *  使用 `app/utils/api_key_auth.py` 中提供的 API Key 认证，并使用装饰器进行 API 鉴权。
     ```python
     from functools import wraps
     from flask import request, jsonify
     from app.utils.error_handling import handle_error
+    from app.config import get_api_key_from_config # 假设这个函数从配置中读取 API Key
 
     def api_key_required(func):
         @wraps(func)
@@ -308,7 +301,7 @@ words_count / total_chinese_words
             if not api_key or not api_key.startswith('Bearer '):
                 return handle_error(4011, "API Key missing")
             api_key = api_key[7:] # Remove "Bearer " prefix
-            if api_key != get_api_key_from_config(): # 假设这个函数从配置中读取 API Key
+            if api_key != get_api_key_from_config():
                 return handle_error(4012, "Invalid API Key")
             return func(*args, **kwargs)
         return wrapper
@@ -352,7 +345,7 @@ words_count / total_chinese_words
         # 如果是开发环境，可以设置 DEBUG = True
         DEBUG = os.getenv("DEBUG", False) == "True"
         # 配置其他
-          # 生字率容差值
+        # 生字率容差值
         NEW_CHAR_RATE_TOLERANCE = float(os.getenv("NEW_CHAR_RATE_TOLERANCE", 0.1))
         # 字数容差值
         WORD_COUNT_TOLERANCE = float(os.getenv("WORD_COUNT_TOLERANCE", 0.2))
@@ -361,7 +354,7 @@ words_count / total_chinese_words
 
         # 故事字数容差值
         STORY_WORD_COUNT_TOLERANCE = int(os.getenv("STORY_WORD_COUNT_TOLERANCE", 20))
-          # 加载词汇数据的路径
+        # 加载词汇数据的路径
         WORDS_FILE_PATH = os.getenv("WORDS_FILE_PATH", "app/data/words.json")
         SCENES_FILE_PATH = os.getenv("SCENES_FILE_PATH", "app/data/scenes.json")
     
@@ -376,9 +369,9 @@ words_count / total_chinese_words
     api_key = Config.API_KEY
     deepseek_key = Config.DEEPSEEK_API_KEY
     debug = Config.DEBUG
-     new_char_rate_tolerance = Config.NEW_CHAR_RATE_TOLERANCE
+    new_char_rate_tolerance = Config.NEW_CHAR_RATE_TOLERANCE
     word_count_tolerance = Config.WORD_COUNT_TOLERANCE
-     request_limit = Config.REQUEST_LIMIT
+    request_limit = Config.REQUEST_LIMIT
     story_word_count_tolerance = Config.STORY_WORD_COUNT_TOLERANCE
     words_file_path = Config.WORDS_FILE_PATH
     scenes_file_path = Config.SCENES_FILE_PATH
@@ -391,33 +384,36 @@ words_count / total_chinese_words
 ### 4.7 日志记录
 
 1.  **配置 `logging`**:  使用 Python 的 `logging` 模块配置日志记录。
+
     ```python
     # app/__init__.py
     import logging
+
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
     ```
 2.  **在代码中使用 `logging`**: 使用 `logging.info()`, `logging.error()`, `logging.debug()` 等函数记录日志。
 
     ```python
     import logging
+
     def generate_story():
         logging.info("Start generate story")
         try:
             # 代码逻辑
             logging.info("Story generated successfully")
             return
-            except Exception as e:
+        except Exception as e:
             logging.error(f"Error while generating story {e}")
             raise e
-
     ```
 
 ### 4.8 单元测试
 
 1.  **编写单元测试**:  为每个模块编写单元测试，确保代码的每个分支都被测试到。
     *  **测试驱动开发 (TDD)**： 鼓励开发人员使用测试驱动开发，先编写测试用例，再编写代码。
-2.  **运行单元测试**:  使用 `pytest` 运行单元测试，确保测试通过。
-3.  **提高代码覆盖率**:  努力提高单元测试的代码覆盖率，确保代码的健壮性。
+2.   **单元测试应该重点测试核心代码**:  例如生字率计算，多轮对话的逻辑，API 鉴权， 和 API 参数验证。
+3.  **运行单元测试**:  使用 `pytest` 运行单元测试，确保测试通过。
+4.  **提高代码覆盖率**:  努力提高单元测试的代码覆盖率，确保代码的健壮性。 **单元测试的代码覆盖率不应该低于 80%**。
 
 ### 4.9 集成测试
 
@@ -427,7 +423,7 @@ words_count / total_chinese_words
 ### 4.10 代码审查
 
 1.  **代码审查**:  在代码提交之前，进行代码审查，确保代码质量。
-    *  **代码规范**: 遵循代码规范，例如 PEP 8。
+    *   **代码规范**: 遵循代码规范，例如 PEP 8。
     *   **命名规范**:
         *   **文件名**:  使用小写字母，单词之间使用下划线分隔，例如 `word_model.py`, `scene_service.py`。
         *   **变量名**: 使用小写字母，单词之间使用下划线分隔，例如 `user_id`, `api_key`。
@@ -440,7 +436,8 @@ words_count / total_chinese_words
 
 1.  **配置持续集成**:  将代码集成到持续集成平台（例如 GitHub Actions），每次提交代码都自动运行测试，确保代码质量。
 2.  **及时修复问题**: 及时修复持续集成平台中发现的问题。
-3. **持续集成示例**: 可以使用 GitHub Actions 来实现持续集成， 例如:
+3.  **持续集成示例**: 可以使用 GitHub Actions 来实现持续集成， 例如:
+
     ```yaml
     name: CI
 
@@ -455,26 +452,18 @@ words_count / total_chinese_words
         runs-on: ubuntu-latest
 
         steps:
-        - uses: actions/checkout@v3
-        - name: Set up Python 3.12
-          uses: actions/setup-python@v4
-          with:
-            python-version: "3.12"
-        - name: Install dependencies
-          run: |
-            python -m pip install --upgrade pip
-            pip install -r requirements.txt
-        -12
-          uses: actions/setup-python@v4
-          with:
-            python-version: "3.12"
-        - name: Install dependencies
-          run: |
-            python -m pip install --upgrade pip
-            pip install -r requirements.txt
-        -- name: Run tests
-          run: |
-            pytest
+          - uses: actions/checkout@v3
+          - name: Set up Python 3.12
+            uses: actions/setup-python@v4
+            with:
+              python-version: "3.12"
+          - name: Install dependencies
+            run: |
+              python -m pip install --upgrade pip
+              pip install -r requirements.txt
+          - name: Run tests
+            run: |
+              pytest
     ```
 
 ### 4.12  部署
@@ -488,16 +477,11 @@ words_count / total_chinese_words
 *   **测试驱动开发 (TDD)**： 鼓励开发人员使用测试驱动开发，先编写测试用例，再编写代码。
 *   **编写清晰的文档**: 编写清晰的 API 文档和用户手册，方便其他人使用 API。
 *   **代码审查**:  在代码提交之前，进行代码审查，确保代码质量。
-*  **使用版本控制**:  使用 Git 进行代码版本控制。
-
-## 6. 开发中的注意事项
-
-*   **保持代码简洁**:  尽量保持代码简洁易懂，避免使用过于复杂的结构或算法。
-*   **及时沟通**:  在开发过程中，及时与团队成员沟通，解决开发中遇到的问题。
-*   **及时更新文档。
+*   **使用版本控制**:  使用 Git 进行代码版本控制。
 
 ## 6. 开发中的注意事项
 
 *   **保持代码简洁**:  尽量保持代码简洁易懂，避免使用过于复杂的结构或算法。
 *   **及时沟通**:  在开发过程中，及时与团队成员沟通，解决开发中遇到的问题。
 *   **及时更新文档**: 确保文档与代码保持同步。
+

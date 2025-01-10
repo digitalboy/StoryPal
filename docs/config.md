@@ -76,8 +76,8 @@ def get_api_key_from_config():
 | `WORDS_FILE_PATH`            | `string`  | 词汇数据的文件路径，用于加载字词数据                                      | `app/data/words.json`  |
 | `SCENES_FILE_PATH`            | `string`  | 场景数据的文件路径，用于加载场景数据                                      |  `app/data/scenes.json` |
 
-*  **动态设置**: `NEW_CHAR_RATE_TOLERANCE`, `WORD_COUNT_TOLERANCE`, `REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 配置项的值，可以在 API 请求参数中动态设置，`.env` 中的值仅作为默认值。
-*  `STORY_WORD_COUNT_TOLERANCE`:  使用正负值表示容差，例如如果 `STORY_WORD_COUNT_TOLERANCE`  为 `20`，   预期字数为 100,  那么故事字数范围就在 80 ~ 120之间。
+*   **动态设置**: `NEW_CHAR_RATE_TOLERANCE`, `WORD_COUNT_TOLERANCE`, `REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 配置项的值，可以在 API 请求参数中动态设置，`.env` 中的值仅作为默认值。 **在 API 层需要对这些配置项进行类型验证，确保数据类型和取值范围的正确性**。
+*   `STORY_WORD_COUNT_TOLERANCE`:  使用正负值表示容差，例如如果 `STORY_WORD_COUNT_TOLERANCE`  为 `20`，   预期字数为 100,  那么故事字数范围就在 80 ~ 120之间。
 
 ## 4. 配置使用方法
 
@@ -131,5 +131,5 @@ def get_api_key_from_config():
 *   **为配置项添加默认值**:  在 `app/config.py` 文件中为配置项添加默认值，以便在缺少环境变量时提供默认值。
 *   **使用类型转换**:  使用 `int()`, `float()`, `bool()` 等函数将环境变量转换为正确的类型。
 *   **为配置项添加注释**:  在 `app/config.py` 文件中为配置项添加注释，方便其他开发人员理解。
-*   **验证配置项**:  在代码中对配置项进行验证，例如取值范围，数据类型等。
+*   **验证配置项**:  **在 API 层需要对 `NEW_CHAR_RATE_TOLERANCE`, `WORD_COUNT_TOLERANCE`, `REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE`  进行类型验证，确保数据类型和取值范围的正确性。**
 

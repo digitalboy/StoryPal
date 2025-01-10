@@ -1,1 +1,17 @@
-[]
+[
+    {
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcba",
+        "name": "日常生活",
+        "description": "描述日常生活的场景，例如早上起床，去公园跑步等。"
+    },
+    {
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+        "name": "问路",
+        "description": "学习如何用中文问路。"
+    },
+    {
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbc",
+        "name": "点餐",
+        "description": "学习如何用中文点餐。"
+    }
+]
