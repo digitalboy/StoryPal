@@ -2,6 +2,7 @@
 import logging
 import re
 import json
+import os
 from jinja2 import Environment, FileSystemLoader
 from app.config import Config
 from app.models.story_model import StoryModel
@@ -13,12 +14,20 @@ from uuid import uuid4
 
 class StoryService:
     def __init__(self):
+        """
+        初始化 StoryService, 加载词汇服务, 场景服务, 初始化 DeepSeek API 客户端, 并加载模板
+        """
         self.word_service = WordService()
         self.scene_service = SceneService()
+        # 初始化 DeepSeek API 客户端
         self.deepseek_api = OpenAI(
             api_key=Config.DEEPSEEK_API_KEY, base_url="https://api.deepseek.com"
         )
-        self.template_env = Environment(loader=FileSystemLoader("app/templates"))
+        # 初始化 Jinja2 模板引擎
+        template_dir = os.path.join(
+            os.path.dirname(__file__), "..", "templates"
+        )  # 拼接模板路径
+        self.template_env = Environment(loader=FileSystemLoader(template_dir))
         self.messages = []  # 用于存储多轮对话的上下文
 
     def _custom_segment(self, text):
@@ -52,7 +61,6 @@ class StoryService:
     def _calculate_literacy_rate(self, text, target_level):
         """
         计算指定级别已知字率和生字率。
-
         Args:
             text: 待分析的文本字符串。
             target_level: 目标级别 (整数)。
@@ -60,7 +68,9 @@ class StoryService:
             一个包含已知字率和生字率的元组 (known_rate, unknown_rate)。
         """
         known_word_pos_dict = self._load_known_words(target_level)
-        chinese_chars = re.findall(r"[\u4e00-\u9fff]", text)
+        chinese_chars = re.findall(
+            r"[\u4e00-\u9fff]", text
+        )  # 使用正则提取文本中的所有中文字符
         total_chinese_words = len(chinese_chars)
 
         if total_chinese_words == 0:
@@ -137,7 +147,7 @@ class StoryService:
             story_word_count: 故事字数。
             key_word_ids: 重点词汇 ID 列表
         Returns:
-            提示语字符串。
+            提示语字符串列表。
         """
         logging.info(
             f"Generating prompt, vocabulary_level: {vocabulary_level}, scene_id: {scene_id}, story_word_count: {story_word_count}, key_word_ids: {key_word_ids}"
@@ -155,6 +165,8 @@ class StoryService:
                     logging.error(f"Key word not found, word_id: {word_id}")
                     return None
                 key_words.append(word.to_dict())
+
+        # 加载初始提示语模板
         template = self.template_env.get_template("prompt_template.txt")
 
         word_count_tolerance = Config.STORY_WORD_COUNT_TOLERANCE
@@ -171,13 +183,14 @@ class StoryService:
         prompt = template.render(data)
         self.messages.append({"role": "user", "content": prompt})
 
-        # 已知词汇
+        # 加载已知词汇模板，并提供已知词汇
         known_words = self._load_known_words(vocabulary_level)
         template = self.template_env.get_template("known_words_template.txt")
         data = {"known_words": json.dumps(list(known_words.keys()), ensure_ascii=False)}
         prompt = template.render(data)
         self.messages.append({"role": "user", "content": prompt})
 
+        # 加载最终指令模板
         template = self.template_env.get_template("final_instruction.txt")
         prompt = template.render()
         self.messages.append({"role": "user", "content": prompt})
@@ -210,6 +223,7 @@ class StoryService:
             return None
 
         try:
+            # 调用 DeepSeek API 生成故事， 注意这里使用了 self.deepseek_api.chat.completions.create
             ai_response = self.deepseek_api.chat.completions.create(
                 model="deepseek-chat", messages=prompt_messages
             )
@@ -230,11 +244,13 @@ class StoryService:
             )
             return None
 
+        # 计算生字率和生字数量
         known_rate, unknown_rate = self._calculate_literacy_rate(
             content, vocabulary_level
         )
         new_char = len(re.findall(r"[\u4e00-\u9fff]", content)) * unknown_rate
 
+        # 创建 StoryModel 对象
         new_story = StoryModel(
             story_id=str(uuid4()),
             title=title,
