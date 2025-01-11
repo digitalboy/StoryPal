@@ -44,6 +44,7 @@ class WordService:
             filtered_words = [
                 word for word in filtered_words if word.part_of_speech == part_of_speech
             ]
+
         start = (page - 1) * page_size
         end = start + page_size
         return filtered_words[start:end]

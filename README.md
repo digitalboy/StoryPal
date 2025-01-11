@@ -17,7 +17,7 @@
 
 - 后端：Python Flask 3.1.0
 - AI服务：DeepSeek API (详细交互方式见 `docs/api.md`)
-- 分词工具:  `jieba`
+- 分词工具:  使用自定义分词，基于 `words.json` 进行分词。
 - 数据存储：字词表、场景数据以 JSON 格式存储，未来可能会考虑使用数据库。
 - API 文档:  使用 `Flask-RESTx` 自动生成 OpenAPI 文档。
 - 部署环境：Docker
@@ -150,5 +150,6 @@
 -   **UUID 生成**:  使用 Python 内置的 `uuid` 库生成 UUID。
 -   **API 鉴权**:  所有 API 需通过 API Key 进行身份验证，具体请参考 `docs/api.md`。
 -    **生字率的计算**: 生字率 = 生字数量 / 故事总字数, **同一个字在不同词性下视为不同词汇**。
+        *  **使用自定义分词逻辑，基于 `words.json` 文件进行分词。**
 -   **重点词汇**:  用户通过 API  参数 `key_word_ids` 指定， 在生成故事时重点词汇必须出现在生成的故事中。
 -  **数据验证**: 使用 JSON Schema  进行验证, 详细数据模型见 `docs/data_models.md`

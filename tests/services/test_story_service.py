@@ -1,5 +1,10 @@
 # tests/services/test_story_service.py
 import pytest
+import logging
+import json
+import re
+import jieba
+import jieba.posseg as pseg
 from app.services.story_service import StoryService
 from unittest.mock import patch, MagicMock
 from app.config import Config
@@ -12,10 +17,55 @@ def story_service():
 
 def test_calculate_literacy_rate(story_service):
     text = "你好，我喜欢跑步。"
+    logging.info(f"Test text: {text}")
+    logging.info(f"jieba dict path: {jieba.get_dict_file()}")  # 添加这行
     known_rate, unknown_rate = story_service._calculate_literacy_rate(text, 20)
+    logging.info(f"known_rate: {known_rate}, unknown_rate: {unknown_rate}")
     assert known_rate > 0
     assert unknown_rate < 1
 
+    known_word_pos_dict = story_service._load_known_words(20)
+    logging.info(
+        f"known_word_pos_dict: {json.dumps({k: list(v) for k, v in known_word_pos_dict.items()}, ensure_ascii=False)}"
+    )
+    logging.info(f"known_words_dict: {known_word_pos_dict}")
+
+    seg_list = story_service._custom_segment(text)
+    logging.info(f"custom segment result: {seg_list}")
+
+    chinese_chars = re.findall(r"[\u4e00-\u9fff]", text)
+    total_chinese_words = len(chinese_chars)
+    logging.info(f"total_chinese_words: {total_chinese_words}")
+
+    known_words_count = 0
+    text_word_pos = {}
+    start = 0
+    for word, flag in seg_list:
+        for i in range(len(word)):
+            text_word_pos[start] = (word[i], flag)
+            start += 1
+
+    for i in range(len(chinese_chars)):
+        char = chinese_chars[i]
+        char_pos = text_word_pos.get(i)
+        if char_pos is not None:
+            char_in_text, pos_in_text = char_pos
+            is_known = (
+                char_in_text in known_word_pos_dict
+                and pos_in_text in known_word_pos_dict[char_in_text]
+            )
+            logging.info(
+                f"char: {char_in_text}, pos: {pos_in_text}, is_known: {is_known}"
+            )
+            if is_known:
+                known_words_count += 1
+    logging.info(f"known_words_count: {known_words_count}")
+    logging.info(
+        f"known_rate = {known_words_count / total_chinese_words if total_chinese_words > 0 else 1}"
+    )
+    logging.info(
+        f"unknown_rate = {1 - (known_words_count / total_chinese_words) if total_chinese_words > 0 else 0}"
+    )
 
 def test_calculate_literacy_rate_empty_text(story_service):
     text = ""
@@ -72,38 +122,37 @@ def test_generate_prompt_key_word_not_found(story_service):
     assert prompt_messages is None
 
 
-@patch("app.services.story_service.DeepSeekAPI.chat_completions")
+@patch("app.services.story_service.OpenAI.chat.completions.create")
 def test_generate_story_success(mock_chat_completions, story_service):
-    mock_response = {
-        "choices": [
-            {
-                "message": {
-                    "content": """
-                     {
-                         "title": "测试故事",
-                         "content": "你好，我喜欢跑步。",
-                         "key_words": [
-                             {
-                                "word": "喜欢",
-                                "pinyin": null,
-                                "definition": null,
-                                 "part_of_speech": "动词",
-                                "example": null
-                            },
-                            {
-                              "word": "跑步",
-                                "pinyin": null,
-                              "definition": null,
-                               "part_of_speech": "动词",
-                              "example": null
-                             }
-                          ]
-                     }
-                     """
-                }
-            }
-        ]
-    }
+    mock_response = MagicMock()
+    mock_response.choices = [
+        MagicMock(
+            message=MagicMock(
+                content="""
+        {
+            "title": "测试故事",
+            "content": "你好，我喜欢跑步。",
+            "key_words": [
+                {
+                   "word": "喜欢",
+                   "pinyin": null,
+                   "definition": null,
+                     "part_of_speech": "动词",
+                   "example": null
+               },
+               {
+                 "word": "跑步",
+                   "pinyin": null,
+                   "definition": null,
+                    "part_of_speech": "动词",
+                   "example": null
+                 }
+                ]
+        }
+        """
+            )
+        )
+    ]
     mock_chat_completions.return_value = mock_response
     story = story_service.generate_story(
         vocabulary_level=20,
@@ -126,7 +175,7 @@ def test_generate_story_success(mock_chat_completions, story_service):
     mock_chat_completions.assert_called_once()
 
 
-@patch("app.services.story_service.DeepSeekAPI.chat_completions")
+@patch("app.services.story_service.OpenAI.chat.completions.create")
 def test_generate_story_failed_deepseek_api(mock_chat_completions, story_service):
     mock_chat_completions.side_effect = Exception("DeepSeek API Error")
     story = story_service.generate_story(
@@ -142,9 +191,10 @@ def test_generate_story_failed_deepseek_api(mock_chat_completions, story_service
     assert story is None
 
 
-@patch("app.services.story_service.DeepSeekAPI.chat_completions")
+@patch("app.services.story_service.OpenAI.chat.completions.create")
 def test_generate_story_failed_json_parse(mock_chat_completions, story_service):
-    mock_response = {"choices": [{"message": {"content": "invalid json"}}]}
+    mock_response = MagicMock()
+    mock_response.choices = [MagicMock(message=MagicMock(content="invalid json"))]
     mock_chat_completions.return_value = mock_response
     story = story_service.generate_story(
         vocabulary_level=20,
@@ -159,22 +209,21 @@ def test_generate_story_failed_json_parse(mock_chat_completions, story_service):
     assert story is None
 
 
-@patch("app.services.story_service.DeepSeekAPI.chat_completions")
+@patch("app.services.story_service.OpenAI.chat.completions.create")
 def test_generate_story_failed_missing_field(mock_chat_completions, story_service):
-    mock_response = {
-        "choices": [
-            {
-                "message": {
-                    "content": """
-                     {
-                         "title": "测试故事",
-                         "content": "你好，我喜欢跑步。"
-                     }
-                     """
-                }
-            }
-        ]
-    }
+    mock_response = MagicMock()
+    mock_response.choices = [
+        MagicMock(
+            message=MagicMock(
+                content="""
+        {
+            "title": "测试故事",
+            "content": "你好，我喜欢跑步。"
+        }
+        """
+            )
+        )
+    ]
     mock_chat_completions.return_value = mock_response
     story = story_service.generate_story(
         vocabulary_level=20,

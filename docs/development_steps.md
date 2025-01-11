@@ -9,7 +9,7 @@
 ### 2.1 环境配置
 
 1.  **安装 Python 3.12**: 确保你的开发环境中安装了 Python 3.12 或更高版本。
-2.  **安装依赖**: 使用 `pip` 安装项目所需的依赖包，例如 `Flask`, `pytest`, `requests`, `python-dotenv` 等。可以使用 `pip install -r requirements.txt` 安装所有依赖包。
+2.  **安装依赖**: 使用 `pip` 安装项目所需的依赖包，例如 `Flask`, `pytest`, `requests`, `python-dotenv`, `Jinja2` 等。可以使用 `pip install -r requirements.txt` 安装所有依赖包。
 3.  **配置虚拟环境**: 建议使用虚拟环境来管理项目依赖，避免不同项目之间的依赖冲突。例如使用 `venv`, 可以执行以下步骤创建和激活虚拟环境：
 
     ```bash
@@ -45,15 +45,17 @@ StroyPal/
 │   ├── utils/              # 工具函数
 │   │   ├── __init__.py
 │   │   ├── error_handling.py # 错误处理函数
-│   │   ├── api_key_auth.py   # API Key 认证
-│   │   ├── csv_import.py     # CSV 文件导入
-│   │   └── config.py         # 项目配置
+│   │   └── api_key_auth.py   # API Key 认证
 │   ├── api/                # API 路由
 │   │   ├── __init__.py
 │   │   ├── word_api.py       # 字词 API
 │   │   ├── scene_api.py      # 场景 API
 │   │   └── story_api.py      # 故事 API
-│   └── config.py           # 项目配置
+│   ├── config.py           # 项目配置
+│   └── data/               # 测试数据
+│       ├── words.json       # 字词数据
+│       ├── scenes.json      # 场景数据
+│       └── story.json       # 故事数据
 ├── tests/                   # 测试代码
 │   ├── __init__.py
 │   ├── conftest.py
@@ -108,7 +110,7 @@ StroyPal/
 ### 3.2 核心算法：生字率计算
 
 1.  **数据准备**：
-    *   **词汇表加载**:  从 `word.json` 文件中加载所有词汇数据到内存，构建一个 `known_words_dict`。
+    *   **词汇表加载**:  从 `app/data/words.json` 文件中加载所有词汇数据到内存，构建一个 `known_words_dict`。
     *   `known_words_dict` 的结构:
         *   Key 是字 (character)。
         *   Value 是一个集合 (set)， 包含该字在目标级别以下出现过的所有词性 (part of speech)。
@@ -117,11 +119,15 @@ StroyPal/
 
 2.  **文本预处理**：
     *   **提取中文**: 使用正则表达式提取文本中的所有中文字符。
-    *   **分词和词性标注**:  使用 `jieba.posseg.cut` 进行分词和词性标注。
+    *   **自定义分词**:  使用自定义的分词逻辑，将文本分割成词语和字， 使用最长匹配算法， 优先匹配更长的词语， 如果没有匹配到， 则按照单个字符进行切分。
+          *   自定义分词逻辑：
+            *    加载  `words.json`  中的所有词汇。
+            *  按词汇的长度从长到短进行排序，优先匹配最长的词汇。
+            *    遍历文本， 如果存在匹配的词汇，则将词汇和词性进行切分。 如果不存在匹配的词汇，则将字符和 “其他” 词性进行切分。
 
 3.  **生字率计算逻辑**：
     *   **遍历文本中的每个字符**：遍历文本中的每个字符 (character)，并获取其词性 (part of speech)。
-    *   **判断已知字**：如果一个字 (character) 存在于 `known_words_dict` 的 keys 中，并且该字的词性 (part of speech) 也存在于该字对应的 `known_words_dict` 的 value 中，则认为该字是已知字。
+    *   **判断已知字**: 如果一个字 (character) 存在于 `known_words_dict` 的 keys 中， 并且 该字对应的词性 (part of speech)  也在  `known_words_dict` 的 value 中, 或者在 `words.json` 中的 `characters` 字段的 `part_of_speech` 中，则认为该字是已知字。
     *   **生字计数**：统计文本中所有字的数量，以及已知字的个数。
     *   **生字率计算**：使用以下公式计算生字率和生字数量：
         *   **已知字率 = 已知字数 / 总字数**。 *其中，已知字数和总字数都不考虑去重，且不包含任何标点符号和非中文字符。*
@@ -133,7 +139,7 @@ StroyPal/
 ```mermaid
 graph LR
     A[开始] --> B(加载词汇表);
-    B --> C(文本预处理);
+    B --> C(文本预处理 - 自定义分词);
     C --> D{判断已知字?};
     D -- 是 --> E(已知字计数+1);
     D -- 否 --> F(跳过);
@@ -152,12 +158,25 @@ function calculate_literacy_rate(text, target_level):
   total_chinese_words = length(chinese_chars)
   known_words_count = 0
 
+  text_word_pos = custom_segment(text)
+
   for each char in chinese_chars:
-      char_pos =  get_char_and_pos(text, char)
-      if char_pos not None:
-            char_in_text, pos_in_text = char_pos
-            if char_in_text in known_words_dict and pos_in_text in known_words_dict[char_in_text]
-                  known_words_count = known_words_count + 1
+     char_pos = get_char_and_pos(text_word_pos, char)
+     if char_pos not None:
+          char_in_text, pos_in_text = char_pos
+          if char_in_text in known_words_dict and pos_in_text in known_words_dict[char_in_text]
+                 known_words_count = known_words_count + 1
+           else:
+                for word_model in words:
+                    if word_model.chaotong_level <= target_level and char_in_text == word_model.word:
+                        for char_data in word_model.characters:
+                            if char_data["character"] == char_in_text and char_data["part_of_speech"] in known_word_pos_dict[char_in_text] :
+                                  known_words_count = known_words_count + 1
+                                  break
+                        if is_known:
+                           break
+
+
 
   known_rate = known_words_count / total_chinese_words
   unknown_rate = 1 - known_rate
@@ -168,57 +187,105 @@ function calculate_literacy_rate(text, target_level):
 
 ```python
 import re
-import jieba
-import jieba.posseg as pseg
 
-def calculate_literacy_rate(text, target_level, known_word_pos_dict):
-  """
-  计算指定级别已知字率和生字率。
+def _custom_segment(self, text):
+    """
+    自定义分词函数
+    Args:
+        text: 待分词的文本字符串
+    Returns:
+        一个列表， 包含分词后的结果， 例如  [('你好', 'l'), ('，', 'x'), ('我', 'r'), ('喜欢', 'v'), ('跑步', 'n'), ('。', 'x')]
+    """
+    words = list(self.word_service.words.values())
+    words.sort(key=lambda word: len(word.word), reverse=True) # 按词语长度进行排序，从长到短
 
-  Args:
-    text: 待分析的文本字符串。
-    target_level: 目标级别 (整数)。
-    known_word_pos_dict: 字典，key为字，value为词性集合(set), 例如 {"好": {"a", "ad"}, "人": {"n"}, "学": {"v"}}
-  Returns:
-    一个包含已知字率和生字率的元组 (known_rate, unknown_rate)。
-  """
+    result = []
+    start = 0
+    while start < len(text):
+        matched = False
+        for word_model in words:
+            if text.startswith(word_model.word, start):
+                result.append((word_model.word, word_model.part_of_speech))
+                start += len(word_model.word)
+                matched = True
+                break
+        if not matched: # 处理没有匹配到的字符，默认为 "其他"
+            result.append((text[start], "其他"))
+            start += 1
+    return result
 
-  chinese_chars = re.findall(r'[\u4e00-\u9fff]', text)
-  total_chinese_words = len(chinese_chars)
+def _calculate_literacy_rate(self, text, target_level):
+    """
+    计算指定级别已知字率和生字率。
 
-  if total_chinese_words == 0:
-    return (1, 0)
+    Args:
+        text: 待分析的文本字符串。
+        target_level: 目标级别 (整数)。
+    Returns:
+        一个包含已知字率和生字率的元组 (known_rate, unknown_rate)。
+    """
+    known_word_pos_dict = self._load_known_words(target_level)
+    chinese_chars = re.findall(r"[\u4e00-\u9fff]", text)
+    total_chinese_words = len(chinese_chars)
 
-  known_words_count = 0
+    if total_chinese_words == 0:
+        return (1, 0)
 
-  # 使用 jieba.posseg.cut 进行分词和词性标注
-  seg_list = pseg.cut(text)
+    known_words_count = 0
 
-  # 模拟分词和词性标注， 假设已经完成
-  text_word_pos = {}
-  # 这部分代码需要根据实际情况调整
-  start = 0
+    # 使用自定义分词
+    seg_list = self._custom_segment(text)
+    text_word_pos = {}
+    start = 0
+    for word, flag in seg_list:
+         for i in range(len(word)):
+             text_word_pos[start] = (word[i], flag)
+             start += 1
+    
+    for i in range(len(chinese_chars)):
+       char = chinese_chars[i]
+       char_pos = text_word_pos.get(i)
+       if char_pos is not None:
+           char_in_text, pos_in_text = char_pos
+           is_known = False
+           if char_in_text in known_word_pos_dict:
+              if pos_in_text in known_word_pos_dict[char_in_text]:
+                   is_known = True
+              else:
+                   for word_model in self.word_service.words.values():
+                       if word_model.chaotong_level <= target_level and char_in_text == word_model.word:
+                            for char_data in word_model.characters:
+                                if char_data["character"] == char_in_text and char_data["part_of_speech"] in known_word_pos_dict[char_in_text] :
+                                    is_known = True
+                                    break
+                            if is_known:
+                               break
 
-  for word, flag in seg_list:
-    for i in range(len(word)):
-        text_word_pos[start] = (word[i], flag)
-        start += 1
+           if is_known:
+            known_words_count += 1
 
+    known_rate = known_words_count / total_chinese_words
+    unknown_rate = 1 - known_rate
+    return (known_rate, unknown_rate)
 
-  for i in range(len(chinese_chars)):
-    char = chinese_chars[i]
-    char_pos = text_word_pos.get(i)
-    if char_pos is not None:
-      char_in_text, pos_in_text = char_pos
-
-      # 如果字在已知字词典中，并且词性也在该字的已知词性集合中，则认为是已知字
-      if known_word_pos_dict.get(char_in_text) and pos_in_text in known_word_pos_dict.get(char_in_text):
-        known_words_count += 1
-
-  known_rate = known_words_count / total_chinese_words
-  unknown_rate = 1 - known_rate
-
-  return (known_rate, unknown_rate)
+def _load_known_words(self, target_level):
+    """
+    加载小于等于目标级别的所有词汇。
+    Args:
+        target_level: 目标级别 (整数)。
+    Returns:
+        一个字典，key为字，value为词性集合(set), 例如 {"好": {"a", "ad"}, "人": {"n"}, "学": {"v"}}
+    """
+    known_words_dict = {}
+    for word_model in self.word_service.words.values():
+        if word_model.chaotong_level <= target_level:
+            for char_data in word_model.characters:
+                char = char_data["character"]
+                part_of_speech = char_data["part_of_speech"]
+                if char not in known_words_dict:
+                   known_words_dict[char] = set()
+                known_words_dict[char].add(part_of_speech)
+    return known_words_dict
 ```
 
 ## 4. 开发步骤
@@ -240,8 +307,11 @@ def calculate_literacy_rate(text, target_level, known_word_pos_dict):
 ### 4.3 服务层开发
 
 1.  **创建服务**: 在 `app/services` 目录下创建业务逻辑服务文件，例如 `word_service.py`、`scene_service.py` 和 `story_service.py`。
-2.  **实现业务逻辑**: 在服务层实现业务逻辑，例如故事的生成、字词的查询、场景的管理。 **核心的生字率计算算法应该在这里实现， 可以参考 `3.2 核心算法：生字率计算`, `3.3 生字率检测流程图` `3.4 伪代码` 和 `3.5 示例代码`。**
-      *  **多轮对话**:  实现多轮对话的逻辑， 根据 `prompt_engineering.md` 中定义的模板， 构建提示语。 **使用状态机管理对话流程，根据用户的反馈动态调整对话策略。**
+2.  **实现业务逻辑**: 在服务层实现业务逻辑，例如故事的生成、字词的查询、场景的管理。
+    *    **自定义分词**:  使用  `_custom_segment` 函数实现自定义分词。
+    *   **核心的生字率计算算法应该在这里实现， 可以参考 `3.2 核心算法：生字率计算`， `3.3 生字率检测流程图`, `3.4 伪代码` 和  `3.5 示例代码`。
+    *  **修改  `_load_known_words` 方法**:  使用 `words.json`  中 `characters` 字段的词性。
+        *    **多轮对话**:  实现多轮对话的逻辑， 根据 `prompt_engineering.md` 中定义的模板， 构建提示语。 **使用状态机管理对话流程，根据用户的反馈动态调整对话策略。**
        *   **验证**:  实现故事的验证逻辑，包括生字率验证、重点词汇验证和字数验证。 计算 `new_char_rate` 和 `new_char`。
 3.  **调用模型层**:  服务层应调用模型层的方法来操作数据。
 4.  **添加单元测试**: 在 `tests/services` 目录下创建单元测试，验证业务逻辑的正确性。
@@ -330,52 +400,7 @@ def calculate_literacy_rate(text, target_level, known_word_pos_dict):
 ### 4.6 配置管理
 
 1.  **配置 `config.py`**:  在 `app/config.py` 文件中定义项目配置，并使用 `python-dotenv` 加载 `.env` 文件中的环境变量。 **请参考 `docs/config.md` 文件，了解如何配置和使用**。
-
-    ```python
-    # app/config.py
-    import os
-    from dotenv import load_dotenv
-
-    load_dotenv()  # 加载 .env 文件
-
-    class Config:
-        # 获取 API Key
-        API_KEY = os.getenv("API_KEY")
-        DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
-        # 如果是开发环境，可以设置 DEBUG = True
-        DEBUG = os.getenv("DEBUG", False) == "True"
-        # 配置其他
-        # 生字率容差值
-        NEW_CHAR_RATE_TOLERANCE = float(os.getenv("NEW_CHAR_RATE_TOLERANCE", 0.1))
-        # 字数容差值
-        WORD_COUNT_TOLERANCE = float(os.getenv("WORD_COUNT_TOLERANCE", 0.2))
-        # API 请求频率限制
-        REQUEST_LIMIT = int(os.getenv("REQUEST_LIMIT", 100))
-
-        # 故事字数容差值
-        STORY_WORD_COUNT_TOLERANCE = int(os.getenv("STORY_WORD_COUNT_TOLERANCE", 20))
-        # 加载词汇数据的路径
-        WORDS_FILE_PATH = os.getenv("WORDS_FILE_PATH", "app/data/words.json")
-        SCENES_FILE_PATH = os.getenv("SCENES_FILE_PATH", "app/data/scenes.json")
-    
-    def get_api_key_from_config():
-        return Config.API_KEY
-    ```
 2.  **在代码中使用配置**:  使用 `app/config.py` 中的配置项。
-
-    ```python
-    from app.config import Config
-
-    api_key = Config.API_KEY
-    deepseek_key = Config.DEEPSEEK_API_KEY
-    debug = Config.DEBUG
-    new_char_rate_tolerance = Config.NEW_CHAR_RATE_TOLERANCE
-    word_count_tolerance = Config.WORD_COUNT_TOLERANCE
-    request_limit = Config.REQUEST_LIMIT
-    story_word_count_tolerance = Config.STORY_WORD_COUNT_TOLERANCE
-    words_file_path = Config.WORDS_FILE_PATH
-    scenes_file_path = Config.SCENES_FILE_PATH
-    ```
 3.  **配置文件说明**:
     *   `.env` 文件存储敏感信息，例如 API Key, DeepSeek API Key， 以及一些可配置的参数（生字率容差值，字数容差值, API 请求频率限制, 字数容差值）。
     *   `config.py`  文件加载 `.env` 中的环境变量，并使用 `Config` 类来获取配置参数。

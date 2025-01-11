@@ -2,14 +2,12 @@
 import logging
 import re
 import json
-import jieba
-import jieba.posseg as pseg
 from jinja2 import Environment, FileSystemLoader
 from app.config import Config
 from app.models.story_model import StoryModel
 from app.services.word_service import WordService
 from app.services.scene_service import SceneService
-from openai import OpenAI 
+from openai import OpenAI
 from uuid import uuid4
 
 
@@ -19,9 +17,37 @@ class StoryService:
         self.scene_service = SceneService()
         self.deepseek_api = OpenAI(
             api_key=Config.DEEPSEEK_API_KEY, base_url="https://api.deepseek.com"
-        )  # 修改这里
+        )
         self.template_env = Environment(loader=FileSystemLoader("app/templates"))
         self.messages = []  # 用于存储多轮对话的上下文
+
+    def _custom_segment(self, text):
+        """
+        自定义分词函数
+        Args:
+            text: 待分词的文本字符串
+        Returns:
+            一个列表， 包含分词后的结果， 例如  [('你好', 'l'), ('，', 'x'), ('我', 'r'), ('喜欢', 'v'), ('跑步', 'n'), ('。', 'x')]
+        """
+        words = list(self.word_service.words.values())
+        words.sort(
+            key=lambda word: len(word.word), reverse=True
+        )  # 按词语长度进行排序，从长到短
+
+        result = []
+        start = 0
+        while start < len(text):
+            matched = False
+            for word_model in words:
+                if text.startswith(word_model.word, start):
+                    result.append((word_model.word, word_model.part_of_speech))
+                    start += len(word_model.word)
+                    matched = True
+                    break
+            if not matched:  # 处理没有匹配到的字符，默认为 "其他"
+                result.append((text[start], "其他"))
+                start += 1
+        return result
 
     def _calculate_literacy_rate(self, text, target_level):
         """
@@ -34,7 +60,6 @@ class StoryService:
             一个包含已知字率和生字率的元组 (known_rate, unknown_rate)。
         """
         known_word_pos_dict = self._load_known_words(target_level)
-
         chinese_chars = re.findall(r"[\u4e00-\u9fff]", text)
         total_chinese_words = len(chinese_chars)
 
@@ -42,13 +67,9 @@ class StoryService:
             return (1, 0)
 
         known_words_count = 0
-
-        # 使用 jieba.posseg.cut 进行分词和词性标注
-        seg_list = pseg.cut(text)
-
-        # 模拟分词和词性标注， 假设已经完成
+        # 使用自定义分词
+        seg_list = self._custom_segment(text)
         text_word_pos = {}
-        # 这部分代码需要根据实际情况调整
         start = 0
 
         for word, flag in seg_list:
@@ -59,16 +80,31 @@ class StoryService:
         for i in range(len(chinese_chars)):
             char = chinese_chars[i]
             char_pos = text_word_pos.get(i)
+
             if char_pos is not None:
                 char_in_text, pos_in_text = char_pos
-                if known_word_pos_dict.get(
-                    char_in_text
-                ) and pos_in_text in known_word_pos_dict.get(char_in_text):
+                is_known = False
+                if char_in_text in known_word_pos_dict:
+                    if pos_in_text in known_word_pos_dict[char_in_text]:
+                        is_known = True
+                    else:
+                        for word_model in self.word_service.words.values():
+                            if word_model.chaotong_level <= target_level:
+                                for char_data in word_model.characters:
+                                    if (
+                                        char_data["character"] == char_in_text
+                                        and char_data["part_of_speech"]
+                                        in known_word_pos_dict[char_in_text]
+                                    ):
+                                        is_known = True
+                                        break
+                                if is_known:
+                                    break
+                if is_known:
                     known_words_count += 1
 
         known_rate = known_words_count / total_chinese_words
         unknown_rate = 1 - known_rate
-
         return (known_rate, unknown_rate)
 
     def _load_known_words(self, target_level):
@@ -176,9 +212,9 @@ class StoryService:
         try:
             ai_response = self.deepseek_api.chat.completions.create(
                 model="deepseek-chat", messages=prompt_messages
-            )  # 修改这里
+            )
             ai_content = ai_response.choices[0].message.content
-            story_data = json.loads(ai_content)  # 解析返回的JSON数据
+            story_data = json.loads(ai_content)
         except Exception as e:
             logging.error(f"Failed to generate story: {e}")
             return None

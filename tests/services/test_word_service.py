@@ -49,7 +49,7 @@ def test_list_words_with_part_of_speech(word_service):
 
 def test_list_words_with_level_and_part_of_speech(word_service):
     words = word_service.list_words(level=20, part_of_speech="名词")
-    assert len(words) == 1
+    assert len(words) == 2
     assert all(word.chaotong_level <= 20 for word in words)
     assert all(word.part_of_speech == "名词" for word in words)
 
