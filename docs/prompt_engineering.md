@@ -25,7 +25,7 @@
 
 请注意以下要求：
 1.  故事应该发生在：{scene_description}
-2.  故事应该使用适合 {vocabulary_level} 级别的词汇， 目标生字率在 {new_char_rate} 左右。
+2.  故事应该使用适合 {vocabulary_level} 级别的词汇， 目标生字率在 {new_char_rate} 左右。 请注意控制故事的生字率 (`new_char_rate`) 和 生字数量 (`new_char`)。
 3.  故事的字数应该在 {word_count_min} 到 {word_count_max} 字之间。
 4.  故事中必须包含以下重点词汇:
         {key_words}
@@ -150,7 +150,7 @@
 1.  **第一轮对话 (初始提示语)**:
     *   使用 **初始提示语模板**，提供故事场景、目标词汇级别、字数范围、目标生字率、重点词汇等基本要求，并明确 AI 的角色和目标。
     *  明确要求 AI 返回 JSON 格式数据， 包括 `title`，`content`，和 `key_words`。
-    *   不包含 `new_char_rate` 和 `new_char` 的要求，这些将在后续的验证阶段计算。
+    *  **提示 AI 生成故事时，注意 `new_char_rate` 和 `new_char`。**
 
 2.  **第二轮对话 (提供已知词汇)**:
     *   根据 `vocabulary_level` 加载已知词汇列表。
@@ -172,6 +172,15 @@
 7.  **JSON 写入**:
     *   如果验证通过， 构建符合规范的 JSON 响应， 添加 `new_char_rate` 和 `new_char`。
     *  **多轮对话的流程使用状态机进行管理， 根据用户的反馈动态调整对话策略**
+
+     *   **状态机:**  使用一个简单的状态枚举来表示对话状态，例如 `INIT`, `PROVIDE_KNOWN_WORDS`, `FINAL_INSTRUCTION`。
+        *   **对话策略：**
+            1.  **`INIT` 状态**: 发送初始提示语模板。
+            2.  **`PROVIDE_KNOWN_WORDS` 状态**:  根据 `vocabulary_level` 加载已知词汇，并添加到提示语中。
+            3.  **`FINAL_INSTRUCTION` 状态**:  发送最终指令，并等待 AI 生成故事。
+            4.  **状态转移**: 根据 AI 的回复和用户的反馈，进行状态转移。例如，在 `INIT` 状态收到回复后，转移到 `PROVIDE_KNOWN_WORDS` 状态。在 `PROVIDE_KNOWN_WORDS` 状态收到回复后，转移到 `FINAL_INSTRUCTION` 状态。
+        *   **多轮对话控制:** 使用一个 `messages` 列表来管理对话的上下文，每次发送提示语时，将之前的对话历史也发送给 AI。
+        *  **用户反馈调整：** 在 `FINAL_INSTRUCTION` 状态收到 AI 的回复后，进行故事验证， 如果验证不通过， 重新回到 `INIT` 状态，重新生成故事。
 
 ## 6. 最佳实践
 
@@ -209,5 +218,3 @@
 ## 7. 总结
 
 提示语工程是控制 AI 生成故事质量的关键。通过遵循清晰、具体、简洁和可控的设计原则，使用动态的模板引擎，多轮对话策略，**使用状态机管理对话流程**，并结合多次尝试和迭代优化，我们可以生成高质量的故事，满足用户的需求。
-
-
