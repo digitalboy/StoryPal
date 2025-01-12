@@ -103,31 +103,34 @@ StroyPal/
     *   **重要性**：生字率是衡量文本难度的一个关键指标，直接影响学习者的阅读体验和学习效果。
 
 4.  **已知字 (Known Character) 和 生字 (New Character)**：
-    *   **已知字**：在指定目标级别及其以下级别中，所有词汇包含的字，被认为是已知字。
-    *   **生字**：在指定目标级别及其以下级别中，所有词汇不包含的字，被认为是生字。
+    *   **已知字**：在指定目标级别及其以下级别中，所有词汇包含的字，被认为是已知字。需要考虑词性，如果一个字在该词性下，出现在目标级别以下的词汇中，则认为是已知字。
+    *   **生字**：在指定目标级别及其以下级别中，所有词汇不包含的字，被认为是生字。 需要考虑词性，如果一个字在该词性下，没有出现在目标级别以下的词汇中，则认为是生字。
     *   **词性影响**: 同一个字，如果在不同词性的词语中出现，如果词性的词语不在已知词汇中，那么这个字也属于生字。例如 “白” 字，在 “白色” 中是形容词，在“白说”中是动词，如果只知道“白色”，那么 “白说” 中的 “白” 属于生字。
 
 ### 3.2 核心算法：生字率计算
 
 1.  **数据准备**：
-    *   **词汇表加载**:  从 `app/data/words.json` 文件中加载所有词汇数据到内存，构建一个 `known_words_dict`。
-    *   `known_words_dict` 的结构:
+    *   **词汇表加载**:  从 `app/data/words.json` 文件中加载所有词汇数据到内存，构建一个 `words_dict` 和 `known_words_dict`。
+    *    **`words_dict` 的结构**:
+          * Key 是词 (word) 字符串。
+          * Value 是一个  `WordModel` 对象。
+    *   **`known_words_dict` 的结构**:
         *   Key 是字 (character)。
         *   Value 是一个集合 (set)， 包含该字在目标级别以下出现过的所有词性 (part of speech)。
-        *   例如: `{"好": {"a", "ad"}, "人": {"n"}, "学": {"v"}}`
+        *   例如: `{"好": {"ADJ"}, "人": {"n"}, "学": {"v"}}`
         *   只加载 `chaotong_level` 小于等于目标级别的词汇。
 
 2.  **文本预处理**：
     *   **提取中文**: 使用正则表达式提取文本中的所有中文字符。
-    *   **自定义分词**:  使用自定义的分词逻辑，将文本分割成词语和字， 使用最长匹配算法， 优先匹配更长的词语， 如果没有匹配到， 则按照单个字符进行切分。
+    *   **自定义分词**:  使用自定义的分词逻辑，将文本分割成词语和字， 使用最长匹配算法， 优先匹配更长的词语， 如果没有匹配到， 则使用 `jieba` 分词进行处理，并进行词性转换。
           *   自定义分词逻辑：
-            *    加载  `words.json`  中的所有词汇。
+            *    加载  `words.json`  中的所有词汇， 构建 `words_dict`。
             *  按词汇的长度从长到短进行排序，优先匹配最长的词汇。
-            *    遍历文本， 如果存在匹配的词汇，则将词汇和词性进行切分。 如果不存在匹配的词汇，则将字符和 “其他” 词性进行切分。
+            *    遍历文本， 如果存在匹配的词汇，则将词汇和词性进行切分。 如果不存在匹配的词汇，则使用 `jieba` 分词，并添加词性转换后的词性和字到结果列表中。
 
 3.  **生字率计算逻辑**：
     *   **遍历文本中的每个字符**：遍历文本中的每个字符 (character)，并获取其词性 (part of speech)。
-    *   **判断已知字**: 如果一个字 (character) 存在于 `known_words_dict` 的 keys 中， 并且 该字对应的词性 (part of speech)  也在  `known_words_dict` 的 value 中, 或者在 `words.json` 中的 `characters` 字段的 `part_of_speech` 中，则认为该字是已知字。
+     *   **使用 `known_words_dict` 判断已知字**: 如果一个字 (character) 存在于 `known_words_dict` 的 keys 中， 并且 该字对应的词性 (part of speech)  也在  `known_words_dict` 的 value 中, 或者在 `words.json` 中的 `characters` 字段的 `part_of_speech` 中，则认为该字是已知字。
     *   **生字计数**：统计文本中所有字的数量，以及已知字的个数。
     *   **生字率计算**：使用以下公式计算生字率和生字数量：
         *   **已知字率 = 已知字数 / 总字数**。 *其中，已知字数和总字数都不考虑去重，且不包含任何标点符号和非中文字符。*
@@ -187,6 +190,44 @@ function calculate_literacy_rate(text, target_level):
 
 ```python
 import re
+import jieba
+import jieba.posseg
+
+JIEBA_POS_MAP = {
+            'n': 'n',      # 名词
+            'v': 'v',      # 动词
+            'a': 'a',      # 形容词
+            'd': 'd',      # 副词
+            'p': 'PREP',    # 介词
+            'c': 'CONJ',    # 连词
+            'u': 'PART',   # 助词
+            'm': 'NUM',      # 数词
+            'q': 'MW',     # 量词
+            'r': 'PR',    # 代词
+            'f': 'f',      # 方位词
+            's': 's',     # 处所词
+            't': 't',      # 时间词
+            'l': 'OTHER',  # 临时语素, 转换为 '其他'
+            'x': 'x',  # 标点符号
+            'PER': 'PER', # 人名
+            'LOC': 'LOC', # 地名
+            'ORG': 'ORG', # 机构名
+            'ADJ': 'ADJ',
+            'ADV': 'ADV',
+            "PR": "PR",
+            "NUM": "NUM",
+            "MW": "MW",
+            "PREP": "PREP",
+             "CONJ": "CONJ",
+            "PART": "PART",
+            'eng': 'OTHER',   # 英文，转换为 '其他'
+        }
+
+def map_jieba_pos(jieba_pos):
+    """
+    将 jieba 词性转换为 words.json 中的词性
+    """
+    return JIEBA_POS_MAP.get(jieba_pos, "OTHER") # 如果不存在，默认设置为 '其他'
 
 def _custom_segment(self, text):
     """
@@ -194,7 +235,7 @@ def _custom_segment(self, text):
     Args:
         text: 待分词的文本字符串
     Returns:
-        一个列表， 包含分词后的结果， 例如  [('你好', 'l'), ('，', 'x'), ('我', 'r'), ('喜欢', 'v'), ('跑步', 'n'), ('。', 'x')]
+        一个列表， 包含分词后的结果， 例如  [('你好', 'v'), ('，', 'x'), ('我', 'r'), ('喜欢', 'v'), ('跑步', 'n'), ('。', 'x')]
     """
     words = list(self.word_service.words.values())
     words.sort(key=lambda word: len(word.word), reverse=True) # 按词语长度进行排序，从长到短
@@ -209,9 +250,16 @@ def _custom_segment(self, text):
                 start += len(word_model.word)
                 matched = True
                 break
-        if not matched: # 处理没有匹配到的字符，默认为 "其他"
-            result.append((text[start], "其他"))
-            start += 1
+        if not matched: # 如果没有匹配的词，则使用 jieba 分词，并转换词性
+            jieba_words = jieba.cut(text[start:])
+            for jieba_word in jieba_words:
+                if jieba_word.strip(): # 过滤掉空格
+                    jieba_pos = jieba.posseg.cut(jieba_word)
+                    for word, flag in jieba_pos:
+                       result.append((word, map_jieba_pos(flag)))
+            start += len(text[start:])
+            matched = True  #  使用 jieba 之后，跳出当前的循环
+
     return result
 
 def _calculate_literacy_rate(self, text, target_level):
@@ -241,7 +289,7 @@ def _calculate_literacy_rate(self, text, target_level):
          for i in range(len(word)):
              text_word_pos[start] = (word[i], flag)
              start += 1
-    
+
     for i in range(len(chinese_chars)):
        char = chinese_chars[i]
        char_pos = text_word_pos.get(i)
@@ -286,7 +334,43 @@ def _load_known_words(self, target_level):
                    known_words_dict[char] = set()
                 known_words_dict[char].add(part_of_speech)
     return known_words_dict
+
+def load_jieba_userdict(self):
+    """
+    加载自定义词典
+    """
+    for word_model in self.word_service.words.values():
+      jieba.add_word(word_model.word, tag=map_jieba_pos(word_model.part_of_speech) )
+
+
 ```
+### 3.6 多轮对话策略
+
+1.  **第一轮对话 (初始提示语)**:
+    *   使用 **初始提示语模板**，提供故事场景、目标词汇级别、字数范围、目标生字率、重点词汇等基本要求，并明确 AI 的角色和目标。
+    *  明确要求 AI 返回 JSON 格式数据， 包括 `title`，`content`，和 `key_words`。
+    *   不包含 `new_char_rate` 和 `new_char` 的要求，这些将在后续的验证阶段计算。 提示 AI 生成故事时，注意 `new_char_rate` 和 `new_char`。
+
+2.  **第二轮对话 (提供已知词汇)**:
+    *   根据 `vocabulary_level` 加载已知词汇列表。
+    *   如果已知词汇数量过多，可以选择分批次提供，或者只提供一定数量的示例。
+    *   使用 **提供已知词汇模板**，将已知词汇列表添加到第二轮提示语中。
+     *  在第二轮提示语中，如果重点词汇在已知词汇中， 可以适当调整重点词汇列表，确保故事包含一些新的挑战。
+
+3.  **第三轮对话 (如果需要)**:
+     *   **如果第二轮仍然提供太多的已知词汇， 可以进一步分割，分多轮提供**
+     *  **根据第二轮的反馈**， 调整提示语， 例如：“请你注意，上轮提供的已知词汇不是所有都要使用， 只是供你参考。”
+
+4.  **最终指令**:
+    *   在最后一轮，给 AI 一个最终指令: `"请你根据以上需求，编写故事。"`
+5.  **DeepSeek API 的使用**:
+    *   **上下文管理**: 使用 `messages` 列表来管理对话上下文，在每轮对话后，将 AI 的回复添加到 `messages` 列表中。
+    *   **调用 API**:  使用 `client.chat.completions.create` 函数调用 DeepSeek API。
+6.  **故事验证**:
+    *   在最后一轮对话后，使用我们之前的验证逻辑（包括生字率验证、重点词汇验证和字数验证）验证 AI 生成的故事。
+7.  **JSON 写入**:
+    *   如果验证通过， 构建符合规范的 JSON 响应， 添加 `new_char_rate` 和 `new_char`。
+    *  **多轮对话的流程使用状态机进行管理， 根据用户的反馈动态调整对话策略**
 
 ## 4. 开发步骤
 
@@ -312,6 +396,14 @@ def _load_known_words(self, target_level):
     *   **核心的生字率计算算法应该在这里实现， 可以参考 `3.2 核心算法：生字率计算`， `3.3 生字率检测流程图`, `3.4 伪代码` 和  `3.5 示例代码`。
     *  **修改  `_load_known_words` 方法**:  使用 `words.json`  中 `characters` 字段的词性。
         *    **多轮对话**:  实现多轮对话的逻辑， 根据 `prompt_engineering.md` 中定义的模板， 构建提示语。 **使用状态机管理对话流程，根据用户的反馈动态调整对话策略。**
+            *   **状态机:**  使用一个简单的状态枚举来表示对话状态，例如 `INIT`, `PROVIDE_KNOWN_WORDS`, `FINAL_INSTRUCTION`。
+            *   **对话策略：**
+                1.  **`INIT` 状态**: 发送初始提示语模板。
+                2.  **`PROVIDE_KNOWN_WORDS` 状态**:  根据 `vocabulary_level` 加载已知词汇，并添加到提示语中。
+                3.  **`FINAL_INSTRUCTION` 状态**:  发送最终指令，并等待 AI 生成故事。
+                4.  **状态转移**: 根据 AI 的回复和用户的反馈，进行状态转移。例如，在 `INIT` 状态收到回复后，转移到 `PROVIDE_KNOWN_WORDS` 状态。在 `PROVIDE_KNOWN_WORDS` 状态收到回复后，转移到 `FINAL_INSTRUCTION` 状态。
+            * **多轮对话控制:** 使用一个 `messages` 列表来管理对话的上下文，每次发送提示语时，将之前的对话历史也发送给 AI。
+            *  **用户反馈调整：** 在 `FINAL_INSTRUCTION` 状态收到 AI 的回复后，进行故事验证， 如果验证不通过， 重新回到 `INIT` 状态，重新生成故事。
        *   **验证**:  实现故事的验证逻辑，包括生字率验证、重点词汇验证和字数验证。 计算 `new_char_rate` 和 `new_char`。
 3.  **调用模型层**:  服务层应调用模型层的方法来操作数据。
 4.  **添加单元测试**: 在 `tests/services` 目录下创建单元测试，验证业务逻辑的正确性。
@@ -328,7 +420,7 @@ def _load_known_words(self, target_level):
     *   **故事生成 API**:
         *   **URL**: `/v1/stories/generate`
         *   **Method**: `POST`
-        *   **请求参数**:  `vocabulary_level` (integer, 必填), `scene_id` (string, 必填), `story_word_count` (integer, 必填), `new_char_rate` (float, 必填), `key_word_ids` (array of string, 可选)。
+        *   **请求参数**:  `vocabulary_level` (integer, 必填), `scene_id` (string, 必填), `story_word_count` (integer, 必填), `new_char_rate` (float, 必填), `key_word_ids` (array of string, 可选), `new_char_rate_tolerance` (float, 可选), `word_count_tolerance` (float, 可选),  `story_word_count_tolerance` (integer, 可选), `request_limit` (integer, 可选)。
         *  **响应**: 返回生成的 `story_id`， 以及其他故事详情。
     *   **字词查询 API**:
          *   **URL**: `/v1/words`
@@ -353,6 +445,7 @@ def _load_known_words(self, target_level):
            *   **URL**: `/v1/stories/{story_id}/adjust`
            *  **Method**: `POST`
            *  **请求参数**: `target_level` (integer, 必填)
+           *  **注意**:  `key_words` 字段暂时不提供，返回空列表。
 3.  **调用服务层**:  API 层应调用服务层的方法来处理请求。
 4.  **处理错误**:  使用 `app/utils/error_handling.py` 中提供的 `handle_error` 函数统一处理 API 的错误，确保错误码和错误信息与 API 设计指南一致。
 5.  **数据验证**: 在API 层， 需要对输入的数据进行验证，例如:  `vocabulary_level` 的取值范围， `new_char_rate` 的取值范围， 字数范围，以及 `NEW_CHAR_RATE_TOLERANCE`, `WORD_COUNT_TOLERANCE`, `REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 的值，可以使用 JSON Schema 进行验证， 确保数据类型和格式的正确性。API 请求参数的优先级高于 `.env` 文件中的配置。 **在 API 层对 `NEW_CHAR_RATE_TOLERANCE`、`WORD_COUNT_TOLERANCE`、`REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 进行类型验证**
@@ -405,6 +498,7 @@ def _load_known_words(self, target_level):
     *   `.env` 文件存储敏感信息，例如 API Key, DeepSeek API Key， 以及一些可配置的参数（生字率容差值，字数容差值, API 请求频率限制, 字数容差值）。
     *   `config.py`  文件加载 `.env` 中的环境变量，并使用 `Config` 类来获取配置参数。
     *   **重要**:  `NEW_CHAR_RATE_TOLERANCE`, `WORD_COUNT_TOLERANCE`, `REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 的值也可以通过 API 请求参数动态设置， API 请求参数的优先级高于 `.env` 文件中的值。 详细信息请参考 `docs/config.md`
+    *  **在 API 层需要对 `NEW_CHAR_RATE_TOLERANCE`、`WORD_COUNT_TOLERANCE`、`REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 进行类型验证**
 
 ### 4.7 日志记录
 
@@ -428,7 +522,18 @@ def _load_known_words(self, target_level):
             logging.info("Story generated successfully")
             return
         except Exception as e:
-            logging.error(f"Error while generating story {e}")
+            logging.python
+    import logging
+
+    def generate_story():
+        logging.info("Start generate story")
+        try:
+            # 代码逻辑
+            logging.info("Story generated successfully")
+            return
+        except Exception as e:
+            logging.```python
+error(f"Error while generating story {e}")
             raise e
     ```
 
@@ -484,7 +589,14 @@ def _load_known_words(self, target_level):
               python-version: "3.12"
           - name: Install dependencies
             run: |
-              python -m pip install --upgrade pip
+              python -m pip install --upgrade pip3
+          - name: Set up Python 3.12
+            uses: actions/setup-python@v4
+            with:
+              python-version: "3.12"
+          - name: Install dependencies
+            run: |
+              python -m pip install --upgrade 
               pip install -r requirements.txt
           - name: Run tests
             run: |
@@ -507,6 +619,15 @@ def _load_known_words(self, target_level):
 ## 6. 开发中的注意事项
 
 *   **保持代码简洁**:  尽量保持代码简洁易懂，避免使用过于复杂的结构或算法。
+*   **及时沟通**:  在开发过程中，及时与团队成员沟通，解决开发使用版本控制**:  使用 Git 进行代码版本控制。
+
+## 7. 开发中的注意事项
+
+*   **保持代码简洁**:  尽量保持代码简洁易懂，避免使用过于复杂的结构或算法。
+*   **及时沟通**:  在开发过程中，及时与团队成员沟通，解决开发使用版本控制**:  使用 Git 进行代码版本控制。
+
+## 8. 开发中的注意事项
+
+*   **保持代码简洁**:  尽量保持代码简洁易懂，避免使用过于复杂的结构或算法。
 *   **及时沟通**:  在开发过程中，及时与团队成员沟通，解决开发中遇到的问题。
 *   **及时更新文档**: 确保文档与代码保持同步。
-

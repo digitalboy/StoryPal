@@ -1,3 +1,6 @@
+好的，这是更新后的 `error_codes.md` 文档。我根据之前的讨论，细化了错误码的定义，并提供了更详细的错误处理说明。
+
+```markdown
 # 错误码说明
 
 ## 1. 概述
@@ -13,6 +16,7 @@
 -   `401`: 未授权
 -   `403`: 禁止访问
 -   `404`: 资源未找到
+-  `409`: 冲突
 -   `422`: 请求参数验证失败
 -   `429`: 请求过多
 -   `500`: 服务器内部错误
@@ -27,7 +31,9 @@
 | ------ | ------------------------------ | --------------------------------------------------------------------- |
 | 4001   | 缺少必填字段                   | 请求参数中缺少必要的字段。                                                |
 | 4002   | 字段类型错误                   | 请求参数中的字段类型错误，例如期望整数但传入了字符串。                                |
-| 4003   | 字段值超出范围                 | 请求参数中的字段值超出允许的范围，例如生字率大于 1 或小于 0。                                |
+| 4003   | 字段值超出范围                 | 请求参数中的字段值超出允许的范围，例如生字率大于 1 或小于 0，或者目标级别小于 1 或者大于 100。                                |
+| 4004 |  无效的 UUID                    |   请求参数中的 UUID 格式不正确。                                  |
+| 4005  |  分页参数错误        | 请求参数中的分页参数错误，例如 页码或每页数量为负数。                               |
 
 ### 3.2 认证错误 (401 - 401x)
 
@@ -50,21 +56,28 @@
 | 4042   | 字词未找到                     | 请求的字词不存在。                                                    |
 | 4043   | 故事未找到                     | 请求的故事不存在。                                                    |
 
-### 3.5 请求参数验证失败 (422 - 422x)
+### 3.5 冲突错误 (409 - 409x)
+
+| 错误码 | 描述                           | 详细说明                                                              |
+| ------ | ------------------------------ | --------------------------------------------------------------------- |
+| 4091 | 场景已存在   |   要创建的场景已存在。                               |
+
+### 3.6 请求参数验证失败 (422 - 422x)
 
 | 错误码 | 描述                           | 详细说明                                                              |
 | ------ | ------------------------------ | --------------------------------------------------------------------- |
 | 4221   | 生字率超出范围                 | 请求的生字率超出允许的范围 (0-1)。                                          |
 | 4222   | 目标级别超出范围               | 请求的目标级别超出允许的范围 (1-100)。                                    |
 | 4223  |  故事字数超出范围             |   请求的故事字数超出范围。                                               |
+| 4224  |   重点词汇ID列表为空        |   请求的重点词汇ID列表为空， 但是重点词汇为必填参数。       |
 
-### 3.6 请求频率限制 (429 - 429x)
+### 3.7 请求频率限制 (429 - 429x)
 
 | 错误码 | 描述                           | 详细说明                                                              |
 | ------ | ------------------------------ | --------------------------------------------------------------------- |
 | 4291   | 请求过于频繁                 | 请求频率超出限制，需等待一段时间后重试。                               |
 
-### 3.7 服务器内部错误 (500 - 500x)
+### 3.8 服务器内部错误 (500 - 500x)
 
 | 错误码 | 描述                           | 详细说明                                                              |
 | ------ | ------------------------------ | --------------------------------------------------------------------- |
@@ -75,6 +88,7 @@
 | 5005   |  未知错误             |  未知的服务器错误， 请联系管理员。                                                  |
 | 5006 | AI 服务调用失败       | 调用 AI 服务生成故事时发生错误。                                               |
 | 5007  |  重点词汇不存在                |   请求的重点词汇在词汇表中不存在。                                        |
+| 5008   | 自定义分词失败          |     自定义分词过程中发生错误。                                                 |
 
 ## 4. 错误响应格式
 
@@ -123,79 +137,23 @@
     -   对于频率限制错误（429），在响应头中提供 `Retry-After` 字段，指示客户端何时可以重试。
 5.  **日志记录**：
     -   服务器端应记录详细的错误日志，包括请求参数、用户信息和堆栈跟踪，便于排查问题。
+6. **使用 `handle_error` 函数**:
+    * 在 API 层，应该使用 `app/utils/error_handling.py` 中提供的 `handle_error` 函数统一处理 API 的错误。
+    * 示例:
+       ```python
+        from app.utils.error_handling import handle_error
+        def generate_story():
+            try:
+                # your code
+                 pass
+             except Exception as e:
+                return handle_error(5001, f"Internal server error: {str(e)}")
+
+       ```
 
 ## 6. 错误处理示例
 
 在 `docs/api.md` 中有详细的错误处理示例。
 
-```python
-from flask import Flask, request, jsonify
-from app.utils.error_handling import handle_error # 假设错误处理函数在 app/utils/error_handling.py 中
 
-app = Flask(__name__)
-
-@app.route('/v1/stories/generate', methods=['POST'])
-def generate_story():
-    try:
-      data = request.get_json()
-      if not data:
-          return handle_error(4001, "Missing request body")
-
-      vocabulary_level = data.get('vocabulary_level')
-      scene_id = data.get('scene_id')
-      word_count = data.get('word_count')
-      new_char_rate = data.get('new_char_rate')
-      key_word_ids = data.get('key_word_ids', [])
-
-      if not vocabulary_level:
-          return handle_error(4001, "Missing required field: 'vocabulary_level'")
-      if not scene_id:
-          return handle_error(4001, "Missing required field: 'scene_id'")
-      if not word_count:
-          return handle_error(4001, "Missing required field: 'word_count'")
-      if not new_char_rate:
-         return handle_error(4001, "Missing required field: 'new_char_rate'")
-
-      if not isinstance(vocabulary_level, int):
-          return handle_error(4002, "Invalid field type: 'vocabulary_level' must be an integer")
-      if not isinstance(scene_id, str):
-          return handle_error(4002, "Invalid field type: 'scene_id' must be a string")
-      if not isinstance(word_count, int):
-           return handle_error(4002, "Invalid field type: 'word_count' must be an integer")
-      if not isinstance(new_char_rate, float):
-          return handle_error(4002, "Invalid field type: 'new_char_rate' must be a float")
-
-      if not 1 <= vocabulary_level <= 100:
-            return handle_error(4222, "Validation failed: 'vocabulary_level' must be between 1 and 100")
-      if not 0 <= new_char_rate <= 1:
-            return handle_error(4221, "Validation failed: 'new_char_rate' must be between 0 and 1")
-
-      # 重点词汇是否存在验证
-      # 这里只是一个示例，假设函数check_key_word_exist() 会去数据库中验证
-      if key_word_ids:
-        for word_id in key_word_ids:
-             if not check_key_word_exist(word_id):
-                  return handle_error(5007, f"key word id {word_id} not exist")
-
-
-      # 调用 AI 服务生成故事
-      # story_id = generate_story_from_deepseek(vocabulary_level, scene_id, word_count, new_char_rate, key_word_ids)
-      story_id = "550e8400-e29b-41d4-a716-446655440002" # 示例，替换成实际的逻辑
-
-      return jsonify({
-              "code": 200,
-              "message": "Story generated successfully",
-             "data": {
-              "story_id": story_id
-                }
-            })
-
-    except Exception as e:
-      return handle_error(5001, f"Internal server error: {str(e)}")
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
-```
 
