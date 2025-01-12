@@ -8,7 +8,7 @@
 
 ### 2.1 .env 文件
 
-`.env` 文件用于存储项目的敏感信息和可配置参数，例如 API Key、DeepSeek API Key、容差值等。该文件不应提交到代码仓库，而是由每个开发者单独维护。
+`.env` 文件用于存储项目的敏感信息和可配置参数，例如 API Key、DeepSeek API Key、容差值等。**该文件不应提交到代码仓库，而是由每个开发者单独维护。**
 
 **示例 .env 文件内容**
 
@@ -22,6 +22,10 @@ REQUEST_LIMIT=100
 STORY_WORD_COUNT_TOLERANCE=20
 # 其他配置项
 ```
+
+**注意**:
+  * **`API_KEY` 是硬编码在 `.env` 文件中的。**
+  *  **`words.json` 文件由另外一个项目维护，并且该文件不应该提交到代码仓库。**
 
 ### 2.2 app/config.py
 
@@ -66,14 +70,14 @@ def get_api_key_from_config():
 
 | 配置项                       | 类型      | 描述                                                                      | 默认值    |
 | ---------------------------- | --------- | ------------------------------------------------------------------------ | --------- |
-| `API_KEY`                    | `string`  | API 认证使用的 API Key，从 `.env` 文件读取, 请求头中需包含 `Authorization` 字段，值为 `Bearer <API_KEY>`                                | 无         |
+| `API_KEY`                    | `string`  | API 认证使用的 API Key，从 `.env` 文件读取, 请求头中需包含 `Authorization` 字段，值为 `Bearer <API_KEY>`   **该值硬编码在 `.env` 文件中。**                            | 无         |
 | `DEEPSEEK_API_KEY`             | `string`  | 调用 DeepSeek API 使用的 API Key，从 `.env` 文件读取                           | 无         |
 | `DEBUG`                      | `boolean` | 是否启用调试模式，从 `.env` 文件读取，`True` 或者 `False`                     | `False`   |
 | `NEW_CHAR_RATE_TOLERANCE`      | `float`   | 生字率容差值，用于判断生成的生字率是否符合要求，可在 API 请求参数中动态设置 | `0.1`     |
 | `WORD_COUNT_TOLERANCE`      | `float` | 字数容差值，用于判断生成的字数是否符合要求，可在 API 请求参数中动态设置 | `0.2`    |
 | `REQUEST_LIMIT`                | `integer`| API 请求频率限制，可在 API 请求参数中动态设置                      | `100`     |
 | `STORY_WORD_COUNT_TOLERANCE`       | `integer` | 故事字数容差值，用正负值表示，例如 +20 或者 -20,  可在 API 请求参数中动态设置     | `20`  |
-| `WORDS_FILE_PATH`            | `string`  | 词汇数据的文件路径，用于加载字词数据                                      | `app/data/words.json`  |
+| `WORDS_FILE_PATH`            | `string`  | 词汇数据的文件路径，用于加载字词数据  **`words.json` 文件由另外一个项目维护，并且该文件不应该提交到代码仓库。**   | `app/data/words.json`  |
 | `SCENES_FILE_PATH`            | `string`  | 场景数据的文件路径，用于加载场景数据                                      |  `app/data/scenes.json` |
 
 *   **动态设置**: `NEW_CHAR_RATE_TOLERANCE`, `WORD_COUNT_TOLERANCE`, `REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 配置项的值，可以在 API 请求参数中动态设置，`.env` 中的值仅作为默认值。 **在 API 层需要对这些配置项进行类型验证，确保数据类型和取值范围的正确性**。

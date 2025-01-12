@@ -104,7 +104,7 @@ StroyPal/
 
 4.  **已知字 (Known Character) 和 生字 (New Character)**：
     *   **已知字**：在指定目标级别及其以下级别中，所有词汇包含的字，被认为是已知字。需要考虑词性，如果一个字在该词性下，出现在目标级别以下的词汇中，则认为是已知字。
-    *   **生字**：在指定目标级别及其以下级别中，所有词汇不包含的字，被认为是生字。 需要考虑词性，如果一个字在该词性下，没有出现在目标级别以下的词汇中，则认为是生字。
+    *   **生字**：在指定目标级别及其以下级别中，所有词汇不包含的字，被认为是生字。 需要考虑词性，如果一个字在该词性下，没有出现在目标级别以下的词汇中，则认为是生字。 **如果一个字不在 `words.json` 文件中，则认为是生字。**
     *   **词性影响**: 同一个字，如果在不同词性的词语中出现，如果词性的词语不在已知词汇中，那么这个字也属于生字。例如 “白” 字，在 “白色” 中是形容词，在“白说”中是动词，如果只知道“白色”，那么 “白说” 中的 “白” 属于生字。
 
 ### 3.2 核心算法：生字率计算
@@ -126,7 +126,7 @@ StroyPal/
           *   自定义分词逻辑：
             *    加载  `words.json`  中的所有词汇， 构建 `words_dict`。
             *  按词汇的长度从长到短进行排序，优先匹配最长的词汇。
-            *    遍历文本， 如果存在匹配的词汇，则将词汇和词性进行切分。 如果不存在匹配的词汇，则使用 `jieba` 分词，并添加词性转换后的词性和字到结果列表中。
+            *    遍历文本， 如果存在匹配的词汇，则将词汇和词性进行切分。 如果不存在匹配的词汇，则使用 `jieba` 分词，并添加词性转换后的词性和字到结果列表中。 **如果 `words.json` 中没有该词汇，则使用 jieba 的词性标注。**
 
 3.  **生字率计算逻辑**：
     *   **遍历文本中的每个字符**：遍历文本中的每个字符 (character)，并获取其词性 (part of speech)。
@@ -342,7 +342,6 @@ def load_jieba_userdict(self):
     for word_model in self.word_service.words.values():
       jieba.add_word(word_model.word, tag=map_jieba_pos(word_model.part_of_speech) )
 
-
 ```
 ### 3.6 多轮对话策略
 
@@ -371,6 +370,18 @@ def load_jieba_userdict(self):
 7.  **JSON 写入**:
     *   如果验证通过， 构建符合规范的 JSON 响应， 添加 `new_char_rate` 和 `new_char`。
     *  **多轮对话的流程使用状态机进行管理， 根据用户的反馈动态调整对话策略**
+    *  **状态机:**  使用一个简单的状态枚举来表示对话状态，例如 `INIT`, `PROVIDE_KNOWN_WORDS`, `FINAL_INSTRUCTION`， `FAILED`。
+
+        *   **状态转移逻辑：**
+            1.  **`INIT` 状态**: 发送初始提示语模板。
+            2. **`INIT` -> `PROVIDE_KNOWN_WORDS`**: 初始状态，发送初始提示语后，进入 `PROVIDE_KNOWN_WORDS` 状态。
+            3.  **`PROVIDE_KNOWN_WORDS` 状态**:  根据 `vocabulary_level` 加载已知词汇，并添加到提示语中。
+            4. **`PROVIDE_KNOWN_WORDS` -> `FINAL_INSTRUCTION`**: 提供已知词汇后，进入 `FINAL_INSTRUCTION` 状态。
+            5.  **`FINAL_INSTRUCTION` 状态**:  发送最终指令，并等待 AI 生成故事。
+            6.  **`FINAL_INSTRUCTION` -> `INIT`**: 如果故事生成后验证失败，回到 `INIT` 状态，重新生成故事。
+            7.  **`FINAL_INSTRUCTION` -> `FAILED`**: 如果故事生成后，达到最大重试次数，进入 `FAILED` 状态。
+        *   **多轮对话控制:** 使用一个 `messages` 列表来管理对话的上下文，每次发送提示语时，将之前的对话历史也发送给 AI。
+        *  **用户反馈调整：** 在 `FINAL_INSTRUCTION` 状态收到 AI 的回复后，进行故事验证， 如果验证不通过， 重新回到 `INIT` 状态，重新生成故事。
 
 ## 4. 开发步骤
 
@@ -394,14 +405,18 @@ def load_jieba_userdict(self):
 2.  **实现业务逻辑**: 在服务层实现业务逻辑，例如故事的生成、字词的查询、场景的管理。
     *    **自定义分词**:  使用  `_custom_segment` 函数实现自定义分词。
     *   **核心的生字率计算算法应该在这里实现， 可以参考 `3.2 核心算法：生字率计算`， `3.3 生字率检测流程图`, `3.4 伪代码` 和  `3.5 示例代码`。
-    *  **修改  `_load_known_words` 方法**:  使用 `words.json`  中 `characters` 字段的词性。
+    *   **修改  `_load_known_words` 方法**:  使用 `words.json`  中 `characters` 字段的词性。
+    *  **实现通过 `key_word_ids` 从 `words.json` 中查找对应的 `word` 和相关信息 ( `pinyin`, `definition`, `example`)。**
         *    **多轮对话**:  实现多轮对话的逻辑， 根据 `prompt_engineering.md` 中定义的模板， 构建提示语。 **使用状态机管理对话流程，根据用户的反馈动态调整对话策略。**
-            *   **状态机:**  使用一个简单的状态枚举来表示对话状态，例如 `INIT`, `PROVIDE_KNOWN_WORDS`, `FINAL_INSTRUCTION`。
+            *   **状态机:**  使用一个简单的状态枚举来表示对话状态，例如 `INIT`, `PROVIDE_KNOWN_WORDS`, `FINAL_INSTRUCTION`, `FAILED`。
             *   **对话策略：**
                 1.  **`INIT` 状态**: 发送初始提示语模板。
                 2.  **`PROVIDE_KNOWN_WORDS` 状态**:  根据 `vocabulary_level` 加载已知词汇，并添加到提示语中。
                 3.  **`FINAL_INSTRUCTION` 状态**:  发送最终指令，并等待 AI 生成故事。
-                4.  **状态转移**: 根据 AI 的回复和用户的反馈，进行状态转移。例如，在 `INIT` 状态收到回复后，转移到 `PROVIDE_KNOWN_WORDS` 状态。在 `PROVIDE_KNOWN_WORDS` 状态收到回复后，转移到 `FINAL_INSTRUCTION` 状态。
+                 4. **`INIT` -> `PROVIDE_KNOWN_WORDS`**: 初始状态，发送初始提示语后，进入 `PROVIDE_KNOWN_WORDS` 状态。
+                5. **`PROVIDE_KNOWN_WORDS` -> `FINAL_INSTRUCTION`**: 提供已知词汇后，进入 `FINAL_INSTRUCTION` 状态。
+                 6.  **`FINAL_INSTRUCTION` -> `INIT`**: 如果故事生成后验证失败，回到 `INIT` 状态，重新生成故事。
+                7.  **`FINAL_INSTRUCTION` -> `FAILED`**: 如果故事生成后，达到最大重试次数，进入 `FAILED` 状态。
             * **多轮对话控制:** 使用一个 `messages` 列表来管理对话的上下文，每次发送提示语时，将之前的对话历史也发送给 AI。
             *  **用户反馈调整：** 在 `FINAL_INSTRUCTION` 状态收到 AI 的回复后，进行故事验证， 如果验证不通过， 重新回到 `INIT` 状态，重新生成故事。
        *   **验证**:  实现故事的验证逻辑，包括生字率验证、重点词汇验证和字数验证。 计算 `new_char_rate` 和 `new_char`。
@@ -532,8 +547,7 @@ def load_jieba_userdict(self):
             logging.info("Story generated successfully")
             return
         except Exception as e:
-            logging.```python
-error(f"Error while generating story {e}")
+            logging.error(f"Error while generating story {e}")
             raise e
     ```
 
@@ -543,7 +557,20 @@ error(f"Error while generating story {e}")
     *  **测试驱动开发 (TDD)**： 鼓励开发人员使用测试驱动开发，先编写测试用例，再编写代码。
 2.   **单元测试应该重点测试核心代码**:  例如生字率计算，多轮对话的逻辑，API 鉴权， 和 API 参数验证。
 3.  **运行单元测试**:  使用 `pytest` 运行单元测试，确保测试通过。
-4.  **提高代码覆盖率**:  努力提高单元测试的代码覆盖率，确保代码的健壮性。 **单元测试的代码覆盖率不应该低于 80%**。
+4. **生成测试覆盖率报告**: 使用 `pytest-cov` 插件生成测试覆盖率报告。
+    *   安装 `pytest-cov`:
+
+        ```bash
+        pip install pytest-cov
+        ```
+    *   运行测试并生成报告：
+
+        ```bash
+         pytest --cov=app --cov-report term-missing
+        ```
+        *  `--cov=app`:  指定要测试的代码目录。
+        *  `--cov-report term-missing`: 在终端显示测试覆盖率报告，并显示未覆盖的代码行。
+5.  **提高代码覆盖率**:  努力提高单元测试的代码覆盖率，确保代码的健壮性.  **单元测试应该尽量覆盖核心代码**
 
 ### 4.9 集成测试
 
@@ -560,6 +587,7 @@ error(f"Error while generating story {e}")
         *   **函数名**:  使用小写字母，单词之间使用下划线分隔，例如 `get_user_info()`, `generate_story()`。
         *   **类名**:  使用驼峰命名法，例如 `WordModel`, `StoryService`。
         *  **常量**: 使用大写字母，单词之间使用下划线分隔，例如  `MAX_WORD_COUNT`, `DEFAULT_PAGE_SIZE`
+    *  **代码审查工具**: 可以使用代码审查工具，例如 `flake8`, `pylint` 等， 确保代码风格的一致性。
 2.  **修复缺陷**:  根据代码审查结果，修复代码中的缺陷。
 
 ### 4.11 持续集成

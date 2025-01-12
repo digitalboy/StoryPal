@@ -1,3 +1,6 @@
+好的，这是根据讨论结果更新后的 `data_models.md` 文档内容，主要添加了 `key_words` 字段的说明：
+
+```markdown
 # 数据模型
 
 ## 1. 概述
@@ -208,7 +211,7 @@
         },
         "required": ["word"]
       },
-      "description": "重点词汇列表"
+      "description": "重点词汇列表, **`pinyin`, `definition` 和 `example` 数据从 `words.json` 中获取**"
     },
     "created_at": {
       "type": "string",
@@ -241,6 +244,15 @@
              "example": "火车站很大。"
         }
     ],
+           {
+            "word": "火车站",
+            "pinyin": "huǒ chē zhàn",
+            "definition": " train station",
+             "part_of_speech": "名词",
+             "example": "火车站很大。"
+        }
+    ],
+
    "created_at": "2025-01-10T10:00:00Z"
 }
 ```
