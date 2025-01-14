@@ -22,7 +22,7 @@ class LiteracyCalculator:
         """
         known_characters = set()
         for word_model in self.word_service.words.values():
-            if word_model.chaotong_level < target_level:  # 将 <= 修改为 <
+            if word_model.chaotong_level < target_level:  
                 for char_data in word_model.characters:
                     known_characters.add(char_data["character"])
         return known_characters
