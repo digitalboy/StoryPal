@@ -6,7 +6,7 @@ from app.utils.api_key_auth import api_key_required
 from app.config import Config
 import logging
 
-scene_api = Blueprint("scene_api", __name__, url_prefix="/v1/scenes")
+scene_api = Blueprint("scene_api", __name__, url_prefix="/api/v1/scenes")
 
 # 初始化 SceneService
 scene_service = SceneService()
@@ -21,15 +21,15 @@ def create_scene():
     try:
         data = request.get_json()
         if not data:
-            return handle_error(4001, "Missing request body")
+            return handle_error(400, "Missing request body")
 
         name = data.get("name")
         description = data.get("description")
 
         if not name:
-            return handle_error(4001, "Missing required field: name")
+            return handle_error(400, "Missing required field: name")
         if not description:
-            return handle_error(4001, "Missing required field: description")
+            return handle_error(400, "Missing required field: description")
 
         scene = scene_service.create_scene(name, description)
         return jsonify(
@@ -41,7 +41,7 @@ def create_scene():
         )
     except Exception as e:
         logging.error(f"Error creating scene: {e}")
-        return handle_error(5001, f"Internal server error: {str(e)}")
+        return handle_error(500, f"Internal server error: {str(e)}")
 
 
 @scene_api.route("/<scene_id>", methods=["GET"])
@@ -65,10 +65,10 @@ def get_scene(scene_id):
                 }
             )
         else:
-            return handle_error(4041, "Scene not found")
+            return handle_error(404, "Scene not found")
     except Exception as e:
         logging.error(f"Error getting scene: {e}")
-        return handle_error(5001, f"Internal server error: {str(e)}")
+        return handle_error(500, f"Internal server error: {str(e)}")
 
 
 @scene_api.route("/<scene_id>", methods=["PUT"])
@@ -80,15 +80,15 @@ def update_scene(scene_id):
     try:
         data = request.get_json()
         if not data:
-            return handle_error(4001, "Missing request body")
+            return handle_error(400, "Missing request body")
 
         name = data.get("name")
         description = data.get("description")
 
         if not name:
-            return handle_error(4001, "Missing required field: name")
+            return handle_error(400, "Missing required field: name")
         if not description:
-            return handle_error(4001, "Missing required field: description")
+            return handle_error(400, "Missing required field: description")
 
         scene = scene_service.update_scene(scene_id, name, description)
         if scene:
@@ -100,11 +100,11 @@ def update_scene(scene_id):
                 }
             )
         else:
-            return handle_error(4041, "Scene not found")
+            return handle_error(404, "Scene not found")
 
     except Exception as e:
         logging.error(f"Error updating scene: {e}")
-        return handle_error(5001, f"Internal server error: {str(e)}")
+        return handle_error(500, f"Internal server error: {str(e)}")
 
 
 @scene_api.route("/<scene_id>", methods=["DELETE"])
@@ -123,7 +123,7 @@ def delete_scene(scene_id):
                 }
             )
         else:
-            return handle_error(4041, "Scene not found")
+            return handle_error(404, "Scene not found")
     except Exception as e:
         logging.error(f"Error deleting scene: {e}")
-        return handle_error(5001, f"Internal server error: {str(e)}")
+        return handle_error(500, f"Internal server error: {str(e)}")

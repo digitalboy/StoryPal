@@ -30,8 +30,7 @@ class Config:
     SCENES_FILE_PATH = os.path.join(
         BASE_DIR, "..", os.getenv("SCENES_FILE_PATH", "app/data/scenes.json")
     )
-    # 定义 baseURL
-    BASE_URL = os.getenv("BASE_URL", "/api/v1")
+
 
 
 def get_api_key_from_config():

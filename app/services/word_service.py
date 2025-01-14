@@ -100,6 +100,27 @@ class WordService:
 
         return len(filtered_words)
 
+    def get_words_below_level(
+        self, level: int, part_of_speech: str = None
+    ) -> List[WordModel]:
+        """
+        获取指定级别以下的所有词汇
+        Args:
+           level (int): 目标级别, 不包含这个级别
+           part_of_speech (str, optional): 词性，如果指定则返回该词性的词汇
+        Returns:
+            List[WordModel]:  字词模型对象列表
+        """
+        filtered_words = [
+            word for word in self.words.values() if word.chaotong_level < level
+        ]
+
+        if part_of_speech:
+            filtered_words = [
+                word for word in filtered_words if word.part_of_speech == part_of_speech
+            ]
+        return filtered_words
+
     def get_key_words_by_ids(self, key_word_ids: List[str]) -> List[Dict]:
         """
         根据 key_word_ids 获取重点词汇的详细信息。

@@ -13,30 +13,12 @@ ERROR_CODES = {
     500: "服务器内部错误",
 }
 
-# 扩展错误码
-EXTENDED_ERROR_CODES = {
-    4001: "缺少必填字段",
-    4002: "字段类型错误",
-    4003: "字段值超出范围",
-    4011: "API Key 缺失",
-    4012: "API Key 无效",
-    4041: "场景未找到",
-    4042: "字词未找到",
-    4043: "故事未找到",
-    4221: "生字率超出范围",
-    4222: "目标级别超出范围",
-    5001: "数据库连接失败",
-    5002: "第三方服务调用失败",
-}
 
-
-def handle_error(code, message=None, extended_code=None):
+def handle_error(code, message=None):
     """通用错误处理函数"""
-    if extended_code and message is None:
-        message = EXTENDED_ERROR_CODES.get(extended_code, "未知错误")
     error_message = message if message else ERROR_CODES.get(code, "未知错误")
     response = {
-        "code": extended_code if extended_code else code,
+        "code": code,
         "message": error_message,
         "data": None,
     }
