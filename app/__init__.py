@@ -1,6 +1,7 @@
 # app/__init__.py
 import logging
-from flask import Flask
+from flask import Flask, jsonify
+
 from app.config import Config
 from app.utils.error_handling import handle_error
 # from app.api.word_api import word_api
@@ -24,6 +25,11 @@ def create_app():
     # app.register_blueprint(word_api)
     app.register_blueprint(scene_api)
     # app.register_blueprint(story_api)
+
+    # 添加根路由
+    @app.route("/", methods=["GET"])
+    def hello():
+        return jsonify({"message": "Hello, StoryPal!"})
 
     # 全局错误处理
     @app.errorhandler(404)
