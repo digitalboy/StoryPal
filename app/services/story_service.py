@@ -9,7 +9,6 @@ from app.models.story_model import StoryModel
 from app.services.word_service import WordService
 from app.services.scene_service import SceneService
 from app.utils.literacy_calculator import LiteracyCalculator
-from app.utils.error_handling import handle_error
 
 
 class StoryService:
@@ -133,9 +132,9 @@ class StoryService:
             story_word_count (int): 故事字数.
             new_char_rate (float): 目标生字率.
             key_word_ids (List[str], optional): 重点词汇ID列表.
-             new_char_rate_tolerance (float, optional):  生字率容差值，默认使用配置文件的值.
+            new_char_rate_tolerance (float, optional):  生字率容差值，默认使用配置文件的值.
             word_count_tolerance (float, optional): 字数 容差值，默认使用配置文件的值.
-           story_word_count_tolerance (int, optional): 故事字数容差值，默认使用配置文件的值.
+            story_word_count_tolerance (int, optional): 故事字数容差值，默认使用配置文件的值.
             request_limit (int, optional): 请求频率限制，默认使用配置文件的值.
         Returns:
             StoryModel: 生成的故事模型对象.
@@ -167,7 +166,7 @@ class StoryService:
         initial_prompt = self._render_prompt("initial_prompt.txt", initial_prompt_data)
         messages.append({"role": "user", "content": initial_prompt})
 
-        # 3. 获取已知词汇 (如果需要)
+        # 3. 获取已知词汇 (目标等级一下的所有词汇)
         known_words_prompt_data = {}
         known_words_list = self._load_known_words(vocabulary_level)
         if known_words_list:
@@ -222,8 +221,8 @@ class StoryService:
                 ):
                     return story
                 else:
-                    logging.warning(f"Story validation failed")
-                    raise Exception(f"Story validation failed")
+                    logging.warning("Story validation failed")
+                    raise Exception("Story validation failed")
 
             except (json.JSONDecodeError, TypeError) as e:
                 logging.error(f"AI 服务返回无效的 JSON 格式: {e}")
