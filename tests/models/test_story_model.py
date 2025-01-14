@@ -1,82 +1,202 @@
 # tests/models/test_story_model.py
+import unittest
 from app.models.story_model import StoryModel
-from datetime import datetime
 
 
-def test_story_model_creation(sample_story):
-    assert sample_story.story_id == "test_story_id"
-    assert sample_story.title == "测试故事"
-    assert sample_story.content == "这是一个用于测试的故事"
-    assert sample_story.vocabulary_level == 20
-    assert sample_story.scene == "test_scene_id"
-    assert sample_story.word_count == 100
-    assert sample_story.new_char_rate == 0.1
-    assert sample_story.new_char == 10
-    assert sample_story.key_words == [
-        {
-            "word": "测试",
-            "pinyin": None,
-            "definition": None,
-            "part_of_speech": "动词",
-            "example": None,
+class TestStoryModel(unittest.TestCase):
+    """
+    测试故事模型 (StoryModel) 的功能。
+    """
+
+    def test_create_story_model(self):
+        """
+        测试创建故事模型对象。
+        """
+        story = StoryModel(
+            story_id="test_id",
+            title="小明的一天",
+            content="小明喜欢跑步，他每天早上都会去公园跑步，他觉得很开心",
+            vocabulary_level=30,
+            scene="scene_id",
+            word_count=15,
+            new_char_rate=0.2,
+            new_char=3,
+            key_words=[
+                {
+                    "word": "喜欢",
+                    "pinyin": None,
+                    "definition": None,
+                    "part_of_speech": "v",
+                    "example": None,
+                },
+                {
+                    "word": "跑步",
+                    "pinyin": None,
+                    "definition": None,
+                    "part_of_speech": "v",
+                    "example": None,
+                },
+            ],
+        )
+        self.assertEqual(story.id, "test_id")
+        self.assertEqual(story.title, "小明的一天")
+        self.assertEqual(
+            story.content, "小明喜欢跑步，他每天早上都会去公园跑步，他觉得很开心"
+        )
+        self.assertEqual(story.vocabulary_level, 30)
+        self.assertEqual(story.scene, "scene_id")
+        self.assertEqual(story.word_count, 15)
+        self.assertEqual(story.new_char_rate, 0.2)
+        self.assertEqual(story.new_char, 3)
+        self.assertEqual(len(story.key_words), 2)
+        self.assertEqual(story.key_words[0]["word"], "喜欢")
+        self.assertEqual(story.key_words[1]["word"], "跑步")
+        self.assertEqual(story.key_words[0]["part_of_speech"], "v")
+        self.assertEqual(story.key_words[1]["part_of_speech"], "v")
+
+    def test_create_story_model_without_id(self):
+        """
+        测试创建故事模型对象，不指定ID。
+        """
+        story = StoryModel(
+            title="小明的一天",
+            content="小明喜欢跑步，他每天早上都会去公园跑步，他觉得很开心",
+            vocabulary_level=30,
+            scene="scene_id",
+            word_count=15,
+            new_char_rate=0.2,
+            new_char=3,
+            key_words=[
+                {
+                    "word": "喜欢",
+                    "pinyin": None,
+                    "definition": None,
+                    "part_of_speech": "v",
+                    "example": None,
+                },
+                {
+                    "word": "跑步",
+                    "pinyin": None,
+                    "definition": None,
+                    "part_of_speech": "v",
+                    "example": None,
+                },
+            ],
+        )
+        self.assertIsNotNone(story.id)
+        self.assertEqual(story.title, "小明的一天")
+        self.assertEqual(
+            story.content, "小明喜欢跑步，他每天早上都会去公园跑步，他觉得很开心"
+        )
+        self.assertEqual(story.vocabulary_level, 30)
+        self.assertEqual(story.scene, "scene_id")
+        self.assertEqual(story.word_count, 15)
+        self.assertEqual(story.new_char_rate, 0.2)
+        self.assertEqual(story.new_char, 3)
+        self.assertEqual(len(story.key_words), 2)
+        self.assertEqual(story.key_words[0]["word"], "喜欢")
+        self.assertEqual(story.key_words[1]["word"], "跑步")
+        self.assertEqual(story.key_words[0]["part_of_speech"], "v")
+        self.assertEqual(story.key_words[1]["part_of_speech"], "v")
+
+    def test_story_model_to_dict(self):
+        """
+        测试将故事模型对象转换为字典。
+        """
+        story = StoryModel(
+            story_id="test_id",
+            title="小明的一天",
+            content="小明喜欢跑步，他每天早上都会去公园跑步，他觉得很开心",
+            vocabulary_level=30,
+            scene="scene_id",
+            word_count=15,
+            new_char_rate=0.2,
+            new_char=3,
+            key_words=[
+                {
+                    "word": "喜欢",
+                    "pinyin": None,
+                    "definition": None,
+                    "part_of_speech": "v",
+                    "example": None,
+                },
+                {
+                    "word": "跑步",
+                    "pinyin": None,
+                    "definition": None,
+                    "part_of_speech": "v",
+                    "example": None,
+                },
+            ],
+        )
+        story_dict = story.to_dict()
+        self.assertEqual(story_dict["story_id"], "test_id")
+        self.assertEqual(story_dict["title"], "小明的一天")
+        self.assertEqual(
+            story_dict["content"],
+            "小明喜欢跑步，他每天早上都会去公园跑步，他觉得很开心",
+        )
+        self.assertEqual(story_dict["vocabulary_level"], 30)
+        self.assertEqual(story_dict["scene"], "scene_id")
+        self.assertEqual(story_dict["word_count"], 15)
+        self.assertEqual(story_dict["new_char_rate"], 0.2)
+        self.assertEqual(story_dict["new_char"], 3)
+        self.assertEqual(len(story_dict["key_words"]), 2)
+        self.assertEqual(story_dict["key_words"][0]["word"], "喜欢")
+        self.assertEqual(story_dict["key_words"][1]["word"], "跑步")
+        self.assertEqual(story_dict["key_words"][0]["part_of_speech"], "v")
+        self.assertEqual(story_dict["key_words"][1]["part_of_speech"], "v")
+        self.assertIsNotNone(story_dict["created_at"])
+
+    def test_story_model_from_dict(self):
+        """
+        测试从字典创建故事模型对象。
+        """
+        story_dict = {
+            "story_id": "test_id",
+            "title": "小明的一天",
+            "content": "小明喜欢跑步，他每天早上都会去公园跑步，他觉得很开心",
+            "vocabulary_level": 30,
+            "scene": "scene_id",
+            "word_count": 15,
+            "new_char_rate": 0.2,
+            "new_char": 3,
+            "key_words": [
+                {
+                    "word": "喜欢",
+                    "pinyin": None,
+                    "definition": None,
+                    "part_of_speech": "v",
+                    "example": None,
+                },
+                {
+                    "word": "跑步",
+                    "pinyin": None,
+                    "definition": None,
+                    "part_of_speech": "v",
+                    "example": None,
+                },
+            ],
+            "created_at": "2025-01-10T04:47:20Z",
         }
-    ]
-    assert isinstance(sample_story.created_at, str)
-    try:
-        datetime.fromisoformat(sample_story.created_at.replace("Z", "+00:00"))
-    except:
-        assert False, "created_at is not a valid ISO format"
+        story = StoryModel.from_dict(story_dict)
+        self.assertEqual(story.id, "test_id")
+        self.assertEqual(story.title, "小明的一天")
+        self.assertEqual(
+            story.content, "小明喜欢跑步，他每天早上都会去公园跑步，他觉得很开心"
+        )
+        self.assertEqual(story.vocabulary_level, 30)
+        self.assertEqual(story.scene, "scene_id")
+        self.assertEqual(story.word_count, 15)
+        self.assertEqual(story.new_char_rate, 0.2)
+        self.assertEqual(story.new_char, 3)
+        self.assertEqual(len(story.key_words), 2)
+        self.assertEqual(story.key_words[0]["word"], "喜欢")
+        self.assertEqual(story.key_words[1]["word"], "跑步")
+        self.assertEqual(story.key_words[0]["part_of_speech"], "v")
+        self.assertEqual(story.key_words[1]["part_of_speech"], "v")
+        self.assertEqual(story.created_at, "2025-01-10T04:47:20Z")
 
 
-def test_story_model_to_dict(sample_story):
-    story_dict = sample_story.to_dict()
-    assert story_dict["story_id"] == "test_story_id"
-    assert story_dict["title"] == "测试故事"
-    assert story_dict["content"] == "这是一个用于测试的故事"
-    assert story_dict["vocabulary_level"] == 20
-    assert story_dict["scene"] == "test_scene_id"
-    assert story_dict["word_count"] == 100
-    assert story_dict["new_char_rate"] == 0.1
-    assert story_dict["new_char"] == 10
-    assert story_dict["key_words"] == [
-        {
-            "word": "测试",
-            "pinyin": None,
-            "definition": None,
-            "part_of_speech": "动词",
-            "example": None,
-        }
-    ]
-    assert isinstance(story_dict["created_at"], str)
-    try:
-        datetime.fromisoformat(story_dict["created_at"].replace("Z", "+00:00"))
-    except:
-        assert False, "created_at is not a valid ISO format"
-
-
-def test_story_model_from_dict(sample_story):
-    story_dict = sample_story.to_dict()
-    new_story = StoryModel.from_dict(story_dict)
-    assert new_story.story_id == "test_story_id"
-    assert new_story.title == "测试故事"
-    assert new_story.content == "这是一个用于测试的故事"
-    assert new_story.vocabulary_level == 20
-    assert new_story.scene == "test_scene_id"
-    assert new_story.word_count == 100
-    assert new_story.new_char_rate == 0.1
-    assert new_story.new_char == 10
-    assert new_story.key_words == [
-        {
-            "word": "测试",
-            "pinyin": None,
-            "definition": None,
-            "part_of_speech": "动词",
-            "example": None,
-        }
-    ]
-    assert isinstance(new_story.created_at, str)
-    try:
-        datetime.fromisoformat(new_story.created_at.replace("Z", "+00:00"))
-    except:
-        assert False, "created_at is not a valid ISO format"
-    assert new_story.created_at == sample_story.created_at
+if __name__ == "__main__":
+    unittest.main()

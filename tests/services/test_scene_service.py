@@ -1,77 +1,165 @@
 # tests/services/test_scene_service.py
-import pytest
+import unittest
+from unittest.mock import patch, mock_open
+import json
 from app.services.scene_service import SceneService
-from unittest.mock import patch
+from app.models.scene_model import SceneModel
 
 
-@pytest.fixture
-def scene_service():
-    return SceneService()
+class TestSceneService(unittest.TestCase):
+    """
+    测试场景服务 (SceneService) 的功能。
+    """
+
+    def setUp(self):
+        """
+        设置测试环境。
+        """
+        self.sample_scenes_data = [
+            {
+                "scene_id": "test_scene_id_1",
+                "name": "问路",
+                "description": "学习如何用中文问路。",
+            },
+            {
+                "scene_id": "test_scene_id_2",
+                "name": "点餐",
+                "description": "学习如何在餐厅点餐。",
+            },
+        ]
+        self.sample_scenes_json = json.dumps(self.sample_scenes_data)
+
+    def test_load_scenes(self):
+        """
+        测试加载场景数据。
+        """
+        with patch(
+            "app.services.scene_service.open",
+            mock_open(read_data=self.sample_scenes_json),
+        ):
+            scene_service = SceneService()
+        self.assertEqual(len(scene_service.scenes), 2)
+        self.assertIsInstance(scene_service.scenes["test_scene_id_1"], SceneModel)
+        self.assertEqual(scene_service.scenes["test_scene_id_1"].name, "问路")
+        self.assertEqual(scene_service.scenes["test_scene_id_2"].name, "点餐")
+
+    def test_load_scenes_file_not_found(self):
+        """
+        测试加载场景数据，文件不存在的情况。
+        """
+        with patch("app.services.scene_service.open", side_effect=FileNotFoundError):
+            scene_service = SceneService()
+        self.assertEqual(len(scene_service.scenes), 0)
+
+    def test_load_scenes_json_decode_error(self):
+        """
+        测试加载场景数据，JSON 解析错误的情况。
+        """
+        with patch(
+            "app.services.scene_service.open", mock_open(read_data="invalid json")
+        ):
+            scene_service = SceneService()
+        self.assertEqual(len(scene_service.scenes), 0)
+
+    def test_get_scene_by_id(self):
+        """
+        测试根据ID获取场景信息。
+        """
+        with patch(
+            "app.services.scene_service.open",
+            mock_open(read_data=self.sample_scenes_json),
+        ):
+            scene_service = SceneService()
+            scene = scene_service.get_scene_by_id("test_scene_id_2")
+            self.assertEqual(scene.name, "点餐")
+            self.assertEqual(scene.description, "学习如何在餐厅点餐。")
+
+    def test_get_scene_by_id_not_found(self):
+        """
+        测试根据ID获取场景信息，ID不存在的情况。
+        """
+        with patch(
+            "app.services.scene_service.open",
+            mock_open(read_data=self.sample_scenes_json),
+        ):
+            scene_service = SceneService()
+            scene = scene_service.get_scene_by_id("not_exist_id")
+            self.assertIsNone(scene)
+
+    def test_create_scene(self):
+        """
+        测试创建场景。
+        """
+        with patch("app.services.scene_service.open", mock_open()) as mock_file:
+            scene_service = SceneService()
+            new_scene = scene_service.create_scene(
+                name="新的场景", description="这是新的场景描述"
+            )
+            self.assertIsNotNone(new_scene.id)
+            self.assertEqual(new_scene.name, "新的场景")
+            self.assertEqual(new_scene.description, "这是新的场景描述")
+            mock_file.assert_called()  # 检查是否调用了保存函数。
+
+    def test_update_scene(self):
+        """
+        测试更新场景信息。
+        """
+        with patch(
+            "app.services.scene_service.open",
+            mock_open(read_data=self.sample_scenes_json),
+        ) as mock_file:
+            scene_service = SceneService()
+            updated_scene = scene_service.update_scene(
+                scene_id="test_scene_id_1",
+                name="更新后的场景",
+                description="更新后的场景描述",
+            )
+            self.assertEqual(updated_scene.name, "更新后的场景")
+            self.assertEqual(updated_scene.description, "更新后的场景描述")
+            mock_file.assert_called()
+
+    def test_update_scene_not_found(self):
+        """
+        测试更新场景信息，场景不存在的情况。
+        """
+        with patch(
+            "app.services.scene_service.open",
+            mock_open(read_data=self.sample_scenes_json),
+        ):
+            scene_service = SceneService()
+            updated_scene = scene_service.update_scene(
+                scene_id="not_exist_id",
+                name="更新后的场景",
+                description="更新后的场景描述",
+            )
+            self.assertIsNone(updated_scene)
+
+    def test_delete_scene(self):
+        """
+        测试删除场景。
+        """
+        with patch(
+            "app.services.scene_service.open",
+            mock_open(read_data=self.sample_scenes_json),
+        ) as mock_file:
+            scene_service = SceneService()
+            result = scene_service.delete_scene("test_scene_id_1")
+            self.assertTrue(result)
+            self.assertNotIn("test_scene_id_1", scene_service.scenes)
+            mock_file.assert_called()
+
+    def test_delete_scene_not_found(self):
+        """
+        测试删除场景，场景不存在的情况。
+        """
+        with patch(
+            "app.services.scene_service.open",
+            mock_open(read_data=self.sample_scenes_json),
+        ):
+            scene_service = SceneService()
+            result = scene_service.delete_scene("not_exist_id")
+            self.assertFalse(result)
 
 
-def test_load_scenes_success(scene_service):
-    assert len(scene_service.scenes) > 0
-
-
-def test_load_scenes_not_found():
-    with patch(
-        "app.services.scene_service.Config.SCENES_FILE_PATH", "non_existent.json"
-    ):
-        scene_service = SceneService()
-        assert len(scene_service.scenes) == 0
-
-
-def test_get_scene_success(scene_service):
-    scene = scene_service.get_scene("f0e9d8c7-b6a5-4321-9876-543210fedcba")
-    assert scene.name == "日常生活"
-
-
-def test_get_scene_not_found(scene_service):
-    scene = scene_service.get_scene("non_existent_id")
-    assert scene is None
-
-
-def test_list_scenes_all(scene_service):
-    scenes = scene_service.list_scenes()
-    assert len(scenes) > 0
-
-
-def test_add_scene(scene_service):
-    new_scene_data = {
-        "scene_id": "test_add_scene_id",
-        "name": "测试添加场景",
-        "description": "这是一个测试添加的场景",
-    }
-    new_scene = scene_service.add_scene(new_scene_data)
-    assert new_scene.name == "测试添加场景"
-    assert scene_service.get_scene("test_add_scene_id") == new_scene
-
-
-def test_update_scene(scene_service):
-    updated_scene_data = {
-        "name": "更新测试场景",
-        "description": "这是一个更新测试的场景",
-    }
-    updated_scene = scene_service.update_scene(
-        "f0e9d8c7-b6a5-4321-9876-543210fedcba", updated_scene_data
-    )
-    assert updated_scene.name == "更新测试场景"
-    assert updated_scene.description == "这是一个更新测试的场景"
-
-
-def test_update_scene_not_found(scene_service):
-    updated_scene = scene_service.update_scene(
-        "non_existent_id", {"name": "更新测试场景"}
-    )
-    assert updated_scene is None
-
-
-def test_delete_scene(scene_service):
-    deleted_scene = scene_service.delete_scene("f0e9d8c7-b6a5-4321-9876-543210fedcba")
-    assert deleted_scene.name == "日常生活"
-    assert scene_service.get_scene("f0e9d8c7-b6a5-4321-9876-543210fedcba") is None
-
-
-def test_delete_scene_not_found(scene_service):
-    deleted_scene = scene_service.delete_scene("non_existent_id")
-    assert deleted_scene is None
+if __name__ == "__main__":
+    unittest.main()

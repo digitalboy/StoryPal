@@ -52,6 +52,8 @@ StroyPal/
 │   │   ├── scene_api.py      # 场景 API
 │   │   └── story_api.py      # 故事 API
 │   ├── config.py           # 项目配置
+│   ├── prompts
+│   │
 │   └── data/               # 测试数据
 │       ├── words.json       # 字词数据
 │       ├── scenes.json      # 场景数据
@@ -127,6 +129,17 @@ StroyPal/
             *    加载  `words.json`  中的所有词汇， 构建 `words_dict`。
             *  按词汇的长度从长到短进行排序，优先匹配最长的词汇。
             *    遍历文本， 如果存在匹配的词汇，则将词汇和词性进行切分。 如果不存在匹配的词汇，则使用 `jieba` 分词，并添加词性转换后的词性和字到结果列表中。 **如果 `words.json` 中没有该词汇，则使用 jieba 的词性标注。**
+            * **伪代码示例：**
+            ```
+                def custom_segmentation(text, words_dict):
+                    # 1. 加载 words.json 中的词汇，构建 words_dict （key: word, value: {part_of_speech, characters})
+                    # 2. 按照词汇的长度，从长到短排序 words_dict
+                    # 3. 遍历文本，尝试匹配最长的词汇
+                    # 4. 如果存在匹配，则记录词汇和词性
+                    # 5. 如果不存在匹配，则使用 jieba 分词，并添加词性标注
+                    # 6. 返回分词结果，列表类型 [(word, part_of_speech)]
+                    pass
+            ```
 
 3.  **生字率计算逻辑**：
     *   **遍历文本中的每个字符**：遍历文本中的每个字符 (character)，并获取其词性 (part of speech)。
@@ -186,6 +199,28 @@ function calculate_literacy_rate(text, target_level):
   return known_rate, unknown_rate
 ```
 
+*   **`_load_known_words` 伪代码:**
+
+    ```python
+    def _load_known_words(words_json, target_level):
+        # 1.  加载 words.json 文件
+        # 2.  遍历 words_json 中的每一个词汇
+        # 3.  如果词汇的 chaotong_level 小于等于 target_level
+        # 4.  遍历词汇中的每一个字
+        # 5.  将字作为 key, 词性加入到 set 中， 作为 value。
+        # 6.  返回 key 为字，value 为词性 set 的字典， 例如：  {"好": {"ADJ"}, "人": {"n"}, "学": {"v"}}
+        pass
+    ```
+
+*   **`_is_known_char` 伪代码:**
+
+    ```python
+     def _is_known_char(char, pos, known_words_dict):
+         # 1.  如果 char 不在 known_words_dict 的 key 中， 返回 False
+        # 2.  如果 pos 在 known_words_dict[char] 的 value (set) 中， 返回 True
+        # 3.  否则， 返回 False
+        pass
+    ```
 ### 3.5 示例代码 (Python)
 
 ```python
@@ -406,6 +441,34 @@ def load_jieba_userdict(self):
     *    **自定义分词**:  使用  `_custom_segment` 函数实现自定义分词。
     *   **核心的生字率计算算法应该在这里实现， 可以参考 `3.2 核心算法：生字率计算`， `3.3 生字率检测流程图`, `3.4 伪代码` 和  `3.5 示例代码`。
     *   **修改  `_load_known_words` 方法**:  使用 `words.json`  中 `characters` 字段的词性。
+        *  **伪代码示例：**
+              ```python
+                def _load_known_words(words_json, target_level):
+                     # 1.  加载 words.json 文件
+                     # 2.  遍历 words_json 中的每一个词汇
+                     # 3.  如果词汇的 chaotong_level 小于等于 target_level
+                     # 4.  遍历词汇中的每一个字
+                     # 5.  将字作为 key, 词性加入到 set 中， 作为 value。
+                     # 6.  返回 key 为字，value 为词性 set 的字典， 例如：  {"好": {"ADJ"}, "人": {"n"}, "学": {"v"}}
+                      pass
+              ```
+         *  **伪代码示例：**
+             ```python
+                def _is_known_char(char, pos, known_words_dict):
+                    # 1.  如果 char 不在 known_words_dict 的 key 中， 返回 False
+                    # 2.  如果 pos 在 known_words_dict[char] 的 value (set) 中， 返回 True
+                    # 3.  否则， 返回 False
+                     pass
+             ```
+         *    **自定义分词伪代码**:
+            ```python
+                def custom_segmentation(text, words_dict):
+                    # 1. 加载 words.json 中的词汇，构建 words_dict （key: word, value: {part_of_speech, characters})
+                    # 2. 按照词汇的长度，从长到短排序 words_dict
+                    # 3. 遍历文本，尝试匹配最长的词汇
+                    # 4. 如果存在匹配，则记录词汇和词性
+                    # 5. 如果不存在匹配，则使用 jieba 分词，并添加词性标注
+                    # 6. 返回分词结果，列表类型 [(word, part_of_```
     *  **实现通过 `key_word_ids` 从 `words.json` 中查找对应的 `word` 和相关信息 ( `pinyin`, `definition`, `example`)。**
         *    **多轮对话**:  实现多轮对话的逻辑， 根据 `prompt_engineering.md` 中定义的模板， 构建提示语。 **使用状态机管理对话流程，根据用户的反馈动态调整对话策略。**
             *   **状态机:**  使用一个简单的状态枚举来表示对话状态，例如 `INIT`, `PROVIDE_KNOWN_WORDS`, `FINAL_INSTRUCTION`, `FAILED`。
@@ -463,7 +526,7 @@ def load_jieba_userdict(self):
            *  **注意**:  `key_words` 字段暂时不提供，返回空列表。
 3.  **调用服务层**:  API 层应调用服务层的方法来处理请求。
 4.  **处理错误**:  使用 `app/utils/error_handling.py` 中提供的 `handle_error` 函数统一处理 API 的错误，确保错误码和错误信息与 API 设计指南一致。
-5.  **数据验证**: 在API 层， 需要对输入的数据进行验证，例如:  `vocabulary_level` 的取值范围， `new_char_rate` 的取值范围， 字数范围，以及 `NEW_CHAR_RATE_TOLERANCE`, `WORD_COUNT_TOLERANCE`, `REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 的值，可以使用 JSON Schema 进行验证， 确保数据类型和格式的正确性。API 请求参数的优先级高于 `.env` 文件中的配置。 **在 API 层对 `NEW_CHAR_RATE_TOLERANCE`、`WORD_COUNT_TOLERANCE`、`REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 进行类型验证**
+5.  **数据验证**: 在API 层， 需要对输入的数据进行验证，例如:  `vocabulary_level` 的取值范围， `new_char_rate` 的取值范围， 字数范围，以及 `NEW_CHAR_RATE_TOLERANCE`, `WORD_COUNT_TOLERANCE`, `REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 的值，可以使用 JSON Schema 进行验证， 确保数据类型和格式的正确性。API 请求参数的优先级高于 `.env` 文件中的配置。 **在 API 层在 API 层对 `NEW_CHAR_RATE_TOLERANCE`、`WORD_COUNT_TOLERANCE`、`REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 进行类型验证**
 6.  **API 鉴权示例**:
     *  使用 `app/utils/api_key_auth.py` 中提供的 API Key 认证，并使用装饰器进行 API 鉴权。
     ```python
@@ -649,13 +712,3 @@ def load_jieba_userdict(self):
 *   **保持代码简洁**:  尽量保持代码简洁易懂，避免使用过于复杂的结构或算法。
 *   **及时沟通**:  在开发过程中，及时与团队成员沟通，解决开发使用版本控制**:  使用 Git 进行代码版本控制。
 
-## 7. 开发中的注意事项
-
-*   **保持代码简洁**:  尽量保持代码简洁易懂，避免使用过于复杂的结构或算法。
-*   **及时沟通**:  在开发过程中，及时与团队成员沟通，解决开发使用版本控制**:  使用 Git 进行代码版本控制。
-
-## 8. 开发中的注意事项
-
-*   **保持代码简洁**:  尽量保持代码简洁易懂，避免使用过于复杂的结构或算法。
-*   **及时沟通**:  在开发过程中，及时与团队成员沟通，解决开发中遇到的问题。
-*   **及时更新文档**: 确保文档与代码保持同步。

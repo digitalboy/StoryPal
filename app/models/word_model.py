@@ -1,29 +1,49 @@
 # app/models/word_model.py
+from typing import List, Dict, Optional
 from app.models.base_model import BaseModel
 
 
 class WordModel(BaseModel):
+    """
+    字词数据模型。
+    """
+
     def __init__(
         self,
-        word_id,
-        word,
-        chaotong_level,
-        part_of_speech,
-        hsk_level,
-        characters,
-        **kwargs,
+        word_id: str = None,
+        word: str = None,
+        chaotong_level: int = None,
+        part_of_speech: str = None,
+        hsk_level: int = None,
+        characters: List[Dict] = None,
+        created_at: str = None,
     ):
-        super().__init__(id=word_id, **kwargs)
-        self.word_id = self.id
+        """
+        初始化方法。
+        Args:
+            word_id (str, optional): 词语的唯一ID，如果为None，则自动生成UUID.
+            word (str): 词语.
+            chaotong_level (int): 超童级别，取值范围 1-100.
+            part_of_speech (str): 词性，例如：名词，动词，形容词等.
+            hsk_level (int): HSK级别.
+            characters (List[Dict]): 词语中包含的字列表.
+            created_at (str, optional): 模型的创建时间，如果为None，则设置为当前时间.
+        """
+        super().__init__(id=word_id, created_at=created_at)
         self.word = word
         self.chaotong_level = chaotong_level
         self.part_of_speech = part_of_speech
         self.hsk_level = hsk_level
-        self.characters = characters
+        self.characters = characters if characters else []
 
-    def to_dict(self):
+    def to_dict(self) -> Dict:
+        """
+        将模型对象转换为字典。
+        Returns:
+            dict: 模型对象的字典表示。
+        """
         return {
-            "word_id": self.word_id,
+            "word_id": self.id,
             "word": self.word,
             "chaotong_level": self.chaotong_level,
             "part_of_speech": self.part_of_speech,
@@ -33,13 +53,12 @@ class WordModel(BaseModel):
         }
 
     @classmethod
-    def from_dict(cls, data):
-        return cls(
-            word_id=data.get("word_id"),
-            word=data.get("word"),
-            chaotong_level=data.get("chaotong_level"),
-            part_of_speech=data.get("part_of_speech"),
-            hsk_level=data.get("hsk_level"),
-            characters=data.get("characters"),
-            created_at=data.get("created_at"),
-        )
+    def from_dict(cls, data: Dict):
+        """
+        从字典创建模型对象。
+        Args:
+            data (dict): 模型对象的字典表示。
+        Returns:
+            WordModel: 字词模型对象。
+        """
+        return cls(**data)

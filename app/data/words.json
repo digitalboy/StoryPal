@@ -52,52 +52,35 @@
   },
   {
     "word_id": "f0e9d8c7-b6a5-4321-9876-543210fedcb2",
-    "word": "早上",
-    "chaotong_level": 15,
-    "part_of_speech": "名词",
+    "word": "白色",
+    "chaotong_level": 10,
+    "part_of_speech": "形容词",
     "hsk_level": 3,
     "characters": [
       {
-        "character": "早",
+        "character": "白",
         "part_of_speech": "ADJ"
       },
       {
-        "character": "上",
+        "character": "色",
         "part_of_speech": "n"
       }
     ]
   },
   {
     "word_id": "f0e9d8c7-b6a5-4321-9876-543210fedcb3",
-    "word": "公园",
-    "chaotong_level": 20,
-    "part_of_speech": "名词",
-    "hsk_level": 4,
+    "word": "白说",
+    "chaotong_level": 10,
+    "part_of_speech": "动词",
+    "hsk_level": 3,
     "characters": [
       {
-        "character": "公",
-        "part_of_speech": "n"
-      },
-      {
-        "character": "园",
-        "part_of_speech": "n"
-      }
-    ]
-  },
-  {
-    "word_id": "f0e9d8c7-b6a5-4321-9876-543210fedcb4",
-    "word": "开心",
-    "chaotong_level": 25,
-    "part_of_speech": "形容词",
-    "hsk_level": 4,
-    "characters": [
-      {
-        "character": "开",
+        "character": "白",
         "part_of_speech": "v"
       },
       {
-        "character": "心",
-        "part_of_speech": "n"
+        "character": "说",
+        "part_of_speech": "v"
       }
     ]
   }

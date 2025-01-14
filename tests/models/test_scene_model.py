@@ -1,40 +1,62 @@
 # tests/models/test_scene_model.py
+import unittest
 from app.models.scene_model import SceneModel
-from datetime import datetime
 
 
-def test_scene_model_creation(sample_scene):
-    assert sample_scene.scene_id == "test_scene_id"
-    assert sample_scene.name == "测试场景"
-    assert sample_scene.description == "这是一个用于测试的场景"
-    assert isinstance(sample_scene.created_at, str)
-    try:
-        datetime.fromisoformat(sample_scene.created_at.replace("Z", "+00:00"))
-    except:
-        assert False, "created_at is not a valid ISO format"
+class TestSceneModel(unittest.TestCase):
+    """
+    测试场景模型 (SceneModel) 的功能。
+    """
+
+    def test_create_scene_model(self):
+        """
+        测试创建场景模型对象。
+        """
+        scene = SceneModel(
+            scene_id="test_id", name="问路", description="学习如何用中文问路。"
+        )
+        self.assertEqual(scene.id, "test_id")
+        self.assertEqual(scene.name, "问路")
+        self.assertEqual(scene.description, "学习如何用中文问路。")
+
+    def test_create_scene_model_without_id(self):
+        """
+        测试创建场景模型对象，不指定ID。
+        """
+        scene = SceneModel(name="问路", description="学习如何用中文问路。")
+        self.assertIsNotNone(scene.id)
+        self.assertEqual(scene.name, "问路")
+        self.assertEqual(scene.description, "学习如何用中文问路。")
+
+    def test_scene_model_to_dict(self):
+        """
+        测试将场景模型对象转换为字典。
+        """
+        scene = SceneModel(
+            scene_id="test_id", name="问路", description="学习如何用中文问路。"
+        )
+        scene_dict = scene.to_dict()
+        self.assertEqual(scene_dict["scene_id"], "test_id")
+        self.assertEqual(scene_dict["name"], "问路")
+        self.assertEqual(scene_dict["description"], "学习如何用中文问路。")
+        self.assertIsNotNone(scene_dict["created_at"])
+
+    def test_scene_model_from_dict(self):
+        """
+        测试从字典创建场景模型对象。
+        """
+        scene_dict = {
+            "scene_id": "test_id",
+            "name": "问路",
+            "description": "学习如何用中文问路。",
+            "created_at": "2025-01-10T04:47:20Z",
+        }
+        scene = SceneModel.from_dict(scene_dict)
+        self.assertEqual(scene.id, "test_id")
+        self.assertEqual(scene.name, "问路")
+        self.assertEqual(scene.description, "学习如何用中文问路。")
+        self.assertEqual(scene.created_at, "2025-01-10T04:47:20Z")
 
 
-def test_scene_model_to_dict(sample_scene):
-    scene_dict = sample_scene.to_dict()
-    assert scene_dict["scene_id"] == "test_scene_id"
-    assert scene_dict["name"] == "测试场景"
-    assert scene_dict["description"] == "这是一个用于测试的场景"
-    assert isinstance(scene_dict["created_at"], str)
-    try:
-        datetime.fromisoformat(scene_dict["created_at"].replace("Z", "+00:00"))
-    except:
-        assert False, "created_at is not a valid ISO format"
-
-
-def test_scene_model_from_dict(sample_scene):
-    scene_dict = sample_scene.to_dict()
-    new_scene = SceneModel.from_dict(scene_dict)
-    assert new_scene.scene_id == "test_scene_id"
-    assert new_scene.name == "测试场景"
-    assert new_scene.description == "这是一个用于测试的场景"
-    assert isinstance(new_scene.created_at, str)
-    try:
-        datetime.fromisoformat(new_scene.created_at.replace("Z", "+00:00"))
-    except:
-        assert False, "created_at is not a valid ISO format"
-    assert new_scene.created_at == sample_scene.created_at
+if __name__ == "__main__":
+    unittest.main()

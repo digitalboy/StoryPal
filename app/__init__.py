@@ -1,9 +1,7 @@
 # app/__init__.py
 import logging
 from flask import Flask
-from app.api.word_api import word_api
-from app.api.scene_api import scene_api
-from app.api.story_api import story_api
+
 from app.utils.error_handling import handle_error
 
 
@@ -19,9 +17,6 @@ def create_app():
     )
 
     # 注册 Blueprint
-    app.register_blueprint(word_api)
-    app.register_blueprint(scene_api)
-    app.register_blueprint(story_api)
 
     # 全局错误处理
     @app.errorhandler(404)
