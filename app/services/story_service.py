@@ -174,19 +174,18 @@ class StoryService:
                if char_in_text in known_word_pos_dict:
                   if pos_in_text in known_word_pos_dict[char_in_text]:
                        is_known = True
-                  else:
-                       for word_model in self.word_service.words.values():
-                           if word_model.chaotong_level <= target_level and char_in_text == word_model.word:
-                                for char_data in word_model.characters:
-                                    if char_data["character"] == char_in_text and char_data["part_of_speech"] in known_word_pos_dict[char_in_text] :
-                                        is_known = True
-                                        break
-                                if is_known:
-                                   break
+               else:
+                   for word_model in self.word_service.words.values():
+                       if word_model.chaotong_level <= target_level and char_in_text == word_model.word:
+                            for char_data in word_model.characters:
+                                if char_data["character"] == char_in_text and char_data["part_of_speech"] in known_word_pos_dict.get(char_in_text,set()) :
+                                    is_known = True
+                                    break
+                            if is_known:
+                               break
 
                if is_known:
                 known_words_count += 1
-
         known_rate = known_words_count / total_chinese_words
         unknown_rate = 1 - known_rate
         return (known_rate, unknown_rate)
@@ -470,26 +469,26 @@ class StoryService:
 
         return story
 
-    def adjust_story(self, story_id: str, target_level: int) -> StoryModel:
-        """
-        调整故事
-        Args:
-            story_id: 故事ID
-            target_level: 目标级别
-        Returns:
-            StoryModel: 调整后的故事
-        """
-        # 这里只是一个示例，实际的逻辑需要调用 AI 服务进行故事调整，可以复用 generate_story 的多轮对话逻辑。
-        story = StoryModel(
-            story_id=story_id,
-            title="调整后的故事",
-            content="调整后的故事内容，词汇难度升级。",
-            vocabulary_level=target_level,
-            new_char_rate=0.1,
-            new_char=2,
-            key_words=[],
-        )
-        return story
+
+    # def adjust_story(self, story_id: str, target_level: int) -> StoryModel:
+    #    """
+    #     调整故事
+    #     Args:
+    #         story_id: 故事ID
+    #         target_level: 目标级别
+    #     Returns:
+    #         StoryModel: 调整后的故事
+    #     """
+    #     story = StoryModel(
+    #         story_id=story_id,
+    #         title="调整后的故事",
+    #         content="调整后的故事内容，词汇难度升级。",
+    #         vocabulary_level=target_level,
+    #         new_char_rate=0.1,
+    #         new_char=2,
+    #         key_words=[],
+    #     )
+    #     return story
 
     def get_key_words_by_ids(self, key_word_ids: List[str]) -> List[Dict]:
         """

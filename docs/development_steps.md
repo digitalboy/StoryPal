@@ -29,62 +29,65 @@
 
 ```
 StroyPal/
-├── app/                      # 应用程序代码
-│   ├── __init__.py
-│   ├── models/              # 数据模型
-│   │   ├── __init__.py
-│   │   ├── base_model.py
-│   │   ├── word_model.py          # 字词模型
-│   │   ├── scene_model.py          # 场景模型
-│   │   └── story_model.py          # 故事模型
-│   ├── services/           # 业务逻辑服务
-│   │   ├── __init__.py
-│   │   ├── word_service.py  # 字词服务
-│   │   ├── scene_service.py # 场景服务
-│   │   └── story_service.py # 故事服务
-│   ├── utils/              # 工具函数
-│   │   ├── __init__.py
-│   │   ├── error_handling.py # 错误处理函数
-│   │   └── api_key_auth.py   # API Key 认证
-│   ├── api/                # API 路由
-│   │   ├── __init__.py
-│   │   ├── word_api.py       # 字词 API
-│   │   ├── scene_api.py      # 场景 API
-│   │   └── story_api.py      # 故事 API
-│   ├── config.py           # 项目配置
-│   ├── prompts
-│   │
-│   └── data/               # 测试数据
-│       ├── words.json       # 字词数据
-│       ├── scenes.json      # 场景数据
-│       └── story.json       # 故事数据
-├── tests/                   # 测试代码
-│   ├── __init__.py
-│   ├── conftest.py
-│   ├── models/              # 模型层测试
-│   │   ├── test_word_model.py
-│   │   ├── test_scene_model.py
-│   │   └── test_story_model.py
-│   ├── services/            # 服务层测试
-│   │    ├── test_word_service.py
-│   │    ├── test_scene_service.py
-│   │    └── test_story_service.py
-│   └── api/                  # API 层测试
-│       ├── test_word_api.py
-│       ├── test_scene_api.py
-│       └── test_story_api.py
-├── docs/                    # 项目文档
-│   ├── api.md              # API 文档
-│   ├── data_models.md       # 数据模型文档
-│   ├── testing.md          # 测试策略文档
-│   ├── error_codes.md        # 错误码文档
-│   ├── development_steps.md # 开发步骤文档
-│   └── prompt_engineering.md # 提示语工程文档
-├── .env                     # 环境变量
-├── requirements.txt         # 依赖列表
-├── README.md                # 项目说明
-├── docker-compose.yml      # Docker Compose 文件
-└── Dockerfile               # Dockerfile 文件
+├── app/ # 应用程序代码
+│ ├── init.py
+│ ├── models/ # 数据模型
+│ │ ├── init.py
+│ │ ├── base_model.py
+│ │ ├── word_model.py # 字词模型
+│ │ ├── scene_model.py # 场景模型
+│ │ └── story_model.py # 故事模型
+│ ├── services/ # 业务逻辑服务
+│ │ ├── init.py
+│ │ ├── word_service.py # 字词服务
+│ │ ├── scene_service.py # 场景服务
+│ │ └── story_service.py # 故事服务
+│ ├── utils/ # 工具函数
+│ │ ├── init.py
+│ │ ├── error_handling.py # 错误处理函数
+│ │ ├── api_key_auth.py # API Key 认证
+│ │ └── literacy_calculator.py # 生字率计算
+│ ├── api/ # API 路由
+│ │ ├── init.py
+│ │ ├── word_api.py # 字词 API
+│ │ ├── scene_api.py # 场景 API
+│ │ └── story_api.py # 故事 API
+│ ├── config.py # 项目配置
+│ ├── prompts
+│ │
+│ └── data/ # 测试数据
+│ ├── words.json # 字词数据
+│ ├── scenes.json # 场景数据
+│ └── story.json # 故事数据
+├── tests/ # 测试代码
+│ ├── init.py
+│ ├── conftest.py
+│ ├── models/ # 模型层测试
+│ │ ├── test_word_model.py
+│ │ ├── test_scene_model.py
+│ │ └── test_story_model.py
+│ ├── services/ # 服务层测试
+│ │ ├── test_word_service.py
+│ │ ├── test_scene_service.py
+│ │ └── test_story_service.py
+│ ├── utils/ # 工具函数测试
+│ │ └── test_literacy_calculator.py # 生字率计算器测试
+│ └── api/ # API 层测试
+│ ├── test_word_api.py
+│ ├── test_scene_api.py
+│ └── test_story_api.py
+├── docs/ # 项目文档
+│ ├── api.md # API 文档
+│ ├── data_models.md # 数据模型文档
+│ ├── testing.md # 测试策略文档
+│ ├── error_codes.md # 错误码文档
+│ ├── development_steps.md # 开发步骤文档
+│ └── prompt_engineering.md # 提示语工程文档
+├── .env # 环境变量
+├── requirements.txt # 依赖列表
+├── README.md # 项目说明
+├── docker-compose.yml # Docker Compose 文件
+└── Dockerfile # Dockerfile 文件
 ```
 
 ## 3. 核心逻辑与算法
