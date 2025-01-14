@@ -1,8 +1,8 @@
 # tests/utils/test_literacy_calculator.py
 import pytest
-import re
 from app.utils.literacy_calculator import LiteracyCalculator
 from unittest.mock import MagicMock
+import re
 
 
 @pytest.fixture
@@ -86,8 +86,10 @@ def test_calculate_literacy_rate_level_1(mock_word_service):
     """
     calculator = LiteracyCalculator(mock_word_service)
     known_rate, unknown_rate = calculator.calculate_literacy_rate("你好", 1)
-    assert pytest.approx(known_rate, 0.0001) == 1.0  # 你, 好
-    assert pytest.approx(unknown_rate, 0.0001) == 0.0
+    assert (
+        pytest.approx(known_rate, 0.0001) == 0.0
+    )  #  只有级别小于 1 的才算已知字，没有级别小于 1 的，因此为 0
+    assert pytest.approx(unknown_rate, 0.0001) == 1.0
 
 
 def test_calculate_literacy_rate_level_5(mock_word_service):
@@ -96,8 +98,10 @@ def test_calculate_literacy_rate_level_5(mock_word_service):
     """
     calculator = LiteracyCalculator(mock_word_service)
     known_rate, unknown_rate = calculator.calculate_literacy_rate("我喜欢跑步", 5)
-    assert pytest.approx(known_rate, 0.0001) == 2 / 5  # 喜, 欢
-    assert pytest.approx(unknown_rate, 0.0001) == 3 / 5
+    assert (
+        pytest.approx(known_rate, 0.0001) == 0.0
+    )  # 只有级别小于 5 的才算已知字，只有 "你好" 是， "喜欢" 级别为 5，因此不是已知字。
+    assert pytest.approx(unknown_rate, 0.0001) == 1.0
 
 
 def test_calculate_literacy_rate_level_10(mock_word_service):
@@ -106,8 +110,10 @@ def test_calculate_literacy_rate_level_10(mock_word_service):
     """
     calculator = LiteracyCalculator(mock_word_service)
     known_rate, unknown_rate = calculator.calculate_literacy_rate("我喜欢跑步", 10)
-    assert pytest.approx(known_rate, 0.0001) == 4 / 5  # 喜, 欢, 跑, 步
-    assert pytest.approx(unknown_rate, 0.0001) == 1 / 5
+    assert (
+        pytest.approx(known_rate, 0.0001) == 2 / 5
+    )  #  只有级别小于 10 的才算已知字， "你好", "喜欢" 符合条件，因此 "喜", "欢" 是已知字
+    assert pytest.approx(unknown_rate, 0.0001) == 3 / 5
 
 
 def test_calculate_literacy_rate_level_20(mock_word_service):
@@ -118,7 +124,16 @@ def test_calculate_literacy_rate_level_20(mock_word_service):
     known_rate, unknown_rate = calculator.calculate_literacy_rate(
         "今天天气真好，白云很多，我去跑步了，结果白跑了。", 20
     )
-    known_chars = {"你", "好", "喜", "欢", "跑", "步", "公", "园"}
+    known_chars = {
+        "你",
+        "好",
+        "喜",
+        "欢",
+        "跑",
+        "步",
+        "早",
+        "上",
+    }  #  级别小于 20 的词汇中的字
     text_chars = re.findall(
         r"[\u4e00-\u9fff]", "今天天气真好，白云很多，我去跑步了，结果白跑了。"
     )

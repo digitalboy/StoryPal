@@ -14,7 +14,7 @@ class LiteracyCalculator:
 
     def _load_known_words(self, target_level):
         """
-        加载小于等于目标级别的所有词汇中包含的字。
+        加载小于目标级别的所有词汇中包含的字。
         Args:
             target_level: 目标级别 (整数)。
         Returns:
@@ -22,7 +22,7 @@ class LiteracyCalculator:
         """
         known_characters = set()
         for word_model in self.word_service.words.values():
-            if word_model.chaotong_level <= target_level:
+            if word_model.chaotong_level < target_level:  # 将 <= 修改为 <
                 for char_data in word_model.characters:
                     known_characters.add(char_data["character"])
         return known_characters
