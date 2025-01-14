@@ -61,10 +61,10 @@
     "story_word_count": "integer", // 故事字数
     "new_char_rate": "float", // 目标生字率（0-1）
     "key_word_ids": ["string"], // 重点词汇ID列表（UUID），可选
-     "new_char_rate_tolerance": "float", // 生字率容差值，可选
-     "word_count_tolerance": "float", // 字数容差值, 可选
-     "story_word_count_tolerance": "integer", // 故事字数容差值，可选
-     "request_limit": "integer" // 请求频率限制，可选
+    "new_char_rate_tolerance": "float", // 生字率容差值，可选
+    "word_count_tolerance": "float", // 字数容差值, 可选
+    "story_word_count_tolerance": "integer", // 故事字数容差值，可选
+    "request_limit": "integer" // 请求频率限制，可选
   }
   ```
 
