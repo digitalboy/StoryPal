@@ -25,7 +25,7 @@
 1.  **创建服务**: 在 `app/services` 目录下创建业务逻辑服务文件，例如 `word_service.py`、`scene_service.py` 和 `story_service.py`。
 2.  **实现业务逻辑**: 在服务层实现业务逻辑，例如故事的生成、字词的查询、场景的管理。
     *    **注意**： **生字率的计算逻辑已独立在  `app/utils/literacy_calculator.py` 中， 服务层不需要关心生字率的计算细节。**
-    *   **核心的生字率计算算法应该使用 `app/utils/literacy_calculator.py` 中提供的  `calculate_literacy_rate` 方法。
+    *   **核心的生字率计算算法应该使用 `app/utils/literacy_calculator.py` 中提供的  `calculate_literacy_rate` 方法。**  **详细定义和计算方法见 [`生字与生字率.md`](生字与生字率.md)**。
     *    **多轮对话**:  实现多轮对话的逻辑， 根据 `prompt_engineering.md` 中定义的模板， 构建提示语。 **使用状态机管理对话流程，根据用户的反馈动态调整对话策略。**
             *   **状态机:**  使用一个简单的状态枚举来表示对话状态，例如 `INIT`, `PROVIDE_KNOWN_WORDS`, `FINAL_INSTRUCTION`, `FAILED`。
             *   **对话策略：**
