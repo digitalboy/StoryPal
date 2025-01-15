@@ -1,2 +1,10 @@
-以下是一些已知词汇，你可以参考：
+*   故事应该发生在：**{{ scene_description }}**
+*   故事大部分词汇应该使用 **{{ vocabulary_level }}** 级别以下的词汇。
+*   故事的**生字率 (New Character Rate)** 应该在 **{{ new_char_rate }}** 左右， 并且容差值为 **{{ new_char_rate_tolerance }}**。
+*   故事的字数应该在 **{{ word_count_min }}** 到 **{{ word_count_max }}** 字之间。
+*   故事中必须包含以下重点词汇（新的级别中的需要学习的词汇）:
+        **{{ key_words }}**
+        *  **{{ key_words }}** 是一个 JSON 数组， 数组中每个元素是一个 JSON 对象， 包含 `word` 字段，例如：`[{"word": "喜欢"}, {"word": "跑步"}]`。
+
+以下是一些已知词汇（目标级别以下的词汇），你可以参考：
 {{ known_words }}

@@ -61,10 +61,9 @@
     "story_word_count": "integer", // 故事字数
     "new_char_rate": "float", // 目标生字率（0-1）
     "key_word_ids": ["string"], // 重点词汇ID列表（UUID），可选
-    "new_char_rate_tolerance": "float", // 生字率容差值，可选
-    "word_count_tolerance": "float", // 字数容差值, 可选
-    "story_word_count_tolerance": "integer", // 故事字数容差值，可选
-    "request_limit": "integer" // 请求频率限制，可选
+     "new_char_rate_tolerance": "float", // 生字率容差值，可选
+     "story_word_count_tolerance": "integer", // 故事字数容差值，可选
+     "request_limit": "integer" // 请求频率限制，可选
   }
   ```
 
@@ -84,7 +83,7 @@
       "scene": "string", // 场景ID（UUID）
       "story_word_count": "integer", // 实际故事字数
       "new_char_rate": "float", // 实际生字率
-       "new_char": "integer", // 实际生字数量
+      "new_char": "integer", // 实际生字数量
       "key_words": [ // 重点词汇列表
         {
           "word": "string", // 重点词汇
@@ -251,7 +250,7 @@
             "message": "Scene updated successfully",
             "data": null
          }
-         ```
+        ```
 
 #### 3.2.4 删除场景
 
@@ -299,7 +298,7 @@
 - **Headers**:
   - `Authorization: Bearer <API_KEY>`
 - **Query Parameters**:
-  - `level`: 超童级别（1-100），可选
+  - `chaotong_level`: 超童级别（1-100），可选
   - `part_of_speech`: 词性（如“名词”），可选
   - `page`: 页码（默认1），可选
   - `page_size`: 每页数量（默认10），可选

@@ -13,8 +13,7 @@ class WordModel(BaseModel):
         word_id: str = None,
         word: str = None,
         chaotong_level: int = None,
-        part_of_speech: str = None,
-        hsk_level: int = None,
+        hsk_level: Optional[float] = None,
         characters: List[Dict] = None,
         created_at: str = None,
     ):
@@ -24,15 +23,13 @@ class WordModel(BaseModel):
             word_id (str, optional): 词语的唯一ID，如果为None，则自动生成UUID.
             word (str): 词语.
             chaotong_level (int): 超童级别，取值范围 1-100.
-            part_of_speech (str): 词性，例如：名词，动词，形容词等.
-            hsk_level (int): HSK级别.
+            hsk_level (float): HSK级别.
             characters (List[Dict]): 词语中包含的字列表.
             created_at (str, optional): 模型的创建时间，如果为None，则设置为当前时间.
         """
         super().__init__(id=word_id, created_at=created_at)
         self.word = word
         self.chaotong_level = chaotong_level
-        self.part_of_speech = part_of_speech
         self.hsk_level = hsk_level
         self.characters = characters if characters else []
 
@@ -46,7 +43,6 @@ class WordModel(BaseModel):
             "word_id": self.id,
             "word": self.word,
             "chaotong_level": self.chaotong_level,
-            "part_of_speech": self.part_of_speech,
             "hsk_level": self.hsk_level,
             "characters": self.characters,
             "created_at": self.created_at,

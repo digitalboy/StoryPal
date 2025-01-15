@@ -11,6 +11,7 @@ from app.services.scene_service import SceneService
 from app.utils.literacy_calculator import LiteracyCalculator
 
 
+
 class StoryService:
     """
     故事服务，提供故事相关的业务逻辑。
@@ -63,7 +64,6 @@ class StoryService:
         self,
         story: StoryModel,
         new_char_rate_tolerance: float = None,
-        word_count_tolerance: float = None,
         story_word_count_tolerance: int = None,
     ) -> bool:
         """
@@ -71,26 +71,14 @@ class StoryService:
         Args:
             story (StoryModel): 故事模型对象。
             new_char_rate_tolerance (float, optional):  生字率容差值，默认使用配置文件的值.
-            word_count_tolerance (float, optional): 字数 容差值，默认使用配置文件的值.
-            story_word_count_tolerance (int, optional): 故事字数容差值，默认使用配置文件的值.
+             story_word_count_tolerance (int, optional): 故事字数容差值，默认使用配置文件的值.
         Returns:
             bool: 如果故事符合要求，则返回 True，否则返回 False。
         """
         if new_char_rate_tolerance is None:
             new_char_rate_tolerance = Config.NEW_CHAR_RATE_TOLERANCE
-        if word_count_tolerance is None:
-            word_count_tolerance = Config.WORD_COUNT_TOLERANCE
         if story_word_count_tolerance is None:
             story_word_count_tolerance = Config.STORY_WORD_COUNT_TOLERANCE
-
-        word_count_min = story.word_count * (1 - word_count_tolerance)
-        word_count_max = story.word_count * (1 + word_count_tolerance)
-
-        if not (word_count_min <= story.word_count <= word_count_max):
-            logging.warning(
-                f"Story word count {story.word_count} not within tolerance {word_count_tolerance}"
-            )
-            return False
 
         if not (
             story.new_char_rate - new_char_rate_tolerance
@@ -120,7 +108,6 @@ class StoryService:
         new_char_rate: float,
         key_word_ids: List[str] = None,
         new_char_rate_tolerance: float = None,
-        word_count_tolerance: float = None,
         story_word_count_tolerance: int = None,
         request_limit: int = None,
     ) -> StoryModel:
@@ -132,9 +119,8 @@ class StoryService:
             story_word_count (int): 故事字数.
             new_char_rate (float): 目标生字率.
             key_word_ids (List[str], optional): 重点词汇ID列表.
-            new_char_rate_tolerance (float, optional):  生字率容差值，默认使用配置文件的值.
-            word_count_tolerance (float, optional): 字数 容差值，默认使用配置文件的值.
-            story_word_count_tolerance (int, optional): 故事字数容差值，默认使用配置文件的值.
+             new_char_rate_tolerance (float, optional):  生字率容差值，默认使用配置文件的值.
+             story_word_count_tolerance (int, optional): 故事字数容差值，默认使用配置文件的值.
             request_limit (int, optional): 请求频率限制，默认使用配置文件的值.
         Returns:
             StoryModel: 生成的故事模型对象.
@@ -166,7 +152,7 @@ class StoryService:
         initial_prompt = self._render_prompt("initial_prompt.txt", initial_prompt_data)
         messages.append({"role": "user", "content": initial_prompt})
 
-        # 3. 获取已知词汇 (目标等级一下的所有词汇)
+        # 3. 获取已知词汇 (如果需要)
         known_words_prompt_data = {}
         known_words_list = self._load_known_words(vocabulary_level)
         if known_words_list:
@@ -216,13 +202,12 @@ class StoryService:
                 if self._validate_story(
                     story,
                     new_char_rate_tolerance,
-                    word_count_tolerance,
                     story_word_count_tolerance,
                 ):
                     return story
                 else:
-                    logging.warning("Story validation failed")
-                    raise Exception("Story validation failed")
+                    logging.warning(f"Story validation failed")
+                    raise Exception(f"Story validation failed")
 
             except (json.JSONDecodeError, TypeError) as e:
                 logging.error(f"AI 服务返回无效的 JSON 格式: {e}")

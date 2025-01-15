@@ -48,7 +48,7 @@ class WordService:
 
     def get_words(
         self,
-        level: int = None,
+        chaotong_level: int = None,
         part_of_speech: str = None,
         page: int = 1,
         page_size: int = 10,
@@ -56,7 +56,7 @@ class WordService:
         """
         根据条件获取字词列表。
         Args:
-            level (int, optional): 超童级别，如果指定则返回该级别的词汇.
+            chaotong_level (int, optional): 超童级别，如果指定则返回该级别的词汇.
             part_of_speech (str, optional): 词性，如果指定则返回该词性的词汇.
             page (int, optional): 页码，默认为1.
             page_size (int, optional): 每页数量，默认为10.
@@ -65,9 +65,9 @@ class WordService:
         """
         filtered_words = list(self.words.values())
 
-        if level:
+        if chaotong_level:
             filtered_words = [
-                word for word in filtered_words if word.chaotong_level == level
+                word for word in filtered_words if word.chaotong_level == chaotong_level
             ]
         if part_of_speech:
             filtered_words = [
@@ -78,20 +78,22 @@ class WordService:
         end = start + page_size
         return filtered_words[start:end]
 
-    def get_total_words(self, level: int = None, part_of_speech: str = None) -> int:
+    def get_total_words(
+        self, chaotong_level: int = None, part_of_speech: str = None
+    ) -> int:
         """
         根据条件获取字词总数
         Args:
-            level (int, optional): 超童级别，如果指定则返回该级别的词汇总数.
+            chaotong_level (int, optional): 超童级别，如果指定则返回该级别的词汇总数.
             part_of_speech (str, optional): 词性，如果指定则返回该词性的词汇总数.
         Returns:
             int: 字词总数.
         """
         filtered_words = list(self.words.values())
 
-        if level:
+        if chaotong_level:
             filtered_words = [
-                word for word in filtered_words if word.chaotong_level == level
+                word for word in filtered_words if word.chaotong_level == chaotong_level
             ]
         if part_of_speech:
             filtered_words = [

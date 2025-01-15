@@ -74,7 +74,6 @@ def get_api_key_from_config():
 | `DEEPSEEK_API_KEY`             | `string`  | 调用 DeepSeek API 使用的 API Key，从 `.env` 文件读取                           | 无         |
 | `DEBUG`                      | `boolean` | 是否启用调试模式，从 `.env` 文件读取，`True` 或者 `False`                     | `False`   |
 | `NEW_CHAR_RATE_TOLERANCE`      | `float`   | 生字率容差值，用于判断生成的生字率是否符合要求，可在 API 请求参数中动态设置 | `0.1`     |
-| `WORD_COUNT_TOLERANCE`      | `float` | 字数容差值，用于判断生成的字数是否符合要求，可在 API 请求参数中动态设置 | `0.2`    |
 | `REQUEST_LIMIT`                | `integer`| API 请求频率限制，可在 API 请求参数中动态设置                      | `100`     |
 | `STORY_WORD_COUNT_TOLERANCE`       | `integer` | 故事字数容差值，用正负值表示，例如 +20 或者 -20,  可在 API 请求参数中动态设置     | `20`  |
 | `WORDS_FILE_PATH`            | `string`  | 词汇数据的文件路径，用于加载字词数据  **`words.json` 文件由另外一个项目维护，并且该文件不应该提交到代码仓库。**   | `app/data/words.json`  |

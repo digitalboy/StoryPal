@@ -1,6 +1,4 @@
-好的，这是根据讨论结果更新后的 `data_models.md` 文档内容，主要添加了 `key_words` 字段的说明：
 
-```markdown
 # 数据模型
 
 ## 1. 概述
@@ -35,14 +33,9 @@
             "maximum": 100,
             "description": "超童级别"
         },
-        "part_of_speech": {
-            "type": "string",
-            "enum": ["名词", "动词", "形容词", "副词", "语气词", "其他"],
-            "description": "词性"
-        },
        "hsk_level": {
-            "type": "integer",
-             "description": "HSK级别"
+            "type": ["number", "null"],
+             "description": "HSK级别，可以是浮点数或空值"
         },
         "characters": {
             "type": "array",
@@ -64,7 +57,7 @@
             "description": "词语中包含的字列表"
         }
     },
-    "required": ["word_id", "word", "chaotong_level", "part_of_speech", "hsk_level", "characters"]
+    "required": ["word_id", "word", "chaotong_level", "hsk_level", "characters"]
 }
 ```
 
@@ -75,7 +68,6 @@
     "word_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
     "word": "你好",
     "chaotong_level": 1,
-    "part_of_speech": "其他",
      "hsk_level": 1,
     "characters": [
         {
@@ -199,11 +191,11 @@
             "type": ["string", "null"],
             "description": "释义"
           },
-         "part_of_speech": {
+           "part_of_speech": {
             "type": "string",
             "enum": ["名词", "动词", "形容词", "副词", "语气词", "其他"],
-             "description": "词性",
-            },
+             "description": "词性"
+          },
           "example": {
             "type": ["string", "null"],
             "description": "例句"
@@ -244,16 +236,6 @@
              "example": "火车站很大。"
         }
     ],
-           {
-            "word": "火车站",
-            "pinyin": "huǒ chē zhàn",
-            "definition": " train station",
-             "part_of_speech": "名词",
-             "example": "火车站很大。"
-        }
-    ],
-
-   "created_at": "2025-01-10T10:00:00Z"
+     "created_at": "2025-01-10T10:00:00Z"
 }
 ```
-

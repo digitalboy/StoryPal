@@ -18,7 +18,7 @@ def get_words():
     获取字词列表
     """
     try:
-        level = request.args.get("level", type=int)
+        chaotong_level = request.args.get("chaotong_level", type=int)
         part_of_speech = request.args.get("part_of_speech")
         page = request.args.get("page", default=1, type=int)
         page_size = request.args.get("page_size", default=10, type=int)
@@ -29,10 +29,16 @@ def get_words():
         if page_size < 1:
             return handle_error(400, "Invalid page size")
 
-        if level is not None and below_level is not None:
+        if chaotong_level is not None and below_level is not None:
             return handle_error(
-                400, "Cannot use both 'level' and 'below_level' parameters"
+                400, "Cannot use both 'chaotong_level' and 'below_level' parameters"
             )
+
+        if chaotong_level is not None:
+            if not 1 <= chaotong_level <= 100:
+                return handle_error(
+                    400, "Invalid chaotong_level, must be between 1 and 100"
+                )
 
         if below_level is not None:
             words = word_service.get_words_below_level(below_level, part_of_speech)
@@ -45,8 +51,10 @@ def get_words():
                 }
             )
         else:
-            words = word_service.get_words(level, part_of_speech, page, page_size)
-            total = word_service.get_total_words(level, part_of_speech)
+            words = word_service.get_words(
+                chaotong_level, part_of_speech, page, page_size
+            )
+            total = word_service.get_total_words(chaotong_level, part_of_speech)
             word_list = [word.to_dict() for word in words]
             return jsonify(
                 {
