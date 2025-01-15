@@ -1,7 +1,7 @@
 # app/services/word_service.py
 import json
 import logging
-from typing import Dict, List
+from typing import Dict, List, Set
 from app.config import Config
 from app.models.word_model import WordModel
 
@@ -49,7 +49,6 @@ class WordService:
     def get_words(
         self,
         chaotong_level: int = None,
-        part_of_speech: str = None,
         page: int = 1,
         page_size: int = 10,
     ) -> List[WordModel]:
@@ -57,7 +56,6 @@ class WordService:
         根据条件获取字词列表。
         Args:
             chaotong_level (int, optional): 超童级别，如果指定则返回该级别的词汇.
-            part_of_speech (str, optional): 词性，如果指定则返回该词性的词汇.
             page (int, optional): 页码，默认为1.
             page_size (int, optional): 每页数量，默认为10.
         Returns:
@@ -65,63 +63,67 @@ class WordService:
         """
         filtered_words = list(self.words.values())
 
-        if chaotong_level:
+        if chaotong_level is not None:
             filtered_words = [
                 word for word in filtered_words if word.chaotong_level == chaotong_level
-            ]
-        if part_of_speech:
-            filtered_words = [
-                word for word in filtered_words if word.part_of_speech == part_of_speech
             ]
 
         start = (page - 1) * page_size
         end = start + page_size
         return filtered_words[start:end]
 
-    def get_total_words(
-        self, chaotong_level: int = None, part_of_speech: str = None
-    ) -> int:
+    def get_total_words(self, chaotong_level: int = None) -> int:
         """
         根据条件获取字词总数
         Args:
             chaotong_level (int, optional): 超童级别，如果指定则返回该级别的词汇总数.
-            part_of_speech (str, optional): 词性，如果指定则返回该词性的词汇总数.
         Returns:
             int: 字词总数.
         """
         filtered_words = list(self.words.values())
 
-        if chaotong_level:
+        if chaotong_level is not None:
             filtered_words = [
                 word for word in filtered_words if word.chaotong_level == chaotong_level
-            ]
-        if part_of_speech:
-            filtered_words = [
-                word for word in filtered_words if word.part_of_speech == part_of_speech
             ]
 
         return len(filtered_words)
 
-    def get_words_below_level(
-        self, level: int, part_of_speech: str = None
-    ) -> List[WordModel]:
+    def get_words_below_level(self, level: int) -> List[WordModel]:
         """
         获取指定级别以下的所有词汇
         Args:
            level (int): 目标级别, 不包含这个级别
-           part_of_speech (str, optional): 词性，如果指定则返回该词性的词汇
         Returns:
             List[WordModel]:  字词模型对象列表
         """
         filtered_words = [
-            word for word in self.words.values() if word.chaotong_level < level
+            word
+            for word in self.words.values()
+            if level is not None
+            and isinstance(word.chaotong_level, int)
+            and word.chaotong_level < level
         ]
-
-        if part_of_speech:
-            filtered_words = [
-                word for word in filtered_words if word.part_of_speech == part_of_speech
-            ]
         return filtered_words
+
+    def get_known_characters(self, level: int) -> Set[str]:
+        """
+        获取指定级别以下的所有已知字 (字 + 词性) 组合
+        Args:
+            level (int): 目标级别, 不包含这个级别
+        Returns:
+             Set[str]: 已知字集合，每个元素是 “字/词性” 字符串
+        """
+        known_characters = set()
+        words_below_level = self.get_words_below_level(level)
+        for word in words_below_level:
+            for char_info in word.characters:
+                char_with_pos = (
+                    f"{char_info['character']}/{char_info['part_of_speech']}"
+                )
+                known_characters.add(char_with_pos)
+
+        return known_characters
 
     def get_key_words_by_ids(self, key_word_ids: List[str]) -> List[Dict]:
         """
@@ -129,7 +131,7 @@ class WordService:
         Args:
             key_word_ids: 重点词汇 ID 列表。
         Returns:
-           List[Dict]: 重点词汇的详细信息列表，包含 `word`, `pinyin`, `definition`, `part_of_speech` 和 `example`
+           List[Dict]: 重点词汇的详细信息列表，包含 `word`, `pinyin`, `definition`,  和 `example`
         """
         key_words = []
         for word_id in key_word_ids:
@@ -140,7 +142,6 @@ class WordService:
                         "word": word_model.word,
                         "pinyin": None,  # 暂时设置为 None, 后续可以从 words.json 中获取
                         "definition": None,  # 暂时设置为 None, 后续可以从 words.json 中获取
-                        "part_of_speech": word_model.part_of_speech,
                         "example": None,  # 暂时设置为 None, 后续可以从 words.json 中获取
                     }
                 )

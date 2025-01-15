@@ -1,7 +1,5 @@
 # app/utils/literacy_calculator.py
 import re
-import logging
-from typing import Dict, List, Tuple
 
 
 class LiteracyCalculator:
