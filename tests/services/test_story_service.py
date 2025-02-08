@@ -98,11 +98,12 @@ def test_generate_story(
     """
     测试生成故事
     """
+    target_new_word_rate = 0.2  # 设置目标生词率
     story = story_service.generate_story(
         vocabulary_level=30,
         scene_id="scene1",
         story_word_count=100,
-        new_word_rate=0.2,
+        new_word_rate=target_new_word_rate,  # 设置目标生词率
         key_word_ids=["word1"],
         new_word_rate_tolerance=0.1,
         story_word_count_tolerance=20,
@@ -185,7 +186,7 @@ def test_validate_story(story_service, mock_literacy_calculator):
     from app.models.story_model import StoryModel
 
     # 创建一个模拟的故事
-    target_new_word_rate = 0.2  #  设置目标生词率
+    target_new_word_rate = 0.2  # 设置目标生词率
     story = StoryModel(
         title="测试故事",
         content="你好喜欢跑步",
@@ -208,16 +209,19 @@ def test_validate_story(story_service, mock_literacy_calculator):
     story.new_word_rate = mock_literacy_calculator_return_value_1[
         1
     ]  #  更新 story.new_word_rate 为 mock 返回值
-
-    print(
-        "Test Case 1: Mock literacy_calculator returns:",
-        mock_literacy_calculator.calculate_vocabulary_rate.return_value,
-    )  # DEBUG
-    is_valid = story_service._validate_story(
-        story, new_word_rate_tolerance=0.2, story_word_count_tolerance=1
+    #  调用函数
+    story_service.literacy_calculator.calculate_vocabulary_rate(
+        story.content, story.vocabulary_level
     )
-    print("Test Case 1: _validate_story returns:", is_valid)  # DEBUG
+
+    is_valid = story_service._validate_story(
+        story,
+        target_new_word_rate,  # 传入目标生词率
+        new_word_rate_tolerance=0.2,
+        story_word_count_tolerance=1,
+    )
     assert is_valid == True
+    mock_literacy_calculator.calculate_vocabulary_rate.assert_called()  # 确保调用的验证
 
     # 测试用例 2:   生词率超出范围
     mock_literacy_calculator_return_value_2 = (
@@ -231,11 +235,15 @@ def test_validate_story(story_service, mock_literacy_calculator):
     story.new_word_rate = mock_literacy_calculator_return_value_2[
         1
     ]  #  更新 story.new_word_rate 为 mock 返回值
+    #  调用函数
+    story_service.literacy_calculator.calculate_vocabulary_rate(
+        story.content, story.vocabulary_level
+    )
 
-    print(
-        "Test Case 2: Mock literacy_calculator returns:",
-        mock_literacy_calculator.calculate_vocabulary_rate.return_value,
-    )  # DEBUG
-    is_valid = story_service._validate_story(story, new_word_rate_tolerance=0.1)
-    print("Test Case 2: _validate_story returns:", is_valid)  # DEBUG
+    is_valid = story_service._validate_story(
+        story,
+        target_new_word_rate,  # 传入目标生词率
+        new_word_rate_tolerance=0.1,
+    )
     assert is_valid == False
+    mock_literacy_calculator.calculate_vocabulary_rate.assert_called()  # 确保调用的验证

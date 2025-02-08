@@ -49,6 +49,7 @@ class StoryService:
     def _validate_story(
         self,
         story: StoryModel,
+        new_word_rate: float,  # 目标生词率
         new_word_rate_tolerance: float = None,
         story_word_count_tolerance: int = None,
     ) -> bool:
@@ -60,27 +61,23 @@ class StoryService:
         if story_word_count_tolerance is None:
             story_word_count_tolerance = Config.STORY_WORD_COUNT_TOLERANCE
 
-        target_new_word_rate_test = (
-            0.2  # Hardcoded target rate for TEST - TEMPORARY - BUT NOW USED CORRECTLY
-        )
+        # target_new_word_rate_test = 0.2  # Hardcoded target rate for TEST - TEMPORARY - BUT NOW USED CORRECTLY  # 删除
 
-        print("_validate_story START - story.new_word_rate:", story.new_word_rate)
-        print(
-            "_validate_story START - new_word_rate_tolerance:", new_word_rate_tolerance
-        )
+        # print("_validate_story START - story.new_word_rate:", story.new_word_rate)  # 删除
+        # print(
+        #     "_validate_story START - new_word_rate_tolerance:", new_word_rate_tolerance
+        # )  # 删除
 
         if not (
             story.new_word_rate
-            >= target_new_word_rate_test
-            - new_word_rate_tolerance  # Compare against TARGET now!
+            >= new_word_rate - new_word_rate_tolerance  # 使用参数传递
             and story.new_word_rate
-            <= target_new_word_rate_test
-            + new_word_rate_tolerance  # Compare against TARGET now!
+            <= new_word_rate + new_word_rate_tolerance  # 使用参数传递
         ):
             logging.warning(
                 f"Story new word rate {story.new_word_rate} not within tolerance {new_word_rate_tolerance}"
             )
-            print("_validate_story: New word rate validation failed - Returning False")
+            # print("_validate_story: New word rate validation failed - Returning False")  # 删除
             return False
         if not (
             story.story_word_count
@@ -91,12 +88,12 @@ class StoryService:
             logging.warning(
                 f"Story word count {story.story_word_count} not within tolerance {story_word_count_tolerance}"
             )
-            print(
-                "_validate_story: Story word count validation failed - Returning False"
-            )
+            # print(
+            #     "_validate_story: Story word count validation failed - Returning False"
+            # )  # 删除
             return False
 
-        print("_validate_story: Validation passed - Returning True")
+        # print("_validate_story: Validation passed - Returning True")  # 删除
         return True
 
     def generate_story(
@@ -112,17 +109,6 @@ class StoryService:
     ) -> StoryModel:
         """
         生成故事
-        Args:
-            vocabulary_level (int): 目标词汇级别.
-            scene_id (str): 场景ID.
-            story_word_count (int): 故事字数.
-            new_word_rate (float): 目标生词率.
-            key_word_ids (List[str], optional): 重点词汇ID列表.
-             new_word_rate_tolerance (float, optional):  生词率容差值，默认使用配置文件的值.
-             story_word_count_tolerance (int, optional): 故事字数容差值，默认使用配置文件的值.
-            request_limit (int, optional): 请求频率限制，默认使用配置文件的值.
-        Returns:
-            StoryModel: 生成的故事模型对象.
         """
         # 1. 初始化状态
         messages = []
@@ -204,15 +190,17 @@ class StoryService:
                 story.new_words = int(
                     story.story_word_count * story.new_word_rate
                 )  #  需要修改
-                if self._validate_story(
+                is_valid = self._validate_story(
                     story,
+                    new_word_rate,  # 使用参数传递
                     new_word_rate_tolerance,
                     story_word_count_tolerance,
-                ):
-                    return story
-                else:
+                )
+                if not is_valid:
                     logging.warning(f"Story validation failed")
                     raise Exception(f"Story validation failed")
+
+                return story
 
             except (json.JSONDecodeError, TypeError) as e:
                 logging.error(f"AI 服务返回无效的 JSON 格式: {e}")
