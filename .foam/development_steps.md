@@ -8,13 +8,13 @@
 
 我将把 `development_steps.md` 文档拆分为以下几个更小的文档：
 
-*   `development_setup.md`:  包含开发前的准备工作，例如环境配置、代码仓库和项目结构。
-*   `core_concepts.md`:  包含核心概念的定义，例如字词、级别、生字率、已知字和生字。
-*   `literacy_calculation.md`:  专门描述生字率计算的核心算法、流程图和伪代码。
-*   `multi_turn_dialogue.md`: 专门描述多轮对话策略。
-*   `development_process.md`:  包含具体的开发步骤，例如模型层开发、服务层开发、API 层开发、错误处理、配置管理、日志记录、单元测试、集成测试、代码审查和持续集成。
-*   `deployment.md`:  包含部署相关的步骤。
-*  `coding_conventions.md`: 包含代码开发规范。
+- `development_setup.md`: 包含开发前的准备工作，例如环境配置、代码仓库和项目结构。
+- `core_concepts.md`: 包含核心概念的定义，例如词语、级别、生字率、已知字和生字。
+- `literacy_calculation.md`: 专门描述生字率计算的核心算法、流程图和伪代码。
+- `multi_turn_dialogue.md`: 专门描述多轮对话策略。
+- `development_process.md`: 包含具体的开发步骤，例如模型层开发、服务层开发、API 层开发、错误处理、配置管理、日志记录、单元测试、集成测试、代码审查和持续集成。
+- `deployment.md`: 包含部署相关的步骤。
+- `coding_conventions.md`: 包含代码开发规范。
 
 这样拆分后，每个文档都专注于一个特定的主题，更易于理解和维护。
 
@@ -24,7 +24,7 @@
 
 **`development_setup.md`**
 
-```markdown
+````markdown
 # 开发准备
 
 ## 1. 概述
@@ -44,8 +44,9 @@
     source venv/bin/activate  # On macOS and Linux
     # venv\Scripts\activate # On Windows
     ```
+
 4.  **配置环境变量**: 创建 `.env` 文件，配置项目所需的敏感信息和可配置参数，例如 API Key、DeepSeek API Key、容差值等。具体请参考 `docs/config.md`。
-5.  **安装 Docker**:  安装 Docker 用于部署项目。
+5.  **安装 Docker**: 安装 Docker 用于部署项目。
 
 ### 2.2 代码仓库
 
@@ -53,20 +54,20 @@
 2.  **克隆代码仓库**: 将代码仓库克隆到本地开发环境。
 
 ### 2.3 项目结构
+````
 
-```
 StroyPal/
 ├── app/ # 应用程序代码
 │ ├── init.py
 │ ├── models/ # 数据模型
 │ │ ├── init.py
 │ │ ├── base_model.py
-│ │ ├── word_model.py # 字词模型
+│ │ ├── word_model.py # 词语模型
 │ │ ├── scene_model.py # 场景模型
 │ │ └── story_model.py # 故事模型
 │ ├── services/ # 业务逻辑服务
 │ │ ├── init.py
-│ │ ├── word_service.py # 字词服务
+│ │ ├── word_service.py # 词语服务
 │ │ ├── scene_service.py # 场景服务
 │ │ └── story_service.py # 故事服务
 │ ├── utils/ # 工具函数
@@ -76,14 +77,14 @@ StroyPal/
 │ │ └── literacy_calculator.py # 生字率计算
 │ ├── api/ # API 路由
 │ │ ├── init.py
-│ │ ├── word_api.py # 字词 API
+│ │ ├── word_api.py # 词语 API
 │ │ ├── scene_api.py # 场景 API
 │ │ └── story_api.py # 故事 API
 │ ├── config.py # 项目配置
 │ ├── prompts
 │ │
 │ └── data/ # 测试数据
-│ ├── words.json # 字词数据
+│ ├── words.json # 词语数据
 │ ├── scenes.json # 场景数据
 │ └── story.json # 故事数据
 ├── tests/ # 测试代码
@@ -121,4 +122,7 @@ StroyPal/
 ├── README.md # 项目说明
 ├── docker-compose.yml # Docker Compose 文件
 └── Dockerfile # Dockerfile 文件
+
+```
+
 ```

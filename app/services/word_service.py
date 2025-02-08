@@ -8,7 +8,7 @@ from app.models.word_model import WordModel
 
 class WordService:
     """
-    字词服务，提供字词相关的业务逻辑。
+    词语服务，提供词语相关的业务逻辑。
     """
 
     def __init__(self):
@@ -17,7 +17,7 @@ class WordService:
 
     def _load_words(self) -> Dict[str, WordModel]:
         """
-        加载字词数据
+        加载词语数据
         Returns:
            一个字典， key 是 word_id， value 是 WordModel 对象
         """
@@ -38,11 +38,11 @@ class WordService:
 
     def get_word_by_id(self, word_id: str) -> WordModel:
         """
-        根据ID获取字词信息。
+        根据ID获取词语信息。
         Args:
-            word_id (str): 字词ID.
+            word_id (str): 词语ID.
         Returns:
-            WordModel: 字词模型对象，如果不存在则返回 None.
+            WordModel: 词语模型对象，如果不存在则返回 None.
         """
         return self.words.get(word_id)
 
@@ -53,13 +53,13 @@ class WordService:
         page_size: int = 10,
     ) -> List[WordModel]:
         """
-        根据条件获取字词列表。
+        根据条件获取词语列表。
         Args:
             chaotong_level (int, optional): 超童级别，如果指定则返回该级别的词汇.
             page (int, optional): 页码，默认为1.
             page_size (int, optional): 每页数量，默认为10.
         Returns:
-            List[WordModel]: 字词模型对象列表.
+            List[WordModel]: 词语模型对象列表.
         """
         filtered_words = list(self.words.values())
 
@@ -74,11 +74,11 @@ class WordService:
 
     def get_total_words(self, chaotong_level: int = None) -> int:
         """
-        根据条件获取字词总数
+        根据条件获取词语总数
         Args:
             chaotong_level (int, optional): 超童级别，如果指定则返回该级别的词汇总数.
         Returns:
-            int: 字词总数.
+            int: 词语总数.
         """
         filtered_words = list(self.words.values())
 
@@ -95,7 +95,7 @@ class WordService:
         Args:
            level (int): 目标级别, 不包含这个级别
         Returns:
-            List[WordModel]:  字词模型对象列表
+            List[WordModel]:  词语模型对象列表
         """
         filtered_words = [
             word

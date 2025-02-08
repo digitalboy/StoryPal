@@ -5,7 +5,7 @@ from app.models.base_model import BaseModel
 
 class WordModel(BaseModel):
     """
-    字词数据模型。
+    词语数据模型。
     """
 
     def __init__(
@@ -55,7 +55,7 @@ class WordModel(BaseModel):
         Args:
             data (dict): 模型对象的字典表示。
         Returns:
-            WordModel: 字词模型对象。
+            WordModel: 词语模型对象。
         """
         chaotong_level = data.get("chaotong_level")
         if chaotong_level is not None:

@@ -9,7 +9,7 @@ from typing import List, Dict
 
 class TestWordService(unittest.TestCase):  # 确保继承自 unittest.TestCase
     """
-    测试字词服务 (WordService) 的功能。
+    测试词语服务 (WordService) 的功能。
     """
 
     def setUp(self):
@@ -55,7 +55,7 @@ class TestWordService(unittest.TestCase):  # 确保继承自 unittest.TestCase
 
     def test_load_words(self):  # 确保以 test_ 开头
         """
-        测试加载字词数据。
+        测试加载词语数据。
         """
         with patch(
             "app.services.word_service.open",
@@ -70,7 +70,7 @@ class TestWordService(unittest.TestCase):  # 确保继承自 unittest.TestCase
 
     def test_load_words_file_not_found(self):  # 确保以 test_ 开头
         """
-        测试加载字词数据，文件不存在的情况。
+        测试加载词语数据，文件不存在的情况。
         """
         with patch("app.services.word_service.open", side_effect=FileNotFoundError):
             word_service = WordService()
@@ -78,7 +78,7 @@ class TestWordService(unittest.TestCase):  # 确保继承自 unittest.TestCase
 
     def test_load_words_json_decode_error(self):  # 确保以 test_ 开头
         """
-        测试加载字词数据，JSON 解析错误的情况。
+        测试加载词语数据，JSON 解析错误的情况。
         """
         with patch(
             "app.services.word_service.open", mock_open(read_data="invalid json")
@@ -88,7 +88,7 @@ class TestWordService(unittest.TestCase):  # 确保继承自 unittest.TestCase
 
     def test_get_word_by_id(self):  # 确保以 test_ 开头
         """
-        测试根据ID获取字词信息。
+        测试根据ID获取词语信息。
         """
         with patch(
             "app.services.word_service.open",
@@ -102,7 +102,7 @@ class TestWordService(unittest.TestCase):  # 确保继承自 unittest.TestCase
 
     def test_get_word_by_id_not_found(self):  # 确保以 test_ 开头
         """
-        测试根据ID获取字词信息，ID不存在的情况。
+        测试根据ID获取词语信息，ID不存在的情况。
         """
         with patch(
             "app.services.word_service.open",
@@ -114,7 +114,7 @@ class TestWordService(unittest.TestCase):  # 确保继承自 unittest.TestCase
 
     def test_get_words(self):  # 确保以 test_ 开头
         """
-        测试根据条件获取字词列表。
+        测试根据条件获取词语列表。
         """
         with patch(
             "app.services.word_service.open",
@@ -129,7 +129,7 @@ class TestWordService(unittest.TestCase):  # 确保继承自 unittest.TestCase
 
     def test_get_words_with_level(self):  # 确保以 test_ 开头
         """
-        测试根据级别获取字词列表。
+        测试根据级别获取词语列表。
         """
         with patch(
             "app.services.word_service.open",
@@ -142,7 +142,7 @@ class TestWordService(unittest.TestCase):  # 确保继承自 unittest.TestCase
 
     def test_get_words_with_part_of_speech(self):  # 确保以 test_ 开头
         """
-        测试根据词性获取字词列表。
+        测试根据词性获取词语列表。
         """
         with patch(
             "app.services.word_service.open",
@@ -156,7 +156,7 @@ class TestWordService(unittest.TestCase):  # 确保继承自 unittest.TestCase
 
     def test_get_words_with_pagination(self):  # 确保以 test_ 开头
         """
-        测试分页获取字词列表。
+        测试分页获取词语列表。
         """
         with patch(
             "app.services.word_service.open",
@@ -169,7 +169,7 @@ class TestWordService(unittest.TestCase):  # 确保继承自 unittest.TestCase
 
     def test_get_total_words(self):  # 确保以 test_ 开头
         """
-        测试获取字词总数
+        测试获取词语总数
         """
         with patch(
             "app.services.word_service.open",
@@ -181,7 +181,7 @@ class TestWordService(unittest.TestCase):  # 确保继承自 unittest.TestCase
 
     def test_get_total_words_with_level(self):  # 确保以 test_ 开头
         """
-        测试根据级别获取字词总数
+        测试根据级别获取词语总数
         """
         with patch(
             "app.services.word_service.open",
@@ -193,7 +193,7 @@ class TestWordService(unittest.TestCase):  # 确保继承自 unittest.TestCase
 
     def test_get_total_words_with_part_of_speech(self):  # 确保以 test_ 开头
         """
-        测试根据词性获取字词总数
+        测试根据词性获取词语总数
         """
         with patch(
             "app.services.word_service.open",

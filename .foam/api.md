@@ -1,11 +1,8 @@
-好的，这是根据最新讨论和反馈更新后的 `api.md` 文档全文：
-
-```markdown
 # API 文档
 
 ## 1. 概述
 
-本文档描述了中文学习平台的 API 设计，包括故事生成、场景管理、字词查询、故事升级/降级等功能。所有 API 均遵循 RESTful 设计规范，数据格式为 JSON。
+本文档描述了中文学习平台的 API 设计，包括故事生成、场景管理、词语查询、故事升级/降级等功能。所有 API 均遵循 RESTful 设计规范，数据格式为 JSON。
 
 ---
 
@@ -61,9 +58,9 @@
     "story_word_count": "integer", // 故事字数
     "new_char_rate": "float", // 目标生字率（0-1）
     "key_word_ids": ["string"], // 重点词汇ID列表（UUID），可选
-     "new_char_rate_tolerance": "float", // 生字率容差值，可选
-     "story_word_count_tolerance": "integer", // 故事字数容差值，可选
-     "request_limit": "integer" // 请求频率限制，可选
+    "new_char_rate_tolerance": "float", // 生字率容差值，可选
+    "story_word_count_tolerance": "integer", // 故事字数容差值，可选
+    "request_limit": "integer" // 请求频率限制，可选
   }
   ```
 
@@ -84,16 +81,17 @@
       "story_word_count": "integer", // 实际故事字数
       "new_char_rate": "float", // 实际生字率
       "new_char": "integer", // 实际生字数量
-      "key_words": [ // 重点词汇列表
+      "key_words": [
+        // 重点词汇列表
         {
           "word": "string", // 重点词汇
           "pinyin": ["string", "null"], // 拼音
           "definition": ["string", "null"], // 释义
-           "part_of_speech": "string", // 词性
+          "part_of_speech": "string", // 词性
           "example": ["string", "null"] // 例句
         }
       ],
-       "created_at": "string" // 生成时间
+      "created_at": "string" // 生成时间
     }
   }
   ```
@@ -141,68 +139,73 @@
   ```
 
   **示例**:
-    * **请求**:
 
-        ```bash
-        curl -X POST https://api.chinese-learning.com/v1/scenes \
-        -H "Authorization: Bearer <API_KEY>" \
-        -H "Content-Type: application/json" \
-        -d '{
-            "name": "问路",
-            "description": "学习如何用中文问路。"
-        }'
-        ```
-     *   **响应**:
+  - **请求**:
 
-          ```json
-        {
-            "code": 200,
-            "message": "Scene created successfully",
-            "data": {
-                "scene_id": "550e8400-e29b-41d4-a716-446655440000"
-            }
-        }
-          ```
+    ```bash
+    curl -X POST https://api.chinese-learning.com/v1/scenes \
+    -H "Authorization: Bearer <API_KEY>" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "name": "问路",
+        "description": "学习如何用中文问路。"
+    }'
+    ```
 
-#### 3.2.2 获取场景
-
--   **URL**: `/v1/scenes/{scene_id}`
--   **Method**: `GET`
--   **Headers**:
-    -   `Authorization: Bearer <API_KEY>`
--   **响应**:
+  - **响应**:
 
     ```json
     {
+      "code": 200,
+      "message": "Scene created successfully",
+      "data": {
+        "scene_id": "550e8400-e29b-41d4-a716-446655440000"
+      }
+    }
+    ```
+
+#### 3.2.2 获取场景
+
+- **URL**: `/v1/scenes/{scene_id}`
+- **Method**: `GET`
+- **Headers**:
+  - `Authorization: Bearer <API_KEY>`
+- **响应**:
+
+  ```json
+  {
     "code": 200,
     "message": "Scene retrieved successfully",
     "data": {
-        "scene_id": "string", // 场景ID（UUID）
-        "name": "string", // 场景名称
-        "description": "string", // 场景描述
-        }
+      "scene_id": "string", // 场景ID（UUID）
+      "name": "string", // 场景名称
+      "description": "string" // 场景描述
+    }
+  }
+  ```
+
+  **示例**:
+
+  - **请求**:
+
+    ```bash
+    curl -X GET https://api.chinese-learning.com/v1/scenes/550e8400-e29b-41d4-a716-446655440000 \
+    -H "Authorization: Bearer <API_KEY>"
+    ```
+
+  - **响应**:
+
+    ```json
+    {
+      "code": 200,
+      "message": "Scene retrieved successfully",
+      "data": {
+        "scene_id": "550e8400-e29b-41d4-a716-446655440000",
+        "name": "问路",
+        "description": "学习如何用中文问路。"
+      }
     }
     ```
-  **示例**:
-    *   **请求**:
-
-          ```bash
-          curl -X GET https://api.chinese-learning.com/v1/scenes/550e8400-e29b-41d4-a716-446655440000 \
-          -H "Authorization: Bearer <API_KEY>"
-          ```
-     *   **响应**:
-
-          ```json
-          {
-              "code": 200,
-              "message": "Scene retrieved successfully",
-              "data": {
-                  "scene_id": "550e8400-e29b-41d4-a716-446655440000",
-                  "name": "问路",
-                  "description": "学习如何用中文问路。"
-              }
-          }
-          ```
 
 #### 3.2.3 更新场景
 
@@ -230,8 +233,7 @@
   }
   ```
 
-**示例**:
-    *   **请求**:
+**示例**: \* **请求**:
 
         ```bash
         curl -X PUT https://api.chinese-learning.com/v1/scenes/550e8400-e29b-41d4-a716-446655440000 \
@@ -267,29 +269,31 @@
     "data": null
   }
   ```
-**示例**:
-  *   **请求**:
-        ```bash
-        curl -X DELETE https://api.chinese-learning.com/v1/scenes/550e8400-e29b-41d4-a716-446655440000 \
-        -H "Authorization: Bearer <API_KEY>"
-        ```
-   * **响应**:
 
-        ```json
-        {
-            "code": 200,
-            "message": "Scene deleted successfully",
-            "data": null
-        }
-        ```
+  **示例**:
+
+  - **请求**:
+    ```bash
+    curl -X DELETE https://api.chinese-learning.com/v1/scenes/550e8400-e29b-41d4-a716-446655440000 \
+    -H "Authorization: Bearer <API_KEY>"
+    ```
+  - **响应**:
+
+    ```json
+    {
+      "code": 200,
+      "message": "Scene deleted successfully",
+      "data": null
+    }
+    ```
 
 ---
 
-### 3.3 字词查询 API
+### 3.3 词语查询 API
 
 #### 描述
 
-根据条件查询字词。
+根据条件查询词语。
 
 #### 请求
 
@@ -300,8 +304,8 @@
 - **Query Parameters**:
   - `chaotong_level`: 超童级别（1-100），可选
   - `part_of_speech`: 词性（如“名词”），可选
-  - `page`: 页码（默认1），可选
-  - `page_size`: 每页数量（默认10），可选
+  - `page`: 页码（默认 1），可选
+  - `page_size`: 每页数量（默认 10），可选
 
 #### 响应
 
@@ -317,74 +321,76 @@
         "chaotong_level": "integer", // 超童级别
         "part_of_speech": "string", // 词性
         "hsk_level": "integer", // HSK级别
-         "characters": [ // 词中包含的字，以及字的词性，可选
-            {
-                "character": "string", // 字
-                "part_of_speech": "string" // 字的词性
-                }
-         ]
-        }
+        "characters": [
+          // 词中包含的字，以及字的词性，可选
+          {
+            "character": "string", // 字
+            "part_of_speech": "string" // 字的词性
+          }
+        ]
+      }
     ],
     "total": "integer" // 总词数
-    }
+  }
 }
 ```
 
 **示例**:
-  *   **请求**:
-        ```bash
-        curl -X GET https://api.chinese-learning.com/v1/words \
-        -H "Authorization: Bearer <API_KEY>" \
-        -G \
-        -d "level=1&part_of_speech=动词&page=1&page_size=2"
-        ```
-   * **响应**:
 
-        ```json
+- **请求**:
+  ```bash
+  curl -X GET https://api.chinese-learning.com/v1/words \
+  -H "Authorization: Bearer <API_KEY>" \
+  -G \
+  -d "level=1&part_of_speech=动词&page=1&page_size=2"
+  ```
+- **响应**:
+
+  ```json
+  {
+    "code": 200,
+    "message": "Words retrieved successfully",
+    "data": {
+      "words": [
         {
-            "code": 200,
-            "message": "Words retrieved successfully",
-            "data": {
-                "words": [
-                    {
-                        "word_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
-                        "word": "你好",
-                        "chaotong_level": 1,
-                        "part_of_speech": "动词",
-                        "hsk_level": 1,
-                          "characters": [
-                            {
-                                "character": "你",
-                                "part_of_speech": "PR"
-                                },
-                            {
-                                "character": "好",
-                                "part_of_speech": "ADJ"
-                            }
-                        ]
-                    },
-                    {
-                        "word_id": "a1b2c3d4-e5f6-7890-1234-567890abcde1",
-                        "word": "喜欢",
-                        "chaotong_level": 5,
-                        "part_of_speech": "动词",
-                         "hsk_level": 2,
-                         "characters": [
-                           {
-                            "character": "喜",
-                            "part_of_speech": "ADJ"
-                            },
-                            {
-                                "character": "欢",
-                                "part_of_speech": "ADJ"
-                            }
-                          ]
-                    }
-                ],
-                "total": 2
+          "word_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+          "word": "你好",
+          "chaotong_level": 1,
+          "part_of_speech": "动词",
+          "hsk_level": 1,
+          "characters": [
+            {
+              "character": "你",
+              "part_of_speech": "PR"
+            },
+            {
+              "character": "好",
+              "part_of_speech": "ADJ"
             }
+          ]
+        },
+        {
+          "word_id": "a1b2c3d4-e5f6-7890-1234-567890abcde1",
+          "word": "喜欢",
+          "chaotong_level": 5,
+          "part_of_speech": "动词",
+          "hsk_level": 2,
+          "characters": [
+            {
+              "character": "喜",
+              "part_of_speech": "ADJ"
+            },
+            {
+              "character": "欢",
+              "part_of_speech": "ADJ"
+            }
+          ]
         }
-        ```
+      ],
+      "total": 2
+    }
+  }
+  ```
 
 ---
 
@@ -415,7 +421,7 @@
 {
   "code": 200,
   "message": "Story adjusted successfully",
-   "data": {
+  "data": {
     "story_id": "string", // 故事ID（UUID）
     "content": "string", // 更新后的故事内容
     "vocabulary_level": "integer", // 新的超童级别
@@ -425,34 +431,38 @@
   }
 }
 ```
-**注意**:  `key_words` 字段暂时不提供，返回空列表。
+
+**注意**: `key_words` 字段暂时不提供，返回空列表。
 
 **示例**:
-  *   **请求**:
 
-        ```bash
-        curl -X POST https://api.chinese-learning.com/v1/stories/550e8400-e29b-41d4-a716-446655440002/adjust \
-        -H "Authorization: Bearer <API_KEY>" \
-        -H "Content-Type: application/json" \
-        -d '{
-            "target_level": 50
-        }'
-        ```
-   *  **响应**:
-          ```json
-        {
-            "code": 200,
-            "message": "Story adjusted successfully",
-            "data": {
-                "story_id": "550e8400-e29b-41d4-a716-446655440002",
-                 "content": "更新后的故事内容，词汇难度升级。",
-                "vocabulary_level": 50,
-                "new_char_rate": 0.1,
-                "new_char": 2,
-                "key_words": []
-            }
-        }
-          ```
+- **请求**:
+
+  ```bash
+  curl -X POST https://api.chinese-learning.com/v1/stories/550e8400-e29b-41d4-a716-446655440002/adjust \
+  -H "Authorization: Bearer <API_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{
+      "target_level": 50
+  }'
+  ```
+
+- **响应**:
+  `json
+  {
+      "code": 200,
+      "message": "Story adjusted successfully",
+      "data": {
+          "story_id": "550e8400-e29b-41d4-a716-446655440002",
+           "content": "更新后的故事内容，词汇难度升级。",
+          "vocabulary_level": 50,
+          "new_char_rate": 0.1,
+          "new_char": 2,
+          "key_words": []
+      }
+  }
+    `
+
 ---
 
 ## 4. 错误码
@@ -486,7 +496,7 @@ curl -X POST https://api.chinese-learning.com/v1/stories/generate \
 
 **响应**：
 
-  ```json
+```json
 {
   "code": 200,
   "message": "Story generated successfully",
@@ -518,7 +528,7 @@ curl -X POST https://api.chinese-learning.com/v1/stories/generate \
     "created_at": "2025-01-10T14:00:00Z"
   }
 }
-  ```
+```
 
 ## 6. 错误处理示例
 

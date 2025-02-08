@@ -16,7 +16,7 @@ word_service = WordService()
 @api_key_required
 def get_words():
     """
-    获取字词列表
+    获取词语列表
     """
     try:
         chaotong_level = request.args.get("chaotong_level", type=int)
