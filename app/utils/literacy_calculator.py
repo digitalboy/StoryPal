@@ -3,6 +3,7 @@ import re
 from typing import List, Tuple, Set
 import logging
 
+
 class LiteracyCalculator:
     """
     生词率计算器 (基于词级别和词性)
