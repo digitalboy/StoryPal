@@ -44,41 +44,50 @@
 ## 8. 代码示例
 
 *   **文件名**:  `# app/utils/literacy_calculator.py`
+
     ```python
-     # app/utils/literacy_calculator.py
+    # app/utils/literacy_calculator.py
     import re
 
     class LiteracyCalculator:
         def __init__(self, word_service):
-           self.word_service = word_service
-        def calculate_literacy_rate(self, text, target_level):
+            self.word_service = word_service
+
+        def calculate_vocabulary_rate(self, text, target_level):
             # 代码
-           pass
+            pass
     ```
 
 *   **变量名**:
+
     ```python
     user_id = "123456"
     api_key = "abcdefg"
     ```
+
 *   **函数名**:
+
     ```python
     def get_user_info(user_id):
         pass
+
     def generate_story(scene_id, level):
         pass
     ```
-*  **类名**:
+
+*   **类名**:
+
     ```python
     class WordModel:
         pass
 
     class StoryService:
-       pass
+        pass
     ```
+
 *   **常量**:
+
     ```python
     MAX_WORD_COUNT = 100
     DEFAULT_PAGE_SIZE = 10
     ```
-

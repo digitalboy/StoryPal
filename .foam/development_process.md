@@ -25,7 +25,7 @@
 1.  **创建服务**: 在 `app/services` 目录下创建业务逻辑服务文件，例如 `word_service.py`、`scene_service.py` 和 `story_service.py`。
 2.  **实现业务逻辑**: 在服务层实现业务逻辑，例如故事的生成、**词语**的查询、场景的管理。
     - **注意**： **生词率的计算逻辑已独立在 `app/utils/literacy_calculator.py` 中， 服务层不需要关心生词率的计算细节。**
-    - **核心的生词率计算算法应该使用 `app/utils/literacy_calculator.py` 中提供的 `calculate_literacy_rate` 方法。** **详细定义和计算方法见 [`生词与生词率.md`](生词与生词率.md)**。
+    - **核心的生词率计算算法应该使用 `app/utils/literacy_calculator.py` 中提供的 `calculate_vocabulary_rate` 方法。** **详细定义和计算方法见 [`生词与生词率.md`](生词与生词率.md)**。
     - **多轮对话**: 实现多轮对话的逻辑， 根据 `prompt_engineering.md` 中定义的模板， 构建提示语。 **使用状态机管理对话流程，根据用户的反馈动态调整对话策略。**
       - **状态机:** 使用一个简单的状态枚举来表示对话状态，例如 `INIT`, `PROVIDE_KNOWN_WORDS`, `FINAL_INSTRUCTION`, `FAILED`。
       - **对话策略：**
@@ -38,7 +38,7 @@
         7.  **`FINAL_INSTRUCTION` -> `FAILED`**: 如果故事生成后，达到最大重试次数，进入 `FAILED` 状态。
       - **多轮对话控制:** 使用一个 `messages` 列表来管理对话的上下文，每次发送提示语时，将之前的对话历史也发送给 AI。
       - **用户反馈调整：** 在 `FINAL_INSTRUCTION` 状态收到 AI 的回复后，进行故事验证， 如果验证不通过， 重新回到 `INIT` 状态，重新生成故事。
-    - **验证**: 实现故事的验证逻辑，包括**生词率**验证、重点**词汇**验证和**词**数验证。 计算 `new_char_rate` 和 `new_char`。
+    - **验证**: 实现故事的验证逻辑，包括**生词率**验证、重点**词汇**验证和**词**数验证。 计算 `new_word_rate` 和 `new_words`。
     - **实现通过 `key_word_ids` 从 `words.json` 中查找对应的 `word` 和相关信息 ( `pinyin`, `definition`, `example`)。**
 3.  **调用模型层**: 服务层应调用模型层的方法来操作数据。
 4.  **添加单元测试**: 在 `tests/services` 目录下创建单元测试，验证业务逻辑的正确性。
@@ -55,7 +55,7 @@
     - **故事生成 API**:
       - **URL**: `/v1/stories/generate`
       - **Method**: `POST`
-      - **请求参数**: `vocabulary_level` (integer, 必填), `scene_id` (string, 必填), `story_word_count` (integer, 必填), `new_word_rate` (float, 必填), `key_word_ids` (array of string, 可选), `new_char_rate_tolerance` (float, 可选), `word_count_tolerance` (float, 可选), `story_word_count_tolerance` (integer, 可选), `request_limit` (integer, 可选)。
+      - **请求参数**: `vocabulary_level` (integer, 必填), `scene_id` (string, 必填), `story_word_count` (integer, 必填), `new_word_rate` (float, 必填), `key_word_ids` (array of string, 可选), `new_word_rate_tolerance` (float, 可选), `word_count_tolerance` (float, 可选), `story_word_count_tolerance` (integer, 可选), `request_limit` (integer, 可选)。
       - **响应**: 返回生成的 `story_id`， 以及其他故事详情。
     - **词语**查询 API**:
       - **URL**: `/v1/words`
@@ -83,7 +83,7 @@
       _ **注意**: `key_words` 字段暂时不提供，返回空列表。
 3.  **调用服务层**: API 层应调用服务层的方法来处理请求。
 4.  **处理错误**: 使用 `app/utils/error_handling.py` 中提供的 `handle_error` 函数统一处理 API 的错误，确保错误码和错误信息与 API 设计指南一致。
-5.  **数据验证**: 在 API 层， 需要对输入的数据进行验证，例如: `vocabulary_level` 的取值范围， `new_word_rate` 的取值范围， **词**数范围，以及 `NEW_CHAR_RATE_TOLERANCE`, `WORD_COUNT_TOLERANCE`, `REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 的值，可以使用 JSON Schema 进行验证， 确保数据类型和格式的正确性。API 请求参数的优先级高于 `.env` 文件中的配置。 **在 API 层在 API 层对 `NEW_CHAR_RATE_TOLERANCE`、`WORD_COUNT_TOLERANCE`、`REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 进行类型验证**
+5.  **数据验证**: 在 API 层， 需要对输入的数据进行验证，例如: `vocabulary_level` 的取值范围， `new_word_rate` 的取值范围， **词**数范围，以及 `NEW_WORD_RATE_TOLERANCE`, `WORD_COUNT_TOLERANCE`, `REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 的值，可以使用 JSON Schema 进行验证， 确保数据类型和格式的正确性。API 请求参数的优先级高于 `.env` 文件中的配置。 **在 API 层在 API 层对 `NEW_WORD_RATE_TOLERANCE`、`WORD_COUNT_TOLERANCE`、`REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 进行类型验证**
 6.  **API 鉴权示例**:
 
     - 使用 `app/utils/api_key_auth.py` 中提供的 API Key 认证，并使用装饰器进行 API 鉴权。
@@ -137,8 +137,8 @@
 3.  **配置文件说明**:
     - `.env` 文件存储敏感信息，例如 API Key, DeepSeek API Key， 以及一些可配置的参数（**生词率**容差值，**词**数容差值, API 请求频率限制, **词**数容差值）。
     - `config.py` 文件加载 `.env` 中的环境变量，并使用 `Config` 类来获取配置参数。
-    - **重要**: `NEW_CHAR_RATE_TOLERANCE`, `WORD_COUNT_TOLERANCE`, `REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 的值也可以通过 API 请求参数动态设置， API 请求参数的优先级高于 `.env` 文件中的值。 详细信息请参考 `docs/config.md`
-    - **在 API 层需要对 `NEW_CHAR_RATE_TOLERANCE`、`WORD_COUNT_TOLERANCE`、`REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 进行类型验证**
+    - **重要**: `NEW_WORD_RATE_TOLERANCE`, `WORD_COUNT_TOLERANCE`, `REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 的值也可以通过 API 请求参数动态设置， API 请求参数的优先级高于 `.env` 文件中的值。 详细信息请参考 `docs/config.md`
+    - **在 API 层需要对 `NEW_WORD_RATE_TOLERANCE`、`WORD_COUNT_TOLERANCE`、`REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 进行类型验证**
 
 ### 2.7 日志记录
 
@@ -250,3 +250,4 @@
             run: |
               pytest
     ```
+

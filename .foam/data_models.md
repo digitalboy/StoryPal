@@ -8,7 +8,7 @@
 
 ### 描述
 
-词语数据用于存储所有词语的信息，包括级别、词性、拼音、释义、例句等。
+词语数据用于存储所有词语的信息，包括级别、词性等。
 
 ### JSON Schema
 
@@ -157,7 +157,7 @@
       "format": "uuid",
       "description": "场景ID，使用UUID"
     },
-    "word_count": {
+    "story_word_count": {
       "type": "integer",
       "description": "故事词数"
     },
@@ -167,7 +167,7 @@
       "maximum": 1,
       "description": "实际生词率"
     },
-    "new_char": {
+    "new_words": {
       "type": "integer",
       "description": "实际生词数量"
     },
@@ -229,9 +229,9 @@
     "content",
     "vocabulary_level",
     "scene",
-    "word_count",
+    "story_word_count",
     "new_word_rate",
-    "new_char",
+    "new_words",
     "key_words",
     "created_at"
   ]
@@ -247,9 +247,9 @@
   "content": "小明想去火车站，他问：“请问火车站怎么走？”一位阿姨说：“你一直往前走，然后左转就到了。”",
   "vocabulary_level": 35,
   "scene": "f0e9d8c7-b6a5-4321-9876-543210fedcba",
-  "word_count": 40,
+  "story_word_count": 40,
   "new_word_rate": 0.05,
-  "new_char": 2,
+  "new_words": 2,
   "key_words": [
     {
       "word": "火车站",

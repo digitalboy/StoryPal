@@ -17,7 +17,7 @@ class LiteracyCalculator:
 
     def _load_known_words(self, target_level: int) -> Set[Tuple[str, str]]:
         """
-        加载小于等于目标级别的所有词汇中包含的词和词性组合。
+        加载 **小于** 目标级别的所有词汇中包含的词和词性组合。  **(已更正为 < target_level)**
         Args:
             target_level: 目标级别 (整数)。
         Returns:
@@ -30,7 +30,7 @@ class LiteracyCalculator:
             return known_words
 
         for word_model in self.word_service.words:
-            if word_model.chaotong_level <= target_level:
+            if word_model.chaotong_level < target_level:  # **已改回 < target_level**
                 if not word_model.part_of_speech:
                     self.logger.error(f"word {word_model.word} 不存在词性")
                     raise ValueError(
@@ -90,7 +90,7 @@ class LiteracyCalculator:
         known_word_count = 0
 
         for word, pos in tokens:
-            if (word, pos) in known_words:
+            if (word.lower(), pos) in known_words:
                 known_word_count += 1
             else:
                 self.logger.debug(f"生词：{word}, 词性: {pos}")

@@ -56,9 +56,9 @@
     "vocabulary_level": "integer", // 目标词汇级别（1-100）
     "scene_id": "string", // 场景ID（UUID）
     "story_word_count": "integer", // 故事字数
-    "new_char_rate": "float", // 目标生词率（0-1）
+    "new_word_rate": "float", // 目标生词率（0-1）
     "key_word_ids": ["string"], // 重点词汇ID列表（UUID），可选
-    "new_char_rate_tolerance": "float", // 生词率容差值，可选
+    "new_word_rate_tolerance": "float", // 生词率容差值，可选
     "story_word_count_tolerance": "integer", // 故事字数容差值，可选
     "request_limit": "integer" // 请求频率限制，可选
   }
@@ -79,8 +79,8 @@
       "vocabulary_level": "integer", // 实际词汇级别
       "scene": "string", // 场景ID（UUID）
       "story_word_count": "integer", // 实际故事字数
-      "new_char_rate": "float", // 实际生词率
-      "new_char": "integer", // 实际生词数量
+      "new_word_rate": "float", // 实际生词率
+      "new_words": "integer", // 实际生词数量
       "key_words": [
         // 重点词汇列表
         {
@@ -363,7 +363,7 @@
       "total": 2
     }
   }
-  ```
+```
 
 ---
 
@@ -398,8 +398,8 @@
     "story_id": "string", // 故事ID（UUID）
     "content": "string", // 更新后的故事内容
     "vocabulary_level": "integer", // 新的超童级别
-    "new_char_rate": "float", // 新的生词率
-    "new_char": "integer", // 新的生词数量
+    "new_word_rate": "float", // 新的生词率
+    "new_words": "integer", // 新的生词数量
     "key_words": []
   }
 }
@@ -429,8 +429,8 @@
           "story_id": "550e8400-e29b-41d4-a716-446655440002",
            "content": "更新后的故事内容，词汇难度升级。",
           "vocabulary_level": 50,
-          "new_char_rate": 0.1,
-          "new_char": 2,
+          "new_word_rate": 0.1,
+          "new_words": 2,
           "key_words": []
       }
   }
@@ -458,11 +458,10 @@ curl -X POST https://api.chinese-learning.com/v1/stories/generate \
   "vocabulary_level": 35,
   "scene_id": "550e8400-e29b-41d4-a716-446655440000",
   "story_word_count": 120,
-  "new_char_rate": 0.02,
+  "new_word_rate": 0.02,
   "key_word_ids": ["550e8400-e29b-41d4-a716-446655440001"],
-  "new_char_rate_tolerance": 0.1,
-   "word_count_tolerance": 0.2,
-    "story_word_count_tolerance": 20,
+  "new_word_rate_tolerance": 0.1,
+   "story_word_count_tolerance": 20,
     "request_limit": 100
 }'
 ```
@@ -480,8 +479,8 @@ curl -X POST https://api.chinese-learning.com/v1/stories/generate \
     "vocabulary_level": 30,
     "scene": "550e8400-e29b-41d4-a716-446655440000",
     "story_word_count": 13,
-    "new_char_rate": 0.23,
-    "new_char": 3,
+    "new_word_rate": 0.23,
+    "new_words": 3,
     "key_words": [
       {
         "word": "喜欢",
@@ -521,9 +520,9 @@ def generate_story():
       vocabulary_level = data.get('vocabulary_level')
       scene_id = data.get('scene_id')
       word_count = data.get('story_word_count')
-      new_char_rate = data.get('new_char_rate')
+      new_word_rate = data.get('new_word_rate')
       key_word_ids = data.get('key_word_ids', [])
-       new_char_rate_tolerance = data.get('new_char_rate_tolerance')
+       new_word_rate_tolerance = data.get('new_word_rate_tolerance')
       word_count_tolerance = data.get('word_count_tolerance')
       story_word_count_tolerance = data.get('story_word_count_tolerance')
        request_limit = data.get('request_limit')
@@ -535,8 +534,8 @@ def generate_story():
           return handle_error(4001, "Missing required field: 'scene_id'")
       if not word_count:
           return handle_error(4001, "Missing required field: 'story_word_count'")
-      if not new_char_rate:
-         return handle_error(4001, "Missing required field: 'new_char_rate'")
+      if not new_word_rate:
+         return handle_error(4001, "Missing required field: 'new_word_rate'")
 
       if not isinstance(vocabulary_level, int):
           return handle_error(4002, "Invalid field type: 'vocabulary_level' must be an integer")
@@ -544,16 +543,16 @@ def generate_story():
           return handle_error(4002, "Invalid field type: 'scene_id' must be a string")
       if not isinstance(word_count, int):
            return handle_error(4002, "Invalid field type: 'story_word_count' must be an integer")
-      if not isinstance(new_char_rate, float):
-          return handle_error(4002, "Invalid field type: 'new_char_rate' must be a float")
+      if not isinstance(new_word_rate, float):
+          return handle_error(4002, "Invalid field type: 'new_word_rate' must be a float")
 
       if not 1 <= vocabulary_level <= 100:
             return handle_error(4222, "Validation failed: 'vocabulary_level' must be between 1 and 100")
-      if not 0 <= new_char_rate <= 1:
-            return handle_error(4221, "Validation failed: 'new_char_rate' must be between 0 and 1")
+      if not 0 <= new_word_rate <= 1:
+            return handle_error(4221, "Validation failed: 'new_word_rate' must be between 0 and 1")
 
-       if new_char_rate_tolerance is not None and not isinstance(new_char_rate_tolerance, float):
-            return handle_error(4002, "Invalid field type: 'new_char_rate_tolerance' must be a float")
+       if new_word_rate_tolerance is not None and not isinstance(new_word_rate_tolerance, float):
+            return handle_error(4002, "Invalid field type: 'new_word_rate_tolerance' must be a float")
 
        if word_count_tolerance is not None and not isinstance(word_count_tolerance, float):
             return handle_error(4002, "Invalid field type: 'word_count_tolerance' must be a float")
@@ -572,14 +571,8 @@ def generate_story():
 
 
       # 调用 AI 服务生成故事
-      # story_id = generate_story_from_deepseek(vocabulary_level, scene_id, word_count, new_char_rate, key_word_ids)
+      # story_id = generate_story_from_deepseek(vocabulary_level, scene_id, word_count, new_word_rate, key_word_ids)
       story_id = "550e8400-e29b-41d4-a716-446655440002" # 示例，替换成实际的逻辑
-
-      return jsonify({
-              "code": 200,
-              "message": "Story generated successfully",
-             "data": {
-              "d4-a716-446655440002" # 示例，替换成实际的逻辑
 
       return jsonify({
               "code": 200,
@@ -596,5 +589,3 @@ def generate_story():
 if __name__ == '__main__':
     app.run(debug=True)
 ```
-
-

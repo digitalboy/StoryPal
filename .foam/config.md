@@ -108,7 +108,7 @@ def get_api_key_from_config():
     api_key = Config.API_KEY
     deepseek_key = Config.DEEPSEEK_API_KEY
     debug = Config.DEBUG
-    new_char_rate_tolerance = Config.NEW_WORD_RATE_TOLERANCE
+    new_word_rate_tolerance = Config.NEW_WORD_RATE_TOLERANCE
     word_count_tolerance = Config.WORD_COUNT_TOLERANCE
     request_limit = Config.REQUEST_LIMIT
     story_word_count_tolerance = Config.STORY_WORD_COUNT_TOLERANCE
@@ -122,7 +122,7 @@ def get_api_key_from_config():
 2.  **在 `Config` 类中添加属性**: 在 `app/config.py` 文件中的 `Config` 类中添加对应的属性。
 3.  **在代码中使用新属性**: 在代码中使用 `Config` 类的属性来获取新的配置项的值。
 4.  **在 API 请求中动态设置**:
-    - `NEW_WORD_RATE_TOLERANCE`, `WORD_COUNT_TOLERANCE`, `REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 的值也可以通过 API 请求参数动态设置，API 请求参数的优先级高于 `.env` 文件中的值。
+    - `NEW_WORD_RATE_TOLERANCE`, `WORD_COUNT_TOLERANCE`, `REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 的值也可以通过 API 请求参数动态设置，API 请求参数的优先级高于 `.env` 文件中的值。 详细信息请参考 `docs/config.md`
 
 ## 5. 配置更新
 
@@ -136,3 +136,5 @@ def get_api_key_from_config():
 - **使用类型转换**: 使用 `int()`, `float()`, `bool()` 等函数将环境变量转换为正确的类型。
 - **为配置项添加注释**: 在 `app/config.py` 文件中为配置项添加注释，方便其他开发人员理解。
 - **验证配置项**: **在 API 层需要对 `NEW_WORD_RATE_TOLERANCE`, `WORD_COUNT_TOLERANCE`, `REQUEST_LIMIT` 和 `STORY_WORD_COUNT_TOLERANCE` 进行类型验证，确保数据类型和取值范围的正确性。**
+
+

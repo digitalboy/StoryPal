@@ -13,7 +13,7 @@ EXAMPLE_WORDS = [
     WordModel(word="白色", chaotong_level=5, part_of_speech="N"),
     WordModel(word="我们", chaotong_level=1, part_of_speech="PRON"),
     WordModel(word="我", chaotong_level=2, part_of_speech="PRON"),
-    WordModel(word="游泳", chaotong_level=6, part_of_speech="V"),  # Added 游泳
+    WordModel(word="游泳", chaotong_level=6, part_of_speech="V"),  # 添加了 游泳
 ]
 
 
@@ -42,51 +42,53 @@ def test_calculate_vocabulary_rate_no_chinese(literacy_calculator):
 def test_calculate_vocabulary_rate_level_1(literacy_calculator):
     text = "你好"
     known_rate, unknown_rate, _ = literacy_calculator.calculate_vocabulary_rate(text, 1)
-    assert known_rate == 1.0
-    assert unknown_rate == 0.0
+    assert abs(known_rate - 0.0) < 0.001  # 已更新为 0.0
+    assert abs(unknown_rate - 1.0) < 0.001  # 已更新为 1.0
 
 
 def test_calculate_vocabulary_rate_level_2(literacy_calculator):
     text = "你好喜欢"
     known_rate, unknown_rate, _ = literacy_calculator.calculate_vocabulary_rate(text, 2)
-    assert known_rate == 1.0
-    assert unknown_rate == 0.0
+    assert abs(known_rate - 0.5) < 0.001  # 已更新为 0.5
+    assert abs(unknown_rate - 0.5) < 0.001  # 已更新为 0.5
 
 
 def test_calculate_vocabulary_rate_level_3(literacy_calculator):
     text = "你好喜欢跑步"
     known_rate, unknown_rate, _ = literacy_calculator.calculate_vocabulary_rate(text, 3)
-    assert known_rate == 1.0
-    assert unknown_rate == 0.0
+    assert abs(known_rate - 2 / 3) < 0.001  # 已更新为 2/3
+    assert abs(unknown_rate - 1 / 3) < 0.001  # 已更新为 1/3
 
 
 def test_calculate_vocabulary_rate_level_4(literacy_calculator):
     text = "你好喜欢跑步白色"  # 白色 level 4 (ADJ)
     known_rate, unknown_rate, _ = literacy_calculator.calculate_vocabulary_rate(text, 4)
-    assert known_rate == 1.0
-    assert unknown_rate == 0.0
+    assert abs(known_rate - 0.75) < 0.001  # 已更新为 0.75
+    assert abs(unknown_rate - 0.25) < 0.001  # 已更新为 0.25
 
 
 def test_calculate_vocabulary_rate_level_5(literacy_calculator):
     text = "你好喜欢跑步白色"  # 白色 level 5 (N)
     known_rate, unknown_rate, _ = literacy_calculator.calculate_vocabulary_rate(text, 5)
-    assert known_rate == 1.0
-    assert unknown_rate == 0.0
+    assert (
+        abs(known_rate - 1.0) < 0.001
+    )  # 保持 1.0 (因为白色 ADJ 和 白色 N 都低于 level 5 不成立)
+    assert abs(unknown_rate - 0.0) < 0.001  # 保持 0.0
 
 
 def test_calculate_vocabulary_rate_level_6(literacy_calculator):
     text = "你好喜欢跑步白色游泳"  # 游泳现在 words 里面
     known_rate, unknown_rate, _ = literacy_calculator.calculate_vocabulary_rate(text, 6)
-    assert abs(known_rate - 1.0) < 0.001  # Now 5/5 = 1.0
-    assert abs(unknown_rate - 0.0) < 0.001
+    assert abs(known_rate - 4 / 5) < 0.001  # 保持 4/5
+    assert abs(unknown_rate - 1 / 5) < 0.001  # 保持 1/5
 
 
 def test_calculate_vocabulary_rate_with_unknown_word(literacy_calculator):
     literacy_calculator.word_service.is_word_exist.return_value = False
     text = "不知道"
     known_rate, unknown_rate, _ = literacy_calculator.calculate_vocabulary_rate(text, 5)
-    assert known_rate == 0.0
-    assert unknown_rate == 1.0
+    assert abs(known_rate - 0.0) < 0.001
+    assert abs(unknown_rate - 1.0) < 0.001
 
 
 def test_calculate_vocabulary_rate_with_duplicate_words_different_pos(
@@ -95,8 +97,8 @@ def test_calculate_vocabulary_rate_with_duplicate_words_different_pos(
     # word service 需要判断 "白色" + "ADJ" 和 “白色" ＋ “N" 是否存在
     text = "白色 的 墙 是 白色 的"  # "的" 不在 words 里面
     known_rate, unknown_rate, _ = literacy_calculator.calculate_vocabulary_rate(text, 5)
-    assert abs(known_rate - 2 / 11) < 0.001  # Corrected expected rate to 2/11
-    assert abs(unknown_rate - 9 / 11) < 0.001  # Corrected expected rate to 9/11
+    assert abs(known_rate - 2 / 11) < 0.001  # 保持 2/11
+    assert abs(unknown_rate - 9 / 11) < 0.001  # 保持 9/11
 
 
 def test_calculate_vocabulary_rate_with_word_and_unknown_char(literacy_calculator):

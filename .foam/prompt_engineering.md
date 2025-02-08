@@ -25,8 +25,8 @@
 
 请注意以下要求：
 1.  故事应该发生在：{scene_description}
-2.  故事应该使用适合 {vocabulary_level} 级别的**词汇**， 目标**生词率**在 {new_word_rate} 左右。 请注意控制故事的**生词率** (`new_word_rate`) 和 **生词**数量 (`new_char`)。
-3.  故事的**词**数应该在 {word_count_min} 到 {word_count_max} **词**之间。
+2.  故事应该使用适合 {vocabulary_level} 级别的**词汇**， 目标**生词率**在 {new_word_rate} 左右。 请注意控制故事的**生词率** (`new_word_rate`) 和 **生词**数量 (`new_words`)。
+3.  故事的**词**数应该在 {story_word_count_min} 到 {story_word_count_max} **词**之间。
 4.  故事中必须包含以下重点**词汇**:
         {key_words}
 5.  请以 JSON 格式返回生成的故事，包括 `title`，`content`, 和 `key_words` 字段。 JSON Schema 如下:
@@ -135,7 +135,7 @@
     data = {
         "scene_description": "一个关于日常生活的场景。",
         "vocabulary_level": 30,
-        "word_count": 100,
+        "story_word_count": 100,
         "new_word_rate": 0.2,
         "key_words": ["喜欢", "跑步"]
     }
@@ -150,7 +150,7 @@
 1.  **第一轮对话 (初始提示语)**:
     *   使用 **初始提示语模板**，提供故事场景、目标**词汇**级别、**词**数范围、目标**生词率**、重点**词汇**等基本要求，并明确 AI 的角色和目标。
     *  明确要求 AI 返回 JSON 格式数据， 包括 `title`，`content`，和 `key_words`。
-    *  **提示 AI 生成故事时，注意 `new_word_rate` 和 `new_char`。**
+    *  **提示 AI 生成故事时，注意 `new_word_rate` 和 `new_words`。**
 
 2.  **第二轮对话 (提供已知词汇)**:
     *   根据 `vocabulary_level` 加载已知**词汇**列表。
@@ -170,7 +170,7 @@
 6.  **故事验证**:
     *   在最后一轮对话后，使用我们之前的验证逻辑（包括**生词率**验证、重点**词汇**验证和**词**数验证）验证 AI 生成的故事。
 7.  **JSON 写入**:
-    *   如果验证通过， 构建符合规范的 JSON 响应， 添加 `new_word_rate` 和 `new_char`。
+    *   如果验证通过， 构建符合规范的 JSON 响应， 添加 `new_word_rate` 和 `new_words`。
     *  **多轮对话的流程使用状态机进行管理， 根据用户的反馈动态调整对话策略**
     *  **状态机:**  使用一个简单的状态枚举来表示对话状态，例如 `INIT`, `PROVIDE_KNOWN_WORDS`, `FINAL_INSTRUCTION`, `FAILED`。
         *   **状态转移逻辑：**
