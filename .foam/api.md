@@ -56,9 +56,9 @@
     "vocabulary_level": "integer", // 目标词汇级别（1-100）
     "scene_id": "string", // 场景ID（UUID）
     "story_word_count": "integer", // 故事字数
-    "new_char_rate": "float", // 目标生字率（0-1）
+    "new_char_rate": "float", // 目标生词率（0-1）
     "key_word_ids": ["string"], // 重点词汇ID列表（UUID），可选
-    "new_char_rate_tolerance": "float", // 生字率容差值，可选
+    "new_char_rate_tolerance": "float", // 生词率容差值，可选
     "story_word_count_tolerance": "integer", // 故事字数容差值，可选
     "request_limit": "integer" // 请求频率限制，可选
   }
@@ -79,8 +79,8 @@
       "vocabulary_level": "integer", // 实际词汇级别
       "scene": "string", // 场景ID（UUID）
       "story_word_count": "integer", // 实际故事字数
-      "new_char_rate": "float", // 实际生字率
-      "new_char": "integer", // 实际生字数量
+      "new_char_rate": "float", // 实际生词率
+      "new_char": "integer", // 实际生词数量
       "key_words": [
         // 重点词汇列表
         {
@@ -303,7 +303,7 @@
   - `Authorization: Bearer <API_KEY>`
 - **Query Parameters**:
   - `chaotong_level`: 超童级别（1-100），可选
-  - `part_of_speech`: 词性（如“名词”），可选
+  - `part_of_speech`: 词性，可选
   - `page`: 页码（默认 1），可选
   - `page_size`: 每页数量（默认 10），可选
 
@@ -320,14 +320,7 @@
         "word": "string", // 词
         "chaotong_level": "integer", // 超童级别
         "part_of_speech": "string", // 词性
-        "hsk_level": "integer", // HSK级别
-        "characters": [
-          // 词中包含的字，以及字的词性，可选
-          {
-            "character": "string", // 字
-            "part_of_speech": "string" // 字的词性
-          }
-        ]
+        "hsk_level": "integer" // HSK级别
       }
     ],
     "total": "integer" // 总词数
@@ -356,35 +349,15 @@
           "word_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
           "word": "你好",
           "chaotong_level": 1,
-          "part_of_speech": "动词",
-          "hsk_level": 1,
-          "characters": [
-            {
-              "character": "你",
-              "part_of_speech": "PR"
-            },
-            {
-              "character": "好",
-              "part_of_speech": "ADJ"
-            }
-          ]
+          "part_of_speech": "PRON",
+          "hsk_level": 1
         },
         {
           "word_id": "a1b2c3d4-e5f6-7890-1234-567890abcde1",
           "word": "喜欢",
           "chaotong_level": 5,
-          "part_of_speech": "动词",
-          "hsk_level": 2,
-          "characters": [
-            {
-              "character": "喜",
-              "part_of_speech": "ADJ"
-            },
-            {
-              "character": "欢",
-              "part_of_speech": "ADJ"
-            }
-          ]
+          "part_of_speech": "v",
+          "hsk_level": 2
         }
       ],
       "total": 2
@@ -425,8 +398,8 @@
     "story_id": "string", // 故事ID（UUID）
     "content": "string", // 更新后的故事内容
     "vocabulary_level": "integer", // 新的超童级别
-    "new_char_rate": "float", // 新的生字率
-    "new_char": "integer", // 新的生字数量
+    "new_char_rate": "float", // 新的生词率
+    "new_char": "integer", // 新的生词数量
     "key_words": []
   }
 }
@@ -621,16 +594,7 @@ def generate_story():
 
 
 if __name__ == '__main__':
-    app.run(data": {
-              "story_id": story_id
-                }
-            })
-
-    except Exception as e:
-      return handle_error(5001, f"Internal server error: {str(e)}")
-
-
-if __name__ == '__main__':
     app.run(debug=True)
-
 ```
+
+

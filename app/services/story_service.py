@@ -11,7 +11,6 @@ from app.services.scene_service import SceneService
 from app.utils.literacy_calculator import LiteracyCalculator
 
 
-
 class StoryService:
     """
     故事服务，提供故事相关的业务逻辑。
@@ -76,7 +75,7 @@ class StoryService:
             bool: 如果故事符合要求，则返回 True，否则返回 False。
         """
         if new_char_rate_tolerance is None:
-            new_char_rate_tolerance = Config.NEW_CHAR_RATE_TOLERANCE
+            new_char_rate_tolerance = Config.NEW_WORD_RATE_TOLERANCE
         if story_word_count_tolerance is None:
             story_word_count_tolerance = Config.STORY_WORD_COUNT_TOLERANCE
 

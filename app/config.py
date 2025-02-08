@@ -13,7 +13,7 @@ class Config:
     DEBUG = os.getenv("DEBUG", False) == "True"
     # 配置其他
     # 生字率容差值
-    NEW_CHAR_RATE_TOLERANCE = float(os.getenv("NEW_CHAR_RATE_TOLERANCE", 0.1))
+    NEW_WORD_RATE_TOLERANCE = float(os.getenv("NEW_WORD_RATE_TOLERANCE", 0.1))
     # 字数容差值
     WORD_COUNT_TOLERANCE = float(os.getenv("WORD_COUNT_TOLERANCE", 0.2))
     # API 请求频率限制
@@ -30,7 +30,6 @@ class Config:
     SCENES_FILE_PATH = os.path.join(
         BASE_DIR, "..", os.getenv("SCENES_FILE_PATH", "app/data/scenes.json")
     )
-
 
 
 def get_api_key_from_config():

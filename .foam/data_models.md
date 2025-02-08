@@ -124,7 +124,7 @@
 
 ### 描述
 
-故事数据用于存储生成的故事的信息，包括故事 ID、标题、内容、词汇级别、场景标签、生字率和重点词汇等。
+故事数据用于存储生成的故事的信息，包括故事 ID、标题、内容、词汇级别、场景标签、生词率和重点词汇等。
 
 ### JSON Schema
 
@@ -159,17 +159,17 @@
     },
     "word_count": {
       "type": "integer",
-      "description": "故事字数"
+      "description": "故事词数"
     },
-    "new_char_rate": {
+    "new_word_rate": {
       "type": "number",
       "minimum": 0,
       "maximum": 1,
-      "description": "实际生字率"
+      "description": "实际生词率"
     },
     "new_char": {
       "type": "integer",
-      "description": "实际生字数量"
+      "description": "实际生词数量"
     },
     "key_words": {
       "type": "array",
@@ -215,7 +215,7 @@
         },
         "required": ["word"]
       },
-      "description": "重点词汇列表, **`pinyin`, `definition` 和 `example` 数据从 `words.json` 中获取**"
+      "description": "重点词汇列表"  //  去掉 **`pinyin`, `definition` 和 `example` 数据从 `words.json` 中获取**
     },
     "created_at": {
       "type": "string",
@@ -230,7 +230,7 @@
     "vocabulary_level",
     "scene",
     "word_count",
-    "new_char_rate",
+    "new_word_rate",
     "new_char",
     "key_words",
     "created_at"
@@ -248,7 +248,7 @@
   "vocabulary_level": 35,
   "scene": "f0e9d8c7-b6a5-4321-9876-543210fedcba",
   "word_count": 40,
-  "new_char_rate": 0.05,
+  "new_word_rate": 0.05,
   "new_char": 2,
   "key_words": [
     {
@@ -262,3 +262,4 @@
   "created_at": "2025-01-10T10:00:00Z"
 }
 ```
+

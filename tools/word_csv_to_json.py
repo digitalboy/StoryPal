@@ -28,32 +28,29 @@ def convert_csv_to_json(csv_file_path: str, json_file_path: str):
 
         for row in csv_reader:
             word = row["词语"].strip()  # 去除词语首尾的空格
-            chaotong_level = (
-                int(row["chaotong_level"]) if row.get("chaotong_level") else None
-            )
+            part_of_speech = (
+                row["词性"].strip() if row.get("词性") else None
+            )  # 获取词性
+            # key 由 词语和词性组合而成
+            key = f"{word}-{part_of_speech}"
+
+            chaotong_level = int(row["级别"]) if row.get("级别") else None
             hsk_level = (
-                float(row.get("HSK级别", None)) if row.get("HSK级别", None) else None
+                float(row.get("HSK词语级别", None))
+                if row.get("HSK词语级别", None)
+                else None
             )
 
-            chars = row["字"].split(",") if row.get("字") else []
-            poses = row["词性"].split(",") if row.get("词性") else []
-
-            characters: List[Dict] = []
-            for char, pos in zip(chars, poses):
-                characters.append(
-                    {"character": char.strip(), "part_of_speech": pos.strip()}
-                )
-
-            if word not in word_dict:
-                word_dict[word] = {
+            if key not in word_dict:
+                word_dict[key] = {
                     "word_id": str(uuid.uuid4()),
                     "word": word,
                     "chaotong_level": chaotong_level,
                     "hsk_level": hsk_level,
-                    "characters": characters,
+                    "part_of_speech": part_of_speech,
                 }
             else:
-                existing_word = word_dict[word]
+                existing_word = word_dict[key]
                 # 如果词条已经存在，比较 chaotong_level，使用较小的
                 if chaotong_level is not None and (
                     existing_word.get("chaotong_level") is None
@@ -63,17 +60,6 @@ def convert_csv_to_json(csv_file_path: str, json_file_path: str):
 
                 if hsk_level is not None:
                     existing_word["hsk_level"] = hsk_level
-                existing_chars = {
-                    (c["character"], c["part_of_speech"])
-                    for c in existing_word["characters"]
-                }
-
-                for char_info in characters:
-                    if (
-                        char_info["character"],
-                        char_info["part_of_speech"],
-                    ) not in existing_chars:
-                        existing_word["characters"].append(char_info)
 
     data = list(word_dict.values())
 
