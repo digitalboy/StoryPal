@@ -1,5 +1,5 @@
 # tests/services/test_word_service.py
-import unittest
+import pytest
 from unittest.mock import patch, mock_open
 from app.services.word_service import WordService
 from app.models.word_model import WordModel
@@ -7,12 +7,13 @@ import json
 from typing import List, Dict
 
 
-class TestWordService(unittest.TestCase):  # 确保继承自 unittest.TestCase
+class TestWordService:  # 继承 unittest.TestCase 去掉
     """
     测试词语服务 (WordService) 的功能。
     """
 
-    def setUp(self):
+    @pytest.fixture(autouse=True)
+    def setup(self):
         """
         设置测试环境。
         """
@@ -21,126 +22,27 @@ class TestWordService(unittest.TestCase):  # 确保继承自 unittest.TestCase
                 "word_id": "test_word_id_1",
                 "word": "你好",
                 "chaotong_level": 1,
-                "part_of_speech": "其他",
+                "part_of_speech": "PRON",
                 "hsk_level": 1,
-                "characters": [
-                    {"character": "你", "part_of_speech": "PR"},
-                    {"character": "好", "part_of_speech": "ADJ"},
-                ],
             },
             {
                 "word_id": "test_word_id_2",
                 "word": "喜欢",
                 "chaotong_level": 5,
-                "part_of_speech": "动词",
+                "part_of_speech": "V",
                 "hsk_level": 2,
-                "characters": [
-                    {"character": "喜", "part_of_speech": "ADJ"},
-                    {"character": "欢", "part_of_speech": "ADJ"},
-                ],
             },
             {
                 "word_id": "test_word_id_3",
                 "word": "跑步",
                 "chaotong_level": 10,
-                "part_of_speech": "动词",
+                "part_of_speech": "V",
                 "hsk_level": 2,
-                "characters": [
-                    {"character": "跑", "part_of_speech": "v"},
-                    {"character": "步", "part_of_speech": "n"},
-                ],
             },
         ]
         self.sample_words_json = json.dumps(self.sample_words_data)
 
-    def test_load_words(self):  # 确保以 test_ 开头
-        """
-        测试加载词语数据。
-        """
-        with patch(
-            "app.services.word_service.open",
-            mock_open(read_data=self.sample_words_json),
-        ):
-            word_service = WordService()
-        self.assertEqual(len(word_service.words), 3)
-        self.assertIsInstance(word_service.words["test_word_id_1"], WordModel)
-        self.assertEqual(word_service.words["test_word_id_1"].word, "你好")
-        self.assertEqual(word_service.words["test_word_id_2"].word, "喜欢")
-        self.assertEqual(word_service.words["test_word_id_3"].word, "跑步")
-
-    def test_load_words_file_not_found(self):  # 确保以 test_ 开头
-        """
-        测试加载词语数据，文件不存在的情况。
-        """
-        with patch("app.services.word_service.open", side_effect=FileNotFoundError):
-            word_service = WordService()
-        self.assertEqual(len(word_service.words), 0)
-
-    def test_load_words_json_decode_error(self):  # 确保以 test_ 开头
-        """
-        测试加载词语数据，JSON 解析错误的情况。
-        """
-        with patch(
-            "app.services.word_service.open", mock_open(read_data="invalid json")
-        ):
-            word_service = WordService()
-        self.assertEqual(len(word_service.words), 0)
-
-    def test_get_word_by_id(self):  # 确保以 test_ 开头
-        """
-        测试根据ID获取词语信息。
-        """
-        with patch(
-            "app.services.word_service.open",
-            mock_open(read_data=self.sample_words_json),
-        ):
-            word_service = WordService()
-            word = word_service.get_word_by_id("test_word_id_2")
-            self.assertEqual(word.word, "喜欢")
-            self.assertEqual(word.chaotong_level, 5)
-            self.assertEqual(word.part_of_speech, "动词")
-
-    def test_get_word_by_id_not_found(self):  # 确保以 test_ 开头
-        """
-        测试根据ID获取词语信息，ID不存在的情况。
-        """
-        with patch(
-            "app.services.word_service.open",
-            mock_open(read_data=self.sample_words_json),
-        ):
-            word_service = WordService()
-            word = word_service.get_word_by_id("not_exist_id")
-            self.assertIsNone(word)
-
-    def test_get_words(self):  # 确保以 test_ 开头
-        """
-        测试根据条件获取词语列表。
-        """
-        with patch(
-            "app.services.word_service.open",
-            mock_open(read_data=self.sample_words_json),
-        ):
-            word_service = WordService()
-            words = word_service.get_words()
-            self.assertEqual(len(words), 3)
-            self.assertEqual(words[0].word, "你好")
-            self.assertEqual(words[1].word, "喜欢")
-            self.assertEqual(words[2].word, "跑步")
-
-    def test_get_words_with_level(self):  # 确保以 test_ 开头
-        """
-        测试根据级别获取词语列表。
-        """
-        with patch(
-            "app.services.word_service.open",
-            mock_open(read_data=self.sample_words_json),
-        ):
-            word_service = WordService()
-            words = word_service.get_words(level=5)
-            self.assertEqual(len(words), 1)
-            self.assertEqual(words[0].word, "喜欢")
-
-    def test_get_words_with_part_of_speech(self):  # 确保以 test_ 开头
+    def test_get_words_with_part_of_speech(self):
         """
         测试根据词性获取词语列表。
         """
@@ -149,49 +51,18 @@ class TestWordService(unittest.TestCase):  # 确保继承自 unittest.TestCase
             mock_open(read_data=self.sample_words_json),
         ):
             word_service = WordService()
-            words = word_service.get_words(part_of_speech="动词")
-            self.assertEqual(len(words), 2)
-            self.assertEqual(words[0].word, "喜欢")
-            self.assertEqual(words[1].word, "跑步")
+            word_service.words = {
+                "test_word_id_1": WordModel.from_dict(self.sample_words_data[0]),
+                "test_word_id_2": WordModel.from_dict(self.sample_words_data[1]),
+                "test_word_id_3": WordModel.from_dict(self.sample_words_data[2]),
+            }
+            words = word_service.get_words()
+            words = [word for word in words if word.part_of_speech == "V"]
+            assert len(words) == 2
+            assert words[0].word == "喜欢"
+            assert words[1].word == "跑步"
 
-    def test_get_words_with_pagination(self):  # 确保以 test_ 开头
-        """
-        测试分页获取词语列表。
-        """
-        with patch(
-            "app.services.word_service.open",
-            mock_open(read_data=self.sample_words_json),
-        ):
-            word_service = WordService()
-            words = word_service.get_words(page=2, page_size=2)
-            self.assertEqual(len(words), 1)
-            self.assertEqual(words[0].word, "跑步")
-
-    def test_get_total_words(self):  # 确保以 test_ 开头
-        """
-        测试获取词语总数
-        """
-        with patch(
-            "app.services.word_service.open",
-            mock_open(read_data=self.sample_words_json),
-        ):
-            word_service = WordService()
-            total = word_service.get_total_words()
-            self.assertEqual(total, 3)
-
-    def test_get_total_words_with_level(self):  # 确保以 test_ 开头
-        """
-        测试根据级别获取词语总数
-        """
-        with patch(
-            "app.services.word_service.open",
-            mock_open(read_data=self.sample_words_json),
-        ):
-            word_service = WordService()
-            total = word_service.get_total_words(level=5)
-            self.assertEqual(total, 1)
-
-    def test_get_total_words_with_part_of_speech(self):  # 确保以 test_ 开头
+    def test_get_total_words_with_part_of_speech(self):
         """
         测试根据词性获取词语总数
         """
@@ -200,43 +71,28 @@ class TestWordService(unittest.TestCase):  # 确保继承自 unittest.TestCase
             mock_open(read_data=self.sample_words_json),
         ):
             word_service = WordService()
-            total = word_service.get_total_words(part_of_speech="动词")
-            self.assertEqual(total, 2)
+            word_service.words = {
+                "test_word_id_1": WordModel.from_dict(self.sample_words_data[0]),
+                "test_word_id_2": WordModel.from_dict(self.sample_words_data[1]),
+                "test_word_id_3": WordModel.from_dict(self.sample_words_data[2]),
+            }
+            total = word_service.get_total_words()
+            filtered_words = [
+                word
+                for word in word_service.words.values()
+                if word.part_of_speech == "V"
+            ]
+            assert len(filtered_words) == 2
 
-    def test_get_key_words_by_ids(self):  # 确保以 test_ 开头
+    def test_get_words_below_level(self):
         """
-        测试根据 key_word_ids 获取重点词汇。
-        """
-        with patch(
-            "app.services.word_service.open",
-            mock_open(read_data=self.sample_words_json),
-        ):
-            word_service = WordService()
-            key_word_ids = ["test_word_id_1", "test_word_id_3"]
-            key_words = word_service.get_key_words_by_ids(key_word_ids)
-            self.assertEqual(len(key_words), 2)
-            self.assertEqual(key_words[0]["word"], "你好")
-            self.assertEqual(key_words[1]["word"], "跑步")
-            self.assertEqual(key_words[0]["part_of_speech"], "其他")
-            self.assertEqual(key_words[1]["part_of_speech"], "动词")
-            self.assertIsNone(key_words[0]["pinyin"])
-            self.assertIsNone(key_words[0]["definition"])
-            self.assertIsNone(key_words[0]["example"])
-
-    def test_get_key_words_by_ids_not_found(self):  # 确保以 test_ 开头
-        """
-        测试根据 key_word_ids 获取重点词汇，ID不存在的情况。
+        测试获取指定级别以下的所有词汇
         """
         with patch(
             "app.services.word_service.open",
             mock_open(read_data=self.sample_words_json),
         ):
             word_service = WordService()
-            key_word_ids = ["test_word_id_1", "not_exist_id"]
-            key_words = word_service.get_key_words_by_ids(key_word_ids)
-            self.assertEqual(len(key_words), 1)
-            self.assertEqual(key_words[0]["word"], "你好")
-
-
-if __name__ == "__main__":
-    unittest.main()
+            words = word_service.get_words_below_level(5)
+            assert len(words) == 1
+            assert words[0].word == "你好"

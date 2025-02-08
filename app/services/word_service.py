@@ -106,25 +106,6 @@ class WordService:
         ]
         return filtered_words
 
-    def get_known_characters(self, level: int) -> Set[str]:
-        """
-        获取指定级别以下的所有已知字 (字 + 词性) 组合
-        Args:
-            level (int): 目标级别, 不包含这个级别
-        Returns:
-             Set[str]: 已知字集合，每个元素是 “字/词性” 字符串
-        """
-        known_characters = set()
-        words_below_level = self.get_words_below_level(level)
-        for word in words_below_level:
-            for char_info in word.characters:
-                char_with_pos = (
-                    f"{char_info['character']}/{char_info['part_of_speech']}"
-                )
-                known_characters.add(char_with_pos)
-
-        return known_characters
-
     def get_key_words_by_ids(self, key_word_ids: List[str]) -> List[Dict]:
         """
         根据 key_word_ids 获取重点词汇的详细信息。
@@ -143,6 +124,7 @@ class WordService:
                         "pinyin": None,  # 暂时设置为 None, 后续可以从 words.json 中获取
                         "definition": None,  # 暂时设置为 None, 后续可以从 words.json 中获取
                         "example": None,  # 暂时设置为 None, 后续可以从 words.json 中获取
+                        "part_of_speech": word_model.part_of_speech,
                     }
                 )
         return key_words
