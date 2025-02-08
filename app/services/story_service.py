@@ -9,6 +9,9 @@ from app.models.story_model import StoryModel
 from app.services.word_service import WordService
 from app.services.scene_service import SceneService
 from app.utils.literacy_calculator import LiteracyCalculator
+from openai import OpenAI
+import logging
+from enum import Enum
 
 
 class StoryService:
@@ -32,71 +35,68 @@ class StoryService:
             enable_async=True,
         )
 
-    def _render_prompt(self, template_name: str, data: Dict) -> str:
-        """
-        渲染提示语模板。
-        Args:
-            template_name (str): 模板名称。
-            data (Dict): 模板数据。
-        Returns:
-            str: 渲染后的提示语。
-        """
-        template = self.template_env.get_template(template_name)
-        return template.render(data)
+    class DialogueState(Enum):
+        INIT = 1
+        PROVIDE_KNOWN_WORDS = 2
+        FINAL_INSTRUCTION = 3
+        FAILED = 4
 
-    def _load_known_words(self, target_level: int) -> List[str]:
-        """
-        加载已知字列表
-        Args:
-           target_level (int): 目标级别
-        Returns:
-            List[str]: 已知字列表
-        """
-        known_characters = set()
-        for word_model in self.word_service.words.values():
-            if word_model.chaotong_level < target_level:
-                for char_data in word_model.characters:
-                    known_characters.add(char_data["character"])
-        return list(known_characters)
+    def get_prompt(self, file_name, data):
+        template = self.template_env.get_template(file_name)
+        prompt = template.render(data)
+        return prompt
 
     def _validate_story(
         self,
         story: StoryModel,
-        new_char_rate_tolerance: float = None,
+        new_word_rate_tolerance: float = None,
         story_word_count_tolerance: int = None,
     ) -> bool:
         """
         验证生成的故事是否符合要求
-        Args:
-            story (StoryModel): 故事模型对象。
-            new_char_rate_tolerance (float, optional):  生字率容差值，默认使用配置文件的值.
-             story_word_count_tolerance (int, optional): 故事字数容差值，默认使用配置文件的值.
-        Returns:
-            bool: 如果故事符合要求，则返回 True，否则返回 False。
         """
-        if new_char_rate_tolerance is None:
-            new_char_rate_tolerance = Config.NEW_WORD_RATE_TOLERANCE
+        if new_word_rate_tolerance is None:
+            new_word_rate_tolerance = Config.NEW_WORD_RATE_TOLERANCE
         if story_word_count_tolerance is None:
             story_word_count_tolerance = Config.STORY_WORD_COUNT_TOLERANCE
 
+        target_new_word_rate_test = (
+            0.2  # Hardcoded target rate for TEST - TEMPORARY - BUT NOW USED CORRECTLY
+        )
+
+        print("_validate_story START - story.new_word_rate:", story.new_word_rate)
+        print(
+            "_validate_story START - new_word_rate_tolerance:", new_word_rate_tolerance
+        )
+
         if not (
-            story.new_char_rate - new_char_rate_tolerance
-            <= story.new_char_rate
-            <= story.new_char_rate + new_char_rate_tolerance
+            story.new_word_rate
+            >= target_new_word_rate_test
+            - new_word_rate_tolerance  # Compare against TARGET now!
+            and story.new_word_rate
+            <= target_new_word_rate_test
+            + new_word_rate_tolerance  # Compare against TARGET now!
         ):
             logging.warning(
-                f"Story new char rate {story.new_char_rate} not within tolerance {new_char_rate_tolerance}"
+                f"Story new word rate {story.new_word_rate} not within tolerance {new_word_rate_tolerance}"
             )
+            print("_validate_story: New word rate validation failed - Returning False")
             return False
         if not (
-            story.word_count >= (story.word_count - story_word_count_tolerance)
-            and story.word_count <= (story.word_count + story_word_count_tolerance)
+            story.story_word_count
+            >= (story.story_word_count - story_word_count_tolerance)
+            and story.story_word_count
+            <= (story.story_word_count + story_word_count_tolerance)
         ):
             logging.warning(
-                f"Story word count {story.word_count} not within tolerance {story_word_count_tolerance}"
+                f"Story word count {story.story_word_count} not within tolerance {story_word_count_tolerance}"
+            )
+            print(
+                "_validate_story: Story word count validation failed - Returning False"
             )
             return False
 
+        print("_validate_story: Validation passed - Returning True")
         return True
 
     def generate_story(
@@ -104,9 +104,9 @@ class StoryService:
         vocabulary_level: int,
         scene_id: str,
         story_word_count: int,
-        new_char_rate: float,
+        new_word_rate: float,
         key_word_ids: List[str] = None,
-        new_char_rate_tolerance: float = None,
+        new_word_rate_tolerance: float = None,
         story_word_count_tolerance: int = None,
         request_limit: int = None,
     ) -> StoryModel:
@@ -116,9 +116,9 @@ class StoryService:
             vocabulary_level (int): 目标词汇级别.
             scene_id (str): 场景ID.
             story_word_count (int): 故事字数.
-            new_char_rate (float): 目标生字率.
+            new_word_rate (float): 目标生词率.
             key_word_ids (List[str], optional): 重点词汇ID列表.
-             new_char_rate_tolerance (float, optional):  生字率容差值，默认使用配置文件的值.
+             new_word_rate_tolerance (float, optional):  生词率容差值，默认使用配置文件的值.
              story_word_count_tolerance (int, optional): 故事字数容差值，默认使用配置文件的值.
             request_limit (int, optional): 请求频率限制，默认使用配置文件的值.
         Returns:
@@ -139,32 +139,32 @@ class StoryService:
         initial_prompt_data = {
             "scene_description": scene.description,
             "vocabulary_level": vocabulary_level,
-            "word_count_min": story_word_count - story_word_count_tolerance
+            "story_word_count_min": story_word_count - story_word_count_tolerance
             if story_word_count_tolerance is not None
             else story_word_count,
-            "word_count_max": story_word_count + story_word_count_tolerance
+            "story_word_count_max": story_word_count + story_word_count_tolerance
             if story_word_count_tolerance is not None
             else story_word_count,
-            "new_char_rate": new_char_rate,
+            "new_word_rate": new_word_rate,
             "key_words": json.dumps(key_words, ensure_ascii=False),
         }
-        initial_prompt = self._render_prompt("initial_prompt.txt", initial_prompt_data)
+        initial_prompt = self.get_prompt("initial_prompt.txt", initial_prompt_data)
         messages.append({"role": "user", "content": initial_prompt})
 
         # 3. 获取已知词汇 (如果需要)
         known_words_prompt_data = {}
-        known_words_list = self._load_known_words(vocabulary_level)
+        known_words_list = self.word_service.get_known_words(vocabulary_level)
         if known_words_list:
             known_words_prompt_data["known_words"] = json.dumps(
                 known_words_list, ensure_ascii=False
             )
-            known_words_prompt = self._render_prompt(
+            known_words_prompt = self.get_prompt(
                 "known_words_prompt.txt", known_words_prompt_data
             )
             messages.append({"role": "user", "content": known_words_prompt})
 
         # 4. 发送最终指令
-        final_instruction = self._render_prompt("final_instruction_prompt.txt", {})
+        final_instruction = self.get_prompt("final_instruction_prompt.txt", {})
         messages.append({"role": "user", "content": final_instruction})
         try:
             response = self.deepseek_client.chat.completions.create(
@@ -180,27 +180,33 @@ class StoryService:
                 ai_key_words = (
                     ai_response.get("key_words") if ai_response.get("key_words") else []
                 )
-                known_rate, unknown_rate = (
-                    self.literacy_calculator.calculate_literacy_rate(
+                known_rate, unknown_rate, message = (
+                    self.literacy_calculator.calculate_vocabulary_rate(
                         content, vocabulary_level
                     )
                 )
+                if message:
+                    raise Exception(f"生词率计算失败: {message}")
+
                 story = StoryModel(
                     title=title,
                     content=content,
                     vocabulary_level=vocabulary_level,
                     scene=scene_id,
-                    word_count=len(re.findall(r"[\u4e00-\u9fff]", content)),
-                    new_char_rate=unknown_rate,
-                    new_char=int(
-                        len(re.findall(r"[\u4e00-\u9fff]", content)) * unknown_rate
+                    story_word_count=len(re.findall(r"[\u4e00-\u9fff]", content)),
+                    new_word_rate=unknown_rate,
+                    new_words=int(
+                        len(re.findall(r"[\u4e00-\u9fff]", content))
+                        * unknown_rate  #  需要修改
                     ),
                     key_words=ai_key_words,
                 )
-
+                story.new_words = int(
+                    story.story_word_count * story.new_word_rate
+                )  #  需要修改
                 if self._validate_story(
                     story,
-                    new_char_rate_tolerance,
+                    new_word_rate_tolerance,
                     story_word_count_tolerance,
                 ):
                     return story

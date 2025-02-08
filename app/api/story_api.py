@@ -45,9 +45,11 @@ def generate_story():
         vocabulary_level = data.get("vocabulary_level")
         scene_id = data.get("scene_id")
         story_word_count = data.get("story_word_count")
-        new_char_rate = data.get("new_char_rate")
+        new_word_rate = data.get("new_word_rate")  #  new_char_rate -> new_word_rate
         key_word_ids = data.get("key_word_ids", [])
-        new_char_rate_tolerance = data.get("new_char_rate_tolerance")
+        new_word_rate_tolerance = data.get(
+            "new_word_rate_tolerance"
+        )  # new_char_rate_tolerance -> new_word_rate_tolerance
         story_word_count_tolerance = data.get("story_word_count_tolerance")
         request_limit = data.get("request_limit")
 
@@ -58,8 +60,8 @@ def generate_story():
             return handle_error(400, "Missing required field: 'scene_id'")
         if not story_word_count:
             return handle_error(400, "Missing required field: 'story_word_count'")
-        if not new_char_rate:
-            return handle_error(400, "Missing required field: 'new_char_rate'")
+        if not new_word_rate:  # new_char_rate -> new_word_rate
+            return handle_error(400, "Missing required field: 'new_word_rate'")
 
         # 验证参数类型
         if not isinstance(vocabulary_level, int):
@@ -72,9 +74,9 @@ def generate_story():
             return handle_error(
                 400, "Invalid field type: 'story_word_count' must be an integer"
             )
-        if not isinstance(new_char_rate, float):
+        if not isinstance(new_word_rate, float):  # new_char_rate -> new_word_rate
             return handle_error(
-                400, "Invalid field type: 'new_char_rate' must be a float"
+                400, "Invalid field type: 'new_word_rate' must be a float"
             )
         if key_word_ids and not isinstance(key_word_ids, list):
             return handle_error(
@@ -86,16 +88,21 @@ def generate_story():
             return handle_error(
                 400, "Validation failed: 'vocabulary_level' must be between 1 and 100"
             )
-        if not 0 <= new_char_rate <= 1:
+        if not 0 <= new_word_rate <= 1:  # new_char_rate -> new_word_rate
             return handle_error(
-                400, "Validation failed: 'new_char_rate' must be between 0 and 1"
+                400, "Validation failed: 'new_word_rate' must be between 0 and 1"
             )
 
-        if new_char_rate_tolerance is not None and not isinstance(
-            new_char_rate_tolerance, float
+        if (
+            new_word_rate_tolerance is not None
+            and not isinstance(  # new_char_rate_tolerance -> new_word_rate_tolerance
+                new_word_rate_tolerance,
+                float,  # new_char_rate_tolerance -> new_word_rate_tolerance
+            )
         ):
             return handle_error(
-                400, "Invalid field type: 'new_char_rate_tolerance' must be a float"
+                400,
+                "Invalid field type: 'new_word_rate_tolerance' must be a float",  # new_char_rate_tolerance -> new_word_rate_tolerance
             )
 
         if story_word_count_tolerance is not None and not isinstance(
@@ -115,9 +122,9 @@ def generate_story():
             vocabulary_level=vocabulary_level,
             scene_id=scene_id,
             story_word_count=story_word_count,
-            new_char_rate=new_char_rate,
+            new_word_rate=new_word_rate,  # new_char_rate -> new_word_rate
             key_word_ids=key_word_ids,
-            new_char_rate_tolerance=new_char_rate_tolerance,
+            new_word_rate_tolerance=new_word_rate_tolerance,  # new_char_rate_tolerance -> new_word_rate_tolerance
             story_word_count_tolerance=story_word_count_tolerance,
             request_limit=request_limit,
         )
@@ -132,6 +139,3 @@ def generate_story():
     except Exception as e:
         logging.error(f"Error generating story: {e}")
         return handle_error(500, f"Internal server error: {str(e)}")
-
-
-

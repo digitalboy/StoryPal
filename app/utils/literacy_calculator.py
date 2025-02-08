@@ -90,7 +90,7 @@ class LiteracyCalculator:
         known_word_count = 0
 
         for word, pos in tokens:
-            if (word.lower(), pos) in known_words:
+            if (word, pos) in known_words:  # 移除 lower()
                 known_word_count += 1
             else:
                 self.logger.debug(f"生词：{word}, 词性: {pos}")

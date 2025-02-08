@@ -15,9 +15,9 @@ class StoryModel(BaseModel):
         content: str = None,
         vocabulary_level: int = None,
         scene: str = None,
-        word_count: int = None,
-        new_char_rate: float = None,
-        new_char: int = None,
+        story_word_count: int = None,  #  word_count -> story_word_count
+        new_word_rate: float = None,  #  new_char_rate -> new_word_rate
+        new_words: int = None,  #  new_char -> new_words
         key_words: List[Dict] = None,
         created_at: str = None,
     ):
@@ -29,9 +29,9 @@ class StoryModel(BaseModel):
             content (str): 故事内容.
             vocabulary_level (int):  超童级别， 取值范围 1-100.
             scene (str): 场景ID， UUID 格式.
-            word_count (int): 故事的字数.
-            new_char_rate (float): 故事的生字率， 取值范围 0-1.
-             new_char (int): 故事的生字数量.
+            story_word_count (int): 故事的词数. #  word_count -> story_word_count
+            new_word_rate (float): 故事的生词率， 取值范围 0-1. #  new_char_rate -> new_word_rate
+            new_words (int): 故事的生词数量. #  new_char -> new_words
             key_words (List[Dict]): 故事中包含的重点词汇列表.
             created_at (str, optional): 模型的创建时间，如果为None，则设置为当前时间.
         """
@@ -40,9 +40,9 @@ class StoryModel(BaseModel):
         self.content = content
         self.vocabulary_level = vocabulary_level
         self.scene = scene
-        self.word_count = word_count
-        self.new_char_rate = new_char_rate
-        self.new_char = new_char
+        self.story_word_count = story_word_count  #  word_count -> story_word_count
+        self.new_word_rate = new_word_rate  #  new_char_rate -> new_word_rate
+        self.new_words = new_words  #  new_char -> new_words
         self.key_words = key_words if key_words else []
 
     def to_dict(self) -> Dict:
@@ -57,9 +57,9 @@ class StoryModel(BaseModel):
             "content": self.content,
             "vocabulary_level": self.vocabulary_level,
             "scene": self.scene,
-            "word_count": self.word_count,
-            "new_char_rate": self.new_char_rate,
-            "new_char": self.new_char,
+            "story_word_count": self.story_word_count,  #  word_count -> story_word_count
+            "new_word_rate": self.new_word_rate,  #  new_char_rate -> new_word_rate
+            "new_words": self.new_words,  #  new_char -> new_words
             "key_words": self.key_words,
             "created_at": self.created_at,
         }
