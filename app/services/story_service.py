@@ -12,6 +12,7 @@ from app.utils.literacy_calculator import LiteracyCalculator
 from openai import OpenAI
 import logging
 from enum import Enum
+from app.utils.json_storage import JSONStorage
 
 
 class StoryService:
@@ -34,6 +35,7 @@ class StoryService:
             loader=FileSystemLoader("app/prompts"),
             enable_async=True,
         )
+        self.story_storage = JSONStorage(Config.STORIES_FILE_PATH)  #  新增
 
     class DialogueState(Enum):
         INIT = 1
@@ -61,13 +63,6 @@ class StoryService:
         if story_word_count_tolerance is None:
             story_word_count_tolerance = Config.STORY_WORD_COUNT_TOLERANCE
 
-        # target_new_word_rate_test = 0.2  # Hardcoded target rate for TEST - TEMPORARY - BUT NOW USED CORRECTLY  # 删除
-
-        # print("_validate_story START - story.new_word_rate:", story.new_word_rate)  # 删除
-        # print(
-        #     "_validate_story START - new_word_rate_tolerance:", new_word_rate_tolerance
-        # )  # 删除
-
         if not (
             story.new_word_rate
             >= new_word_rate - new_word_rate_tolerance  # 使用参数传递
@@ -77,7 +72,6 @@ class StoryService:
             logging.warning(
                 f"Story new word rate {story.new_word_rate} not within tolerance {new_word_rate_tolerance}"
             )
-            # print("_validate_story: New word rate validation failed - Returning False")  # 删除
             return False
         if not (
             story.story_word_count
@@ -88,12 +82,8 @@ class StoryService:
             logging.warning(
                 f"Story word count {story.story_word_count} not within tolerance {story_word_count_tolerance}"
             )
-            # print(
-            #     "_validate_story: Story word count validation failed - Returning False"
-            # )  # 删除
             return False
 
-        # print("_validate_story: Validation passed - Returning True")  # 删除
         return True
 
     def generate_story(
@@ -200,6 +190,7 @@ class StoryService:
                     logging.warning(f"Story validation failed")
                     raise Exception(f"Story validation failed")
 
+                self.add_story(story)  # 保存 story
                 return story
 
             except (json.JSONDecodeError, TypeError) as e:
@@ -208,3 +199,42 @@ class StoryService:
         except Exception as e:
             logging.error(f"AI 服务调用失败: {e}")
             raise Exception(f"AI 服务调用失败: {e}")
+
+    def add_story(self, story: StoryModel):
+        """将故事添加到 JSON 文件中。"""
+        story_data = story.to_dict()
+        self.story_storage.add(story_data)
+        logging.info(f"Story added successfully with id: {story.id}")
+
+    def get_story_by_id(self, story_id: str) -> StoryModel:
+        """从 JSON 文件中根据 ID 获取故事。"""
+        story_data = next(
+            (
+                item
+                for item in self.story_storage.load()
+                if item.get("story_id") == story_id
+            ),
+            None,
+        )
+        if story_data:
+            return StoryModel.from_dict(story_data)
+        return None
+
+    def update_story(self, story: StoryModel) -> bool:
+        """更新 JSON 文件中的故事。"""
+        story_data = story.to_dict()
+        success = self.story_storage.update(story.id, story_data)
+        if success:
+            logging.info(f"Story updated successfully with id: {story.id}")
+        else:
+            logging.warning(f"Story not found for update with id: {story.id}")
+        return success
+
+    def delete_story(self, story_id: str) -> bool:
+        """从 JSON 文件中删除一条数据。"""
+        success = self.story_storage.delete(story_id)
+        if success:
+            logging.info(f"Story deleted successfully with id: {story_id}")
+        else:
+            logging.warning(f"Story not found for deletion with id: {story_id}")
+        return success

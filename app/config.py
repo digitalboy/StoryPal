@@ -1,4 +1,4 @@
-# app/config.py
+# config.py
 import os
 from dotenv import load_dotenv
 
@@ -30,6 +30,12 @@ class Config:
     SCENES_FILE_PATH = os.path.join(
         BASE_DIR, "..", os.getenv("SCENES_FILE_PATH", "app/data/scenes.json")
     )
+
+    STORIES_FILE_PATH = os.path.join(  # 添加
+        BASE_DIR,
+        "..",
+        os.getenv("STORIES_FILE_PATH", "app/data/stories.json"),  # 添加
+    )  # 添加
 
 
 def get_api_key_from_config():
