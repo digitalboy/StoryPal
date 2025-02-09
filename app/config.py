@@ -31,11 +31,11 @@ class Config:
         BASE_DIR, "..", os.getenv("SCENES_FILE_PATH", "app/data/scenes.json")
     )
 
-    STORIES_FILE_PATH = os.path.join(  # 添加
+    STORIES_FILE_PATH = os.path.join(  
         BASE_DIR,
         "..",
-        os.getenv("STORIES_FILE_PATH", "app/data/stories.json"),  # 添加
-    )  # 添加
+        os.getenv("STORIES_FILE_PATH", "app/data/stories.json"),  
+    )  
 
 
 def get_api_key_from_config():

@@ -111,8 +111,12 @@ class StoryService:
         if not scene:
             raise Exception(f"Scene id {scene_id} not found")
 
-        # 2. 生成初始提示语
-        initial_prompt_data = {
+        # 2. 加载 initial_prompt
+        initial_prompt = self.get_prompt("initial_prompt.txt", {})
+        messages.append({"role": "user", "content": initial_prompt})
+
+        # 3. 准备 known_words_prompt 数据
+        known_words_prompt_data = {
             "scene_description": scene.description,
             "vocabulary_level": vocabulary_level,
             "story_word_count_min": story_word_count - story_word_count_tolerance
@@ -123,28 +127,39 @@ class StoryService:
             else story_word_count,
             "new_word_rate": new_word_rate,
             "key_words": json.dumps(key_words, ensure_ascii=False),
+            "scene_name": scene.name,  # 添加 scene_name
         }
-        initial_prompt = self.get_prompt("initial_prompt.txt", initial_prompt_data)
-        messages.append({"role": "user", "content": initial_prompt})
 
-        # 3. 获取已知词汇 (如果需要)
-        known_words_prompt_data = {}
-        known_words_list = self.word_service.get_known_words(vocabulary_level)
+        # 4. 获取已知词汇
+        known_words_list = self.word_service.get_words_below_level(vocabulary_level)
         if known_words_list:
             known_words_prompt_data["known_words"] = json.dumps(
-                known_words_list, ensure_ascii=False
+                [
+                    {"word": word.word, "part_of_speech": word.part_of_speech}
+                    for word in known_words_list
+                ],
+                ensure_ascii=False,  # 修改
             )
-            known_words_prompt = self.get_prompt(
-                "known_words_prompt.txt", known_words_prompt_data
-            )
-            messages.append({"role": "user", "content": known_words_prompt})
+        else:
+            known_words_prompt_data["known_words"] = json.dumps([])
 
-        # 4. 发送最终指令
+        # 5. 渲染 known_words_prompt 模板
+        known_words_prompt = self.get_prompt(
+            "known_words_prompt.txt", known_words_prompt_data
+        )
+        messages.append({"role": "user", "content": known_words_prompt})
+
+        # 6. 发送最终指令
         final_instruction = self.get_prompt("final_instruction_prompt.txt", {})
         messages.append({"role": "user", "content": final_instruction})
+
+        print("====================================")
+        print(messages)
+        print("====================================")
+
         try:
             response = self.deepseek_client.chat.completions.create(
-                model="deepseek-chat", messages=messages
+                # model="deepseek-chat", messages=messages
             )
             ai_message = response.choices[0].message.content
             messages.append({"role": "assistant", "content": ai_message})
@@ -172,17 +187,14 @@ class StoryService:
                     story_word_count=len(re.findall(r"[\u4e00-\u9fff]", content)),
                     new_word_rate=unknown_rate,
                     new_words=int(
-                        len(re.findall(r"[\u4e00-\u9fff]", content))
-                        * unknown_rate  #  需要修改
+                        len(re.findall(r"[\u4e00-\u9fff]", content)) * unknown_rate
                     ),
                     key_words=ai_key_words,
                 )
-                story.new_words = int(
-                    story.story_word_count * story.new_word_rate
-                )  #  需要修改
+                story.new_words = int(story.story_word_count * story.new_word_rate)
                 is_valid = self._validate_story(
                     story,
-                    new_word_rate,  # 使用参数传递
+                    new_word_rate,
                     new_word_rate_tolerance,
                     story_word_count_tolerance,
                 )

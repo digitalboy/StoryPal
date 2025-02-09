@@ -45,11 +45,11 @@ def generate_story():
         vocabulary_level = data.get("vocabulary_level")
         scene_id = data.get("scene_id")
         story_word_count = data.get("story_word_count")
-        new_word_rate = data.get("new_word_rate")  #  new_char_rate -> new_word_rate
+        new_word_rate = data.get("new_word_rate")  
         key_word_ids = data.get("key_word_ids", [])
         new_word_rate_tolerance = data.get(
             "new_word_rate_tolerance"
-        )  # new_char_rate_tolerance -> new_word_rate_tolerance
+        )  
         story_word_count_tolerance = data.get("story_word_count_tolerance")
         request_limit = data.get("request_limit")
 
@@ -84,9 +84,9 @@ def generate_story():
             )
 
         # 验证参数取值范围
-        if not 1 <= vocabulary_level <= 100:
+        if not 1 <= vocabulary_level <= 300:
             return handle_error(
-                400, "Validation failed: 'vocabulary_level' must be between 1 and 100"
+                400, "Validation failed: 'vocabulary_level' must be between 1 and 300"
             )
         if not 0 <= new_word_rate <= 1:  # new_char_rate -> new_word_rate
             return handle_error(

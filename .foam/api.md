@@ -55,7 +55,7 @@
   {
     "vocabulary_level": "integer", // 目标词汇级别（1-100）
     "scene_id": "string", // 场景ID（UUID）
-    "story_word_count": "integer", // 故事字数
+    "story_word_count": "integer", // 故事词数
     "new_word_rate": "float", // 目标生词率（0-1）
     "key_word_ids": ["string"], // 重点词汇ID列表（UUID），可选
     "new_word_rate_tolerance": "float", // 生词率容差值，可选

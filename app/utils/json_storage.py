@@ -38,7 +38,7 @@ class JSONStorage:
         """更新 JSON 文件中的一条数据。"""
         data = self.load()
         for index, item in enumerate(data):
-            if item.get("id") == item_id:
+            if item.get("item_id") == item_id:
                 data[index] = updated_item
                 self.save(data)
                 return True
@@ -48,7 +48,7 @@ class JSONStorage:
         """从 JSON 文件中删除一条数据。"""
         data = self.load()
         for index, item in enumerate(data):
-            if item.get("id") == item_id:
+            if item.get("item_id") == item_id:
                 data.pop(index)
                 self.save(data)
                 return True
