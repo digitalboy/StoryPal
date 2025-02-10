@@ -117,6 +117,7 @@ class StoryService:
 
         # 3. 准备 known_words_prompt 数据
         known_words_prompt_data = {
+            "scene_name": scene.name,
             "scene_description": scene.description,
             "vocabulary_level": vocabulary_level,
             "story_word_count_min": story_word_count - story_word_count_tolerance
@@ -127,7 +128,6 @@ class StoryService:
             else story_word_count,
             "new_word_rate": new_word_rate,
             "key_words": json.dumps(key_words, ensure_ascii=False),
-            "scene_name": scene.name,  # 添加 scene_name
         }
 
         # 4. 获取已知词汇
@@ -154,7 +154,8 @@ class StoryService:
         messages.append({"role": "user", "content": final_instruction})
 
         print("====================================")
-        print(messages)
+        for message in messages:
+            print(message["content"])
         print("====================================")
 
         try:

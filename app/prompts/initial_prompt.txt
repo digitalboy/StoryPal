@@ -4,65 +4,85 @@
 
 * **词汇级别 (Vocabulary Level)** 表示词汇的难度，级别越高，词汇越难。**已知词汇是小于目标级别的词汇， 生词是指目标级别及其以下级别中，所有词汇不包含的词，如果一个词不在词汇表中，也认为是生词**。
 * **生词率 (New Word Rate)** 指的是故事中，**不属于**目标级别**以下级别**的已知词汇的词的数量，与故事总词数的比率。
-* 生词率容差 (new_word_rate_tolerance) 指的是， 实际的生词率允许在目标生词率上下浮动的范围。
+
 
 你的目标是根据用户的中文水平，生成一个有趣、易懂的故事。
 
 请以 JSON 格式返回生成的故事，包括 `title`，`content`, 和 `key_words` 字段。 JSON Schema 如下:
         ```json
-        {
-           "type": "object",
-           "properties": {
-                "title": {"type": "string"},
-                 "content": {"type": "string"},
-                "key_words": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                        "word": {"type": "string"},
-                        "pinyin": {"type": ["string", "null"]},
-                       "definition": {"type": ["string", "null"]},
-                      "part_of_speech": {"type": "string",  "enum": ["名词", "动词", "形容词", "副词", "语气词", "其他"]},
-                      "example": {"type": ["string", "null"]}
-                     },
-                    "required": ["word"]
-                    }
-                   }
-               },
-             "required": ["title", "content", "key_words"]
-        }
+{
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "故事的标题，简短且具有概括性，能够吸引读者兴趣。"
+    },
+    "content": {
+      "type": "string",
+      "description": "故事的正文内容，使用目标级别以下的词汇编写，确保易懂且有趣。根据具体要求控制词数和生词比例。"
+    },
+    "key_words": {
+      "type": "array",
+      "description": "故事中的重点词汇列表，用于学习新词汇。每个关键词包含单词及其词性。",
+      "items": {
+        "type": "object",
+        "properties": {
+          "word": {
+            "type": "string",
+            "description": "需要学习的重点词汇，必须完全匹配具体要求中提供的词汇列表。"
+          },
+          "part_of_speech": {
+            "type": "string",
+            "enum": ["名词", "动词", "形容词", "副词", "语气词", "其他"],
+            "description": "词汇的词性，用于帮助学习者理解词汇的用法。"
+          }
+        },
+        "required": ["word"],
+        "description": "每个关键词对象包含一个单词及其词性。"
+      }
+    },
+    "scene": {
+      "type": "string",
+      "description": "故事的场景描述，例如问路、购物等。需与具体要求中的场景保持一致。"
+    },
+    "unknown_words": {
+      "type": "array",
+      "description": "故事中的生词列表，列出所有不属于目标级别以下已知词汇范围的词。如果没有生词，则为空数组。",
+      "items": {
+        "type": "string",
+        "description": "一个生词，表示故事中超出目标级别以下词汇范围的词。"
+      },
+      "default": [],
+      "description": "生词列表，允许为空数组。"
+    }
+  },
+  "required": ["title", "content", "key_words", "scene"],
+  "description": "JSON Schema 定义了一个中文故事的结构，包括标题、正文内容、关键词、场景和生词列表。"
+}
         ```
 
 **正确的示例**:
-    ```json
+```json
+{
+  "title": "一起吃饭的故事",
+  "content": "小红和朋友去饭店吃饭。她问朋友：\"你想吃什么呢？\" 朋友说：\"我想吃米饭和面条。\" 小红说：\"好啊，我们点一些菜吧。\" 他们点了米饭、面条和一些水果。吃完饭后，小红觉得很开心。",
+  "key_words": [
     {
-        "title": "小明爱跑步",
-         "content": "小明喜欢跑步，他每天早上都会去公园跑步，他觉得很开心",
-         "key_words": [
-            {
-                "word": "喜欢",
-                "pinyin": null,
-                "definition": null,
-                 "part_of_speech": "v",
-                "example": null
-              },
-              {
-                "word": "跑步",
-                "pinyin": null,
-                "definition": null,
-                  "part_of_speech": "v",
-                "example": null
-            }
-            ]
+      "word": "吃饭",
+      "part_of_speech": "动词"
     }
+  ],
+  "scene": "饭店",
+  "unknown_words": ["小红", "饭店"]
+}
     ```
 **错误的示例**:
      ```json
     {
         "title": "错误的故事",
         "content": "This is a English story. not a Chinese story.  你好世界",
-         "key_words": []
+         "key_words": [],
+         "scene": null
     }
     ```
 
