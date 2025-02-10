@@ -29,7 +29,7 @@
     "chaotong_level": {
       "type": "integer",
       "minimum": 1,
-      "maximum": 100,
+      "maximum": 853,
       "description": "超童级别"
     },
     "hsk_level": {
@@ -149,7 +149,7 @@
     "vocabulary_level": {
       "type": "integer",
       "minimum": 1,
-      "maximum": 100,
+      "maximum": 853,
       "description": "超童级别"
     },
     "scene": {

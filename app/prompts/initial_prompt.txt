@@ -9,7 +9,7 @@
 你的目标是根据用户的中文水平，生成一个有趣、易懂的故事。
 
 请以 JSON 格式返回生成的故事，包括 `title`，`content`, 和 `key_words` 字段。 JSON Schema 如下:
-        ```json
+```json
 {
   "type": "object",
   "properties": {
@@ -37,7 +37,7 @@
             "description": "词汇的词性，用于帮助学习者理解词汇的用法。"
           }
         },
-        "required": ["word"],
+        "required": ["word", "part_of_speech"],
         "description": "每个关键词对象包含一个单词及其词性。"
       }
     },
@@ -54,12 +54,18 @@
       },
       "default": [],
       "description": "生词列表，允许为空数组。"
+    },
+    "target_level": {
+      "type": "integer",
+      "description": "目标级别，表示故事所针对的中文水平级别。故事中的大部分词汇应属于此级别以下的已知词汇范围，生词率也基于此级别计算。",
+      "minimum": 1,
+      "example": 58
     }
   },
-  "required": ["title", "content", "key_words", "scene"],
-  "description": "JSON Schema 定义了一个中文故事的结构，包括标题、正文内容、关键词、场景和生词列表。"
+  "required": ["title", "content", "key_words", "scene", "target_level"],
+  "description": "JSON Schema 定义了一个中文故事的结构，包括标题、正文内容、关键词、场景、生词列表以及目标级别。目标级别用于明确故事的语言难度，确保符合用户的中文水平。"
 }
-        ```
+```
 
 **正确的示例**:
 ```json
@@ -73,7 +79,8 @@
     }
   ],
   "scene": "饭店",
-  "unknown_words": ["小红", "饭店"]
+  "unknown_words": ["小红", "饭店"],
+  "target_level": 37
 }
     ```
 **错误的示例**:

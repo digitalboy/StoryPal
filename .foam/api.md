@@ -53,7 +53,7 @@
 
   ```json
   {
-    "vocabulary_level": "integer", // 目标词汇级别（1-100）
+    "vocabulary_level": "integer", // 目标词汇级别（1-853）
     "scene_id": "string", // 场景ID（UUID）
     "story_word_count": "integer", // 故事词数
     "new_word_rate": "float", // 目标生词率（0-1）
@@ -302,7 +302,7 @@
 - **Headers**:
   - `Authorization: Bearer <API_KEY>`
 - **Query Parameters**:
-  - `chaotong_level`: 超童级别（1-100），可选
+  - `chaotong_level`: 超童级别（1-583），可选
   - `part_of_speech`: 词性，可选
   - `page`: 页码（默认 1），可选
   - `page_size`: 每页数量（默认 10），可选
@@ -384,7 +384,7 @@
 
   ```json
   {
-    "target_level": "integer" // 目标级别（1-100）
+    "target_level": "integer" // 目标级别（1-853）
   }
   ```
 
@@ -546,8 +546,8 @@ def generate_story():
       if not isinstance(new_word_rate, float):
           return handle_error(4002, "Invalid field type: 'new_word_rate' must be a float")
 
-      if not 1 <= vocabulary_level <= 100:
-            return handle_error(4222, "Validation failed: 'vocabulary_level' must be between 1 and 100")
+      if not 1 <= vocabulary_level <= 853:
+            return handle_error(4222, "Validation failed: 'vocabulary_level' must be between 1 and 853")
       if not 0 <= new_word_rate <= 1:
             return handle_error(4221, "Validation failed: 'new_word_rate' must be between 0 and 1")
 
