@@ -2,7 +2,7 @@
 import json
 import logging
 import re
-from typing import List, Dict
+from typing import List, Dict, Union
 from jinja2 import Environment, FileSystemLoader
 from app.config import Config
 from app.models.story_model import StoryModel
@@ -13,6 +13,8 @@ from app.services.ai_service import AIService  # 导入 AIService
 import logging
 from enum import Enum
 from app.utils.json_storage import JSONStorage
+from google import genai  # 正确的引入方式
+import string
 
 
 class StoryService:
@@ -35,7 +37,12 @@ class StoryService:
             loader=FileSystemLoader("app/prompts"),
             enable_async=True,
         )
-        self.story_storage = JSONStorage(Config.STORIES_FILE_PATH)  #  新增
+        self.story_storage = JSONStorage(Config.STORIES_FILE_PATH)  # 新增
+        self.logger = logging.getLogger(__name__)  # 初始化 logger
+        self.punctuation = set(
+            string.punctuation
+            + "！？｡。＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃《》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰–—‘'‛“”„‟…⋯᠁"
+        )
 
     class DialogueState(Enum):
         INIT = 1
@@ -57,7 +64,6 @@ class StoryService:
         key_word_ids: List[str] = None,
         new_word_rate_tolerance: float = None,
         story_word_count_tolerance: int = None,
-        request_limit: int = None,
     ) -> StoryModel:
         """
         生成故事
@@ -121,13 +127,12 @@ class StoryService:
         print("====================================")
 
         try:
-            #  使用 AI 服务生成故事
-            ai_message = self.ai_service.generate_story(
+            # 使用 AI 服务生成故事
+            ai_response = self.ai_service.generate_story(
                 prompt="\n".join([message["content"] for message in messages])
             )
 
             try:
-                ai_response = ai_message  # json.loads(ai_message)
                 title = ai_response.get("title")
                 content = ai_response.get("content")
                 ai_key_words = (
@@ -142,22 +147,27 @@ class StoryService:
                 )
 
                 story = StoryModel(
+                    story_id=None,
                     title=title,
                     content=content,
                     vocabulary_level=vocabulary_level,
-                    scene=scene_id,
+                    scene_id=scene_id,  # scene -> scene_id
+                    scene_name=scene.name,  # 新增 scene_name
                     word_count=word_count,  # 使用计算出的词数
                     new_word_rate=new_word_rate,  # 使用计算出的生词率
                     key_words=ai_key_words,
                     unknown_words=unknown_words,  # 使用计算出的生词列表
+                    created_at=None,
                 )
 
-                self.add_story(story)  # 保存 story
+                # self.add_story(story)  # 保存 story
+                self.story_storage.add(story.to_dict())  # 保存 story
                 return story
 
             except (json.JSONDecodeError, TypeError) as e:
-                logging.error(f"AI 服务返回无效的 JSON 格式: {e}")
+                self.logger.error(f"AI 服务返回无效的 JSON 格式: {e}")
+                # 不记录故事
                 raise Exception(f"AI 服务返回无效的 JSON 格式: {e}")
         except Exception as e:
-            logging.error(f"AI 服务调用失败: {e}")
+            self.logger.error(f"AI 服务调用失败: {e}")
             raise Exception(f"AI 服务调用失败: {e}")

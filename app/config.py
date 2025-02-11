@@ -9,6 +9,8 @@ class Config:
     # 获取 API Key
     API_KEY = os.getenv("API_KEY")
     DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
+    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+    
     # 如果是开发环境，可以设置 DEBUG = True
     DEBUG = os.getenv("DEBUG", False) == "True"
     # 配置其他

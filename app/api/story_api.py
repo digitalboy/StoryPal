@@ -38,8 +38,7 @@ def generate_story():
         new_word_rate = data.get("new_word_rate")
         key_word_ids = data.get("key_word_ids", [])
         new_word_rate_tolerance = data.get("new_word_rate_tolerance")
-        story_word_count_tolerance = data.get("story_word_count_tolerance")
-        request_limit = data.get("request_limit")
+        story_word_count_tolerance = data.get("story_word_count_tolerance")        
         ai_service_name = data.get("ai_service", "deepseek")  # 默认使用 deepseek
 
         # 验证参数是否存在
@@ -98,10 +97,7 @@ def generate_story():
                 "Invalid field type: 'story_word_count_tolerance' must be a integer",
             )
 
-        if request_limit is not None and not isinstance(request_limit, int):
-            return handle_error(
-                400, "Invalid field type: 'request_limit' must be a integer"
-            )
+
 
         try:
             #  创建 AI 服务对象
@@ -126,8 +122,7 @@ def generate_story():
             key_word_ids=key_word_ids,
             new_word_rate_tolerance=new_word_rate_tolerance,
             story_word_count_tolerance=story_word_count_tolerance,
-            request_limit=request_limit,
-        )
+        )  # 移除 request_limit
 
         return jsonify(
             {

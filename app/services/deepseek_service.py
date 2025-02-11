@@ -28,7 +28,9 @@ class DeepseekService(AIService):
         """
         try:
             response = self.client.chat.completions.create(
-                model="deepseek-chat", messages=[{"role": "user", "content": prompt}]
+                model="deepseek-chat",
+                messages=[{"role": "user", "content": prompt}],
+                response_format={"type": "json_object"},  
             )
             ai_message = response.choices[0].message.content
             return json.loads(ai_message)
