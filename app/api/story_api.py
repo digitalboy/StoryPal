@@ -10,7 +10,6 @@ from app.utils.literacy_calculator import LiteracyCalculator
 from app.services.ai_service_factory import AIServiceFactory  # 导入 AIServiceFactory
 import logging
 
-
 story_api = Blueprint("story_api", __name__, url_prefix="/api/v1/stories")
 
 

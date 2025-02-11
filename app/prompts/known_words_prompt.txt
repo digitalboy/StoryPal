@@ -1,7 +1,7 @@
 * 故事的场景：{{scene_name}}（输出的JSON请保持一致）, {{ scene_description }}
 * 故事大部分词汇应该使用 {{ vocabulary_level }} 级别以下的词汇。
 * 故事的生词率 (New Word Rate) 应该在 {{ new_word_rate }} 左右。
-* 故事的词数应该在 {{ story_word_count_min }} 到 {{ story_word_count_max }} 词之间。
+* 故事的词数（很重要，允许浮动）应该在 {{ story_word_count_min }} 到 {{ story_word_count_max }} 词之间。
 * 故事中必须包含以下重点需要学习的词汇（新的级别中的需要学习的词汇，你输出的 JSON 中的key_words的键值，保持完全相同）:
     {{ key_words }}
     *  {{ key_words }} 是一个 JSON 数组， 数组中每个元素是一个 JSON 对象， 包含 `word` 字段，例如：`[{"word": "喜欢"}, {"word": "跑步"}]`。
