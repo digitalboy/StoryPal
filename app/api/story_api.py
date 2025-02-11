@@ -7,7 +7,7 @@ from app.config import Config
 from app.services.word_service import WordService
 from app.services.scene_service import SceneService
 from app.utils.literacy_calculator import LiteracyCalculator
-from openai import OpenAI
+from app.services.ai_service_factory import AIServiceFactory  # 导入 AIServiceFactory
 import logging
 
 
@@ -16,19 +16,9 @@ story_api = Blueprint("story_api", __name__, url_prefix="/api/v1/stories")
 
 # 初始化 StoryService
 # 为了避免循环依赖，在这里初始化依赖
-deepseek_client = OpenAI(
-    api_key=Config.DEEPSEEK_API_KEY, base_url="https://api.deepseek.com"
-)
 word_service = WordService()
 scene_service = SceneService()
 literacy_calculator = LiteracyCalculator(word_service)
-
-story_service = StoryService(
-    word_service=word_service,
-    scene_service=scene_service,
-    literacy_calculator=literacy_calculator,
-    deepseek_client=deepseek_client,
-)
 
 
 @story_api.route("/generate", methods=["POST"])
@@ -45,13 +35,12 @@ def generate_story():
         vocabulary_level = data.get("vocabulary_level")
         scene_id = data.get("scene_id")
         story_word_count = data.get("story_word_count")
-        new_word_rate = data.get("new_word_rate")  
+        new_word_rate = data.get("new_word_rate")
         key_word_ids = data.get("key_word_ids", [])
-        new_word_rate_tolerance = data.get(
-            "new_word_rate_tolerance"
-        )  
+        new_word_rate_tolerance = data.get("new_word_rate_tolerance")
         story_word_count_tolerance = data.get("story_word_count_tolerance")
         request_limit = data.get("request_limit")
+        ai_service_name = data.get("ai_service", "deepseek")  # 默认使用 deepseek
 
         # 验证参数是否存在
         if not vocabulary_level:
@@ -60,7 +49,7 @@ def generate_story():
             return handle_error(400, "Missing required field: 'scene_id'")
         if not story_word_count:
             return handle_error(400, "Missing required field: 'story_word_count'")
-        if not new_word_rate:  # new_char_rate -> new_word_rate
+        if not new_word_rate:
             return handle_error(400, "Missing required field: 'new_word_rate'")
 
         # 验证参数类型
@@ -74,7 +63,7 @@ def generate_story():
             return handle_error(
                 400, "Invalid field type: 'story_word_count' must be an integer"
             )
-        if not isinstance(new_word_rate, float):  # new_char_rate -> new_word_rate
+        if not isinstance(new_word_rate, float):
             return handle_error(
                 400, "Invalid field type: 'new_word_rate' must be a float"
             )
@@ -88,21 +77,17 @@ def generate_story():
             return handle_error(
                 400, "Validation failed: 'vocabulary_level' must be between 1 and 300"
             )
-        if not 0 <= new_word_rate <= 1:  # new_char_rate -> new_word_rate
+        if not 0 <= new_word_rate <= 1:
             return handle_error(
                 400, "Validation failed: 'new_word_rate' must be between 0 and 1"
             )
 
-        if (
-            new_word_rate_tolerance is not None
-            and not isinstance(  # new_char_rate_tolerance -> new_word_rate_tolerance
-                new_word_rate_tolerance,
-                float,  # new_char_rate_tolerance -> new_word_rate_tolerance
-            )
+        if new_word_rate_tolerance is not None and not isinstance(
+            new_word_rate_tolerance, float
         ):
             return handle_error(
                 400,
-                "Invalid field type: 'new_word_rate_tolerance' must be a float",  # new_char_rate_tolerance -> new_word_rate_tolerance
+                "Invalid field type: 'new_word_rate_tolerance' must be a float",
             )
 
         if story_word_count_tolerance is not None and not isinstance(
@@ -118,13 +103,28 @@ def generate_story():
                 400, "Invalid field type: 'request_limit' must be a integer"
             )
 
+        try:
+            #  创建 AI 服务对象
+            ai_service = AIServiceFactory.create_ai_service(
+                ai_service_name=ai_service_name,
+            )
+        except ValueError as e:
+            return handle_error(400, str(e))
+
+        story_service = StoryService(
+            word_service=word_service,
+            scene_service=scene_service,
+            literacy_calculator=literacy_calculator,
+            ai_service=ai_service,  # 传递 AI 服务对象
+        )
+
         story = story_service.generate_story(
             vocabulary_level=vocabulary_level,
             scene_id=scene_id,
             story_word_count=story_word_count,
-            new_word_rate=new_word_rate,  # new_char_rate -> new_word_rate
+            new_word_rate=new_word_rate,
             key_word_ids=key_word_ids,
-            new_word_rate_tolerance=new_word_rate_tolerance,  # new_char_rate_tolerance -> new_word_rate_tolerance
+            new_word_rate_tolerance=new_word_rate_tolerance,
             story_word_count_tolerance=story_word_count_tolerance,
             request_limit=request_limit,
         )

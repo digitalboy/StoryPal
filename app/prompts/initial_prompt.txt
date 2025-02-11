@@ -5,10 +5,18 @@
 * **词汇级别 (Vocabulary Level)** 表示词汇的难度，级别越高，词汇越难。**已知词汇是小于目标级别的词汇， 生词是指目标级别及其以下级别中，所有词汇不包含的词，如果一个词不在词汇表中，也认为是生词**。
 * **生词率 (New Word Rate)** 指的是故事中，**不属于**目标级别**以下级别**的已知词汇的词的数量，与故事总词数的比率。
 
+为了更好地计算生词和生词率，你需要按照以下格式输出故事内容：
+
+1.  **使用 “|” 分割每个词语。**
+2.  **使用中文括号 “()” 标注每个词语的词性。**
+3.  **如果无法确定词性，请标注为 “UNKNOWN”。**
+4.  **词性必须是以下之一：N (名词), V (动词), ADJ (形容词), ADV (副词), NUM (数字), QTY (量词), PRON (代词), AUX (助词), CONJ (连词), PHR (短语), INT (叹词), PN (专有名词), IDIOM (成语), PREP (介词), UNKNOWN (未知词性)。**
+5.  **标点符号不需要标注词性。**
+6.  **词性的简写形式均为大写字母。**
 
 你的目标是根据用户的中文水平，生成一个有趣、易懂的故事。
 
-请以 JSON 格式返回生成的故事，包括 `title`，`content`, 和 `key_words` 字段。 JSON Schema 如下:
+请以 JSON 格式返回生成的故事，包括 `title`，`content`, `key_words` 和 `unknown_words` 字段。 JSON Schema 如下:
 ```json
 {
   "type": "object",
@@ -19,7 +27,7 @@
     },
     "content": {
       "type": "string",
-      "description": "故事的正文内容，使用目标级别以下的词汇编写，确保易懂且有趣。根据具体要求控制词数和生词比例。"
+      "description": "故事的正文内容，使用目标级别以下的词汇编写，确保易懂且有趣。根据具体要求控制词数和生词比例。**请严格按照指定格式输出故事内容，使用 “|” 分割词语，并使用中文括号 “()” 标注词性。**"
     },
     "key_words": {
       "type": "array",
@@ -33,7 +41,7 @@
           },
           "part_of_speech": {
             "type": "string",
-            "enum": ["名词", "动词", "形容词", "副词", "语气词", "其他"],
+            "enum": ["N", "V", "ADJ", "ADV", "NUM", "QTY", "PRON", "AUX", "CONJ", "PHR", "INT", "PN", "IDIOM", "PREP", "UNKNOWN"],
             "description": "词汇的词性，用于帮助学习者理解词汇的用法。"
           }
         },
@@ -47,10 +55,10 @@
     },
     "unknown_words": {
       "type": "array",
-      "description": "故事中的生词列表，列出所有不属于目标级别以下已知词汇范围的词。如果没有生词，则为空数组。",
+      "description": "故事中的生词列表，列出所有不属于目标级别以下已知词汇范围的词。如果没有生词，则为空数组。 **每个生词需要标注词性，格式为 “词语(词性)”。**",
       "items": {
         "type": "string",
-        "description": "一个生词，表示故事中超出目标级别以下词汇范围的词。"
+        "description": "一个生词，表示故事中超出目标级别以下词汇范围的词。**需要标注词性，格式为 “词语(词性)”。**"
       },
       "default": [],
       "description": "生词列表，允许为空数组。"
@@ -68,29 +76,67 @@
 ```
 
 **正确的示例**:
+
 ```json
 {
-  "title": "一起吃饭的故事",
-  "content": "小红和朋友去饭店吃饭。她问朋友：\"你想吃什么呢？\" 朋友说：\"我想吃米饭和面条。\" 小红说：\"好啊，我们点一些菜吧。\" 他们点了米饭、面条和一些水果。吃完饭后，小红觉得很开心。",
+  "title": "小猫的一天",
+  "content": "今天(T) |天气(N) |真(ADV) |好(ADJ) |！|小猫(N) |咪咪(PN) |决定(V) |出去(V) |玩(V) |。|它(PRON) |先(ADV) |跳(V) |到(PREP) |了(AUX) |花园(N) |里|，|看(V) |见(V) |许多(NUM) |美丽(ADJ) |的(AUX) |花(N) |。",
   "key_words": [
     {
-      "word": "吃饭",
-      "part_of_speech": "动词"
+      "word": "决定",
+      "part_of_speech": "V"
     }
   ],
-  "scene": "饭店",
-  "unknown_words": ["小红", "饭店"],
+  "scene": "花园",
+  "unknown_words": ["咪咪(PN)", "花园(N)"],
   "target_level": 37
 }
-    ```
-**错误的示例**:
-     ```json
-    {
-        "title": "错误的故事",
-        "content": "This is a English story. not a Chinese story.  你好世界",
-         "key_words": [],
-         "scene": null
-    }
-    ```
+```
 
-接下来是具体要求。
+**错误的示例**:
+
+```json
+{
+  "title": "错误的故事",
+  "content": "This is a English story. not a Chinese story.  你好世界",
+   "key_words": [],
+   "scene": null
+}
+```
+
+**另一个错误的示例**:
+
+```json
+{
+  "title": "错误的故事",
+  "content": "小猫 今天 天气好",
+   "key_words": [],
+   "scene": null
+}
+```
+
+**还有一个错误的示例**
+
+```json
+{
+  "title": "错误的故事",
+  "content": "小猫(名词) 今天(时间词) 天气(名词) 好(形容词)",
+   "key_words": [],
+   "scene": null
+}
+```
+
+**还有一个错误的示例**
+
+```json
+{
+  "title": "错误的故事",
+  "content": "今天(T) |天气(N) |真(ADV) |好(ADJ) |！|小猫(N) |咪咪(PN) |决定(V) |出去(V) |玩(V) |。|它(PRON) |先(ADV) |跳(V) |到(PREP) |了(AUX) |花园(N) |里|，|看(V) |见(V) |许多(NUM) |美丽(ADJ) |的(AUX) |花(N) |。",
+   "key_words": [],
+   "scene": null,
+  "unknown_words": ["咪咪", "花园"],
+}
+```
+
+**接下来是具体要求。**
+

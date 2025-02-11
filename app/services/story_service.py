@@ -9,7 +9,7 @@ from app.models.story_model import StoryModel
 from app.services.word_service import WordService
 from app.services.scene_service import SceneService
 from app.utils.literacy_calculator import LiteracyCalculator
-from openai import OpenAI
+from app.services.ai_service import AIService  # 导入 AIService
 import logging
 from enum import Enum
 from app.utils.json_storage import JSONStorage
@@ -25,12 +25,12 @@ class StoryService:
         word_service: WordService,
         scene_service: SceneService,
         literacy_calculator: LiteracyCalculator,
-        deepseek_client,
+        ai_service: AIService,  # 替换 deepseek_client
     ):
         self.word_service = word_service
         self.scene_service = scene_service
         self.literacy_calculator = literacy_calculator
-        self.deepseek_client = deepseek_client
+        self.ai_service = ai_service  # 替换 deepseek_client
         self.template_env = Environment(
             loader=FileSystemLoader("app/prompts"),
             enable_async=True,
@@ -47,44 +47,6 @@ class StoryService:
         template = self.template_env.get_template(file_name)
         prompt = template.render(data)
         return prompt
-
-    def _validate_story(
-        self,
-        story: StoryModel,
-        new_word_rate: float,  # 目标生词率
-        new_word_rate_tolerance: float = None,
-        story_word_count_tolerance: int = None,
-    ) -> bool:
-        """
-        验证生成的故事是否符合要求
-        """
-        if new_word_rate_tolerance is None:
-            new_word_rate_tolerance = Config.NEW_WORD_RATE_TOLERANCE
-        if story_word_count_tolerance is None:
-            story_word_count_tolerance = Config.STORY_WORD_COUNT_TOLERANCE
-
-        if not (
-            story.new_word_rate
-            >= new_word_rate - new_word_rate_tolerance  # 使用参数传递
-            and story.new_word_rate
-            <= new_word_rate + new_word_rate_tolerance  # 使用参数传递
-        ):
-            logging.warning(
-                f"Story new word rate {story.new_word_rate} not within tolerance {new_word_rate_tolerance}"
-            )
-            return False
-        if not (
-            story.story_word_count
-            >= (story.story_word_count - story_word_count_tolerance)
-            and story.story_word_count
-            <= (story.story_word_count + story_word_count_tolerance)
-        ):
-            logging.warning(
-                f"Story word count {story.story_word_count} not within tolerance {story_word_count_tolerance}"
-            )
-            return False
-
-        return True
 
     def generate_story(
         self,
@@ -159,49 +121,36 @@ class StoryService:
         print("====================================")
 
         try:
-            response = self.deepseek_client.chat.completions.create(
-                # model="deepseek-chat", messages=messages
+            #  使用 AI 服务生成故事
+            ai_message = self.ai_service.generate_story(
+                prompt="\n".join([message["content"] for message in messages])
             )
-            ai_message = response.choices[0].message.content
-            messages.append({"role": "assistant", "content": ai_message})
 
             try:
-                ai_response = json.loads(ai_message)
+                ai_response = ai_message  # json.loads(ai_message)
                 title = ai_response.get("title")
                 content = ai_response.get("content")
                 ai_key_words = (
                     ai_response.get("key_words") if ai_response.get("key_words") else []
                 )
-                known_rate, unknown_rate, message = (
+
+                # 调用 LiteracyCalculator 计算词数、生词率和生词列表
+                word_count, new_word_rate, unknown_words = (
                     self.literacy_calculator.calculate_vocabulary_rate(
                         content, vocabulary_level
                     )
                 )
-                if message:
-                    raise Exception(f"生词率计算失败: {message}")
 
                 story = StoryModel(
                     title=title,
                     content=content,
                     vocabulary_level=vocabulary_level,
                     scene=scene_id,
-                    story_word_count=len(re.findall(r"[\u4e00-\u9fff]", content)),
-                    new_word_rate=unknown_rate,
-                    new_words=int(
-                        len(re.findall(r"[\u4e00-\u9fff]", content)) * unknown_rate
-                    ),
+                    word_count=word_count,  # 使用计算出的词数
+                    new_word_rate=new_word_rate,  # 使用计算出的生词率
                     key_words=ai_key_words,
+                    unknown_words=unknown_words,  # 使用计算出的生词列表
                 )
-                story.new_words = int(story.story_word_count * story.new_word_rate)
-                is_valid = self._validate_story(
-                    story,
-                    new_word_rate,
-                    new_word_rate_tolerance,
-                    story_word_count_tolerance,
-                )
-                if not is_valid:
-                    logging.warning(f"Story validation failed")
-                    raise Exception(f"Story validation failed")
 
                 self.add_story(story)  # 保存 story
                 return story
@@ -212,42 +161,3 @@ class StoryService:
         except Exception as e:
             logging.error(f"AI 服务调用失败: {e}")
             raise Exception(f"AI 服务调用失败: {e}")
-
-    def add_story(self, story: StoryModel):
-        """将故事添加到 JSON 文件中。"""
-        story_data = story.to_dict()
-        self.story_storage.add(story_data)
-        logging.info(f"Story added successfully with id: {story.id}")
-
-    def get_story_by_id(self, story_id: str) -> StoryModel:
-        """从 JSON 文件中根据 ID 获取故事。"""
-        story_data = next(
-            (
-                item
-                for item in self.story_storage.load()
-                if item.get("story_id") == story_id
-            ),
-            None,
-        )
-        if story_data:
-            return StoryModel.from_dict(story_data)
-        return None
-
-    def update_story(self, story: StoryModel) -> bool:
-        """更新 JSON 文件中的故事。"""
-        story_data = story.to_dict()
-        success = self.story_storage.update(story.id, story_data)
-        if success:
-            logging.info(f"Story updated successfully with id: {story.id}")
-        else:
-            logging.warning(f"Story not found for update with id: {story.id}")
-        return success
-
-    def delete_story(self, story_id: str) -> bool:
-        """从 JSON 文件中删除一条数据。"""
-        success = self.story_storage.delete(story_id)
-        if success:
-            logging.info(f"Story deleted successfully with id: {story_id}")
-        else:
-            logging.warning(f"Story not found for deletion with id: {story_id}")
-        return success
