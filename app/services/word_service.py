@@ -102,7 +102,7 @@ class WordService:
             for word in self.words.values()
             if level is not None
             and isinstance(word.chaotong_level, int)
-            and word.chaotong_level < level
+            and word.chaotong_level < level  # 确保只获取小于目标级别的词汇
         ]
         return filtered_words
 

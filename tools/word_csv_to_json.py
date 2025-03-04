@@ -68,7 +68,7 @@ def convert_csv_to_json(csv_file_path: str, json_file_path: str):
 
 
 if __name__ == "__main__":
-    csv_file = "others_docs/words.csv"
+    csv_file = "others_docs/words350.csv"
     json_file = "app/data/words.json"
     convert_csv_to_json(csv_file, json_file)
     print(f"Successfully converted '{csv_file}' to '{json_file}'")

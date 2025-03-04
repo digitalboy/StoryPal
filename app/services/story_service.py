@@ -1,8 +1,7 @@
 # app/services/story_service.py
 import json
 import logging
-import re
-from typing import List, Dict, Union
+from typing import List
 from jinja2 import Environment, FileSystemLoader
 from app.config import Config
 from app.models.story_model import StoryModel
@@ -10,10 +9,9 @@ from app.services.word_service import WordService
 from app.services.scene_service import SceneService
 from app.utils.literacy_calculator import LiteracyCalculator
 from app.services.ai_service import AIService  # 导入 AIService
-import logging
+# import logging
 from enum import Enum
 from app.utils.json_storage import JSONStorage
-from google import genai  # 正确的引入方式
 import string
 
 

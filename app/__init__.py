@@ -12,6 +12,7 @@ def create_app():
     创建并配置 Flask 应用
     """
     app = Flask(__name__, static_folder="static")
+    app.debug = True
     # 配置日志
     logging.basicConfig(
         level=logging.DEBUG,

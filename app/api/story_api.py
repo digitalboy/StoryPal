@@ -17,7 +17,7 @@ story_api = Blueprint("story_api", __name__, url_prefix="/api/v1/stories")
 # 为了避免循环依赖，在这里初始化依赖
 word_service = WordService()
 scene_service = SceneService()
-literacy_calculator = LiteracyCalculator(word_service)
+# literacy_calculator = LiteracyCalculator(word_service)  #  移动到 key_word_ids 验证之后
 
 
 @story_api.route("/generate", methods=["POST"])
@@ -37,8 +37,9 @@ def generate_story():
         new_word_rate = data.get("new_word_rate")
         key_word_ids = data.get("key_word_ids", [])
         new_word_rate_tolerance = data.get("new_word_rate_tolerance")
-        story_word_count_tolerance = data.get("story_word_count_tolerance")        
+        story_word_count_tolerance = data.get("story_word_count_tolerance")
         ai_service_name = data.get("ai_service", "deepseek")  # 默认使用 deepseek
+        multiplier = data.get("multiplier")  # 获取倍率参数， 允许为空
 
         # 验证参数是否存在
         if not vocabulary_level:
@@ -96,7 +97,13 @@ def generate_story():
                 "Invalid field type: 'story_word_count_tolerance' must be a integer",
             )
 
-
+        if multiplier is not None:  # 如果 multiplier 不为空， 则验证其类型
+            if not isinstance(multiplier, (int, float)):
+                return handle_error(
+                    400, "Invalid field type: 'multiplier' must be a number"
+                )
+        else:
+            multiplier = 1.2  # 如果 multiplier 为空， 则使用默认值 1.2
 
         try:
             #  创建 AI 服务对象
@@ -106,12 +113,46 @@ def generate_story():
         except ValueError as e:
             return handle_error(400, str(e))
 
+        # 获取目标级别词汇
+        target_words = word_service.get_words(chaotong_level=vocabulary_level)
+        target_word_ids = {word.id for word in target_words}
+
+        print(f"vocabulary_level: {vocabulary_level}")
+        print(f"target_word_ids: {target_word_ids}")
+        print(f"key_word_ids: {key_word_ids}")
+
+        # 验证 key_word_ids 是否属于目标级别
+        for word_id in key_word_ids:
+            if word_id not in target_word_ids:
+                error_message = f"关键词 ID {word_id} 不属于词汇级别 {vocabulary_level}"
+                print(error_message)
+                return handle_error(
+                    400,
+                    error_message,
+                )
+
+        # 移动 literacy_calculator 的初始化到这里
+        literacy_calculator = LiteracyCalculator(word_service)
+
         story_service = StoryService(
             word_service=word_service,
             scene_service=scene_service,
-            literacy_calculator=literacy_calculator,
+            literacy_calculator=literacy_calculator,  # 使用更新后的 literacy_calculator
             ai_service=ai_service,  # 传递 AI 服务对象
         )
+
+        # 获取已学词汇数量
+        known_words = word_service.get_words_below_level(vocabulary_level)
+        known_word_count = len(known_words)
+
+        # 定义合理的字数范围
+        max_word_count = int(
+            known_word_count * multiplier
+        )  # 用户要求的字数不能超过已学词汇数量的 multiplier 倍, 取整
+
+        # 进行校验
+        if story_word_count > max_word_count:
+            return handle_error(400, "字数要求过多")
 
         story = story_service.generate_story(
             vocabulary_level=vocabulary_level,

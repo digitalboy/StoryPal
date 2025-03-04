@@ -1,33 +1,172 @@
 [
   {
-    "story_id": "4c5c8e21-140f-426e-abe7-99de48b41eea",
-    "title": "请问怎么走路？",
-    "content": "你好(PHR) |！|请问(V) |，|去(V) |商店(N) |怎么(PRON) |走路(V) |？|一直(ADV) |走(V) |，|你(PRON) |会(V) |看(V) |到(V) |一个(QTY) |学校(N) |。|商店(N) |就(ADV) |在(PREP) |学校(N) |的(AUX) |前面(N) |。|你(PRON) |到(V) |了(AUX) |！",
+    "story_id": "f457e3fa-0346-48dd-a511-0464c9972625",
+    "title": "请问怎么走？",
+    "content": "你好(PHR) |，|请问(V) |，|去(V) |学校(N) |怎么(PRON) |走(V) |？|我(PRON) |不(ADV) |知道(V) |。|你(PRON) |可以(ADJ) |告诉(V) |我(PRON) |吗(AUX) |？|从(PREP) |这儿(ADV) |去(V) |，|很(ADV) |远(ADJ) |吗(AUX) |？|谢谢(PHR) |你(PRON) |！",
     "vocabulary_level": 58,
     "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
     "scene_name": "问路",
-    "word_count": 23,
-    "new_word_rate": 0.4782608695652174,
-    "key_words": [
+    "word_count": 22,
+    "new_word_rate": 0.8181818181818182,
+    "key_words": [],
+    "unknown_words": [
       {
-        "word": "走路",
-        "part_of_speech": "V"
+        "word": "你好",
+        "pos": "PHR",
+        "level": 1
       },
       {
-        "word": "到了",
+        "word": "请问",
+        "pos": "V",
+        "level": 15
+      },
+      {
+        "word": "去",
+        "pos": "V",
+        "level": 16
+      },
+      {
+        "word": "学校",
+        "pos": "N",
+        "level": 16
+      },
+      {
+        "word": "怎么",
+        "pos": "PRON",
+        "level": 14
+      },
+      {
+        "word": "走",
+        "pos": "V",
+        "level": 58
+      },
+      {
+        "word": "我",
+        "pos": "PRON",
+        "level": 6
+      },
+      {
+        "word": "不",
+        "pos": "ADV",
+        "level": 1
+      },
+      {
+        "word": "知道",
+        "pos": "V",
+        "level": 41
+      },
+      {
+        "word": "你",
+        "pos": "PRON",
+        "level": 1
+      },
+      {
+        "word": "可以",
+        "pos": "ADJ",
+        "level": 50
+      },
+      {
+        "word": "告诉",
+        "pos": "V",
+        "level": 59
+      },
+      {
+        "word": "吗",
+        "pos": "AUX",
+        "level": 6
+      },
+      {
+        "word": "从",
+        "pos": "PREP",
+        "level": 61
+      },
+      {
+        "word": "这儿",
+        "pos": "ADV",
+        "level": 23
+      },
+      {
+        "word": "很",
+        "pos": "ADV",
+        "level": 13
+      },
+      {
+        "word": "远",
+        "pos": "ADJ",
+        "level": null
+      },
+      {
+        "word": "谢谢",
+        "pos": "PHR",
+        "level": 3
+      }
+    ],
+    "created_at": "2025-03-04T03:33:50.871105+00:00"
+  },
+  {
+    "story_id": "2c602ecd-fd51-4677-869e-6fe56d428e89",
+    "title": "请问路",
+    "content": "请问(V)，|去(V) |火车站(N) |怎么(PRON) |走(V) |？|我(PRON) |不(ADV) |知道(V) |。|你(PRON) |一直(ADV) |往前(ADV) |走(V) |，|到(V) |了(AUX) |路口(N) |，|然后(CONJ) |往(PREP) |左(N) |拐(V)，|你(PRON) |会(V) |看见(V) |它(PRON) |。|但是(CONJ) |，|如果(CONJ) |你(PRON) |走(V) |错(ADJ) |了(AUX) |，|就(ADV) |会(V) |突然(ADV) |发现(V) |你(PRON) |已经(ADV) |离开(V) |了(AUX) |。",
+    "vocabulary_level": 100,
+    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+    "scene_name": "问路",
+    "word_count": 37,
+    "new_word_rate": 0.7837837837837838,
+    "key_words": [
+      {
+        "word": "突然",
+        "part_of_speech": "ADV"
+      },
+      {
+        "word": "离开",
         "part_of_speech": "V"
       }
     ],
     "unknown_words": [
       {
-        "word": "去",
-        "pos": "V",
-        "level": 68
+        "word": "请问",
+        "pos": "V，",
+        "level": 15
       },
       {
-        "word": "走路",
+        "word": "去",
+        "pos": "V",
+        "level": 16
+      },
+      {
+        "word": "火车站",
+        "pos": "N",
+        "level": 76
+      },
+      {
+        "word": "怎么",
+        "pos": "PRON",
+        "level": 14
+      },
+      {
+        "word": "走",
         "pos": "V",
         "level": 58
+      },
+      {
+        "word": "我",
+        "pos": "PRON",
+        "level": 6
+      },
+      {
+        "word": "不",
+        "pos": "ADV",
+        "level": 1
+      },
+      {
+        "word": "知道",
+        "pos": "V",
+        "level": 41
+      },
+      {
+        "word": "你",
+        "pos": "PRON",
+        "level": 1
       },
       {
         "word": "一直",
@@ -35,13 +174,43 @@
         "level": 73
       },
       {
-        "word": "走",
+        "word": "往前",
+        "pos": "ADV",
+        "level": 73
+      },
+      {
+        "word": "到",
         "pos": "V",
         "level": null
       },
       {
-        "word": "你",
-        "pos": "PRON",
+        "word": "了",
+        "pos": "AUX",
+        "level": 11
+      },
+      {
+        "word": "路口",
+        "pos": "N",
+        "level": 73
+      },
+      {
+        "word": "然后",
+        "pos": "CONJ",
+        "level": 133
+      },
+      {
+        "word": "往",
+        "pos": "PREP",
+        "level": 73
+      },
+      {
+        "word": "左",
+        "pos": "N",
+        "level": 45
+      },
+      {
+        "word": "拐",
+        "pos": "V，",
         "level": null
       },
       {
@@ -50,255 +219,199 @@
         "level": null
       },
       {
-        "word": "看",
+        "word": "看见",
         "pos": "V",
-        "level": null
+        "level": 32
       },
       {
-        "word": "到",
-        "pos": "V",
-        "level": null
+        "word": "它",
+        "pos": "PRON",
+        "level": 39
       },
       {
-        "word": "就",
-        "pos": "ADV",
-        "level": null
-      },
-      {
-        "word": "在",
-        "pos": "PREP",
-        "level": null
-      },
-      {
-        "word": "了",
-        "pos": "AUX",
-        "level": null
-      }
-    ],
-    "created_at": "2025-02-11T09:12:09.273234+00:00"
-  },
-  {
-    "story_id": "af9e467d-e362-4238-bce0-67e99080512e",
-    "title": "请问怎么走路？",
-    "content": "你好(PHR) |！|请问(V) |，|去(V) |学校(N) |怎么(PRON) |走路(V) |？|一直(ADV) |走(V) |，|然后(CONJ) |左(ADJ) |拐(V) |，|就(ADV) |到了(V) |。",
-    "vocabulary_level": 58,
-    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
-    "scene_name": "问路",
-    "word_count": 13,
-    "new_word_rate": 0.6923076923076923,
-    "key_words": [
-      {
-        "word": "走路",
-        "part_of_speech": "V"
-      },
-      {
-        "word": "到了",
-        "part_of_speech": "V"
-      }
-    ],
-    "unknown_words": [
-      {
-        "word": "去",
-        "pos": "V",
-        "level": 68
-      },
-      {
-        "word": "走路",
-        "pos": "V",
-        "level": 58
-      },
-      {
-        "word": "一直",
-        "pos": "ADV",
-        "level": 73
-      },
-      {
-        "word": "走",
-        "pos": "V",
-        "level": null
-      },
-      {
-        "word": "然后",
+        "word": "但是",
         "pos": "CONJ",
-        "level": 133
+        "level": 74
       },
       {
-        "word": "左",
+        "word": "如果",
+        "pos": "CONJ",
+        "level": 144
+      },
+      {
+        "word": "错",
         "pos": "ADJ",
-        "level": null
-      },
-      {
-        "word": "拐",
-        "pos": "V",
-        "level": null
+        "level": 50
       },
       {
         "word": "就",
         "pos": "ADV",
-        "level": null
+        "level": 49
       },
       {
-        "word": "到了",
+        "word": "突然",
+        "pos": "ADV",
+        "level": 100
+      },
+      {
+        "word": "发现",
         "pos": "V",
-        "level": 58
+        "level": 126
+      },
+      {
+        "word": "已经",
+        "pos": "ADV",
+        "level": 47
+      },
+      {
+        "word": "离开",
+        "pos": "V",
+        "level": 100
       }
     ],
-    "created_at": "2025-02-11T09:31:24.949225+00:00"
+    "created_at": "2025-03-04T04:17:13.633392+00:00"
   },
   {
-    "story_id": "f6d152c3-8b40-460f-bee6-1ea808b020b2",
-    "title": "请问怎么走路？",
-    "content": "你好(PHR) |！|请问(V) |，|去(V) |学校(N) |怎么(PRON) |走路(V) |？|一直(ADV) |往前(ADV) |走(V) |，|然后(CONJ) |左(N) |拐(V) |，|就(ADV) |到了(V) |。|谢谢(PHR) |你(PRON) |！|不客气(PHR) |。",
-    "vocabulary_level": 58,
+    "story_id": "17be1d79-006f-4d67-b049-00d43d7522a7",
+    "title": "问路",
+    "content": "请问(V)，|去(V) |火车站(N) |怎么(PRON) |走(V) |？|我(PRON) |不(ADV) |知道(V) |路(N) |，|我(PRON) |想(V) |去(V) |火车站(N) |。|你(PRON) |可以(ADJ) |告诉(V) |我(PRON) |吗(AUX) |？|谢谢(PHR) |！| 突然(ADV)，|一(NUM) |个(QTY) |人(N) |走(V) |过来(V)，|他(PRON) |要(V) |离开(V) |这里(PRON)。",
+    "vocabulary_level": 100,
     "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
     "scene_name": "问路",
-    "word_count": 17,
-    "new_word_rate": 0.6470588235294118,
+    "word_count": 29,
+    "new_word_rate": 0.8275862068965517,
     "key_words": [
       {
-        "word": "走路",
-        "part_of_speech": "V"
+        "word": "突然",
+        "part_of_speech": "ADV"
       },
       {
-        "word": "到了",
+        "word": "离开",
         "part_of_speech": "V"
       }
     ],
     "unknown_words": [
       {
+        "word": "请问",
+        "pos": "V，",
+        "level": 15
+      },
+      {
         "word": "去",
         "pos": "V",
-        "level": 68
+        "level": 16
       },
       {
-        "word": "走路",
-        "pos": "V",
-        "level": 58
+        "word": "火车站",
+        "pos": "N",
+        "level": 76
       },
       {
-        "word": "一直",
-        "pos": "ADV",
-        "level": 73
-      },
-      {
-        "word": "往前",
-        "pos": "ADV",
-        "level": 73
+        "word": "怎么",
+        "pos": "PRON",
+        "level": 14
       },
       {
         "word": "走",
         "pos": "V",
-        "level": null
+        "level": 58
       },
       {
-        "word": "然后",
-        "pos": "CONJ",
-        "level": 133
+        "word": "我",
+        "pos": "PRON",
+        "level": 6
       },
       {
-        "word": "左",
+        "word": "不",
+        "pos": "ADV",
+        "level": 1
+      },
+      {
+        "word": "知道",
+        "pos": "V",
+        "level": 41
+      },
+      {
+        "word": "路",
         "pos": "N",
         "level": null
       },
       {
-        "word": "拐",
+        "word": "想",
         "pos": "V",
-        "level": null
-      },
-      {
-        "word": "就",
-        "pos": "ADV",
-        "level": null
-      },
-      {
-        "word": "到了",
-        "pos": "V",
-        "level": 58
+        "level": 17
       },
       {
         "word": "你",
         "pos": "PRON",
-        "level": null
-      }
-    ],
-    "created_at": "2025-02-11T09:32:47.273488+00:00"
-  },
-  {
-    "story_id": "45090b18-a74e-4721-81cd-3770c177664e",
-    "title": "请问怎么走路？",
-    "content": "你好(PHR) |，|请问(V) |，|去(V) |学校(N) |怎么(PRON) |走路(V) |？|一直(ADV) |往前(ADV) |走(V) |，|然后(CONJ) |左(ADJ) |拐(V) |，|就(ADV) |到了(V) |。|谢谢(PHR) |你(PRON) |！|不客气(PHR) |。",
-    "vocabulary_level": 58,
-    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
-    "scene_name": "问路",
-    "word_count": 17,
-    "new_word_rate": 0.6470588235294118,
-    "key_words": [
-      {
-        "word": "走路",
-        "part_of_speech": "V"
+        "level": 1
       },
       {
-        "word": "到了",
-        "part_of_speech": "V"
-      }
-    ],
-    "unknown_words": [
-      {
-        "word": "去",
-        "pos": "V",
-        "level": 68
-      },
-      {
-        "word": "走路",
-        "pos": "V",
-        "level": 58
-      },
-      {
-        "word": "一直",
-        "pos": "ADV",
-        "level": 73
-      },
-      {
-        "word": "往前",
-        "pos": "ADV",
-        "level": 73
-      },
-      {
-        "word": "走",
-        "pos": "V",
-        "level": null
-      },
-      {
-        "word": "然后",
-        "pos": "CONJ",
-        "level": 133
-      },
-      {
-        "word": "左",
+        "word": "可以",
         "pos": "ADJ",
-        "level": null
+        "level": 50
       },
       {
-        "word": "拐",
+        "word": "告诉",
         "pos": "V",
+        "level": 59
+      },
+      {
+        "word": "吗",
+        "pos": "AUX",
+        "level": 6
+      },
+      {
+        "word": "谢谢",
+        "pos": "PHR",
+        "level": 3
+      },
+      {
+        "word": "突然",
+        "pos": "ADV，",
+        "level": 100
+      },
+      {
+        "word": "一",
+        "pos": "NUM",
+        "level": 2
+      },
+      {
+        "word": "个",
+        "pos": "QTY",
+        "level": 11
+      },
+      {
+        "word": "人",
+        "pos": "N",
+        "level": 6
+      },
+      {
+        "word": "过来",
+        "pos": "V，",
         "level": null
       },
       {
-        "word": "就",
-        "pos": "ADV",
-        "level": null
-      },
-      {
-        "word": "到了",
-        "pos": "V",
-        "level": 58
-      },
-      {
-        "word": "你",
+        "word": "他",
         "pos": "PRON",
+        "level": 9
+      },
+      {
+        "word": "要",
+        "pos": "V",
+        "level": null
+      },
+      {
+        "word": "离开",
+        "pos": "V",
+        "level": 100
+      },
+      {
+        "word": "这里",
+        "pos": "PRON。",
         "level": null
       }
     ],
-    "created_at": "2025-02-17T06:51:04.229075+00:00"
+    "created_at": "2025-03-04T04:18:21.029086+00:00"
   }
 ]
