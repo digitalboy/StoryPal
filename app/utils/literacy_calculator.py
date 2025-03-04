@@ -17,12 +17,30 @@ class LiteracyCalculator:
         self.logger = logging.getLogger(__name__)
         self.punctuation = set(
             string.punctuation
-            + "！？｡。＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃《》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰–—‘'‛“”„‟…⋯᠁"
+            + "！？｡。＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃《》「」『』【】〔〕〖〗〘㙀〙〚〛〜〝〞〟〰–—‘'‛“”„‟…⋯᠁"
         )
+        # 建立中英文词性映射关系
+        self.pos_mapping = {
+            "N": "名词",
+            "V": "动词",
+            "ADJ": "形容词",
+            "ADV": "副词",
+            "NUM": "数字",
+            "QTY": "量词",
+            "PRON": "代词",
+            "AUX": "助词",
+            "CONJ": "连词",
+            "PHR": "短语",
+            "INT": "叹词",
+            "PN": "专有名词",
+            "IDIOM": "成语",
+            "PREP": "介词",
+            "UNKNOWN": "UNKNOWN",  #  保持 UNKNOWN 不变
+        }
 
     def _load_known_words(self, target_level: int) -> Set[Tuple[str, str]]:
         """
-        加载 **小于** 目标级别的所有词汇中包含的词和词性组合。 
+        加载 **小于** 目标级别的所有词汇中包含的词和词性组合。  **(已更正为 < target_level)**
         Args:
             target_level: 目标级别 (整数)。
         Returns:
@@ -86,6 +104,11 @@ class LiteracyCalculator:
             word = word.lower()
             pos = pos.upper()
 
+            #  将英文词性转换为中文词性
+            pos = self.pos_mapping.get(
+                pos, "UNKNOWN"
+            )  #  如果找不到映射， 则使用 UNKNOWN
+
             if (word, pos) not in known_words:
                 # 获取词汇信息
                 word_model = next(
@@ -96,19 +119,24 @@ class LiteracyCalculator:
                     ),
                     None,
                 )
+
                 if word_model:
                     chaotong_level = word_model.chaotong_level
                 else:
                     chaotong_level = None
 
-                #  去重机制
-                if not any(
-                    d["word"] == word and d["pos"] == pos for d in unknown_words
-                ):
-                    unknown_words.append(
-                        {"word": word, "pos": pos, "level": chaotong_level}
-                    )  # 修改生词列表格式
-                    unknown_word_count += 1
+                #  只添加大于等于 target_level 的词汇， 或者 words.json 中不存在的词汇
+                if (
+                    chaotong_level is not None and chaotong_level >= target_level
+                ) or chaotong_level is None:
+                    #  去重机制
+                    if not any(
+                        d["word"] == word and d["pos"] == pos for d in unknown_words
+                    ):
+                        unknown_words.append(
+                            {"word": word, "pos": pos, "level": chaotong_level}
+                        )  # 修改生词列表格式
+                        unknown_word_count += 1
             else:
                 self.logger.debug(f"已知词：{word}, 词性: {pos}")
 

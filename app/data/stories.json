@@ -413,5 +413,245 @@
       }
     ],
     "created_at": "2025-03-04T04:18:21.029086+00:00"
+  },
+  {
+    "story_id": "17aeb8c4-ff7c-4bb7-9735-e71dbcbcfbfc",
+    "title": "请问怎么走？",
+    "content": "你好(PHR) |，|请问(V) |，|去(V) |火车站(N) |怎么(PRON) |走(V) |？|我(PRON) |不(ADV) |知道(V) |。|你(PRON) |可以(ADJ) |告诉(V) |我(PRON) |吗(AUX) |？|谢谢(PHR) |！|前面(N) |一直(ADV) |走(V) |，|然后(CONJ) |往(PREP) |左(N) |拐(V), |你(PRON) |会(V) |看见(V) |一个(NUM) |商店(N)。|**突然(ADV)** |，|你(PRON) |的(AUX) |朋友(N) |**离开(V)** |了(AUX) |。",
+    "vocabulary_level": 100,
+    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+    "scene_name": "问路",
+    "word_count": 33,
+    "new_word_rate": 0.15151515151515152,
+    "key_words": [
+      {
+        "word": "突然",
+        "part_of_speech": "ADV"
+      },
+      {
+        "word": "离开",
+        "part_of_speech": "V"
+      }
+    ],
+    "unknown_words": [
+      {
+        "word": "然后",
+        "pos": "CONJ",
+        "level": 133
+      },
+      {
+        "word": "拐",
+        "pos": "V,",
+        "level": null
+      },
+      {
+        "word": "会",
+        "pos": "V",
+        "level": null
+      },
+      {
+        "word": "**突然",
+        "pos": "ADV**",
+        "level": null
+      },
+      {
+        "word": "**离开",
+        "pos": "V**",
+        "level": null
+      }
+    ],
+    "created_at": "2025-03-04T04:30:03.712653+00:00"
+  },
+  {
+    "story_id": "d0fbbac7-df27-4ea8-8a0e-ee846b9c89a1",
+    "title": "问路",
+    "content": "请问(V) |，|去(V) |火车站(N) |怎么(PRON) |走(V) |？|我(PRON) |突然(ADV) |想(V) |离开(V) |这里(PRON) |，|但是(CONJ) |不(ADV) |知道(V) |路(N) |。|你(PRON) |可以(AUX) |告诉(V) |我(PRON) |吗(AUX) |？|谢谢(V) |！",
+    "vocabulary_level": 100,
+    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+    "scene_name": "问路",
+    "word_count": 20,
+    "new_word_rate": 0.2,
+    "key_words": [
+      {
+        "word": "突然",
+        "part_of_speech": "ADV"
+      },
+      {
+        "word": "离开",
+        "part_of_speech": "V"
+      }
+    ],
+    "unknown_words": [
+      {
+        "word": "突然",
+        "pos": "副词",
+        "level": 100
+      },
+      {
+        "word": "离开",
+        "pos": "动词",
+        "level": 100
+      },
+      {
+        "word": "这里",
+        "pos": "代词",
+        "level": null
+      },
+      {
+        "word": "路",
+        "pos": "名词",
+        "level": null
+      }
+    ],
+    "created_at": "2025-03-04T04:39:15.615930+00:00"
+  },
+  {
+    "story_id": "0318998d-e54a-47f4-ac5f-747038707b68",
+    "title": "问路",
+    "content": "请问(V)，|去(V) |火车站(N) |怎么(PRON) |走(V) |？|我(PRON) |不(ADV) |知道(V) |。|你(PRON) |一直(ADV) |往前(ADV) |走(V) |，|然后(CONJ) |在(PREP) |第二(NUM) |个(QTY) |路口(N) |往(PREP) |左(方位词) |拐(V) |。|你(PRON) |会(AUX) |看见(V) |一个(NUM) |商店(N) |，|商店(N) |的(AUX) |前面(N)，|你(PRON) |会(AUX) |突然(ADV) |看见(V) |火车站(N) |，|我(PRON) |需要(V) |现在(N) |离开(V) |这里(PRON) |了(AUX)。",
+    "vocabulary_level": 100,
+    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+    "scene_name": "问路",
+    "word_count": 39,
+    "new_word_rate": 0.20512820512820512,
+    "key_words": [
+      {
+        "word": "突然",
+        "part_of_speech": "ADV"
+      },
+      {
+        "word": "离开",
+        "part_of_speech": "V"
+      }
+    ],
+    "unknown_words": [
+      {
+        "word": "然后",
+        "pos": "连词",
+        "level": 133
+      },
+      {
+        "word": "第二",
+        "pos": "数字",
+        "level": null
+      },
+      {
+        "word": "拐",
+        "pos": "动词",
+        "level": null
+      },
+      {
+        "word": "会",
+        "pos": "助词",
+        "level": null
+      },
+      {
+        "word": "突然",
+        "pos": "副词",
+        "level": 100
+      },
+      {
+        "word": "需要",
+        "pos": "动词",
+        "level": 128
+      },
+      {
+        "word": "离开",
+        "pos": "动词",
+        "level": 100
+      },
+      {
+        "word": "这里",
+        "pos": "代词",
+        "level": null
+      }
+    ],
+    "created_at": "2025-03-04T04:41:43.223058+00:00"
+  },
+  {
+    "story_id": "ba04ee40-0c4d-43ff-a0f7-0f1f4e38006c",
+    "title": "请问怎么走",
+    "content": "你(PRON) |好(ADJ) |，|请问(V) |，|去(V) |火车站(N) |怎么(PRON) |走(V) |？|我(PRON) |不(ADV) |知道(V) |。|啊(INT) |，|我(PRON) |也(ADV) |不(ADV) |知道(V) |。|你(PRON) |们(PRON) |是(V) |新(ADJ) |来(V) |的(AUX) |吗(AUX) |？|是的(ADJ) |。|突然(ADV) |，|一(NUM) |个(QTY) |朋友(N) |离开(V) |了(AUX) |。",
+    "vocabulary_level": 100,
+    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+    "scene_name": "问路",
+    "word_count": 29,
+    "new_word_rate": 0.10344827586206896,
+    "key_words": [
+      {
+        "word": "突然",
+        "part_of_speech": "ADV"
+      },
+      {
+        "word": "离开",
+        "part_of_speech": "V"
+      }
+    ],
+    "unknown_words": [
+      {
+        "word": "是的",
+        "pos": "形容词",
+        "level": null
+      },
+      {
+        "word": "突然",
+        "pos": "副词",
+        "level": 100
+      },
+      {
+        "word": "离开",
+        "pos": "动词",
+        "level": 100
+      }
+    ],
+    "created_at": "2025-03-04T04:49:39.250801+00:00"
+  },
+  {
+    "story_id": "8319378b-08b3-404d-830b-476423a002b1",
+    "title": "点餐的时候",
+    "content": "服务员(N)，|你好(PHR)！|我(PRON) |想(V) |吃(V) |米饭(N)。|你(PRON) |们(AUX) |有(V) |什么(PRON) |好(ADJ) |吃(V) |的(AUX)？|啊(INT)，|突然(ADV) |想(V) |起来(V) |我(PRON) |要(V) |离开(V) |一下(PREP)。|我(PRON) |朋友(N) |很(ADV) |快(ADJ) |就(ADV) |来(V) |了(AUX)。",
+    "vocabulary_level": 100,
+    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbc",
+    "scene_name": "点餐",
+    "word_count": 28,
+    "new_word_rate": 0.17857142857142858,
+    "key_words": [
+      {
+        "word": "突然",
+        "part_of_speech": "ADV"
+      },
+      {
+        "word": "离开",
+        "part_of_speech": "V"
+      }
+    ],
+    "unknown_words": [
+      {
+        "word": "有",
+        "pos": "动词",
+        "level": null
+      },
+      {
+        "word": "突然",
+        "pos": "副词",
+        "level": 100
+      },
+      {
+        "word": "起来",
+        "pos": "动词",
+        "level": 131
+      },
+      {
+        "word": "要",
+        "pos": "动词",
+        "level": null
+      },
+      {
+        "word": "离开",
+        "pos": "动词",
+        "level": 100
+      }
+    ],
+    "created_at": "2025-03-04T04:52:16.927477+00:00"
   }
 ]
