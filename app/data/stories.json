@@ -1321,5 +1321,372 @@
       }
     ],
     "created_at": "2025-03-04T07:13:12.135315+00:00"
+  },
+  {
+    "story_id": "fc0dc419-1b78-4951-a854-3fb03fdca6c0",
+    "title": "三只小猪盖房子",
+    "content": "有(V) |三(NUM) |只(QTY) |小(ADJ) |猪(N) |，|他们(PRON) |想(V) |要(V) |离开(V) |家(N) |。|他们(PRON) |要(V) |自己(PRON) |盖(V) |房子(N) |。|突然(ADV) |，|来(V) |了(AUX) |一(NUM) |只(QTY) |大(ADJ) |狼(N) |。|大(ADJ) |狼(N) |说(V) |：“|我(PRON) |要(V) |吃(V) |掉(V) |你(PRON) |们(PRON) |！|”",
+    "vocabulary_level": 100,
+    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcby",
+    "scene_name": "童话故事-三只小猪",
+    "word_count": 31,
+    "new_word_rate": 0.3870967741935484,
+    "key_words": [
+      {
+        "word": "突然",
+        "part_of_speech": "ADV"
+      },
+      {
+        "word": "离开",
+        "part_of_speech": "V"
+      }
+    ],
+    "unknown_words": [
+      {
+        "word": "有",
+        "pos": "动词",
+        "level": null
+      },
+      {
+        "word": "猪",
+        "pos": "名词",
+        "level": null
+      },
+      {
+        "word": "要",
+        "pos": "动词",
+        "level": null
+      },
+      {
+        "word": "离开",
+        "pos": "动词",
+        "level": 100
+      },
+      {
+        "word": "家",
+        "pos": "名词",
+        "level": null
+      },
+      {
+        "word": "自己",
+        "pos": "代词",
+        "level": 126
+      },
+      {
+        "word": "盖",
+        "pos": "动词",
+        "level": null
+      },
+      {
+        "word": "房子",
+        "pos": "名词",
+        "level": null
+      },
+      {
+        "word": "突然",
+        "pos": "副词",
+        "level": 100
+      },
+      {
+        "word": "狼",
+        "pos": "名词",
+        "level": null
+      },
+      {
+        "word": "说",
+        "pos": "动词",
+        "level": null
+      },
+      {
+        "word": "掉",
+        "pos": "动词",
+        "level": null
+      }
+    ],
+    "created_at": "2025-03-04T08:42:34.731343+00:00"
+  },
+  {
+    "story_id": "b1e6bec2-9cef-4729-a744-c079c7f45a3f",
+    "title": "灰姑娘的舞会",
+    "content": "灰姑娘(PN) |很(ADV) |想(V) |去(V) |参加(V) |舞会(N) |，|可是(CONJ) |她(PRON) |的(AUX) |姐姐(N) |们(QTY) |不(ADV) |让(V) |她(PRON) |去(V) |。|她们(PRON) |说(V) |：“|你(PRON) |要(AUX) |做(V) |很多(ADJ) |事(N) |，|不能(AUX) |去(V) |玩(V) |。”|灰姑娘(PN) |很(ADV) |难过(ADJ) |。|突然(ADV) |，|一(NUM) |个(QTY) |好(ADJ) |朋友(N) |出现(V) |了(AUX) |，|她(PRON) |要(AUX) |离开(V) |这里(PRON) |。",
+    "vocabulary_level": 100,
+    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbx",
+    "scene_name": "童话故事-灰姑娘",
+    "word_count": 39,
+    "new_word_rate": 0.38461538461538464,
+    "key_words": [
+      {
+        "word": "突然",
+        "part_of_speech": "ADV"
+      },
+      {
+        "word": "离开",
+        "part_of_speech": "V"
+      }
+    ],
+    "unknown_words": [
+      {
+        "word": "灰姑娘",
+        "pos": "专有名词",
+        "level": null
+      },
+      {
+        "word": "参加",
+        "pos": "动词",
+        "level": 115
+      },
+      {
+        "word": "舞会",
+        "pos": "名词",
+        "level": null
+      },
+      {
+        "word": "可是",
+        "pos": "连词",
+        "level": 241
+      },
+      {
+        "word": "让",
+        "pos": "动词",
+        "level": null
+      },
+      {
+        "word": "她们",
+        "pos": "代词",
+        "level": null
+      },
+      {
+        "word": "说",
+        "pos": "动词",
+        "level": null
+      },
+      {
+        "word": "要",
+        "pos": "助词",
+        "level": null
+      },
+      {
+        "word": "很多",
+        "pos": "形容词",
+        "level": null
+      },
+      {
+        "word": "事",
+        "pos": "名词",
+        "level": null
+      },
+      {
+        "word": "难过",
+        "pos": "形容词",
+        "level": 160
+      },
+      {
+        "word": "突然",
+        "pos": "副词",
+        "level": 100
+      },
+      {
+        "word": "出现",
+        "pos": "动词",
+        "level": 222
+      },
+      {
+        "word": "离开",
+        "pos": "动词",
+        "level": 100
+      },
+      {
+        "word": "这里",
+        "pos": "代词",
+        "level": null
+      }
+    ],
+    "created_at": "2025-03-04T08:44:20.497690+00:00"
+  },
+  {
+    "story_id": "6a4700e9-492a-401e-8138-a5b9090ef50d",
+    "title": "青蛙王子的故事",
+    "content": "从前(ADV) |，|有(V) |一个(NUM) |小(ADJ) |公主(N) |很(ADV) |喜欢(V) |玩(V) |。|一天(N) |，|她(PRON) |在(PREP) |水边(N) |玩(V) |，|不小心(ADV) |把(PREP) |金球(N) |掉(V) |进(V) |了(AUX) |水(N) |里(PREP) |。|她(PRON) |很(ADV) |着急(ADJ) |。|突然(ADV) |，|一只(QTY) |青蛙(N) |叫(V) |了(AUX) |起来(V) |。|公主(N) |很(ADV) |害怕(ADJ) |，|想(V) |离开(V) |。",
+    "vocabulary_level": 100,
+    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbw",
+    "scene_name": "神话故事-三打白骨精",
+    "word_count": 35,
+    "new_word_rate": 0.42857142857142855,
+    "key_words": [
+      {
+        "word": "突然",
+        "part_of_speech": "ADV"
+      },
+      {
+        "word": "离开",
+        "part_of_speech": "V"
+      }
+    ],
+    "unknown_words": [
+      {
+        "word": "从前",
+        "pos": "副词",
+        "level": null
+      },
+      {
+        "word": "有",
+        "pos": "动词",
+        "level": null
+      },
+      {
+        "word": "公主",
+        "pos": "名词",
+        "level": null
+      },
+      {
+        "word": "一天",
+        "pos": "名词",
+        "level": null
+      },
+      {
+        "word": "水边",
+        "pos": "名词",
+        "level": null
+      },
+      {
+        "word": "不小心",
+        "pos": "副词",
+        "level": null
+      },
+      {
+        "word": "金球",
+        "pos": "名词",
+        "level": null
+      },
+      {
+        "word": "掉",
+        "pos": "动词",
+        "level": null
+      },
+      {
+        "word": "里",
+        "pos": "介词",
+        "level": 313
+      },
+      {
+        "word": "突然",
+        "pos": "副词",
+        "level": 100
+      },
+      {
+        "word": "一只",
+        "pos": "量词",
+        "level": 153
+      },
+      {
+        "word": "青蛙",
+        "pos": "名词",
+        "level": null
+      },
+      {
+        "word": "起来",
+        "pos": "动词",
+        "level": 131
+      },
+      {
+        "word": "害怕",
+        "pos": "形容词",
+        "level": 108
+      },
+      {
+        "word": "离开",
+        "pos": "动词",
+        "level": 100
+      }
+    ],
+    "created_at": "2025-03-04T08:48:08.161707+00:00"
+  },
+  {
+    "story_id": "dee43b41-1d3a-44b4-b7a9-4bbf5eec4fac",
+    "title": "孙悟空三打白骨精",
+    "content": "白骨精(PN) |想(V) |吃(V) |人(N) |，|她(PRON) |来(V) |到(V) |了(AUX) |山(N) |下(N) |。|她(PRON) |变(V) |成(V) |一个(NUM) |女人(N) |，|给(V) |唐僧(PN) |送(V) |饭(N) |。|孙悟空(PN) |突然(ADV) |看(V) |见(V) |，|知道(V) |是(V) |妖怪(N) |，|就(ADV) |打(V) |她(PRON) |。|唐僧(PN) |很(ADV) |生气(ADJ) |，| 孙悟空(PN) | 离开(V) |了(AUX) |。",
+    "vocabulary_level": 100,
+    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbw",
+    "scene_name": "神话故事-孙悟空三打白骨精",
+    "word_count": 35,
+    "new_word_rate": 0.37142857142857144,
+    "key_words": [
+      {
+        "word": "突然",
+        "part_of_speech": "ADV"
+      },
+      {
+        "word": "离开",
+        "part_of_speech": "V"
+      }
+    ],
+    "unknown_words": [
+      {
+        "word": "白骨精",
+        "pos": "专有名词",
+        "level": null
+      },
+      {
+        "word": "到",
+        "pos": "动词",
+        "level": null
+      },
+      {
+        "word": "变",
+        "pos": "动词",
+        "level": 111
+      },
+      {
+        "word": "成",
+        "pos": "动词",
+        "level": null
+      },
+      {
+        "word": "给",
+        "pos": "动词",
+        "level": null
+      },
+      {
+        "word": "唐僧",
+        "pos": "专有名词",
+        "level": null
+      },
+      {
+        "word": "饭",
+        "pos": "名词",
+        "level": null
+      },
+      {
+        "word": "孙悟空",
+        "pos": "专有名词",
+        "level": null
+      },
+      {
+        "word": "突然",
+        "pos": "副词",
+        "level": 100
+      },
+      {
+        "word": "见",
+        "pos": "动词",
+        "level": null
+      },
+      {
+        "word": "妖怪",
+        "pos": "名词",
+        "level": null
+      },
+      {
+        "word": "生气",
+        "pos": "形容词",
+        "level": null
+      },
+      {
+        "word": "离开",
+        "pos": "动词",
+        "level": 100
+      }
+    ],
+    "created_at": "2025-03-04T08:50:16.068778+00:00"
   }
 ]
