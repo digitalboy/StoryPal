@@ -73,72 +73,59 @@ class LiteracyCalculator:
         """
         计算文本的词数、生词率，并返回生词列表。
         """
-        tokens = text.split("|")
+        # 使用正则表达式分词， 匹配中文词语和英文单词， 并提取词性和词语
+        tokens = re.findall(r"([\w]+)\(([A-Z]+)\)|([^\w\s])", text, re.UNICODE)
         word_count = 0
         unknown_words: List[Dict[str, Union[str, int, None]]] = []  # 修改类型
         known_words = self._load_known_words(target_level)
         unknown_word_count = 0
 
         for token in tokens:
-            # 移除标点符号和空白字符
-            token = token.strip()
-            if not token or token in self.punctuation:
+            # token 结构为 (word, pos, symbol), 每次只match 一种，另外两种为 ""
+            word, pos, symbol = token
+            # 如果是标点符号， 直接跳过
+            if symbol and symbol in self.punctuation:
                 continue
 
-            word_count += 1
-            parts = token.split("(")  # 使用中文括号分割词语和词性
-            if len(parts) == 2:
-                word = parts[0].strip()
-                pos = parts[1].replace(")", "").strip()  # 移除中文括号和空格
-            else:
-                word = token.strip()
-                pos = "UNKNOWN"  # 无法识别词性时设置为 unknown
-                self.logger.warning(f"无法识别词性: {token}")
+            # 如果是词语， 则进行后续处理
+            if word and pos:
+                word = word.strip().lower()
+                pos = pos.strip().upper()
+                # 确保词语和词性不为空
+                if not word or not pos:
+                    self.logger.warning(f"无效的词语或词性: {token}")
+                    continue
+                word_count += 1
+                if (word, pos) not in known_words:
+                    # 获取词汇信息
+                    word_model = next(
+                        (
+                            wm
+                            for wm in self.word_service.words.values()
+                            if wm.word.lower() == word
+                        ),
+                        None,
+                    )
 
-            # 确保词语和词性不为空
-            if not word or not pos:
-                self.logger.warning(f"无效的词语或词性: {token}")
-                continue
+                    if word_model:
+                        chaotong_level = word_model.chaotong_level
+                    else:
+                        chaotong_level = None
 
-            # 转换为小写， 忽略大小写
-            word = word.lower()
-            pos = pos.upper()
-
-            #  将英文词性转换为中文词性
-            pos = self.pos_mapping.get(
-                pos, "UNKNOWN"
-            )  #  如果找不到映射， 则使用 UNKNOWN
-
-            if (word, pos) not in known_words:
-                # 获取词汇信息
-                word_model = next(
-                    (
-                        wm
-                        for wm in self.word_service.words.values()
-                        if wm.word.lower() == word
-                    ),
-                    None,
-                )
-
-                if word_model:
-                    chaotong_level = word_model.chaotong_level
+                    # 只添加大于等于 target_level 的词汇， 或者 words.json 中不存在的词汇
+                    if (
+                        chaotong_level is not None and chaotong_level >= target_level
+                    ) or chaotong_level is None:
+                        # 去重机制
+                        if not any(
+                            d["word"] == word and d["pos"] == pos for d in unknown_words
+                        ):
+                            unknown_words.append(
+                                {"word": word, "pos": pos, "level": chaotong_level}
+                            )  # 修改生词列表格式
+                            unknown_word_count += 1
                 else:
-                    chaotong_level = None
-
-                #  只添加大于等于 target_level 的词汇， 或者 words.json 中不存在的词汇
-                if (
-                    chaotong_level is not None and chaotong_level >= target_level
-                ) or chaotong_level is None:
-                    #  去重机制
-                    if not any(
-                        d["word"] == word and d["pos"] == pos for d in unknown_words
-                    ):
-                        unknown_words.append(
-                            {"word": word, "pos": pos, "level": chaotong_level}
-                        )  # 修改生词列表格式
-                        unknown_word_count += 1
-            else:
-                self.logger.debug(f"已知词：{word}, 词性: {pos}")
+                    self.logger.debug(f"已知词：{word}, 词性: {pos}")
 
         new_word_rate = unknown_word_count / word_count if word_count else 0.0
         self.logger.debug(

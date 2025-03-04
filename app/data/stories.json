@@ -653,5 +653,595 @@
       }
     ],
     "created_at": "2025-03-04T04:52:16.927477+00:00"
+  },
+  {
+    "story_id": "8ceec53b-89dc-46e8-b50e-f12d4542cc30",
+    "title": "小红帽和狼",
+    "content": "小红帽(PN) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |去(V) |看(V) |奶奶(N) |。|”|小红帽(PN) |离开(V) |家(N) |，|走(V) |在(PREP) |去(V) |奶奶(N) |家(N) |的(AUX) |路(N) |上(PREP) |。|突然(ADV) |，|一(NUM) |只(QTY) |狼(N) |来(V) |了(AUX) |。|狼(N) |问(V) |：“|你(PRON) |去(V) |哪儿(PRON) |？|”",
+    "vocabulary_level": 100,
+    "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
+    "scene_name": "童话故事-小红帽",
+    "word_count": 33,
+    "new_word_rate": 0.3333333333333333,
+    "key_words": [
+      {
+        "word": "突然",
+        "part_of_speech": "ADV"
+      },
+      {
+        "word": "离开",
+        "part_of_speech": "V"
+      }
+    ],
+    "unknown_words": [
+      {
+        "word": "小红帽",
+        "pos": "专有名词",
+        "level": null
+      },
+      {
+        "word": "说",
+        "pos": "动词",
+        "level": null
+      },
+      {
+        "word": "：“",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "要",
+        "pos": "动词",
+        "level": null
+      },
+      {
+        "word": "奶奶",
+        "pos": "名词",
+        "level": 129
+      },
+      {
+        "word": "离开",
+        "pos": "动词",
+        "level": 100
+      },
+      {
+        "word": "家",
+        "pos": "名词",
+        "level": null
+      },
+      {
+        "word": "路",
+        "pos": "名词",
+        "level": null
+      },
+      {
+        "word": "突然",
+        "pos": "副词",
+        "level": 100
+      },
+      {
+        "word": "狼",
+        "pos": "名词",
+        "level": null
+      },
+      {
+        "word": "哪儿",
+        "pos": "代词",
+        "level": null
+      }
+    ],
+    "created_at": "2025-03-04T06:12:02.902198+00:00"
+  },
+  {
+    "story_id": "689a67b5-8b54-4280-a1f7-e635e3d91a8d",
+    "title": "小红帽的故事",
+    "content": "小红帽(PN) |要(V) |去(V) |看(V) |奶奶(N) |，|她(PRON) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |小心(ADJ) |。”|小红帽(PN) |离开(V) |家(N) |以后(N) |，|在(PREP) |森林(N) |里(PREP) |，|突然(ADV) |，|她(PRON) |看(V) |到(V) |了(AUX) |一(NUM) |只(QTY) |狼(N) |。",
+    "vocabulary_level": 100,
+    "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
+    "scene_name": "童话故事-小红帽",
+    "word_count": 0,
+    "new_word_rate": 0.0,
+    "key_words": [
+      {
+        "word": "突然",
+        "part_of_speech": "ADV"
+      },
+      {
+        "word": "离开",
+        "part_of_speech": "V"
+      }
+    ],
+    "unknown_words": [],
+    "created_at": "2025-03-04T06:18:03.163268+00:00"
+  },
+  {
+    "story_id": "d7844faa-3e0d-4f7a-8348-6269a989afa2",
+    "title": "小红帽的故事",
+    "content": "小红帽(PN) |要(V) |去看(V) |奶奶(N) |。|她(PRON) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |小心(ADJ) |，|不要(ADV) ||离开(V) |大路(N) |。”|小红帽(PN) |说(V) |：“|好(ADJ) |的(AUX) |，|妈妈(N) |。|”|她(PRON) |走(V) |在(PREP) |路(N) |上(PREP) |，|突然(ADV) |，|她(PRON) |看(V) |到(V) |了(AUX) |一(NUM) |只(QTY) |狼(N) |。",
+    "vocabulary_level": 100,
+    "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
+    "scene_name": "童话故事-小红帽",
+    "word_count": 64,
+    "new_word_rate": 0.328125,
+    "key_words": [
+      {
+        "word": "突然",
+        "part_of_speech": "ADV"
+      },
+      {
+        "word": "离开",
+        "part_of_speech": "V"
+      }
+    ],
+    "unknown_words": [
+      {
+        "word": "小红帽",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "pn",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "要",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "v",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "去看",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "奶奶",
+        "pos": "UNKNOWN",
+        "level": 129
+      },
+      {
+        "word": "n",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "pron",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "aux",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "说",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "adj",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "adv",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "离开",
+        "pos": "UNKNOWN",
+        "level": 100
+      },
+      {
+        "word": "大路",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "prep",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "路",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "突然",
+        "pos": "UNKNOWN",
+        "level": 100
+      },
+      {
+        "word": "到",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "num",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "qty",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "狼",
+        "pos": "UNKNOWN",
+        "level": null
+      }
+    ],
+    "created_at": "2025-03-04T06:20:38.274109+00:00"
+  },
+  {
+    "story_id": "12856cda-7521-47f8-b8ec-f0b4b8888d67",
+    "title": "小红帽的故事",
+    "content": "小红帽(PN) |要(V) |去看(V) |奶奶(N) |，|她(PRON) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |小心(ADJ) |。”|小红帽(PN) |说(V) |：“|好(ADJ) |的(AUX) |，|妈妈(N) |。|”|她(PRON) |离开(V) |了(AUX) |家(N) |。|在(PREP) |去(V) |奶奶(N) |家(N) |的(AUX) |路(N) |上(PREP) |，|她(PRON) |突然(ADV) |看见(V) |了(AUX) |狼(N) |。",
+    "vocabulary_level": 100,
+    "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
+    "scene_name": "童话故事-小红帽",
+    "word_count": 64,
+    "new_word_rate": 0.28125,
+    "key_words": [
+      {
+        "word": "突然",
+        "part_of_speech": "ADV"
+      },
+      {
+        "word": "离开",
+        "part_of_speech": "V"
+      }
+    ],
+    "unknown_words": [
+      {
+        "word": "小红帽",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "pn",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "要",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "v",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "去看",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "奶奶",
+        "pos": "UNKNOWN",
+        "level": 129
+      },
+      {
+        "word": "n",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "pron",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "aux",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "说",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "adj",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "离开",
+        "pos": "UNKNOWN",
+        "level": 100
+      },
+      {
+        "word": "家",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "prep",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "路",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "突然",
+        "pos": "UNKNOWN",
+        "level": 100
+      },
+      {
+        "word": "adv",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "狼",
+        "pos": "UNKNOWN",
+        "level": null
+      }
+    ],
+    "created_at": "2025-03-04T06:22:38.057919+00:00"
+  },
+  {
+    "story_id": "ab02f521-f4b6-4bc4-9508-32fe7085b059",
+    "title": "小红帽的故事",
+    "content": "小红帽(PN) |要(V) |去(V) |看(V) |奶奶(N) |，|她(PRON) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |小心(ADJ) |！|”|小红帽(PN) |离开(V) |了(AUX) |家(N) |。|在(PREP) |去(V) |奶奶(N) |家(N) |的(AUX) |路(N) |上(PREP) |，|她(PRON) |突然(ADV) |看(V) |到(V) |了(AUX) |一(NUM) |只(QTY) |狼(N) |。",
+    "vocabulary_level": 100,
+    "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
+    "scene_name": "童话故事-小红帽",
+    "word_count": 37,
+    "new_word_rate": 0.40540540540540543,
+    "key_words": [
+      {
+        "word": "突然",
+        "part_of_speech": "ADV"
+      },
+      {
+        "word": "离开",
+        "part_of_speech": "V"
+      }
+    ],
+    "unknown_words": [
+      {
+        "word": "小红帽",
+        "pos": "专有名词",
+        "level": null
+      },
+      {
+        "word": "要",
+        "pos": "动词",
+        "level": null
+      },
+      {
+        "word": "奶奶",
+        "pos": "名词",
+        "level": 129
+      },
+      {
+        "word": "|，|",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "说",
+        "pos": "动词",
+        "level": null
+      },
+      {
+        "word": "|：“|",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "|！|”|",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "离开",
+        "pos": "动词",
+        "level": 100
+      },
+      {
+        "word": "家",
+        "pos": "名词",
+        "level": null
+      },
+      {
+        "word": "|。|",
+        "pos": "UNKNOWN",
+        "level": null
+      },
+      {
+        "word": "路",
+        "pos": "名词",
+        "level": null
+      },
+      {
+        "word": "突然",
+        "pos": "副词",
+        "level": 100
+      },
+      {
+        "word": "到",
+        "pos": "动词",
+        "level": null
+      },
+      {
+        "word": "狼",
+        "pos": "名词",
+        "level": null
+      },
+      {
+        "word": "|。",
+        "pos": "UNKNOWN",
+        "level": null
+      }
+    ],
+    "created_at": "2025-03-04T06:24:11.829682+00:00"
+  },
+  {
+    "story_id": "dd9098b3-99ae-4111-8939-c616328805fc",
+    "title": "小红帽的故事",
+    "content": "小红帽(PN) |要(V) |去看(V) |奶奶(N) |。|她(PRON) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |小心(ADJ) |！|不要(ADV) ||离开(V) |大路(N) |。|”|小红帽(PN) |说(V) |：“|好(ADJ) |的(AUX) |，|妈妈(N) |。|”|她(PRON) |走(V) |在(PREP) |路(N) |上(PREP) |，| |突然(ADV) |，|她(PRON) |看(V) |到(V) |一(NUM) |只(QTY) |狼(N) |。",
+    "vocabulary_level": 100,
+    "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
+    "scene_name": "童话故事-小红帽",
+    "word_count": 31,
+    "new_word_rate": 0.3548387096774194,
+    "key_words": [
+      {
+        "word": "突然",
+        "part_of_speech": "ADV"
+      },
+      {
+        "word": "离开",
+        "part_of_speech": "V"
+      }
+    ],
+    "unknown_words": [
+      {
+        "word": "小红帽",
+        "pos": "PN",
+        "level": null
+      },
+      {
+        "word": "要",
+        "pos": "V",
+        "level": null
+      },
+      {
+        "word": "去看",
+        "pos": "V",
+        "level": null
+      },
+      {
+        "word": "奶奶",
+        "pos": "N",
+        "level": 129
+      },
+      {
+        "word": "说",
+        "pos": "V",
+        "level": null
+      },
+      {
+        "word": "离开",
+        "pos": "V",
+        "level": 100
+      },
+      {
+        "word": "大路",
+        "pos": "N",
+        "level": null
+      },
+      {
+        "word": "路",
+        "pos": "N",
+        "level": null
+      },
+      {
+        "word": "突然",
+        "pos": "ADV",
+        "level": 100
+      },
+      {
+        "word": "到",
+        "pos": "V",
+        "level": null
+      },
+      {
+        "word": "狼",
+        "pos": "N",
+        "level": null
+      }
+    ],
+    "created_at": "2025-03-04T06:30:13.254914+00:00"
+  },
+  {
+    "story_id": "b3991e2e-fd75-4410-8258-d863cf6df73f",
+    "title": "小红帽的故事",
+    "content": "小红帽(PN) |要(V) |去(V) |奶奶(N) |家(N) |。|她(PRON) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |小心(ADJ) |！|”|小红帽(PN) |说(V) |：“|好(ADJ) |的(AUX) |，|妈妈(N) |。|”|她(PRON) |离开(V) |了(AUX) |家(N) |。|在(PREP) |去(V) |奶奶(N) |家(N) |的(AUX) |路(N) |上(PREP) |，|她(PRON) |突然(ADV) |看(V) |到(V) |了(AUX) |狼(N) |。",
+    "vocabulary_level": 100,
+    "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
+    "scene_name": "童话故事-小红帽",
+    "word_count": 34,
+    "new_word_rate": 0.29411764705882354,
+    "key_words": [
+      {
+        "word": "突然",
+        "part_of_speech": "ADV"
+      },
+      {
+        "word": "离开",
+        "part_of_speech": "V"
+      }
+    ],
+    "unknown_words": [
+      {
+        "word": "小红帽",
+        "pos": "PN",
+        "level": null
+      },
+      {
+        "word": "要",
+        "pos": "V",
+        "level": null
+      },
+      {
+        "word": "奶奶",
+        "pos": "N",
+        "level": 129
+      },
+      {
+        "word": "家",
+        "pos": "N",
+        "level": null
+      },
+      {
+        "word": "说",
+        "pos": "V",
+        "level": null
+      },
+      {
+        "word": "离开",
+        "pos": "V",
+        "level": 100
+      },
+      {
+        "word": "路",
+        "pos": "N",
+        "level": null
+      },
+      {
+        "word": "突然",
+        "pos": "ADV",
+        "level": 100
+      },
+      {
+        "word": "到",
+        "pos": "V",
+        "level": null
+      },
+      {
+        "word": "狼",
+        "pos": "N",
+        "level": null
+      }
+    ],
+    "created_at": "2025-03-04T06:32:07.230106+00:00"
   }
 ]
