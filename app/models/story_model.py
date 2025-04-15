@@ -33,8 +33,8 @@ class StoryModel(BaseModel):
             scene_name (str): 场景名称.  # 新增 scene_name
             word_count (int): 故事的词数. #  story_word_count -> word_count
             new_word_rate (float): 故事的生词率， 取值范围 0-1. #  new_char_rate -> new_word_rate
-            key_words (List[Dict]): 故事中包含的重点词汇列表.
-            unknown_words (List[Dict[str, Union[str, int, None]]]): 故事中的生词列表. # 修改类型
+            key_words (List[Dict]): 故事中包含的重点词汇列表。每个字典包含 'word' 和 'part_of_speech' (英文缩写)。
+            unknown_words (List[Dict[str, Union[str, int, None]]]): 故事中的生词列表。每个字典包含 'word', 'pos' (英文缩写), 和 'level'。
             created_at (str, optional): 模型的创建时间，如果为None，则设置为当前时间.
         """
         super().__init__(id=story_id, created_at=created_at)
@@ -63,8 +63,8 @@ class StoryModel(BaseModel):
             "scene_name": self.scene_name,  # 新增 scene_name
             "word_count": self.word_count,  # story_word_count -> word_count
             "new_word_rate": self.new_word_rate,  # new_char_rate -> new_word_rate
-            "key_words": self.key_words,
-            "unknown_words": self.unknown_words,
+            "key_words": self.key_words,  # 存储包含英文词性缩写的字典列表
+            "unknown_words": self.unknown_words,  # 存储包含英文词性缩写的字典列表
             "created_at": self.created_at,
         }
 

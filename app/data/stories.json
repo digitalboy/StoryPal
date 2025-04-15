@@ -1,1692 +1,3960 @@
 [
-  {
-    "story_id": "f457e3fa-0346-48dd-a511-0464c9972625",
-    "title": "请问怎么走？",
-    "content": "你好(PHR) |，|请问(V) |，|去(V) |学校(N) |怎么(PRON) |走(V) |？|我(PRON) |不(ADV) |知道(V) |。|你(PRON) |可以(ADJ) |告诉(V) |我(PRON) |吗(AUX) |？|从(PREP) |这儿(ADV) |去(V) |，|很(ADV) |远(ADJ) |吗(AUX) |？|谢谢(PHR) |你(PRON) |！",
-    "vocabulary_level": 58,
-    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
-    "scene_name": "问路",
-    "word_count": 22,
-    "new_word_rate": 0.8181818181818182,
-    "key_words": [],
-    "unknown_words": [
-      {
-        "word": "你好",
-        "pos": "PHR",
-        "level": 1
-      },
-      {
-        "word": "请问",
-        "pos": "V",
-        "level": 15
-      },
-      {
-        "word": "去",
-        "pos": "V",
-        "level": 16
-      },
-      {
-        "word": "学校",
-        "pos": "N",
-        "level": 16
-      },
-      {
-        "word": "怎么",
-        "pos": "PRON",
-        "level": 14
-      },
-      {
-        "word": "走",
-        "pos": "V",
-        "level": 58
-      },
-      {
-        "word": "我",
-        "pos": "PRON",
-        "level": 6
-      },
-      {
-        "word": "不",
-        "pos": "ADV",
-        "level": 1
-      },
-      {
-        "word": "知道",
-        "pos": "V",
-        "level": 41
-      },
-      {
-        "word": "你",
-        "pos": "PRON",
-        "level": 1
-      },
-      {
-        "word": "可以",
-        "pos": "ADJ",
-        "level": 50
-      },
-      {
-        "word": "告诉",
-        "pos": "V",
-        "level": 59
-      },
-      {
-        "word": "吗",
-        "pos": "AUX",
-        "level": 6
-      },
-      {
-        "word": "从",
-        "pos": "PREP",
-        "level": 61
-      },
-      {
-        "word": "这儿",
-        "pos": "ADV",
-        "level": 23
-      },
-      {
-        "word": "很",
-        "pos": "ADV",
-        "level": 13
-      },
-      {
-        "word": "远",
-        "pos": "ADJ",
-        "level": null
-      },
-      {
-        "word": "谢谢",
-        "pos": "PHR",
-        "level": 3
-      }
-    ],
-    "created_at": "2025-03-04T03:33:50.871105+00:00"
-  },
-  {
-    "story_id": "2c602ecd-fd51-4677-869e-6fe56d428e89",
-    "title": "请问路",
-    "content": "请问(V)，|去(V) |火车站(N) |怎么(PRON) |走(V) |？|我(PRON) |不(ADV) |知道(V) |。|你(PRON) |一直(ADV) |往前(ADV) |走(V) |，|到(V) |了(AUX) |路口(N) |，|然后(CONJ) |往(PREP) |左(N) |拐(V)，|你(PRON) |会(V) |看见(V) |它(PRON) |。|但是(CONJ) |，|如果(CONJ) |你(PRON) |走(V) |错(ADJ) |了(AUX) |，|就(ADV) |会(V) |突然(ADV) |发现(V) |你(PRON) |已经(ADV) |离开(V) |了(AUX) |。",
-    "vocabulary_level": 100,
-    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
-    "scene_name": "问路",
-    "word_count": 37,
-    "new_word_rate": 0.7837837837837838,
-    "key_words": [
-      {
-        "word": "突然",
-        "part_of_speech": "ADV"
-      },
-      {
-        "word": "离开",
-        "part_of_speech": "V"
-      }
-    ],
-    "unknown_words": [
-      {
-        "word": "请问",
-        "pos": "V，",
-        "level": 15
-      },
-      {
-        "word": "去",
-        "pos": "V",
-        "level": 16
-      },
-      {
-        "word": "火车站",
-        "pos": "N",
-        "level": 76
-      },
-      {
-        "word": "怎么",
-        "pos": "PRON",
-        "level": 14
-      },
-      {
-        "word": "走",
-        "pos": "V",
-        "level": 58
-      },
-      {
-        "word": "我",
-        "pos": "PRON",
-        "level": 6
-      },
-      {
-        "word": "不",
-        "pos": "ADV",
-        "level": 1
-      },
-      {
-        "word": "知道",
-        "pos": "V",
-        "level": 41
-      },
-      {
-        "word": "你",
-        "pos": "PRON",
-        "level": 1
-      },
-      {
-        "word": "一直",
-        "pos": "ADV",
-        "level": 73
-      },
-      {
-        "word": "往前",
-        "pos": "ADV",
-        "level": 73
-      },
-      {
-        "word": "到",
-        "pos": "V",
-        "level": null
-      },
-      {
-        "word": "了",
-        "pos": "AUX",
-        "level": 11
-      },
-      {
-        "word": "路口",
-        "pos": "N",
-        "level": 73
-      },
-      {
-        "word": "然后",
-        "pos": "CONJ",
-        "level": 133
-      },
-      {
-        "word": "往",
-        "pos": "PREP",
-        "level": 73
-      },
-      {
-        "word": "左",
-        "pos": "N",
-        "level": 45
-      },
-      {
-        "word": "拐",
-        "pos": "V，",
-        "level": null
-      },
-      {
-        "word": "会",
-        "pos": "V",
-        "level": null
-      },
-      {
-        "word": "看见",
-        "pos": "V",
-        "level": 32
-      },
-      {
-        "word": "它",
-        "pos": "PRON",
-        "level": 39
-      },
-      {
-        "word": "但是",
-        "pos": "CONJ",
-        "level": 74
-      },
-      {
-        "word": "如果",
-        "pos": "CONJ",
-        "level": 144
-      },
-      {
-        "word": "错",
-        "pos": "ADJ",
-        "level": 50
-      },
-      {
-        "word": "就",
-        "pos": "ADV",
-        "level": 49
-      },
-      {
-        "word": "突然",
-        "pos": "ADV",
-        "level": 100
-      },
-      {
-        "word": "发现",
-        "pos": "V",
-        "level": 126
-      },
-      {
-        "word": "已经",
-        "pos": "ADV",
-        "level": 47
-      },
-      {
-        "word": "离开",
-        "pos": "V",
-        "level": 100
-      }
-    ],
-    "created_at": "2025-03-04T04:17:13.633392+00:00"
-  },
-  {
-    "story_id": "17be1d79-006f-4d67-b049-00d43d7522a7",
-    "title": "问路",
-    "content": "请问(V)，|去(V) |火车站(N) |怎么(PRON) |走(V) |？|我(PRON) |不(ADV) |知道(V) |路(N) |，|我(PRON) |想(V) |去(V) |火车站(N) |。|你(PRON) |可以(ADJ) |告诉(V) |我(PRON) |吗(AUX) |？|谢谢(PHR) |！| 突然(ADV)，|一(NUM) |个(QTY) |人(N) |走(V) |过来(V)，|他(PRON) |要(V) |离开(V) |这里(PRON)。",
-    "vocabulary_level": 100,
-    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
-    "scene_name": "问路",
-    "word_count": 29,
-    "new_word_rate": 0.8275862068965517,
-    "key_words": [
-      {
-        "word": "突然",
-        "part_of_speech": "ADV"
-      },
-      {
-        "word": "离开",
-        "part_of_speech": "V"
-      }
-    ],
-    "unknown_words": [
-      {
-        "word": "请问",
-        "pos": "V，",
-        "level": 15
-      },
-      {
-        "word": "去",
-        "pos": "V",
-        "level": 16
-      },
-      {
-        "word": "火车站",
-        "pos": "N",
-        "level": 76
-      },
-      {
-        "word": "怎么",
-        "pos": "PRON",
-        "level": 14
-      },
-      {
-        "word": "走",
-        "pos": "V",
-        "level": 58
-      },
-      {
-        "word": "我",
-        "pos": "PRON",
-        "level": 6
-      },
-      {
-        "word": "不",
-        "pos": "ADV",
-        "level": 1
-      },
-      {
-        "word": "知道",
-        "pos": "V",
-        "level": 41
-      },
-      {
-        "word": "路",
-        "pos": "N",
-        "level": null
-      },
-      {
-        "word": "想",
-        "pos": "V",
-        "level": 17
-      },
-      {
-        "word": "你",
-        "pos": "PRON",
-        "level": 1
-      },
-      {
-        "word": "可以",
-        "pos": "ADJ",
-        "level": 50
-      },
-      {
-        "word": "告诉",
-        "pos": "V",
-        "level": 59
-      },
-      {
-        "word": "吗",
-        "pos": "AUX",
-        "level": 6
-      },
-      {
-        "word": "谢谢",
-        "pos": "PHR",
-        "level": 3
-      },
-      {
-        "word": "突然",
-        "pos": "ADV，",
-        "level": 100
-      },
-      {
-        "word": "一",
-        "pos": "NUM",
-        "level": 2
-      },
-      {
-        "word": "个",
-        "pos": "QTY",
-        "level": 11
-      },
-      {
-        "word": "人",
-        "pos": "N",
-        "level": 6
-      },
-      {
-        "word": "过来",
-        "pos": "V，",
-        "level": null
-      },
-      {
-        "word": "他",
-        "pos": "PRON",
-        "level": 9
-      },
-      {
-        "word": "要",
-        "pos": "V",
-        "level": null
-      },
-      {
-        "word": "离开",
-        "pos": "V",
-        "level": 100
-      },
-      {
-        "word": "这里",
-        "pos": "PRON。",
-        "level": null
-      }
-    ],
-    "created_at": "2025-03-04T04:18:21.029086+00:00"
-  },
-  {
-    "story_id": "17aeb8c4-ff7c-4bb7-9735-e71dbcbcfbfc",
-    "title": "请问怎么走？",
-    "content": "你好(PHR) |，|请问(V) |，|去(V) |火车站(N) |怎么(PRON) |走(V) |？|我(PRON) |不(ADV) |知道(V) |。|你(PRON) |可以(ADJ) |告诉(V) |我(PRON) |吗(AUX) |？|谢谢(PHR) |！|前面(N) |一直(ADV) |走(V) |，|然后(CONJ) |往(PREP) |左(N) |拐(V), |你(PRON) |会(V) |看见(V) |一个(NUM) |商店(N)。|**突然(ADV)** |，|你(PRON) |的(AUX) |朋友(N) |**离开(V)** |了(AUX) |。",
-    "vocabulary_level": 100,
-    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
-    "scene_name": "问路",
-    "word_count": 33,
-    "new_word_rate": 0.15151515151515152,
-    "key_words": [
-      {
-        "word": "突然",
-        "part_of_speech": "ADV"
-      },
-      {
-        "word": "离开",
-        "part_of_speech": "V"
-      }
-    ],
-    "unknown_words": [
-      {
-        "word": "然后",
-        "pos": "CONJ",
-        "level": 133
-      },
-      {
-        "word": "拐",
-        "pos": "V,",
-        "level": null
-      },
-      {
-        "word": "会",
-        "pos": "V",
-        "level": null
-      },
-      {
-        "word": "**突然",
-        "pos": "ADV**",
-        "level": null
-      },
-      {
-        "word": "**离开",
-        "pos": "V**",
-        "level": null
-      }
-    ],
-    "created_at": "2025-03-04T04:30:03.712653+00:00"
-  },
-  {
-    "story_id": "d0fbbac7-df27-4ea8-8a0e-ee846b9c89a1",
-    "title": "问路",
-    "content": "请问(V) |，|去(V) |火车站(N) |怎么(PRON) |走(V) |？|我(PRON) |突然(ADV) |想(V) |离开(V) |这里(PRON) |，|但是(CONJ) |不(ADV) |知道(V) |路(N) |。|你(PRON) |可以(AUX) |告诉(V) |我(PRON) |吗(AUX) |？|谢谢(V) |！",
-    "vocabulary_level": 100,
-    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
-    "scene_name": "问路",
-    "word_count": 20,
-    "new_word_rate": 0.2,
-    "key_words": [
-      {
-        "word": "突然",
-        "part_of_speech": "ADV"
-      },
-      {
-        "word": "离开",
-        "part_of_speech": "V"
-      }
-    ],
-    "unknown_words": [
-      {
-        "word": "突然",
-        "pos": "副词",
-        "level": 100
-      },
-      {
-        "word": "离开",
-        "pos": "动词",
-        "level": 100
-      },
-      {
-        "word": "这里",
-        "pos": "代词",
-        "level": null
-      },
-      {
-        "word": "路",
-        "pos": "名词",
-        "level": null
-      }
-    ],
-    "created_at": "2025-03-04T04:39:15.615930+00:00"
-  },
-  {
-    "story_id": "0318998d-e54a-47f4-ac5f-747038707b68",
-    "title": "问路",
-    "content": "请问(V)，|去(V) |火车站(N) |怎么(PRON) |走(V) |？|我(PRON) |不(ADV) |知道(V) |。|你(PRON) |一直(ADV) |往前(ADV) |走(V) |，|然后(CONJ) |在(PREP) |第二(NUM) |个(QTY) |路口(N) |往(PREP) |左(方位词) |拐(V) |。|你(PRON) |会(AUX) |看见(V) |一个(NUM) |商店(N) |，|商店(N) |的(AUX) |前面(N)，|你(PRON) |会(AUX) |突然(ADV) |看见(V) |火车站(N) |，|我(PRON) |需要(V) |现在(N) |离开(V) |这里(PRON) |了(AUX)。",
-    "vocabulary_level": 100,
-    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
-    "scene_name": "问路",
-    "word_count": 39,
-    "new_word_rate": 0.20512820512820512,
-    "key_words": [
-      {
-        "word": "突然",
-        "part_of_speech": "ADV"
-      },
-      {
-        "word": "离开",
-        "part_of_speech": "V"
-      }
-    ],
-    "unknown_words": [
-      {
-        "word": "然后",
-        "pos": "连词",
-        "level": 133
-      },
-      {
-        "word": "第二",
-        "pos": "数字",
-        "level": null
-      },
-      {
-        "word": "拐",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "会",
-        "pos": "助词",
-        "level": null
-      },
-      {
-        "word": "突然",
-        "pos": "副词",
-        "level": 100
-      },
-      {
-        "word": "需要",
-        "pos": "动词",
-        "level": 128
-      },
-      {
-        "word": "离开",
-        "pos": "动词",
-        "level": 100
-      },
-      {
-        "word": "这里",
-        "pos": "代词",
-        "level": null
-      }
-    ],
-    "created_at": "2025-03-04T04:41:43.223058+00:00"
-  },
-  {
-    "story_id": "ba04ee40-0c4d-43ff-a0f7-0f1f4e38006c",
-    "title": "请问怎么走",
-    "content": "你(PRON) |好(ADJ) |，|请问(V) |，|去(V) |火车站(N) |怎么(PRON) |走(V) |？|我(PRON) |不(ADV) |知道(V) |。|啊(INT) |，|我(PRON) |也(ADV) |不(ADV) |知道(V) |。|你(PRON) |们(PRON) |是(V) |新(ADJ) |来(V) |的(AUX) |吗(AUX) |？|是的(ADJ) |。|突然(ADV) |，|一(NUM) |个(QTY) |朋友(N) |离开(V) |了(AUX) |。",
-    "vocabulary_level": 100,
-    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
-    "scene_name": "问路",
-    "word_count": 29,
-    "new_word_rate": 0.10344827586206896,
-    "key_words": [
-      {
-        "word": "突然",
-        "part_of_speech": "ADV"
-      },
-      {
-        "word": "离开",
-        "part_of_speech": "V"
-      }
-    ],
-    "unknown_words": [
-      {
-        "word": "是的",
-        "pos": "形容词",
-        "level": null
-      },
-      {
-        "word": "突然",
-        "pos": "副词",
-        "level": 100
-      },
-      {
-        "word": "离开",
-        "pos": "动词",
-        "level": 100
-      }
-    ],
-    "created_at": "2025-03-04T04:49:39.250801+00:00"
-  },
-  {
-    "story_id": "8319378b-08b3-404d-830b-476423a002b1",
-    "title": "点餐的时候",
-    "content": "服务员(N)，|你好(PHR)！|我(PRON) |想(V) |吃(V) |米饭(N)。|你(PRON) |们(AUX) |有(V) |什么(PRON) |好(ADJ) |吃(V) |的(AUX)？|啊(INT)，|突然(ADV) |想(V) |起来(V) |我(PRON) |要(V) |离开(V) |一下(PREP)。|我(PRON) |朋友(N) |很(ADV) |快(ADJ) |就(ADV) |来(V) |了(AUX)。",
-    "vocabulary_level": 100,
-    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbc",
-    "scene_name": "点餐",
-    "word_count": 28,
-    "new_word_rate": 0.17857142857142858,
-    "key_words": [
-      {
-        "word": "突然",
-        "part_of_speech": "ADV"
-      },
-      {
-        "word": "离开",
-        "part_of_speech": "V"
-      }
-    ],
-    "unknown_words": [
-      {
-        "word": "有",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "突然",
-        "pos": "副词",
-        "level": 100
-      },
-      {
-        "word": "起来",
-        "pos": "动词",
-        "level": 131
-      },
-      {
-        "word": "要",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "离开",
-        "pos": "动词",
-        "level": 100
-      }
-    ],
-    "created_at": "2025-03-04T04:52:16.927477+00:00"
-  },
-  {
-    "story_id": "8ceec53b-89dc-46e8-b50e-f12d4542cc30",
-    "title": "小红帽和狼",
-    "content": "小红帽(PN) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |去(V) |看(V) |奶奶(N) |。|”|小红帽(PN) |离开(V) |家(N) |，|走(V) |在(PREP) |去(V) |奶奶(N) |家(N) |的(AUX) |路(N) |上(PREP) |。|突然(ADV) |，|一(NUM) |只(QTY) |狼(N) |来(V) |了(AUX) |。|狼(N) |问(V) |：“|你(PRON) |去(V) |哪儿(PRON) |？|”",
-    "vocabulary_level": 100,
-    "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
-    "scene_name": "童话故事-小红帽",
-    "word_count": 33,
-    "new_word_rate": 0.3333333333333333,
-    "key_words": [
-      {
-        "word": "突然",
-        "part_of_speech": "ADV"
-      },
-      {
-        "word": "离开",
-        "part_of_speech": "V"
-      }
-    ],
-    "unknown_words": [
-      {
-        "word": "小红帽",
-        "pos": "专有名词",
-        "level": null
-      },
-      {
-        "word": "说",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "：“",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "要",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "奶奶",
-        "pos": "名词",
-        "level": 129
-      },
-      {
-        "word": "离开",
-        "pos": "动词",
-        "level": 100
-      },
-      {
-        "word": "家",
-        "pos": "名词",
-        "level": null
-      },
-      {
-        "word": "路",
-        "pos": "名词",
-        "level": null
-      },
-      {
-        "word": "突然",
-        "pos": "副词",
-        "level": 100
-      },
-      {
-        "word": "狼",
-        "pos": "名词",
-        "level": null
-      },
-      {
-        "word": "哪儿",
-        "pos": "代词",
-        "level": null
-      }
-    ],
-    "created_at": "2025-03-04T06:12:02.902198+00:00"
-  },
-  {
-    "story_id": "689a67b5-8b54-4280-a1f7-e635e3d91a8d",
-    "title": "小红帽的故事",
-    "content": "小红帽(PN) |要(V) |去(V) |看(V) |奶奶(N) |，|她(PRON) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |小心(ADJ) |。”|小红帽(PN) |离开(V) |家(N) |以后(N) |，|在(PREP) |森林(N) |里(PREP) |，|突然(ADV) |，|她(PRON) |看(V) |到(V) |了(AUX) |一(NUM) |只(QTY) |狼(N) |。",
-    "vocabulary_level": 100,
-    "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
-    "scene_name": "童话故事-小红帽",
-    "word_count": 0,
-    "new_word_rate": 0.0,
-    "key_words": [
-      {
-        "word": "突然",
-        "part_of_speech": "ADV"
-      },
-      {
-        "word": "离开",
-        "part_of_speech": "V"
-      }
-    ],
-    "unknown_words": [],
-    "created_at": "2025-03-04T06:18:03.163268+00:00"
-  },
-  {
-    "story_id": "d7844faa-3e0d-4f7a-8348-6269a989afa2",
-    "title": "小红帽的故事",
-    "content": "小红帽(PN) |要(V) |去看(V) |奶奶(N) |。|她(PRON) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |小心(ADJ) |，|不要(ADV) ||离开(V) |大路(N) |。”|小红帽(PN) |说(V) |：“|好(ADJ) |的(AUX) |，|妈妈(N) |。|”|她(PRON) |走(V) |在(PREP) |路(N) |上(PREP) |，|突然(ADV) |，|她(PRON) |看(V) |到(V) |了(AUX) |一(NUM) |只(QTY) |狼(N) |。",
-    "vocabulary_level": 100,
-    "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
-    "scene_name": "童话故事-小红帽",
-    "word_count": 64,
-    "new_word_rate": 0.328125,
-    "key_words": [
-      {
-        "word": "突然",
-        "part_of_speech": "ADV"
-      },
-      {
-        "word": "离开",
-        "part_of_speech": "V"
-      }
-    ],
-    "unknown_words": [
-      {
-        "word": "小红帽",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "pn",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "要",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "v",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "去看",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "奶奶",
-        "pos": "UNKNOWN",
-        "level": 129
-      },
-      {
-        "word": "n",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "pron",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "aux",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "说",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "adj",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "adv",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "离开",
-        "pos": "UNKNOWN",
-        "level": 100
-      },
-      {
-        "word": "大路",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "prep",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "路",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "突然",
-        "pos": "UNKNOWN",
-        "level": 100
-      },
-      {
-        "word": "到",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "num",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "qty",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "狼",
-        "pos": "UNKNOWN",
-        "level": null
-      }
-    ],
-    "created_at": "2025-03-04T06:20:38.274109+00:00"
-  },
-  {
-    "story_id": "12856cda-7521-47f8-b8ec-f0b4b8888d67",
-    "title": "小红帽的故事",
-    "content": "小红帽(PN) |要(V) |去看(V) |奶奶(N) |，|她(PRON) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |小心(ADJ) |。”|小红帽(PN) |说(V) |：“|好(ADJ) |的(AUX) |，|妈妈(N) |。|”|她(PRON) |离开(V) |了(AUX) |家(N) |。|在(PREP) |去(V) |奶奶(N) |家(N) |的(AUX) |路(N) |上(PREP) |，|她(PRON) |突然(ADV) |看见(V) |了(AUX) |狼(N) |。",
-    "vocabulary_level": 100,
-    "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
-    "scene_name": "童话故事-小红帽",
-    "word_count": 64,
-    "new_word_rate": 0.28125,
-    "key_words": [
-      {
-        "word": "突然",
-        "part_of_speech": "ADV"
-      },
-      {
-        "word": "离开",
-        "part_of_speech": "V"
-      }
-    ],
-    "unknown_words": [
-      {
-        "word": "小红帽",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "pn",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "要",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "v",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "去看",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "奶奶",
-        "pos": "UNKNOWN",
-        "level": 129
-      },
-      {
-        "word": "n",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "pron",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "aux",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "说",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "adj",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "离开",
-        "pos": "UNKNOWN",
-        "level": 100
-      },
-      {
-        "word": "家",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "prep",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "路",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "突然",
-        "pos": "UNKNOWN",
-        "level": 100
-      },
-      {
-        "word": "adv",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "狼",
-        "pos": "UNKNOWN",
-        "level": null
-      }
-    ],
-    "created_at": "2025-03-04T06:22:38.057919+00:00"
-  },
-  {
-    "story_id": "ab02f521-f4b6-4bc4-9508-32fe7085b059",
-    "title": "小红帽的故事",
-    "content": "小红帽(PN) |要(V) |去(V) |看(V) |奶奶(N) |，|她(PRON) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |小心(ADJ) |！|”|小红帽(PN) |离开(V) |了(AUX) |家(N) |。|在(PREP) |去(V) |奶奶(N) |家(N) |的(AUX) |路(N) |上(PREP) |，|她(PRON) |突然(ADV) |看(V) |到(V) |了(AUX) |一(NUM) |只(QTY) |狼(N) |。",
-    "vocabulary_level": 100,
-    "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
-    "scene_name": "童话故事-小红帽",
-    "word_count": 37,
-    "new_word_rate": 0.40540540540540543,
-    "key_words": [
-      {
-        "word": "突然",
-        "part_of_speech": "ADV"
-      },
-      {
-        "word": "离开",
-        "part_of_speech": "V"
-      }
-    ],
-    "unknown_words": [
-      {
-        "word": "小红帽",
-        "pos": "专有名词",
-        "level": null
-      },
-      {
-        "word": "要",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "奶奶",
-        "pos": "名词",
-        "level": 129
-      },
-      {
-        "word": "|，|",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "说",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "|：“|",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "|！|”|",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "离开",
-        "pos": "动词",
-        "level": 100
-      },
-      {
-        "word": "家",
-        "pos": "名词",
-        "level": null
-      },
-      {
-        "word": "|。|",
-        "pos": "UNKNOWN",
-        "level": null
-      },
-      {
-        "word": "路",
-        "pos": "名词",
-        "level": null
-      },
-      {
-        "word": "突然",
-        "pos": "副词",
-        "level": 100
-      },
-      {
-        "word": "到",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "狼",
-        "pos": "名词",
-        "level": null
-      },
-      {
-        "word": "|。",
-        "pos": "UNKNOWN",
-        "level": null
-      }
-    ],
-    "created_at": "2025-03-04T06:24:11.829682+00:00"
-  },
-  {
-    "story_id": "dd9098b3-99ae-4111-8939-c616328805fc",
-    "title": "小红帽的故事",
-    "content": "小红帽(PN) |要(V) |去看(V) |奶奶(N) |。|她(PRON) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |小心(ADJ) |！|不要(ADV) ||离开(V) |大路(N) |。|”|小红帽(PN) |说(V) |：“|好(ADJ) |的(AUX) |，|妈妈(N) |。|”|她(PRON) |走(V) |在(PREP) |路(N) |上(PREP) |，| |突然(ADV) |，|她(PRON) |看(V) |到(V) |一(NUM) |只(QTY) |狼(N) |。",
-    "vocabulary_level": 100,
-    "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
-    "scene_name": "童话故事-小红帽",
-    "word_count": 31,
-    "new_word_rate": 0.3548387096774194,
-    "key_words": [
-      {
-        "word": "突然",
-        "part_of_speech": "ADV"
-      },
-      {
-        "word": "离开",
-        "part_of_speech": "V"
-      }
-    ],
-    "unknown_words": [
-      {
-        "word": "小红帽",
-        "pos": "PN",
-        "level": null
-      },
-      {
-        "word": "要",
-        "pos": "V",
-        "level": null
-      },
-      {
-        "word": "去看",
-        "pos": "V",
-        "level": null
-      },
-      {
-        "word": "奶奶",
-        "pos": "N",
-        "level": 129
-      },
-      {
-        "word": "说",
-        "pos": "V",
-        "level": null
-      },
-      {
-        "word": "离开",
-        "pos": "V",
-        "level": 100
-      },
-      {
-        "word": "大路",
-        "pos": "N",
-        "level": null
-      },
-      {
-        "word": "路",
-        "pos": "N",
-        "level": null
-      },
-      {
-        "word": "突然",
-        "pos": "ADV",
-        "level": 100
-      },
-      {
-        "word": "到",
-        "pos": "V",
-        "level": null
-      },
-      {
-        "word": "狼",
-        "pos": "N",
-        "level": null
-      }
-    ],
-    "created_at": "2025-03-04T06:30:13.254914+00:00"
-  },
-  {
-    "story_id": "b3991e2e-fd75-4410-8258-d863cf6df73f",
-    "title": "小红帽的故事",
-    "content": "小红帽(PN) |要(V) |去(V) |奶奶(N) |家(N) |。|她(PRON) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |小心(ADJ) |！|”|小红帽(PN) |说(V) |：“|好(ADJ) |的(AUX) |，|妈妈(N) |。|”|她(PRON) |离开(V) |了(AUX) |家(N) |。|在(PREP) |去(V) |奶奶(N) |家(N) |的(AUX) |路(N) |上(PREP) |，|她(PRON) |突然(ADV) |看(V) |到(V) |了(AUX) |狼(N) |。",
-    "vocabulary_level": 100,
-    "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
-    "scene_name": "童话故事-小红帽",
-    "word_count": 34,
-    "new_word_rate": 0.29411764705882354,
-    "key_words": [
-      {
-        "word": "突然",
-        "part_of_speech": "ADV"
-      },
-      {
-        "word": "离开",
-        "part_of_speech": "V"
-      }
-    ],
-    "unknown_words": [
-      {
-        "word": "小红帽",
-        "pos": "PN",
-        "level": null
-      },
-      {
-        "word": "要",
-        "pos": "V",
-        "level": null
-      },
-      {
-        "word": "奶奶",
-        "pos": "N",
-        "level": 129
-      },
-      {
-        "word": "家",
-        "pos": "N",
-        "level": null
-      },
-      {
-        "word": "说",
-        "pos": "V",
-        "level": null
-      },
-      {
-        "word": "离开",
-        "pos": "V",
-        "level": 100
-      },
-      {
-        "word": "路",
-        "pos": "N",
-        "level": null
-      },
-      {
-        "word": "突然",
-        "pos": "ADV",
-        "level": 100
-      },
-      {
-        "word": "到",
-        "pos": "V",
-        "level": null
-      },
-      {
-        "word": "狼",
-        "pos": "N",
-        "level": null
-      }
-    ],
-    "created_at": "2025-03-04T06:32:07.230106+00:00"
-  },
-  {
-    "story_id": "16d739d2-18da-4028-b2ea-c48ff45b4aee",
-    "title": "小红帽的故事",
-    "content": "小红帽(PN) |要(V) |去(V) |看(V) |奶奶(N) |，|她(PRON) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |小心(ADJ) |。”|小红帽(PN) |离开(V) |家(N) |以后(N) |，|在(PREP) |森林(N) |里(PREP) |，|突然(ADV) |，|她(PRON) |看(V) |见(V) |了(AUX) |狼(N) |。",
-    "vocabulary_level": 100,
-    "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
-    "scene_name": "童话故事-小红帽",
-    "word_count": 25,
-    "new_word_rate": 0.44,
-    "key_words": [
-      {
-        "word": "突然",
-        "part_of_speech": "ADV"
-      },
-      {
-        "word": "离开",
-        "part_of_speech": "V"
-      }
-    ],
-    "unknown_words": [
-      {
-        "word": "小红帽",
-        "pos": "专有名词",
-        "level": null
-      },
-      {
-        "word": "要",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "奶奶",
-        "pos": "名词",
-        "level": 129
-      },
-      {
-        "word": "说",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "离开",
-        "pos": "动词",
-        "level": 100
-      },
-      {
-        "word": "家",
-        "pos": "名词",
-        "level": null
-      },
-      {
-        "word": "森林",
-        "pos": "名词",
-        "level": 312
-      },
-      {
-        "word": "里",
-        "pos": "介词",
-        "level": 313
-      },
-      {
-        "word": "突然",
-        "pos": "副词",
-        "level": 100
-      },
-      {
-        "word": "见",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "狼",
-        "pos": "名词",
-        "level": null
-      }
-    ],
-    "created_at": "2025-03-04T07:13:12.135315+00:00"
-  },
-  {
-    "story_id": "fc0dc419-1b78-4951-a854-3fb03fdca6c0",
-    "title": "三只小猪盖房子",
-    "content": "有(V) |三(NUM) |只(QTY) |小(ADJ) |猪(N) |，|他们(PRON) |想(V) |要(V) |离开(V) |家(N) |。|他们(PRON) |要(V) |自己(PRON) |盖(V) |房子(N) |。|突然(ADV) |，|来(V) |了(AUX) |一(NUM) |只(QTY) |大(ADJ) |狼(N) |。|大(ADJ) |狼(N) |说(V) |：“|我(PRON) |要(V) |吃(V) |掉(V) |你(PRON) |们(PRON) |！|”",
-    "vocabulary_level": 100,
-    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcby",
-    "scene_name": "童话故事-三只小猪",
-    "word_count": 31,
-    "new_word_rate": 0.3870967741935484,
-    "key_words": [
-      {
-        "word": "突然",
-        "part_of_speech": "ADV"
-      },
-      {
-        "word": "离开",
-        "part_of_speech": "V"
-      }
-    ],
-    "unknown_words": [
-      {
-        "word": "有",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "猪",
-        "pos": "名词",
-        "level": null
-      },
-      {
-        "word": "要",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "离开",
-        "pos": "动词",
-        "level": 100
-      },
-      {
-        "word": "家",
-        "pos": "名词",
-        "level": null
-      },
-      {
-        "word": "自己",
-        "pos": "代词",
-        "level": 126
-      },
-      {
-        "word": "盖",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "房子",
-        "pos": "名词",
-        "level": null
-      },
-      {
-        "word": "突然",
-        "pos": "副词",
-        "level": 100
-      },
-      {
-        "word": "狼",
-        "pos": "名词",
-        "level": null
-      },
-      {
-        "word": "说",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "掉",
-        "pos": "动词",
-        "level": null
-      }
-    ],
-    "created_at": "2025-03-04T08:42:34.731343+00:00"
-  },
-  {
-    "story_id": "b1e6bec2-9cef-4729-a744-c079c7f45a3f",
-    "title": "灰姑娘的舞会",
-    "content": "灰姑娘(PN) |很(ADV) |想(V) |去(V) |参加(V) |舞会(N) |，|可是(CONJ) |她(PRON) |的(AUX) |姐姐(N) |们(QTY) |不(ADV) |让(V) |她(PRON) |去(V) |。|她们(PRON) |说(V) |：“|你(PRON) |要(AUX) |做(V) |很多(ADJ) |事(N) |，|不能(AUX) |去(V) |玩(V) |。”|灰姑娘(PN) |很(ADV) |难过(ADJ) |。|突然(ADV) |，|一(NUM) |个(QTY) |好(ADJ) |朋友(N) |出现(V) |了(AUX) |，|她(PRON) |要(AUX) |离开(V) |这里(PRON) |。",
-    "vocabulary_level": 100,
-    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbx",
-    "scene_name": "童话故事-灰姑娘",
-    "word_count": 39,
-    "new_word_rate": 0.38461538461538464,
-    "key_words": [
-      {
-        "word": "突然",
-        "part_of_speech": "ADV"
-      },
-      {
-        "word": "离开",
-        "part_of_speech": "V"
-      }
-    ],
-    "unknown_words": [
-      {
-        "word": "灰姑娘",
-        "pos": "专有名词",
-        "level": null
-      },
-      {
-        "word": "参加",
-        "pos": "动词",
-        "level": 115
-      },
-      {
-        "word": "舞会",
-        "pos": "名词",
-        "level": null
-      },
-      {
-        "word": "可是",
-        "pos": "连词",
-        "level": 241
-      },
-      {
-        "word": "让",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "她们",
-        "pos": "代词",
-        "level": null
-      },
-      {
-        "word": "说",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "要",
-        "pos": "助词",
-        "level": null
-      },
-      {
-        "word": "很多",
-        "pos": "形容词",
-        "level": null
-      },
-      {
-        "word": "事",
-        "pos": "名词",
-        "level": null
-      },
-      {
-        "word": "难过",
-        "pos": "形容词",
-        "level": 160
-      },
-      {
-        "word": "突然",
-        "pos": "副词",
-        "level": 100
-      },
-      {
-        "word": "出现",
-        "pos": "动词",
-        "level": 222
-      },
-      {
-        "word": "离开",
-        "pos": "动词",
-        "level": 100
-      },
-      {
-        "word": "这里",
-        "pos": "代词",
-        "level": null
-      }
-    ],
-    "created_at": "2025-03-04T08:44:20.497690+00:00"
-  },
-  {
-    "story_id": "6a4700e9-492a-401e-8138-a5b9090ef50d",
-    "title": "青蛙王子的故事",
-    "content": "从前(ADV) |，|有(V) |一个(NUM) |小(ADJ) |公主(N) |很(ADV) |喜欢(V) |玩(V) |。|一天(N) |，|她(PRON) |在(PREP) |水边(N) |玩(V) |，|不小心(ADV) |把(PREP) |金球(N) |掉(V) |进(V) |了(AUX) |水(N) |里(PREP) |。|她(PRON) |很(ADV) |着急(ADJ) |。|突然(ADV) |，|一只(QTY) |青蛙(N) |叫(V) |了(AUX) |起来(V) |。|公主(N) |很(ADV) |害怕(ADJ) |，|想(V) |离开(V) |。",
-    "vocabulary_level": 100,
-    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbw",
-    "scene_name": "神话故事-三打白骨精",
-    "word_count": 35,
-    "new_word_rate": 0.42857142857142855,
-    "key_words": [
-      {
-        "word": "突然",
-        "part_of_speech": "ADV"
-      },
-      {
-        "word": "离开",
-        "part_of_speech": "V"
-      }
-    ],
-    "unknown_words": [
-      {
-        "word": "从前",
-        "pos": "副词",
-        "level": null
-      },
-      {
-        "word": "有",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "公主",
-        "pos": "名词",
-        "level": null
-      },
-      {
-        "word": "一天",
-        "pos": "名词",
-        "level": null
-      },
-      {
-        "word": "水边",
-        "pos": "名词",
-        "level": null
-      },
-      {
-        "word": "不小心",
-        "pos": "副词",
-        "level": null
-      },
-      {
-        "word": "金球",
-        "pos": "名词",
-        "level": null
-      },
-      {
-        "word": "掉",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "里",
-        "pos": "介词",
-        "level": 313
-      },
-      {
-        "word": "突然",
-        "pos": "副词",
-        "level": 100
-      },
-      {
-        "word": "一只",
-        "pos": "量词",
-        "level": 153
-      },
-      {
-        "word": "青蛙",
-        "pos": "名词",
-        "level": null
-      },
-      {
-        "word": "起来",
-        "pos": "动词",
-        "level": 131
-      },
-      {
-        "word": "害怕",
-        "pos": "形容词",
-        "level": 108
-      },
-      {
-        "word": "离开",
-        "pos": "动词",
-        "level": 100
-      }
-    ],
-    "created_at": "2025-03-04T08:48:08.161707+00:00"
-  },
-  {
-    "story_id": "dee43b41-1d3a-44b4-b7a9-4bbf5eec4fac",
-    "title": "孙悟空三打白骨精",
-    "content": "白骨精(PN) |想(V) |吃(V) |人(N) |，|她(PRON) |来(V) |到(V) |了(AUX) |山(N) |下(N) |。|她(PRON) |变(V) |成(V) |一个(NUM) |女人(N) |，|给(V) |唐僧(PN) |送(V) |饭(N) |。|孙悟空(PN) |突然(ADV) |看(V) |见(V) |，|知道(V) |是(V) |妖怪(N) |，|就(ADV) |打(V) |她(PRON) |。|唐僧(PN) |很(ADV) |生气(ADJ) |，| 孙悟空(PN) | 离开(V) |了(AUX) |。",
-    "vocabulary_level": 100,
-    "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbw",
-    "scene_name": "神话故事-孙悟空三打白骨精",
-    "word_count": 35,
-    "new_word_rate": 0.37142857142857144,
-    "key_words": [
-      {
-        "word": "突然",
-        "part_of_speech": "ADV"
-      },
-      {
-        "word": "离开",
-        "part_of_speech": "V"
-      }
-    ],
-    "unknown_words": [
-      {
-        "word": "白骨精",
-        "pos": "专有名词",
-        "level": null
-      },
-      {
-        "word": "到",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "变",
-        "pos": "动词",
-        "level": 111
-      },
-      {
-        "word": "成",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "给",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "唐僧",
-        "pos": "专有名词",
-        "level": null
-      },
-      {
-        "word": "饭",
-        "pos": "名词",
-        "level": null
-      },
-      {
-        "word": "孙悟空",
-        "pos": "专有名词",
-        "level": null
-      },
-      {
-        "word": "突然",
-        "pos": "副词",
-        "level": 100
-      },
-      {
-        "word": "见",
-        "pos": "动词",
-        "level": null
-      },
-      {
-        "word": "妖怪",
-        "pos": "名词",
-        "level": null
-      },
-      {
-        "word": "生气",
-        "pos": "形容词",
-        "level": null
-      },
-      {
-        "word": "离开",
-        "pos": "动词",
-        "level": 100
-      }
-    ],
-    "created_at": "2025-03-04T08:50:16.068778+00:00"
-  }
+    {
+        "story_id": "f457e3fa-0346-48dd-a511-0464c9972625",
+        "title": "请问怎么走？",
+        "content": "你好(PHR) |，|请问(V) |，|去(V) |学校(N) |怎么(PRON) |走(V) |？|我(PRON) |不(ADV) |知道(V) |。|你(PRON) |可以(ADJ) |告诉(V) |我(PRON) |吗(AUX) |？|从(PREP) |这儿(ADV) |去(V) |，|很(ADV) |远(ADJ) |吗(AUX) |？|谢谢(PHR) |你(PRON) |！",
+        "vocabulary_level": 58,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+        "scene_name": "问路",
+        "word_count": 22,
+        "new_word_rate": 0.8181818181818182,
+        "key_words": [],
+        "unknown_words": [
+            {
+                "word": "你好",
+                "pos": "PHR",
+                "level": 1
+            },
+            {
+                "word": "请问",
+                "pos": "V",
+                "level": 15
+            },
+            {
+                "word": "去",
+                "pos": "V",
+                "level": 16
+            },
+            {
+                "word": "学校",
+                "pos": "N",
+                "level": 16
+            },
+            {
+                "word": "怎么",
+                "pos": "PRON",
+                "level": 14
+            },
+            {
+                "word": "走",
+                "pos": "V",
+                "level": 58
+            },
+            {
+                "word": "我",
+                "pos": "PRON",
+                "level": 6
+            },
+            {
+                "word": "不",
+                "pos": "ADV",
+                "level": 1
+            },
+            {
+                "word": "知道",
+                "pos": "V",
+                "level": 41
+            },
+            {
+                "word": "你",
+                "pos": "PRON",
+                "level": 1
+            },
+            {
+                "word": "可以",
+                "pos": "ADJ",
+                "level": 50
+            },
+            {
+                "word": "告诉",
+                "pos": "V",
+                "level": 59
+            },
+            {
+                "word": "吗",
+                "pos": "AUX",
+                "level": 6
+            },
+            {
+                "word": "从",
+                "pos": "PREP",
+                "level": 61
+            },
+            {
+                "word": "这儿",
+                "pos": "ADV",
+                "level": 23
+            },
+            {
+                "word": "很",
+                "pos": "ADV",
+                "level": 13
+            },
+            {
+                "word": "远",
+                "pos": "ADJ",
+                "level": null
+            },
+            {
+                "word": "谢谢",
+                "pos": "PHR",
+                "level": 3
+            }
+        ],
+        "created_at": "2025-03-04T03:33:50.871105+00:00"
+    },
+    {
+        "story_id": "2c602ecd-fd51-4677-869e-6fe56d428e89",
+        "title": "请问路",
+        "content": "请问(V)，|去(V) |火车站(N) |怎么(PRON) |走(V) |？|我(PRON) |不(ADV) |知道(V) |。|你(PRON) |一直(ADV) |往前(ADV) |走(V) |，|到(V) |了(AUX) |路口(N) |，|然后(CONJ) |往(PREP) |左(N) |拐(V)，|你(PRON) |会(V) |看见(V) |它(PRON) |。|但是(CONJ) |，|如果(CONJ) |你(PRON) |走(V) |错(ADJ) |了(AUX) |，|就(ADV) |会(V) |突然(ADV) |发现(V) |你(PRON) |已经(ADV) |离开(V) |了(AUX) |。",
+        "vocabulary_level": 100,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+        "scene_name": "问路",
+        "word_count": 37,
+        "new_word_rate": 0.7837837837837838,
+        "key_words": [
+            {
+                "word": "突然",
+                "part_of_speech": "ADV"
+            },
+            {
+                "word": "离开",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "请问",
+                "pos": "V，",
+                "level": 15
+            },
+            {
+                "word": "去",
+                "pos": "V",
+                "level": 16
+            },
+            {
+                "word": "火车站",
+                "pos": "N",
+                "level": 76
+            },
+            {
+                "word": "怎么",
+                "pos": "PRON",
+                "level": 14
+            },
+            {
+                "word": "走",
+                "pos": "V",
+                "level": 58
+            },
+            {
+                "word": "我",
+                "pos": "PRON",
+                "level": 6
+            },
+            {
+                "word": "不",
+                "pos": "ADV",
+                "level": 1
+            },
+            {
+                "word": "知道",
+                "pos": "V",
+                "level": 41
+            },
+            {
+                "word": "你",
+                "pos": "PRON",
+                "level": 1
+            },
+            {
+                "word": "一直",
+                "pos": "ADV",
+                "level": 73
+            },
+            {
+                "word": "往前",
+                "pos": "ADV",
+                "level": 73
+            },
+            {
+                "word": "到",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "了",
+                "pos": "AUX",
+                "level": 11
+            },
+            {
+                "word": "路口",
+                "pos": "N",
+                "level": 73
+            },
+            {
+                "word": "然后",
+                "pos": "CONJ",
+                "level": 133
+            },
+            {
+                "word": "往",
+                "pos": "PREP",
+                "level": 73
+            },
+            {
+                "word": "左",
+                "pos": "N",
+                "level": 45
+            },
+            {
+                "word": "拐",
+                "pos": "V，",
+                "level": null
+            },
+            {
+                "word": "会",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "看见",
+                "pos": "V",
+                "level": 32
+            },
+            {
+                "word": "它",
+                "pos": "PRON",
+                "level": 39
+            },
+            {
+                "word": "但是",
+                "pos": "CONJ",
+                "level": 74
+            },
+            {
+                "word": "如果",
+                "pos": "CONJ",
+                "level": 144
+            },
+            {
+                "word": "错",
+                "pos": "ADJ",
+                "level": 50
+            },
+            {
+                "word": "就",
+                "pos": "ADV",
+                "level": 49
+            },
+            {
+                "word": "突然",
+                "pos": "ADV",
+                "level": 100
+            },
+            {
+                "word": "发现",
+                "pos": "V",
+                "level": 126
+            },
+            {
+                "word": "已经",
+                "pos": "ADV",
+                "level": 47
+            },
+            {
+                "word": "离开",
+                "pos": "V",
+                "level": 100
+            }
+        ],
+        "created_at": "2025-03-04T04:17:13.633392+00:00"
+    },
+    {
+        "story_id": "17be1d79-006f-4d67-b049-00d43d7522a7",
+        "title": "问路",
+        "content": "请问(V)，|去(V) |火车站(N) |怎么(PRON) |走(V) |？|我(PRON) |不(ADV) |知道(V) |路(N) |，|我(PRON) |想(V) |去(V) |火车站(N) |。|你(PRON) |可以(ADJ) |告诉(V) |我(PRON) |吗(AUX) |？|谢谢(PHR) |！| 突然(ADV)，|一(NUM) |个(QTY) |人(N) |走(V) |过来(V)，|他(PRON) |要(V) |离开(V) |这里(PRON)。",
+        "vocabulary_level": 100,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+        "scene_name": "问路",
+        "word_count": 29,
+        "new_word_rate": 0.8275862068965517,
+        "key_words": [
+            {
+                "word": "突然",
+                "part_of_speech": "ADV"
+            },
+            {
+                "word": "离开",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "请问",
+                "pos": "V，",
+                "level": 15
+            },
+            {
+                "word": "去",
+                "pos": "V",
+                "level": 16
+            },
+            {
+                "word": "火车站",
+                "pos": "N",
+                "level": 76
+            },
+            {
+                "word": "怎么",
+                "pos": "PRON",
+                "level": 14
+            },
+            {
+                "word": "走",
+                "pos": "V",
+                "level": 58
+            },
+            {
+                "word": "我",
+                "pos": "PRON",
+                "level": 6
+            },
+            {
+                "word": "不",
+                "pos": "ADV",
+                "level": 1
+            },
+            {
+                "word": "知道",
+                "pos": "V",
+                "level": 41
+            },
+            {
+                "word": "路",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "想",
+                "pos": "V",
+                "level": 17
+            },
+            {
+                "word": "你",
+                "pos": "PRON",
+                "level": 1
+            },
+            {
+                "word": "可以",
+                "pos": "ADJ",
+                "level": 50
+            },
+            {
+                "word": "告诉",
+                "pos": "V",
+                "level": 59
+            },
+            {
+                "word": "吗",
+                "pos": "AUX",
+                "level": 6
+            },
+            {
+                "word": "谢谢",
+                "pos": "PHR",
+                "level": 3
+            },
+            {
+                "word": "突然",
+                "pos": "ADV，",
+                "level": 100
+            },
+            {
+                "word": "一",
+                "pos": "NUM",
+                "level": 2
+            },
+            {
+                "word": "个",
+                "pos": "QTY",
+                "level": 11
+            },
+            {
+                "word": "人",
+                "pos": "N",
+                "level": 6
+            },
+            {
+                "word": "过来",
+                "pos": "V，",
+                "level": null
+            },
+            {
+                "word": "他",
+                "pos": "PRON",
+                "level": 9
+            },
+            {
+                "word": "要",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "离开",
+                "pos": "V",
+                "level": 100
+            },
+            {
+                "word": "这里",
+                "pos": "PRON。",
+                "level": null
+            }
+        ],
+        "created_at": "2025-03-04T04:18:21.029086+00:00"
+    },
+    {
+        "story_id": "17aeb8c4-ff7c-4bb7-9735-e71dbcbcfbfc",
+        "title": "请问怎么走？",
+        "content": "你好(PHR) |，|请问(V) |，|去(V) |火车站(N) |怎么(PRON) |走(V) |？|我(PRON) |不(ADV) |知道(V) |。|你(PRON) |可以(ADJ) |告诉(V) |我(PRON) |吗(AUX) |？|谢谢(PHR) |！|前面(N) |一直(ADV) |走(V) |，|然后(CONJ) |往(PREP) |左(N) |拐(V), |你(PRON) |会(V) |看见(V) |一个(NUM) |商店(N)。|**突然(ADV)** |，|你(PRON) |的(AUX) |朋友(N) |**离开(V)** |了(AUX) |。",
+        "vocabulary_level": 100,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+        "scene_name": "问路",
+        "word_count": 33,
+        "new_word_rate": 0.15151515151515152,
+        "key_words": [
+            {
+                "word": "突然",
+                "part_of_speech": "ADV"
+            },
+            {
+                "word": "离开",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "然后",
+                "pos": "CONJ",
+                "level": 133
+            },
+            {
+                "word": "拐",
+                "pos": "V,",
+                "level": null
+            },
+            {
+                "word": "会",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "**突然",
+                "pos": "ADV**",
+                "level": null
+            },
+            {
+                "word": "**离开",
+                "pos": "V**",
+                "level": null
+            }
+        ],
+        "created_at": "2025-03-04T04:30:03.712653+00:00"
+    },
+    {
+        "story_id": "d0fbbac7-df27-4ea8-8a0e-ee846b9c89a1",
+        "title": "问路",
+        "content": "请问(V) |，|去(V) |火车站(N) |怎么(PRON) |走(V) |？|我(PRON) |突然(ADV) |想(V) |离开(V) |这里(PRON) |，|但是(CONJ) |不(ADV) |知道(V) |路(N) |。|你(PRON) |可以(AUX) |告诉(V) |我(PRON) |吗(AUX) |？|谢谢(V) |！",
+        "vocabulary_level": 100,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+        "scene_name": "问路",
+        "word_count": 20,
+        "new_word_rate": 0.2,
+        "key_words": [
+            {
+                "word": "突然",
+                "part_of_speech": "ADV"
+            },
+            {
+                "word": "离开",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "突然",
+                "pos": "副词",
+                "level": 100
+            },
+            {
+                "word": "离开",
+                "pos": "动词",
+                "level": 100
+            },
+            {
+                "word": "这里",
+                "pos": "代词",
+                "level": null
+            },
+            {
+                "word": "路",
+                "pos": "名词",
+                "level": null
+            }
+        ],
+        "created_at": "2025-03-04T04:39:15.615930+00:00"
+    },
+    {
+        "story_id": "0318998d-e54a-47f4-ac5f-747038707b68",
+        "title": "问路",
+        "content": "请问(V)，|去(V) |火车站(N) |怎么(PRON) |走(V) |？|我(PRON) |不(ADV) |知道(V) |。|你(PRON) |一直(ADV) |往前(ADV) |走(V) |，|然后(CONJ) |在(PREP) |第二(NUM) |个(QTY) |路口(N) |往(PREP) |左(方位词) |拐(V) |。|你(PRON) |会(AUX) |看见(V) |一个(NUM) |商店(N) |，|商店(N) |的(AUX) |前面(N)，|你(PRON) |会(AUX) |突然(ADV) |看见(V) |火车站(N) |，|我(PRON) |需要(V) |现在(N) |离开(V) |这里(PRON) |了(AUX)。",
+        "vocabulary_level": 100,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+        "scene_name": "问路",
+        "word_count": 39,
+        "new_word_rate": 0.20512820512820512,
+        "key_words": [
+            {
+                "word": "突然",
+                "part_of_speech": "ADV"
+            },
+            {
+                "word": "离开",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "然后",
+                "pos": "连词",
+                "level": 133
+            },
+            {
+                "word": "第二",
+                "pos": "数字",
+                "level": null
+            },
+            {
+                "word": "拐",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "会",
+                "pos": "助词",
+                "level": null
+            },
+            {
+                "word": "突然",
+                "pos": "副词",
+                "level": 100
+            },
+            {
+                "word": "需要",
+                "pos": "动词",
+                "level": 128
+            },
+            {
+                "word": "离开",
+                "pos": "动词",
+                "level": 100
+            },
+            {
+                "word": "这里",
+                "pos": "代词",
+                "level": null
+            }
+        ],
+        "created_at": "2025-03-04T04:41:43.223058+00:00"
+    },
+    {
+        "story_id": "ba04ee40-0c4d-43ff-a0f7-0f1f4e38006c",
+        "title": "请问怎么走",
+        "content": "你(PRON) |好(ADJ) |，|请问(V) |，|去(V) |火车站(N) |怎么(PRON) |走(V) |？|我(PRON) |不(ADV) |知道(V) |。|啊(INT) |，|我(PRON) |也(ADV) |不(ADV) |知道(V) |。|你(PRON) |们(PRON) |是(V) |新(ADJ) |来(V) |的(AUX) |吗(AUX) |？|是的(ADJ) |。|突然(ADV) |，|一(NUM) |个(QTY) |朋友(N) |离开(V) |了(AUX) |。",
+        "vocabulary_level": 100,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+        "scene_name": "问路",
+        "word_count": 29,
+        "new_word_rate": 0.10344827586206896,
+        "key_words": [
+            {
+                "word": "突然",
+                "part_of_speech": "ADV"
+            },
+            {
+                "word": "离开",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "是的",
+                "pos": "形容词",
+                "level": null
+            },
+            {
+                "word": "突然",
+                "pos": "副词",
+                "level": 100
+            },
+            {
+                "word": "离开",
+                "pos": "动词",
+                "level": 100
+            }
+        ],
+        "created_at": "2025-03-04T04:49:39.250801+00:00"
+    },
+    {
+        "story_id": "8319378b-08b3-404d-830b-476423a002b1",
+        "title": "点餐的时候",
+        "content": "服务员(N)，|你好(PHR)！|我(PRON) |想(V) |吃(V) |米饭(N)。|你(PRON) |们(AUX) |有(V) |什么(PRON) |好(ADJ) |吃(V) |的(AUX)？|啊(INT)，|突然(ADV) |想(V) |起来(V) |我(PRON) |要(V) |离开(V) |一下(PREP)。|我(PRON) |朋友(N) |很(ADV) |快(ADJ) |就(ADV) |来(V) |了(AUX)。",
+        "vocabulary_level": 100,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbc",
+        "scene_name": "点餐",
+        "word_count": 28,
+        "new_word_rate": 0.17857142857142858,
+        "key_words": [
+            {
+                "word": "突然",
+                "part_of_speech": "ADV"
+            },
+            {
+                "word": "离开",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "有",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "突然",
+                "pos": "副词",
+                "level": 100
+            },
+            {
+                "word": "起来",
+                "pos": "动词",
+                "level": 131
+            },
+            {
+                "word": "要",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "离开",
+                "pos": "动词",
+                "level": 100
+            }
+        ],
+        "created_at": "2025-03-04T04:52:16.927477+00:00"
+    },
+    {
+        "story_id": "8ceec53b-89dc-46e8-b50e-f12d4542cc30",
+        "title": "小红帽和狼",
+        "content": "小红帽(PN) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |去(V) |看(V) |奶奶(N) |。|”|小红帽(PN) |离开(V) |家(N) |，|走(V) |在(PREP) |去(V) |奶奶(N) |家(N) |的(AUX) |路(N) |上(PREP) |。|突然(ADV) |，|一(NUM) |只(QTY) |狼(N) |来(V) |了(AUX) |。|狼(N) |问(V) |：“|你(PRON) |去(V) |哪儿(PRON) |？|”",
+        "vocabulary_level": 100,
+        "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
+        "scene_name": "童话故事-小红帽",
+        "word_count": 33,
+        "new_word_rate": 0.3333333333333333,
+        "key_words": [
+            {
+                "word": "突然",
+                "part_of_speech": "ADV"
+            },
+            {
+                "word": "离开",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "小红帽",
+                "pos": "专有名词",
+                "level": null
+            },
+            {
+                "word": "说",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "：“",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "要",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "奶奶",
+                "pos": "名词",
+                "level": 129
+            },
+            {
+                "word": "离开",
+                "pos": "动词",
+                "level": 100
+            },
+            {
+                "word": "家",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "路",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "突然",
+                "pos": "副词",
+                "level": 100
+            },
+            {
+                "word": "狼",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "哪儿",
+                "pos": "代词",
+                "level": null
+            }
+        ],
+        "created_at": "2025-03-04T06:12:02.902198+00:00"
+    },
+    {
+        "story_id": "689a67b5-8b54-4280-a1f7-e635e3d91a8d",
+        "title": "小红帽的故事",
+        "content": "小红帽(PN) |要(V) |去(V) |看(V) |奶奶(N) |，|她(PRON) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |小心(ADJ) |。”|小红帽(PN) |离开(V) |家(N) |以后(N) |，|在(PREP) |森林(N) |里(PREP) |，|突然(ADV) |，|她(PRON) |看(V) |到(V) |了(AUX) |一(NUM) |只(QTY) |狼(N) |。",
+        "vocabulary_level": 100,
+        "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
+        "scene_name": "童话故事-小红帽",
+        "word_count": 0,
+        "new_word_rate": 0.0,
+        "key_words": [
+            {
+                "word": "突然",
+                "part_of_speech": "ADV"
+            },
+            {
+                "word": "离开",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [],
+        "created_at": "2025-03-04T06:18:03.163268+00:00"
+    },
+    {
+        "story_id": "d7844faa-3e0d-4f7a-8348-6269a989afa2",
+        "title": "小红帽的故事",
+        "content": "小红帽(PN) |要(V) |去看(V) |奶奶(N) |。|她(PRON) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |小心(ADJ) |，|不要(ADV) ||离开(V) |大路(N) |。”|小红帽(PN) |说(V) |：“|好(ADJ) |的(AUX) |，|妈妈(N) |。|”|她(PRON) |走(V) |在(PREP) |路(N) |上(PREP) |，|突然(ADV) |，|她(PRON) |看(V) |到(V) |了(AUX) |一(NUM) |只(QTY) |狼(N) |。",
+        "vocabulary_level": 100,
+        "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
+        "scene_name": "童话故事-小红帽",
+        "word_count": 64,
+        "new_word_rate": 0.328125,
+        "key_words": [
+            {
+                "word": "突然",
+                "part_of_speech": "ADV"
+            },
+            {
+                "word": "离开",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "小红帽",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "pn",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "要",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "v",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "去看",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "奶奶",
+                "pos": "UNKNOWN",
+                "level": 129
+            },
+            {
+                "word": "n",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "pron",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "aux",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "说",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "adj",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "adv",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "离开",
+                "pos": "UNKNOWN",
+                "level": 100
+            },
+            {
+                "word": "大路",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "prep",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "路",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "突然",
+                "pos": "UNKNOWN",
+                "level": 100
+            },
+            {
+                "word": "到",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "num",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "qty",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "狼",
+                "pos": "UNKNOWN",
+                "level": null
+            }
+        ],
+        "created_at": "2025-03-04T06:20:38.274109+00:00"
+    },
+    {
+        "story_id": "12856cda-7521-47f8-b8ec-f0b4b8888d67",
+        "title": "小红帽的故事",
+        "content": "小红帽(PN) |要(V) |去看(V) |奶奶(N) |，|她(PRON) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |小心(ADJ) |。”|小红帽(PN) |说(V) |：“|好(ADJ) |的(AUX) |，|妈妈(N) |。|”|她(PRON) |离开(V) |了(AUX) |家(N) |。|在(PREP) |去(V) |奶奶(N) |家(N) |的(AUX) |路(N) |上(PREP) |，|她(PRON) |突然(ADV) |看见(V) |了(AUX) |狼(N) |。",
+        "vocabulary_level": 100,
+        "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
+        "scene_name": "童话故事-小红帽",
+        "word_count": 64,
+        "new_word_rate": 0.28125,
+        "key_words": [
+            {
+                "word": "突然",
+                "part_of_speech": "ADV"
+            },
+            {
+                "word": "离开",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "小红帽",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "pn",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "要",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "v",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "去看",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "奶奶",
+                "pos": "UNKNOWN",
+                "level": 129
+            },
+            {
+                "word": "n",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "pron",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "aux",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "说",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "adj",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "离开",
+                "pos": "UNKNOWN",
+                "level": 100
+            },
+            {
+                "word": "家",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "prep",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "路",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "突然",
+                "pos": "UNKNOWN",
+                "level": 100
+            },
+            {
+                "word": "adv",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "狼",
+                "pos": "UNKNOWN",
+                "level": null
+            }
+        ],
+        "created_at": "2025-03-04T06:22:38.057919+00:00"
+    },
+    {
+        "story_id": "ab02f521-f4b6-4bc4-9508-32fe7085b059",
+        "title": "小红帽的故事",
+        "content": "小红帽(PN) |要(V) |去(V) |看(V) |奶奶(N) |，|她(PRON) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |小心(ADJ) |！|”|小红帽(PN) |离开(V) |了(AUX) |家(N) |。|在(PREP) |去(V) |奶奶(N) |家(N) |的(AUX) |路(N) |上(PREP) |，|她(PRON) |突然(ADV) |看(V) |到(V) |了(AUX) |一(NUM) |只(QTY) |狼(N) |。",
+        "vocabulary_level": 100,
+        "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
+        "scene_name": "童话故事-小红帽",
+        "word_count": 37,
+        "new_word_rate": 0.40540540540540543,
+        "key_words": [
+            {
+                "word": "突然",
+                "part_of_speech": "ADV"
+            },
+            {
+                "word": "离开",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "小红帽",
+                "pos": "专有名词",
+                "level": null
+            },
+            {
+                "word": "要",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "奶奶",
+                "pos": "名词",
+                "level": 129
+            },
+            {
+                "word": "|，|",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "说",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "|：“|",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "|！|”|",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "离开",
+                "pos": "动词",
+                "level": 100
+            },
+            {
+                "word": "家",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "|。|",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "路",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "突然",
+                "pos": "副词",
+                "level": 100
+            },
+            {
+                "word": "到",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "狼",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "|。",
+                "pos": "UNKNOWN",
+                "level": null
+            }
+        ],
+        "created_at": "2025-03-04T06:24:11.829682+00:00"
+    },
+    {
+        "story_id": "dd9098b3-99ae-4111-8939-c616328805fc",
+        "title": "小红帽的故事",
+        "content": "小红帽(PN) |要(V) |去看(V) |奶奶(N) |。|她(PRON) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |小心(ADJ) |！|不要(ADV) ||离开(V) |大路(N) |。|”|小红帽(PN) |说(V) |：“|好(ADJ) |的(AUX) |，|妈妈(N) |。|”|她(PRON) |走(V) |在(PREP) |路(N) |上(PREP) |，| |突然(ADV) |，|她(PRON) |看(V) |到(V) |一(NUM) |只(QTY) |狼(N) |。",
+        "vocabulary_level": 100,
+        "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
+        "scene_name": "童话故事-小红帽",
+        "word_count": 31,
+        "new_word_rate": 0.3548387096774194,
+        "key_words": [
+            {
+                "word": "突然",
+                "part_of_speech": "ADV"
+            },
+            {
+                "word": "离开",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "小红帽",
+                "pos": "PN",
+                "level": null
+            },
+            {
+                "word": "要",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "去看",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "奶奶",
+                "pos": "N",
+                "level": 129
+            },
+            {
+                "word": "说",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "离开",
+                "pos": "V",
+                "level": 100
+            },
+            {
+                "word": "大路",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "路",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "突然",
+                "pos": "ADV",
+                "level": 100
+            },
+            {
+                "word": "到",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "狼",
+                "pos": "N",
+                "level": null
+            }
+        ],
+        "created_at": "2025-03-04T06:30:13.254914+00:00"
+    },
+    {
+        "story_id": "b3991e2e-fd75-4410-8258-d863cf6df73f",
+        "title": "小红帽的故事",
+        "content": "小红帽(PN) |要(V) |去(V) |奶奶(N) |家(N) |。|她(PRON) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |小心(ADJ) |！|”|小红帽(PN) |说(V) |：“|好(ADJ) |的(AUX) |，|妈妈(N) |。|”|她(PRON) |离开(V) |了(AUX) |家(N) |。|在(PREP) |去(V) |奶奶(N) |家(N) |的(AUX) |路(N) |上(PREP) |，|她(PRON) |突然(ADV) |看(V) |到(V) |了(AUX) |狼(N) |。",
+        "vocabulary_level": 100,
+        "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
+        "scene_name": "童话故事-小红帽",
+        "word_count": 34,
+        "new_word_rate": 0.29411764705882354,
+        "key_words": [
+            {
+                "word": "突然",
+                "part_of_speech": "ADV"
+            },
+            {
+                "word": "离开",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "小红帽",
+                "pos": "PN",
+                "level": null
+            },
+            {
+                "word": "要",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "奶奶",
+                "pos": "N",
+                "level": 129
+            },
+            {
+                "word": "家",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "说",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "离开",
+                "pos": "V",
+                "level": 100
+            },
+            {
+                "word": "路",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "突然",
+                "pos": "ADV",
+                "level": 100
+            },
+            {
+                "word": "到",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "狼",
+                "pos": "N",
+                "level": null
+            }
+        ],
+        "created_at": "2025-03-04T06:32:07.230106+00:00"
+    },
+    {
+        "story_id": "16d739d2-18da-4028-b2ea-c48ff45b4aee",
+        "title": "小红帽的故事",
+        "content": "小红帽(PN) |要(V) |去(V) |看(V) |奶奶(N) |，|她(PRON) |的(AUX) |妈妈(N) |说(V) |：“|你(PRON) |要(V) |小心(ADJ) |。”|小红帽(PN) |离开(V) |家(N) |以后(N) |，|在(PREP) |森林(N) |里(PREP) |，|突然(ADV) |，|她(PRON) |看(V) |见(V) |了(AUX) |狼(N) |。",
+        "vocabulary_level": 100,
+        "scene_id": "f0e9d8c7-b6a5-q321-9876-543210fedcbz",
+        "scene_name": "童话故事-小红帽",
+        "word_count": 25,
+        "new_word_rate": 0.44,
+        "key_words": [
+            {
+                "word": "突然",
+                "part_of_speech": "ADV"
+            },
+            {
+                "word": "离开",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "小红帽",
+                "pos": "专有名词",
+                "level": null
+            },
+            {
+                "word": "要",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "奶奶",
+                "pos": "名词",
+                "level": 129
+            },
+            {
+                "word": "说",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "离开",
+                "pos": "动词",
+                "level": 100
+            },
+            {
+                "word": "家",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "森林",
+                "pos": "名词",
+                "level": 312
+            },
+            {
+                "word": "里",
+                "pos": "介词",
+                "level": 313
+            },
+            {
+                "word": "突然",
+                "pos": "副词",
+                "level": 100
+            },
+            {
+                "word": "见",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "狼",
+                "pos": "名词",
+                "level": null
+            }
+        ],
+        "created_at": "2025-03-04T07:13:12.135315+00:00"
+    },
+    {
+        "story_id": "fc0dc419-1b78-4951-a854-3fb03fdca6c0",
+        "title": "三只小猪盖房子",
+        "content": "有(V) |三(NUM) |只(QTY) |小(ADJ) |猪(N) |，|他们(PRON) |想(V) |要(V) |离开(V) |家(N) |。|他们(PRON) |要(V) |自己(PRON) |盖(V) |房子(N) |。|突然(ADV) |，|来(V) |了(AUX) |一(NUM) |只(QTY) |大(ADJ) |狼(N) |。|大(ADJ) |狼(N) |说(V) |：“|我(PRON) |要(V) |吃(V) |掉(V) |你(PRON) |们(PRON) |！|”",
+        "vocabulary_level": 100,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcby",
+        "scene_name": "童话故事-三只小猪",
+        "word_count": 31,
+        "new_word_rate": 0.3870967741935484,
+        "key_words": [
+            {
+                "word": "突然",
+                "part_of_speech": "ADV"
+            },
+            {
+                "word": "离开",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "有",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "猪",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "要",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "离开",
+                "pos": "动词",
+                "level": 100
+            },
+            {
+                "word": "家",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "自己",
+                "pos": "代词",
+                "level": 126
+            },
+            {
+                "word": "盖",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "房子",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "突然",
+                "pos": "副词",
+                "level": 100
+            },
+            {
+                "word": "狼",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "说",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "掉",
+                "pos": "动词",
+                "level": null
+            }
+        ],
+        "created_at": "2025-03-04T08:42:34.731343+00:00"
+    },
+    {
+        "story_id": "b1e6bec2-9cef-4729-a744-c079c7f45a3f",
+        "title": "灰姑娘的舞会",
+        "content": "灰姑娘(PN) |很(ADV) |想(V) |去(V) |参加(V) |舞会(N) |，|可是(CONJ) |她(PRON) |的(AUX) |姐姐(N) |们(QTY) |不(ADV) |让(V) |她(PRON) |去(V) |。|她们(PRON) |说(V) |：“|你(PRON) |要(AUX) |做(V) |很多(ADJ) |事(N) |，|不能(AUX) |去(V) |玩(V) |。”|灰姑娘(PN) |很(ADV) |难过(ADJ) |。|突然(ADV) |，|一(NUM) |个(QTY) |好(ADJ) |朋友(N) |出现(V) |了(AUX) |，|她(PRON) |要(AUX) |离开(V) |这里(PRON) |。",
+        "vocabulary_level": 100,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbx",
+        "scene_name": "童话故事-灰姑娘",
+        "word_count": 39,
+        "new_word_rate": 0.38461538461538464,
+        "key_words": [
+            {
+                "word": "突然",
+                "part_of_speech": "ADV"
+            },
+            {
+                "word": "离开",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "灰姑娘",
+                "pos": "专有名词",
+                "level": null
+            },
+            {
+                "word": "参加",
+                "pos": "动词",
+                "level": 115
+            },
+            {
+                "word": "舞会",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "可是",
+                "pos": "连词",
+                "level": 241
+            },
+            {
+                "word": "让",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "她们",
+                "pos": "代词",
+                "level": null
+            },
+            {
+                "word": "说",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "要",
+                "pos": "助词",
+                "level": null
+            },
+            {
+                "word": "很多",
+                "pos": "形容词",
+                "level": null
+            },
+            {
+                "word": "事",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "难过",
+                "pos": "形容词",
+                "level": 160
+            },
+            {
+                "word": "突然",
+                "pos": "副词",
+                "level": 100
+            },
+            {
+                "word": "出现",
+                "pos": "动词",
+                "level": 222
+            },
+            {
+                "word": "离开",
+                "pos": "动词",
+                "level": 100
+            },
+            {
+                "word": "这里",
+                "pos": "代词",
+                "level": null
+            }
+        ],
+        "created_at": "2025-03-04T08:44:20.497690+00:00"
+    },
+    {
+        "story_id": "6a4700e9-492a-401e-8138-a5b9090ef50d",
+        "title": "青蛙王子的故事",
+        "content": "从前(ADV) |，|有(V) |一个(NUM) |小(ADJ) |公主(N) |很(ADV) |喜欢(V) |玩(V) |。|一天(N) |，|她(PRON) |在(PREP) |水边(N) |玩(V) |，|不小心(ADV) |把(PREP) |金球(N) |掉(V) |进(V) |了(AUX) |水(N) |里(PREP) |。|她(PRON) |很(ADV) |着急(ADJ) |。|突然(ADV) |，|一只(QTY) |青蛙(N) |叫(V) |了(AUX) |起来(V) |。|公主(N) |很(ADV) |害怕(ADJ) |，|想(V) |离开(V) |。",
+        "vocabulary_level": 100,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbw",
+        "scene_name": "神话故事-三打白骨精",
+        "word_count": 35,
+        "new_word_rate": 0.42857142857142855,
+        "key_words": [
+            {
+                "word": "突然",
+                "part_of_speech": "ADV"
+            },
+            {
+                "word": "离开",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "从前",
+                "pos": "副词",
+                "level": null
+            },
+            {
+                "word": "有",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "公主",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "一天",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "水边",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "不小心",
+                "pos": "副词",
+                "level": null
+            },
+            {
+                "word": "金球",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "掉",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "里",
+                "pos": "介词",
+                "level": 313
+            },
+            {
+                "word": "突然",
+                "pos": "副词",
+                "level": 100
+            },
+            {
+                "word": "一只",
+                "pos": "量词",
+                "level": 153
+            },
+            {
+                "word": "青蛙",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "起来",
+                "pos": "动词",
+                "level": 131
+            },
+            {
+                "word": "害怕",
+                "pos": "形容词",
+                "level": 108
+            },
+            {
+                "word": "离开",
+                "pos": "动词",
+                "level": 100
+            }
+        ],
+        "created_at": "2025-03-04T08:48:08.161707+00:00"
+    },
+    {
+        "story_id": "dee43b41-1d3a-44b4-b7a9-4bbf5eec4fac",
+        "title": "孙悟空三打白骨精",
+        "content": "白骨精(PN) |想(V) |吃(V) |人(N) |，|她(PRON) |来(V) |到(V) |了(AUX) |山(N) |下(N) |。|她(PRON) |变(V) |成(V) |一个(NUM) |女人(N) |，|给(V) |唐僧(PN) |送(V) |饭(N) |。|孙悟空(PN) |突然(ADV) |看(V) |见(V) |，|知道(V) |是(V) |妖怪(N) |，|就(ADV) |打(V) |她(PRON) |。|唐僧(PN) |很(ADV) |生气(ADJ) |，| 孙悟空(PN) | 离开(V) |了(AUX) |。",
+        "vocabulary_level": 100,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbw",
+        "scene_name": "神话故事-孙悟空三打白骨精",
+        "word_count": 35,
+        "new_word_rate": 0.37142857142857144,
+        "key_words": [
+            {
+                "word": "突然",
+                "part_of_speech": "ADV"
+            },
+            {
+                "word": "离开",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "白骨精",
+                "pos": "专有名词",
+                "level": null
+            },
+            {
+                "word": "到",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "变",
+                "pos": "动词",
+                "level": 111
+            },
+            {
+                "word": "成",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "给",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "唐僧",
+                "pos": "专有名词",
+                "level": null
+            },
+            {
+                "word": "饭",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "孙悟空",
+                "pos": "专有名词",
+                "level": null
+            },
+            {
+                "word": "突然",
+                "pos": "副词",
+                "level": 100
+            },
+            {
+                "word": "见",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "妖怪",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "生气",
+                "pos": "形容词",
+                "level": null
+            },
+            {
+                "word": "离开",
+                "pos": "动词",
+                "level": 100
+            }
+        ],
+        "created_at": "2025-03-04T08:50:16.068778+00:00"
+    },
+    {
+        "story_id": "e4706031-b61b-4662-9c37-50d458b07f90",
+        "title": "请问去哪儿",
+        "content": "请问(V) |，|去(V) |火车站(N) |要(V) |多(ADJ) |长(ADJ) |时间(N) |？|大概(ADV) |要(V) |半个(NUM) |小时(N) |。|你(PRON) |可以(AUX) |坐(V) |出租车(N) |，|或者(CONJ) |坐(V) |公共汽车(N) |。|今天(N) |是(V) |我(PRON) |朋友(N) |的(AUX) |生日(N) |，|我(PRON) |想(V) |快点(ADV) |到(V) |，|和(PREP) |他(PRON) |一起(ADV) |过生日(V) |。",
+        "vocabulary_level": 58,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+        "scene_name": "问路",
+        "word_count": 32,
+        "new_word_rate": 0.34375,
+        "key_words": [
+            {
+                "word": "小时",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "过生日",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "火车站",
+                "pos": "名词",
+                "level": 76
+            },
+            {
+                "word": "要",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "大概",
+                "pos": "副词",
+                "level": 274
+            },
+            {
+                "word": "半个",
+                "pos": "数字",
+                "level": null
+            },
+            {
+                "word": "小时",
+                "pos": "名词",
+                "level": 58
+            },
+            {
+                "word": "或者",
+                "pos": "连词",
+                "level": 90
+            },
+            {
+                "word": "公共汽车",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "快点",
+                "pos": "副词",
+                "level": null
+            },
+            {
+                "word": "到",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "一起",
+                "pos": "副词",
+                "level": null
+            },
+            {
+                "word": "过生日",
+                "pos": "动词",
+                "level": 58
+            }
+        ],
+        "created_at": "2025-04-15T04:44:05.543165+00:00"
+    },
+    {
+        "story_id": "2276fbfd-a5fa-4ed0-831a-a4c7487239ec",
+        "title": "请问怎么走？",
+        "content": "请问(V) |，|去(V) |学校(N) |要(V) |多(ADV) |长(ADJ) |时间(N) |？|大概(ADV) |要(V) |半个(NUM) |小时(N) |。|如果(CONJ) |你(PRON) |是(V) |今天(N) |过生日(V) |，|我(PRON) |祝(V) |你(PRON) |生日(N) |快乐(ADJ) |！",
+        "vocabulary_level": 58,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+        "scene_name": "问路",
+        "word_count": 21,
+        "new_word_rate": 0.3333333333333333,
+        "key_words": [
+            {
+                "word": "小时",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "过生日",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "要",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "大概",
+                "pos": "副词",
+                "level": 274
+            },
+            {
+                "word": "半个",
+                "pos": "数字",
+                "level": null
+            },
+            {
+                "word": "小时",
+                "pos": "名词",
+                "level": 58
+            },
+            {
+                "word": "如果",
+                "pos": "连词",
+                "level": 144
+            },
+            {
+                "word": "过生日",
+                "pos": "动词",
+                "level": 58
+            },
+            {
+                "word": "祝",
+                "pos": "动词",
+                "level": 337
+            }
+        ],
+        "created_at": "2025-04-15T04:53:12.819802+00:00"
+    },
+    {
+        "title": "问路和时间",
+        "content": "请问(V) |，|现在(N) |几点(QTY) |了(AUX) |？|我(PRON) |朋友(N) |今天(N) |过生日(V) |，|想(V) |知道(V) |还有(ADV) |几个(NUM) |小时(N) |！|谢谢(V) |！",
+        "vocabulary_level": 58,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+        "scene_name": "问路",
+        "word_count": 14,
+        "new_word_rate": 0.2857142857142857,
+        "key_words": [
+            {
+                "word": "小时",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "过生日",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "几点",
+                "pos": "量词",
+                "level": null
+            },
+            {
+                "word": "过生日",
+                "pos": "动词",
+                "level": 58
+            },
+            {
+                "word": "还有",
+                "pos": "副词",
+                "level": null
+            },
+            {
+                "word": "小时",
+                "pos": "名词",
+                "level": 58
+            }
+        ],
+        "story_id": "120eb450-8cb1-4eef-ba56-d53b25ec206c",
+        "created_at": "2025-04-15T05:20:49.161139+00:00",
+        "updated_at": "2025-04-15T05:20:49.161139+00:00"
+    },
+    {
+        "title": "请问怎么走？",
+        "content": "请问(V) |，|去(V) |朋友(N) |家(N) |怎么(PRON) |走(V) |？|我(PRON) |要(V) |是(V) |去(V) |他(PRON) |家(N) |，|给(PREP) |他(PRON) |过生日(V) |。|大概(ADV) |要(V) |几(NUM) |个(QTY) |小时(N) |？|谢谢(V) |！",
+        "vocabulary_level": 58,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+        "scene_name": "问路",
+        "word_count": 21,
+        "new_word_rate": 0.3333333333333333,
+        "key_words": [
+            {
+                "word": "小时",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "过生日",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "家",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "走",
+                "pos": "动词",
+                "level": 58
+            },
+            {
+                "word": "要",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "给",
+                "pos": "介词",
+                "level": null
+            },
+            {
+                "word": "过生日",
+                "pos": "动词",
+                "level": 58
+            },
+            {
+                "word": "大概",
+                "pos": "副词",
+                "level": 274
+            },
+            {
+                "word": "小时",
+                "pos": "名词",
+                "level": 58
+            }
+        ],
+        "story_id": "d7230410-d371-4634-b180-618873c70422",
+        "created_at": "2025-04-15T05:24:48.463809+00:00",
+        "updated_at": "2025-04-15T05:24:48.463809+00:00"
+    },
+    {
+        "story_id": "2e99907d-96ea-44a0-ba95-81bd9abd7801",
+        "title": "问路去过生日",
+        "content": "请问(V) |，|去(V) |朋友(N) |家(N) |怎么(PRON) |走(V) |？|我(PRON) |想(V) |去(V) |给(PREP) |他(PRON) |过生日(V) |，|但是(CONJ) |不(ADV) |知道(V) |路(N) |。|大概(ADV) |需要(V) |多(ADV) |长(ADJ) |时间(N) |？|一个(NUM) |小时(N) |够(ADJ) |吗(AUX) |？",
+        "vocabulary_level": 58,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+        "scene_name": "问路",
+        "word_count": 25,
+        "new_word_rate": 0.4,
+        "key_words": [
+            {
+                "word": "小时",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "过生日",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "家",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "走",
+                "pos": "动词",
+                "level": 58
+            },
+            {
+                "word": "给",
+                "pos": "介词",
+                "level": null
+            },
+            {
+                "word": "过生日",
+                "pos": "动词",
+                "level": 58
+            },
+            {
+                "word": "但是",
+                "pos": "连词",
+                "level": 74
+            },
+            {
+                "word": "路",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "大概",
+                "pos": "副词",
+                "level": 274
+            },
+            {
+                "word": "需要",
+                "pos": "动词",
+                "level": 128
+            },
+            {
+                "word": "小时",
+                "pos": "名词",
+                "level": 58
+            },
+            {
+                "word": "够",
+                "pos": "形容词",
+                "level": null
+            }
+        ],
+        "created_at": "2025-04-15T05:28:07.088352+00:00"
+    },
+    {
+        "story_id": "a10e554a-9985-4dc0-bf2b-3fa08be793c9",
+        "title": "请问怎么走",
+        "content": "请问(V) |，|去(V) |你(PRON) |家(N) |要(V) |多(ADJ) |长(ADJ) |时间(N) |？|大概(ADV) |要(V) |一(NUM) |个(QTY) |小时(N) |。|你(PRON) |今天(N) |过生日(V) |，|是(V) |吗(AUX) |？",
+        "vocabulary_level": 58,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+        "scene_name": "问路",
+        "word_count": 18,
+        "new_word_rate": 0.2777777777777778,
+        "key_words": [
+            {
+                "word": "小时",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "过生日",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "家",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "要",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "大概",
+                "pos": "副词",
+                "level": 274
+            },
+            {
+                "word": "小时",
+                "pos": "名词",
+                "level": 58
+            },
+            {
+                "word": "过生日",
+                "pos": "动词",
+                "level": 58
+            }
+        ],
+        "created_at": "2025-04-15T06:47:52.787534+00:00"
+    },
+    {
+        "story_id": "2f56641e-9d0f-45df-b9d2-18fc396f4084",
+        "title": "请问怎么走",
+        "content": "请问(V) |，|去(V) |火车站(N) |怎么(PRON) |走(V) |？|要(AUX) |走(V) |多(ADV) |长(ADJ) |时间(N) |？|大概(ADV) |要(AUX) |一(NUM) |个(QTY) |小时(N) |吗(AUX) |？|我(PRON) |今天(N) |要(AUX) |给(PREP) |朋友(N) |过生日(V) |，|不想(V) |太(ADV) |晚(ADJ) |到(V) |。",
+        "vocabulary_level": 58,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+        "scene_name": "问路",
+        "word_count": 26,
+        "new_word_rate": 0.34615384615384615,
+        "key_words": [
+            {
+                "word": "小时",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "过生日",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "火车站",
+                "pos": "名词",
+                "level": 76
+            },
+            {
+                "word": "走",
+                "pos": "动词",
+                "level": 58
+            },
+            {
+                "word": "要",
+                "pos": "助词",
+                "level": null
+            },
+            {
+                "word": "大概",
+                "pos": "副词",
+                "level": 274
+            },
+            {
+                "word": "小时",
+                "pos": "名词",
+                "level": 58
+            },
+            {
+                "word": "给",
+                "pos": "介词",
+                "level": null
+            },
+            {
+                "word": "过生日",
+                "pos": "动词",
+                "level": 58
+            },
+            {
+                "word": "不想",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "到",
+                "pos": "动词",
+                "level": null
+            }
+        ],
+        "created_at": "2025-04-15T07:14:03.728430+00:00"
+    },
+    {
+        "story_id": "42ccbac4-d716-4a0a-acf0-2df598ca9036",
+        "title": "请问去医院怎么走",
+        "content": "请问(V) |，|去(V) |医院(N) |怎么(PRON) |走(V) |？|从(PREP) |这儿(ADV) |到(PREP) |医院(N) |要(V) |多(ADV) |长(ADJ) |时间(N) |？|大概(ADV) |要(V) |半个(NUM) |小时(N) |，|如果(CONJ) |你(PRON) |今天(N) |过生日(V) |，|我(PRON) |可以(AUX) |请(V) |你(PRON) |吃饭(V) |。",
+        "vocabulary_level": 58,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+        "scene_name": "问路",
+        "word_count": 26,
+        "new_word_rate": 0.38461538461538464,
+        "key_words": [
+            {
+                "word": "小时",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "过生日",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "走",
+                "pos": "动词",
+                "level": 58
+            },
+            {
+                "word": "从",
+                "pos": "介词",
+                "level": 61
+            },
+            {
+                "word": "到",
+                "pos": "介词",
+                "level": null
+            },
+            {
+                "word": "要",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "大概",
+                "pos": "副词",
+                "level": 274
+            },
+            {
+                "word": "半个",
+                "pos": "数字",
+                "level": null
+            },
+            {
+                "word": "小时",
+                "pos": "名词",
+                "level": 58
+            },
+            {
+                "word": "如果",
+                "pos": "连词",
+                "level": 144
+            },
+            {
+                "word": "过生日",
+                "pos": "动词",
+                "level": 58
+            },
+            {
+                "word": "请",
+                "pos": "动词",
+                "level": null
+            }
+        ],
+        "created_at": "2025-04-15T07:19:58.919683+00:00"
+    },
+    {
+        "story_id": "304518f0-7571-495c-ba7e-f86a79dce753",
+        "title": "请问路",
+        "content": "请问(V) |，|去(V) |商店(N) |要(V) |多(ADV) |长(ADJ) |时间(N) |？|大概(ADV) |需要(V) |半个(NUM) |小时(N) |。|你(PRON) |今天(N) |过生日(V) |吗(AUX) |？|祝(V) |你(PRON) |生日(N) |快乐(ADJ) |！",
+        "vocabulary_level": 58,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+        "scene_name": "问路",
+        "word_count": 19,
+        "new_word_rate": 0.3684210526315789,
+        "key_words": [
+            {
+                "word": "小时",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "过生日",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "要",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "大概",
+                "pos": "副词",
+                "level": 274
+            },
+            {
+                "word": "需要",
+                "pos": "动词",
+                "level": 128
+            },
+            {
+                "word": "半个",
+                "pos": "数字",
+                "level": null
+            },
+            {
+                "word": "小时",
+                "pos": "名词",
+                "level": 58
+            },
+            {
+                "word": "过生日",
+                "pos": "动词",
+                "level": 58
+            },
+            {
+                "word": "祝",
+                "pos": "动词",
+                "level": 337
+            }
+        ],
+        "created_at": "2025-04-15T07:47:41.923813+00:00"
+    },
+    {
+        "story_id": "fc14463d-58cb-42e8-86ea-b42d45e9517a",
+        "title": "请问怎么走？",
+        "content": "请问(V) |，|去(V) |你(PRON) |家(N) |要(V) |多(ADV) |长时间(N) |？|大概(ADV) |要(V) |一个(NUM) |小时(N) |。|你(PRON) |今天(N) |过生日(V) |吗(AUX) |？|我(PRON) |想(V) |去(V) |你(PRON) |家(N) |，|和(CONJ) |你(PRON) |一起(ADV) |吃(V) |蛋糕(N) |。",
+        "vocabulary_level": 58,
+        "scene_id": "f0e9d8c7-b6a5-4321-9876-543210fedcbb",
+        "scene_name": "问路",
+        "word_count": 25,
+        "new_word_rate": 0.32,
+        "key_words": [
+            {
+                "word": "小时",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "过生日",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "家",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "要",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "长时间",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "大概",
+                "pos": "副词",
+                "level": 274
+            },
+            {
+                "word": "小时",
+                "pos": "名词",
+                "level": 58
+            },
+            {
+                "word": "过生日",
+                "pos": "动词",
+                "level": 58
+            },
+            {
+                "word": "一起",
+                "pos": "副词",
+                "level": null
+            },
+            {
+                "word": "蛋糕",
+                "pos": "名词",
+                "level": 94
+            }
+        ],
+        "created_at": "2025-04-15T10:44:48.005613+00:00"
+    },
+    {
+        "story_id": "8e0b12ba-9adb-4a05-aa05-7e945b04451a",
+        "title": "小玉米的梦想",
+        "content": "夏天(N) |的(AUX) |晚上(N) |，|没有(V) |风(N) |，|也(ADV) |没有(V) |雨(N) |，|天空(N) |上(PREP) |有(V) |很多(NUM) |星星(N) |。|一(NUM) |个(QTY) |特别(ADJ) |的(AUX) |小(ADJ) |玉米(N) |出来(V) |了(AUX) |。|它(PRON) |心里(N) |想(V) |：|“|我(PRON) |要是(CONJ) |会(V) |跳舞(V) |就(ADV) |好(ADJ) |了(AUX) |！|”|对(ADJ) |。|这(PRON) |个(QTY) |特别(ADJ) |的(AUX) |小(ADJ) |玉米(N) |很(ADV) |想(V) |跳舞(V) |。|但是(CONJ) |它(PRON) |一直(ADV) |不(ADV) |敢(V) |把(PREP) |心里(N) |的(AUX) |想法(N) |说(V) |出来(V) |，|它(PRON) |很(ADV) |害怕(V) |大家(PRON) |笑话(V) |它(PRON) |，|也(ADV) |更(ADV) |害怕(V) |这个(PRON) |梦想(N) |不能(V) |实现(V) |。|所以(CONJ) |，|每(ADV) |个(QTY) |晚上(N) |，|小(ADJ) |玉米(N) |都(ADV) |只能(ADV) |自己(PRON) |想(V) |着(AUX) |跳舞(V) |的(AUX) |样子(N) |。|有(V) |一(NUM) |天(N) |，|一(NUM) |只(QTY) |从(PREP) |很(ADV) |远(ADJ) |的地方(N) |回来(V) |的(AUX) |田鼠(N) |给(PREP) |它(PRON) |说(V) |了(AUX) |很多(NUM) |远(ADJ) |地方(N) |的(AUX) |故事(N) |。|那些(PRON) |很(ADV) |特别(ADJ) |，|很(ADV) |奇怪(ADJ) |的(AUX) |事情(N) |让(V) |小(ADJ) |玉米(N) |觉得(V) |很(ADV) |吃惊(ADJ) |。|田鼠(N) |说(V) |，|在(PREP) |很(ADV) |远(ADJ) |的(AUX) |地方(N) |有(V) |一个(QTY) |可以(V) |跳舞(V) |的(AUX) |机器(N) |，|小(ADJ) |玉米(N) |可以(V) |穿(V) |上(PREP) |很(ADV) |漂亮(ADJ) |的(AUX) |裙子(N) |，|还(ADV) |能(V) |学(V) |到(PREP) |好看(ADJ) |的(AUX) |舞蹈(N) |。|这(PRON) |让(V) |它(PRON) |很(ADV) |激动(ADJ) |，|它(PRON) |比(PREP) |什么(PRON) |时候(N) |都(ADV) |更(ADV) |想(V) |学(V) |跳舞(V) |。|终于(ADV) |有(V) |一天(N) |晚上(N) |，|小(ADJ) |玉米(N) |走(V) |上(PREP) |了(AUX) |找(V) |梦想(N) |的(AUX) |路(N) |。|但是(CONJ) |，|找(V) |梦想(N) |的(AUX) |路(N) |不(ADV) |好(ADJ) |走(V) |，|到处(ADV) |都(ADV) |是(V) |危险(N) |。|但是(CONJ) |小(ADJ) |玉米(N) |没有(V) |害怕(V) |，|为了(PREP) |实现(V) |跳舞(V) |的(AUX) |梦想(N) |，|它(PRON) |要(V) |一直(ADV) |走(V) |下去(V) |。|过(AUX) |了(AUX) |一个月(N) |，|小(ADJ) |玉米(N) |终于(ADV) |找到(V) |了(AUX) |跳舞(V) |的(AUX) |机器(N) |。|“|梦想(N) |马上(ADV) |就(ADV) |要(V) |实现(V) |了(AUX) |。|”|它(PRON) |很(ADV) |快(ADV) |地(AUX) |跳(V) |了(AUX) |上去(V) |。|但是(CONJ) |里面(N) |的(AUX) |很(ADV) |高(ADJ) |的(AUX) |温度(N) |和(CONJ) |压力(N) |，|让(V) |很(ADV) |小(ADJ) |的(AUX) |它(PRON) |觉得(V) |很(ADV) |难受(ADJ) |。|但是(CONJ) |都(ADV) |已经(ADV) |走(V) |了(AUX) |这么(ADV) |久(ADJ) |了(AUX) |，|不能(V) |现在(N) |放弃(V) |。|“|嘭(INT) |”|的(AUX) |一(NUM) |声(QTY) |，|小(ADJ) |玉米(N) |变(V) |成(V) |了(AUX) |穿着(V) |漂亮(ADJ) |裙子(N) |，|还会(V) |跳舞(V) |的(AUX) |爆米花(N) |。|所以(CONJ) |，|小朋友(N) |们(PART) |，|只要(CONJ) |心里(N) |有(V) |梦想(N) |，|就(ADV) |要(V) |一直(ADV) |坚持(V) |下去(V) |。|不要(V) |想(V) |太多(ADJ) |，|不要(V) |害怕(V) |，|才(ADV) |可能(ADJ) |实现(V) |梦想(N) |。",
+        "vocabulary_level": 300,
+        "scene_id": "04d27bf2-3f53-453f-bf28-721d31b15de7",
+        "scene_name": "追逐梦想",
+        "word_count": 285,
+        "new_word_rate": 0.15789473684210525,
+        "key_words": [
+            {
+                "word": "爆米花",
+                "part_of_speech": "N"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "天空",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "有",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "很多",
+                "pos": "数字",
+                "level": null
+            },
+            {
+                "word": "玉米",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "出来",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "心里",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "会",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "敢",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "想法",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "说",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "笑话",
+                "pos": "动词",
+                "level": 338
+            },
+            {
+                "word": "梦想",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "实现",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "只能",
+                "pos": "副词",
+                "level": null
+            },
+            {
+                "word": "远",
+                "pos": "形容词",
+                "level": null
+            },
+            {
+                "word": "的地方",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "田鼠",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "给",
+                "pos": "介词",
+                "level": null
+            },
+            {
+                "word": "那些",
+                "pos": "代词",
+                "level": null
+            },
+            {
+                "word": "让",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "机器",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "穿",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "能",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "到",
+                "pos": "介词",
+                "level": null
+            },
+            {
+                "word": "好看",
+                "pos": "形容词",
+                "level": null
+            },
+            {
+                "word": "舞蹈",
+                "pos": "名词",
+                "level": 328
+            },
+            {
+                "word": "一天",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "路",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "危险",
+                "pos": "名词",
+                "level": 319
+            },
+            {
+                "word": "要",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "下去",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "过",
+                "pos": "助词",
+                "level": null
+            },
+            {
+                "word": "一个月",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "找到",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "上去",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "里面",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "难受",
+                "pos": "形容词",
+                "level": 308
+            },
+            {
+                "word": "这么",
+                "pos": "副词",
+                "level": null
+            },
+            {
+                "word": "嘭",
+                "pos": "叹词",
+                "level": null
+            },
+            {
+                "word": "成",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "穿着",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "还会",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "爆米花",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "小朋友",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "太多",
+                "pos": "形容词",
+                "level": null
+            }
+        ],
+        "created_at": "2025-04-15T11:13:25.179343+00:00"
+    },
+    {
+        "story_id": "f165fb13-ccd1-45bb-a717-5d288a0da81c",
+        "title": "小玉米的跳舞梦",
+        "content": "一个(NUM) |夏夜(N) |，|没有(V) |风(N) |，|也(ADV) |没有(V) |雨(N) |，|天空(N) |上(PREP) |有(V) |很多(NUM) |星星(N) |。|一(NUM) |个(QTY) |特别(ADJ) |的(AUX) |小(ADJ) |玉米(N) |，|把(PREP) |头(N) |伸(V) |出来(V) |。|她(PRON) |心里(N) |想(V) |：“|我(PRON) |要是(CONJ) |会(V) |跳舞(V) |，|那(PRON) |该(AUX) |多(ADV) |好(ADJ) |啊(INT) |！|”|对(ADJ) |。|这个(PRON) |特别(ADJ) |的(AUX) |小(ADJ) |玉米(N) |想(V) |要(V) |跳舞(V) |。|但是(CONJ) |，|她(PRON) |从来(ADV) |不敢(V) |把(PREP) |心里(N) |的(AUX) |想法(N) |说(V) |出来(V) |。|她(PRON) |害怕(V) |大家(PRON) |笑话(V) |她(PRON) |，|更(ADV) |害怕(V) |不能(V) |实现(V) |这个(PRON) |梦想(N) |。|就(ADV) |这样(ADV) |，|小(ADJ) |玉米(N) |只能(ADV) |在(PREP) |每(PRON) |个(QTY) |晚上(N) |，|一个(NUM) |人(N) |想想(V) |跳舞(V) |的(AUX) |样子(N) |。|有(V) |一(NUM) |天(QTY) |，|一(NUM) |只(QTY) |从(PREP) |远方(N) |回来(V) |的(AUX) |田鼠(N) |，|给(PREP) |她(PRON) |说(V) |远方(N) |发生(V) |的(AUX) |故事(N) |。|那些(PRON) |很(ADV) |特别(ADJ) |又(ADV) |神奇(ADJ) |的(AUX) |事(N) |，|让(V) |小(ADJ) |玉米(N) |很(ADV) |吃惊(V) |。|田鼠(N) |说(V) |，|在(PREP) |远方(N) |，|有(V) |一(NUM) |个(QTY) |玉米(N) |跳舞(V) |机(N) |，|可以(V) |让(V) |小(ADJ) |玉米(N) |穿(V) |上(PREP) |好看(ADJ) |的(AUX) |裙子(N) |，|还(ADV) |可以(V) |学会(V) |很好(ADJ) |的(AUX) |舞蹈(N) |。|这(PRON) |让(V) |她(PRON) |很(ADV) |激动(ADJ) |，|她(PRON) |比(PREP) |任何(PRON) |时候(N) |都(ADV) |想(V) |学会(V) |跳舞(V) |。|终于(ADV) |，|在(PREP) |一(NUM) |天(QTY) |晚上(N) |，|小(ADJ) |玉米(N) |披(V) |着(AUX) |月光(N) |，|走(V) |上(PREP) |了(AUX) |找(V) |梦想(N) |的(AUX) |路(N) |。|但是(CONJ) |，|找(V) |梦想(N) |的(AUX) |路(N) |，|不(ADV) |容易(ADJ) |走(V) |，|到处(ADV) |都(ADV) |是(V) |困难(N) |和(CONJ) |危险(N) |。|但是(CONJ) |小(ADJ) |玉米(N) |没有(V) |害怕(V) |，|为了(PREP) |实现(V) |跳舞(V) |的(AUX) |梦想(N) |，|她(PRON) |要(V) |坚持(V) |走(V) |下去(V) |。|终于(ADV) |，|在(PREP) |一(NUM) |个(QTY) |月(N) |后(ADV) |，|小(ADJ) |玉米(N) |找到(V) |了(AUX) |跳舞(V) |机(N) |。“|梦想(N) |马上(ADV) |就(ADV) |可以(V) |实现(V) |了(AUX) |。|”|她(PRON) |很(ADV) |着急(ADJ) |地(AUX) |跳(V) |了(AUX) |上去(V) |。|但是(CONJ) |，|里面(N) |的(AUX) |高温(N) |和(CONJ) |压力(N) |，|让(V) |小(ADJ) |的(AUX) |她(PRON) |觉得(V) |很(ADV) |痛苦(ADJ) |。|但是(CONJ) |，|一个(NUM) |月(N) |都(ADV) |走(V) |过来(V) |了(AUX) |，|不能(V) |在(PREP) |这个(PRON) |时候(N) |放弃(V) |。“|嘭(INT) |”|的(AUX) |一(NUM) |声(QTY) |，|小(ADJ) |玉米(N) |变(V) |成(V) |了(AUX) |穿(V) |着(AUX) |美丽(ADJ) |裙子(N) |，|还会(V) |跳舞(V) |的(AUX) |爆米花(N) |！|所以(CONJ) |小朋友(N) |们(PRON) |，|只要(CONJ) |心里(N) |有(V) |梦想(N) |，|就(ADV) |一定(ADV) |要(V) |坚持(V) |下去(V) |。|不要(V) |犹豫(V) |，|不要(V) |害怕(V) |，|才(ADV) |有(V) |可能(N) |实现(V) |梦想(N) |。",
+        "vocabulary_level": 300,
+        "scene_id": "d8cb27c1-a1e8-4fe5-88c8-53c07de1733f",
+        "scene_name": "追梦",
+        "word_count": 280,
+        "new_word_rate": 0.175,
+        "key_words": [
+            {
+                "word": "爆米花",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "月光",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "田鼠",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "裙子",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "高温",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "压力",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "痛苦",
+                "part_of_speech": "ADJ"
+            },
+            {
+                "word": "吃惊",
+                "part_of_speech": "V"
+            },
+            {
+                "word": "激动",
+                "part_of_speech": "ADJ"
+            },
+            {
+                "word": "犹豫",
+                "part_of_speech": "V"
+            },
+            {
+                "word": "害怕",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "夏夜",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "天空",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "有",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "很多",
+                "pos": "数字",
+                "level": null
+            },
+            {
+                "word": "玉米",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "伸",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "出来",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "心里",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "会",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "该",
+                "pos": "助词",
+                "level": null
+            },
+            {
+                "word": "要",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "不敢",
+                "pos": "动词",
+                "level": 305
+            },
+            {
+                "word": "想法",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "说",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "笑话",
+                "pos": "动词",
+                "level": 338
+            },
+            {
+                "word": "实现",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "梦想",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "这样",
+                "pos": "副词",
+                "level": null
+            },
+            {
+                "word": "只能",
+                "pos": "副词",
+                "level": null
+            },
+            {
+                "word": "想想",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "远方",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "田鼠",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "给",
+                "pos": "介词",
+                "level": null
+            },
+            {
+                "word": "那些",
+                "pos": "代词",
+                "level": null
+            },
+            {
+                "word": "神奇",
+                "pos": "形容词",
+                "level": null
+            },
+            {
+                "word": "事",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "让",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "机",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "穿",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "好看",
+                "pos": "形容词",
+                "level": null
+            },
+            {
+                "word": "学会",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "舞蹈",
+                "pos": "名词",
+                "level": 328
+            },
+            {
+                "word": "披",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "月光",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "路",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "危险",
+                "pos": "名词",
+                "level": 319
+            },
+            {
+                "word": "下去",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "找到",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "上去",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "里面",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "高温",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "痛苦",
+                "pos": "形容词",
+                "level": null
+            },
+            {
+                "word": "过来",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "嘭",
+                "pos": "叹词",
+                "level": null
+            },
+            {
+                "word": "成",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "还会",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "爆米花",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "小朋友",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "犹豫",
+                "pos": "动词",
+                "level": null
+            }
+        ],
+        "created_at": "2025-04-15T11:20:29.468011+00:00"
+    },
+    {
+        "story_id": "894dc98f-16e7-4877-abf7-a310107b6bf4",
+        "title": "小玉米的跳舞梦 (改写版)",
+        "content": "一个(NUM) |夏夜(N) |，|没有(V) |风(N) |，|也(ADV) |没有(V) |雨(N) |，|天空(N) |中(PREP) |有(V) |很多(NUM) |星星(N) |。|一(NUM) |个(QTY) |和(CONJ) |别人(N) |不(ADV) |一样(ADJ) |的(AUX) |小(ADJ) |玉米(N) |，|把(PREP) |头(N) |伸(V) |出来(V) |。|她(PRON) |在(ADV) |想(V) |：|“|如果(CONJ) |我(PRON) |会(V) |跳舞(V) |，|那(PRON) |就(ADV) |太(ADV) |好(ADJ) |了(AUX) |！|”|对(ADJ) |。|这个(PRON) |不(ADV) |一样(ADJ) |的(AUX) |小(ADJ) |玉米(N) |，|很(ADV) |想(V) |跳舞(V) |。|可是(CONJ) |，|她(PRON) |从来(ADV) |不(ADV) |敢(V) |把(PREP) |心里(N) |的(AUX) |想法(N) |说(V) |出来(V) |。|因为(CONJ) |她(PRON) |觉得(V) |，|大家(PRON) |可能(ADV) |会(V) |笑话(V) |她(PRON) |，|而且(CONJ) |她(PRON) |也(ADV) |害怕(V) |，|这个(PRON) |梦想(N) |可能(ADV) |不会(V) |实现(V) |。|所以(CONJ) |，|每(ADV) |个(QTY) |晚上(N) |，|小(ADJ) |玉米(N) |都(ADV) |只能(ADV) |自己(PRON) |一个(NUM) |人(N) |，|在(PREP) |心里(N) |想(V) |自己(PRON) |跳舞(V) |的(AUX) |样子(N) |。|有(V) |一(NUM) |天(QTY) |，|一(NUM) |只(QTY) |从(PREP) |很(ADV) |远(ADJ) |的(AUX) |地方(N) |回来(V) |的(AUX) |田鼠(N) |，|给(PREP) |她(PRON) |讲(V) |了(AUX) |很多(NUM) |远方(N) |的(AUX) |故事(N) |。|那些(PRON) |很(ADV) |特别(ADJ) |、|很(ADV) |神奇(ADJ) |的(AUX) |事(N) |情(N) |，|让(V) |小(ADJ) |玉米(N) |觉得(V) |很(ADV) |吃惊(ADJ) |。|田鼠(N) |说(V) |，|在(PREP) |远方(N) |有(V) |一(NUM) |个(QTY) |玉米(N) |跳舞(V) |机(N) |，|可以(V) |让(V) |小(ADJ) |玉米(N) |穿(V) |上(PREP) |漂亮(ADJ) |的(AUX) |裙子(N) |，|还(ADV) |可以(V) |学(V) |会(V) |很(ADV) |好(ADJ) |看(ADJ) |的(AUX) |舞蹈(N) |。|小(ADJ) |玉米(N) |听(V) |了(AUX) |，|觉得(V) |很(ADV) |激动(ADJ) |，|她(PRON) |比(PREP) |什么(PRON) |时候(N) |都(ADV) |更(ADV) |想(V) |学(V) |会(V) |跳舞(V) |。|终于(ADV) |，|在(PREP) |一(NUM) |天(QTY) |晚上(N) |，|小(ADJ) |玉米(N) |披(V) |着(AUX) |像(V) |水(N) |一样(ADJ) |的(AUX) |月光(N) |，|开始(V) |去(V) |找(V) |她(PRON) |的(AUX) |梦想(N) |。|可是(CONJ) |，|找(V) |梦想(N) |的(AUX) |路(N) |，|并(ADV) |不(ADV) |好(ADJ) |走(V) |，|路上(N) |有(V) |很多(NUM) |困难(N) |和(CONJ) |危险(N) |。|但是(CONJ) |，|小(ADJ) |玉米(N) |没有(V) |害怕(V) |，|因为(CONJ) |她(PRON) |很(ADV) |想(V) |实现(V) |跳舞(V) |的(AUX) |梦想(N) |，|所以(CONJ) |她(PRON) |要(V) |坚持(V) |走(V) |下去(V) |。|最后(ADV) |，|过(PREP) |了(AUX) |一(NUM) |个(QTY) |月(N) |后(AUX) |，|小(ADJ) |玉米(N) |终于(ADV) |找到(V) |了(AUX) |跳舞(V) |机(N) |。|“|梦想(N) |马上(ADV) |就(ADV) |要(AUX) |实现(V) |了(AUX) |。|”|她(PRON) |很(ADV) |快(ADV) |地(AUX) |跳(V) |了(AUX) |上去(V) |。|可是(CONJ) |，|里面(N) |的(AUX) |高温(N) |和(CONJ) |压力(N) |，|让(V) |很(ADV) |小(ADJ) |的(AUX) |她(PRON) |觉得(V) |很(ADV) |痛苦(ADJ) |。|但是(CONJ) |，|一(NUM) |个(QTY) |月(N) |都(ADV) |已经(ADV) |走(V) |过(AUX) |来(V) |了(AUX) |，|不能(V) |在(PREP) |这个(PRON) |时候(N) |放弃(V) |！|“|嘭(INT) |”|的(AUX) |一(NUM) |声(QTY) |，|小(ADJ) |玉米(N) |变(V) |成(V) |了(AUX) |很(ADV) |漂亮(ADJ) |的(AUX) |爆米花(N) |，|她(PRON) |穿着(V) |美丽(ADJ) |的(AUX) |裙子(N) |，|还会(V) |跳舞(V) |。|所以(CONJ) |，|小朋友(N) |们(PRON) |，|如果(CONJ) |你们(PRON) |心里(N) |有(V) |梦想(N) |，|就(ADV) |一定(ADV) |要(V) |坚持(V) |下去(V) |。|不要(V) |犹豫(V) |，|不要(V) |害怕(V) |，|这样(PRON) |才(ADV) |可以(V) |实现(V) |梦想(N) |。",
+        "vocabulary_level": 300,
+        "scene_id": "38c6b724-fc7b-4342-bbd6-6c5947836c78",
+        "scene_name": "追逐梦想",
+        "word_count": 325,
+        "new_word_rate": 0.15692307692307692,
+        "key_words": [
+            {
+                "word": "爆米花",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "高温",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "压力",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "田鼠",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "玉米",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "月光",
+                "part_of_speech": "N"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "夏夜",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "天空",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "有",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "很多",
+                "pos": "数字",
+                "level": null
+            },
+            {
+                "word": "玉米",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "伸",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "出来",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "会",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "敢",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "心里",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "想法",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "说",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "笑话",
+                "pos": "动词",
+                "level": 338
+            },
+            {
+                "word": "梦想",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "实现",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "只能",
+                "pos": "副词",
+                "level": null
+            },
+            {
+                "word": "远",
+                "pos": "形容词",
+                "level": null
+            },
+            {
+                "word": "田鼠",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "给",
+                "pos": "介词",
+                "level": null
+            },
+            {
+                "word": "讲",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "远方",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "那些",
+                "pos": "代词",
+                "level": null
+            },
+            {
+                "word": "神奇",
+                "pos": "形容词",
+                "level": null
+            },
+            {
+                "word": "事",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "让",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "机",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "穿",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "舞蹈",
+                "pos": "名词",
+                "level": 328
+            },
+            {
+                "word": "披",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "像",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "月光",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "路",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "危险",
+                "pos": "名词",
+                "level": 319
+            },
+            {
+                "word": "要",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "下去",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "过",
+                "pos": "介词",
+                "level": null
+            },
+            {
+                "word": "找到",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "要",
+                "pos": "助词",
+                "level": null
+            },
+            {
+                "word": "上去",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "里面",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "高温",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "痛苦",
+                "pos": "形容词",
+                "level": null
+            },
+            {
+                "word": "过",
+                "pos": "助词",
+                "level": null
+            },
+            {
+                "word": "嘭",
+                "pos": "叹词",
+                "level": null
+            },
+            {
+                "word": "成",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "爆米花",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "穿着",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "还会",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "小朋友",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "犹豫",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "这样",
+                "pos": "代词",
+                "level": null
+            }
+        ],
+        "created_at": "2025-04-15T11:21:58.658502+00:00"
+    },
+    {
+        "story_id": "482b3366-9ca6-4ab6-a7f5-04e9773be201",
+        "title": "小玉米的梦想 (改写版)",
+        "content": "夏天(N) |的(AUX) |晚上(N) |，|没有(V) |风(N) |，|也(ADV) |没有(V) |雨(N) |，|天上(N) |有(V) |很多(NUM) |星星(N) |。|一(NUM) |个(QTY) |很(ADV) |特别(ADJ) |的(AUX) |小(ADJ) |玉米(N) |，|把(PREP) |头(N) |伸(V) |出来(V) |。|她(PRON) |心里(N) |想(V) |：|“|如果(CONJ) |我(PRON) |会(V) |跳舞(V) |，|就(ADV) |太(ADV) |好(ADJ) |了(AUX) |！|”|对(ADJ) |，|这个(PRON) |特别(ADJ) |的(AUX) |小(ADJ) |玉米(N) |，|想(V) |要(V) |跳舞(V) |。|但是(CONJ) |她(PRON) |一直(ADV) |不敢(V) |把(PREP) |心里(N) |的(AUX) |想法(N) |说(V) |出来(V) |，|她(PRON) |害怕(V) |大家(PRON) |笑话(V) |她(PRON) |，|更(ADV) |害怕(V) |不能(V) |实现(V) |这个(PRON) |梦想(N) |。|就(ADV) |这样(ADV) |，|小(ADJ) |玉米(N) |只能(ADV) |在(PREP) |每(QTY) |个(QTY) |晚上(N) |，|自己(PRON) |想(V) |跳舞(V) |的(AUX) |样子(N) |。|有(V) |一(NUM) |天(QTY) |，|一(NUM) |只(QTY) |从(PREP) |很(ADV) |远(ADJ) |的(AUX) |地方(N) |回来(V) |的(AUX) |田鼠(N) |，|给(PREP) |她(PRON) |说(V) |很(ADV) |远(ADJ) |的(AUX) |地方(N) |发生(V) |的(AUX) |故事(N) |。|那些(PRON) |让(V) |人(N) |很(ADV) |吃惊(ADJ) |的(AUX) |事(N) |情(N) |，|让(V) |小(ADJ) |玉米(N) |觉得(V) |很(ADV) |奇怪(ADJ) |。|田鼠(N) |说(V) |，|在(PREP) |很(ADV) |远(ADJ) |的(AUX) |地方(N) |，|有(V) |一(NUM) |个(QTY) |玉米(N) |跳舞(V) |机(N) |，|可以(V) |让(V) |小(ADJ) |玉米(N) |穿(V) |上(PREP) |很(ADV) |漂亮(ADJ) |的(AUX) |裙子(N) |，|还(ADV) |能(V) |学会(V) |很(ADV) |好(ADJ) |的(AUX) |舞蹈(N) |。|这(PRON) |让(V) |她(PRON) |很(ADV) |激动(ADJ) |，|她(PRON) |比(PREP) |任何(PRON) |时候(N) |都(ADV) |想(V) |学会(V) |跳舞(V) |。|最后(ADV) |，|在(PREP) |一(NUM) |天(QTY) |的(AUX) |晚上(N) |，|小(ADJ) |玉米(N) |披(V) |着(AUX) |像(V) |水(N) |一样(ADJ) |的(AUX) |月光(N) |，|走(V) |上(PREP) |了(AUX) |找(V) |梦想(N) |的(AUX) |路(N) |。|但是(CONJ) |，|找(V) |梦想(N) |的(AUX) |路(N) |，|不(ADV) |好(ADJ) |走(V) |，|到处(ADV) |都(ADV) |是(V) |困难(N) |和(CONJ) |危险(N) |。|但是(CONJ) |小(ADJ) |玉米(N) |没有(V) |退(V) |回来(V) |，|为了(PREP) |实现(V) |跳舞(V) |的(AUX) |梦想(N) |，|她(PRON) |要(V) |一直(ADV) |走(V) |下去(V) |。|最后(ADV) |，|过(AUX) |了(AUX) |一(NUM) |个(QTY) |月(N) |，|小(ADJ) |玉米(N) |找到(V) |了(AUX) |跳舞(V) |机(N) |。|“|梦想(N) |马上(ADV) |就(ADV) |能(V) |实现(V) |了(AUX) |。|”|她(PRON) |很(ADV) |着急(ADJ) |地(ADV) |跳(V) |了(AUX) |上去(V) |。|但是(CONJ) |，|里面(N) |的(AUX) |高温(N) |和(CONJ) |压力(N) |，|让(V) |很(ADV) |小(ADJ) |的(AUX) |她(PRON) |觉得(V) |很(ADV) |痛苦(ADJ) |。|但是(CONJ) |，|一(NUM) |个(QTY) |月(N) |都(ADV) |走(V) |过(AUX) |来(V) |了(AUX) |，|不能(V) |在(PREP) |这个(PRON) |时候(N) |放弃(V) |。|“|嘭(INT) |”|的(AUX) |一(NUM) |声(QTY) |，|小(ADJ) |玉米(N) |变(V) |了(AUX) |，|变成(V) |了(AUX) |穿(V) |着(AUX) |很(ADV) |美丽(ADJ) |裙子(N) |，|还会(V) |跳舞(V) |的(AUX) |爆米花(N) |。|所以(CONJ) |，|小(ADJ) |朋友(N) |们(AUX) |，|只要(CONJ) |心里(N) |有(V) |梦想(N) |，|就(ADV) |一定(ADV) |要(V) |坚持(V) |下去(V) |。|不要(V) |犹豫(V) |，|不要(V) |害怕(V) |，|才(ADV) |有(V) |可能(ADJ) |实现(V) |梦想(N) |。",
+        "vocabulary_level": 300,
+        "scene_id": "74ed3937-35db-4cb7-828a-479eb5608724",
+        "scene_name": "追逐梦想",
+        "word_count": 304,
+        "new_word_rate": 0.1513157894736842,
+        "key_words": [
+            {
+                "word": "爆米花",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "犹豫",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "天上",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "有",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "很多",
+                "pos": "数字",
+                "level": null
+            },
+            {
+                "word": "玉米",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "伸",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "出来",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "心里",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "会",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "要",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "不敢",
+                "pos": "动词",
+                "level": 305
+            },
+            {
+                "word": "想法",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "说",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "笑话",
+                "pos": "动词",
+                "level": 338
+            },
+            {
+                "word": "实现",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "梦想",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "这样",
+                "pos": "副词",
+                "level": null
+            },
+            {
+                "word": "只能",
+                "pos": "副词",
+                "level": null
+            },
+            {
+                "word": "远",
+                "pos": "形容词",
+                "level": null
+            },
+            {
+                "word": "田鼠",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "给",
+                "pos": "介词",
+                "level": null
+            },
+            {
+                "word": "那些",
+                "pos": "代词",
+                "level": null
+            },
+            {
+                "word": "让",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "事",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "机",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "穿",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "能",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "学会",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "舞蹈",
+                "pos": "名词",
+                "level": 328
+            },
+            {
+                "word": "披",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "像",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "月光",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "路",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "危险",
+                "pos": "名词",
+                "level": 319
+            },
+            {
+                "word": "退",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "下去",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "过",
+                "pos": "助词",
+                "level": null
+            },
+            {
+                "word": "找到",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "上去",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "里面",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "高温",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "痛苦",
+                "pos": "形容词",
+                "level": null
+            },
+            {
+                "word": "嘭",
+                "pos": "叹词",
+                "level": null
+            },
+            {
+                "word": "变成",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "还会",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "爆米花",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "犹豫",
+                "pos": "动词",
+                "level": null
+            }
+        ],
+        "created_at": "2025-04-15T11:39:45.630303+00:00"
+    },
+    {
+        "story_id": "bd91c50e-e95f-430a-9589-5908aab98289",
+        "title": "想跳舞的|小(ADJ) |玉米(N)",
+        "content": "夏天(N) |的(AUX) |晚上(N) |，|没有(V) |风(N) |，|也(ADV) |没有(V) |雨(N) |，|天(N) |上(N) |有(V) |很多(NUM) |星星(N) |。|一(NUM) |个(QTY) |特别(ADJ) |的(AUX) |小(ADJ) |玉米(N) |，|把(PREP) |头(N) |伸(V) |出来(V) |。|她(PRON) |想(V) |：“|如果(CONJ) |我(PRON) |会(V) |跳舞(V) |，|就(ADV) |太(ADV) |好(ADJ) |了(AUX) |！”|对(ADJ) |。|这个(PRON) |特别(ADJ) |的(AUX) |小(ADJ) |玉米(N) |，|很(ADV) |想(V) |跳舞(V) |。|但是(CONJ) |她(PRON) |一直(ADV) |不(ADV) |敢(V) |把(PREP) |心里(N) |的(AUX) |想法(N) |说(V) |出来(V) |，|她(PRON) |觉得(V) |大家(PRON) |会(V) |笑话(V) |她(PRON) |，|也(ADV) |怕(V) |这个(PRON) |梦想(N) |不能(V) |实现(V) |。|所以(CONJ) |，|小(ADJ) |玉米(N) |只能(ADV) |在(PREP) |晚上(N) |，|自己(PRON) |想(V) |跳舞(V) |的(AUX) |样子(N) |。|有(V) |一(NUM) |天(QTY) |，|一(NUM) |只(QTY) |从(PREP) |远方(N) |回来(V) |的(AUX) |田鼠(N) |，|给(PREP) |她(PRON) |说(V) |了(AUX) |远方(N) |的(AUX) |故事(N) |。|那些(PRON) |很(ADV) |特别(ADJ) |，|很(ADV) |神奇(ADJ) |的(AUX) |事(N) |，|让(V) |小(ADJ) |玉米(N) |很(ADV) |吃惊(V) |。|田鼠(N) |说(V) |，|在(PREP) |远方(N) |有(V) |一(NUM) |个(QTY) |玉米(N) |跳舞(V) |机(N) |，|可以(V) |让(V) |小(ADJ) |玉米(N) |穿(V) |上(PREP) |漂亮(ADJ) |的(AUX) |裙子(N) |，|还(ADV) |能(V) |学会(V) |好看(ADJ) |的(AUX) |舞蹈(N) |。|这(PRON) |让(V) |她(PRON) |很(ADV) |激动(ADJ) |，|她(PRON) |比(PREP) |以前(N) |更(ADV) |想(V) |学会(V) |跳舞(V) |。|终于(ADV) |有(V) |一(NUM) |天(QTY) |晚上(N) |，|小(ADJ) |玉米(N) |披(V) |着(AUX) |月光(N) |，|走(V) |上(PREP) |了(AUX) |追(V) |寻(V) |梦想(N) |的(AUX) |路(N) |。|但是(CONJ) |，|追(V) |寻(V) |梦想(N) |的(AUX) |路(N) |，|不(ADV) |容易(ADJ) |走(V) |，|到处(ADV) |都(ADV) |是(V) |危险(ADJ) |。|但是(CONJ) |小(ADJ) |玉米(N) |没有(V) |退(V) |回(V) |，|为了(PREP) |实现(V) |跳舞(V) |的(AUX) |梦想(N) |，|她(PRON) |要(V) |一直(ADV) |走(V) |下去(V) |。|一个(NUM) |月(QTY) |以后(N) |，|小(ADJ) |玉米(N) |终于(ADV) |找到(V) |了(AUX) |跳舞(V) |机(N) |。“|梦想(N) |马上(ADV) |就(ADV) |能(V) |实现(V) |了(AUX) |。”|她(PRON) |着急(ADJ) |地(ADV) |跳(V) |了(AUX) |上去(V) |。|但是(CONJ) |，|跳舞(V) |机(N) |里面(N) |很(ADV) |热(ADJ) |，|这(PRON) |让(V) |小(ADJ) |玉米(N) |感觉(V) |很(ADV) |痛苦(ADJ) |。|但是(CONJ) |一个月(QTY) |都(ADV) |走(V) |过来(V) |了(AUX) |，|不能(V) |现在(N) |放弃(V) |。“|嘭(INT) |”|的(AUX) |一(NUM) |声(QTY) |，|小(ADJ) |玉米(N) |变(V) |成(V) |了(AUX) |穿(V) |着(AUX) |漂亮(ADJ) |裙子(N) |，|还(ADV) |会(V) |跳舞(V) |的(AUX) |爆米花(N) |！|所以(CONJ) |小朋友(N) |们(PRON) |，|如果(CONJ) |心里(N) |有(V) |梦想(N) |，|就(ADV) |一定(ADV) |要(V) |坚持(V) |下去(V) |。|不要(V) |犹豫(V) |，|不要(V) |害怕(V) |，|才(ADV) |有(V) |可能(V) |实现(V) |梦想(N) |。",
+        "vocabulary_level": 300,
+        "scene_id": "0835ccb7-eef2-43d0-a1d2-029340a65075",
+        "scene_name": "追梦",
+        "word_count": 272,
+        "new_word_rate": 0.17279411764705882,
+        "key_words": [
+            {
+                "word": "爆米花",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "激动",
+                "part_of_speech": "ADJ"
+            },
+            {
+                "word": "痛苦",
+                "part_of_speech": "ADJ"
+            },
+            {
+                "word": "玉米",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "神奇",
+                "part_of_speech": "ADJ"
+            },
+            {
+                "word": "伸",
+                "part_of_speech": "V"
+            },
+            {
+                "word": "披",
+                "part_of_speech": "V"
+            },
+            {
+                "word": "追寻",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "有",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "很多",
+                "pos": "数字",
+                "level": null
+            },
+            {
+                "word": "玉米",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "伸",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "出来",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "会",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "敢",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "心里",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "想法",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "说",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "笑话",
+                "pos": "动词",
+                "level": 338
+            },
+            {
+                "word": "梦想",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "实现",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "只能",
+                "pos": "副词",
+                "level": null
+            },
+            {
+                "word": "远方",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "田鼠",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "给",
+                "pos": "介词",
+                "level": null
+            },
+            {
+                "word": "那些",
+                "pos": "代词",
+                "level": null
+            },
+            {
+                "word": "神奇",
+                "pos": "形容词",
+                "level": null
+            },
+            {
+                "word": "事",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "让",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "机",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "穿",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "能",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "学会",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "好看",
+                "pos": "形容词",
+                "level": null
+            },
+            {
+                "word": "舞蹈",
+                "pos": "名词",
+                "level": 328
+            },
+            {
+                "word": "披",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "月光",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "追",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "寻",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "路",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "危险",
+                "pos": "形容词",
+                "level": 319
+            },
+            {
+                "word": "退",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "要",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "下去",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "找到",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "上去",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "里面",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "痛苦",
+                "pos": "形容词",
+                "level": null
+            },
+            {
+                "word": "一个月",
+                "pos": "量词",
+                "level": null
+            },
+            {
+                "word": "过来",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "嘭",
+                "pos": "叹词",
+                "level": null
+            },
+            {
+                "word": "成",
+                "pos": "动词",
+                "level": null
+            },
+            {
+                "word": "爆米花",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "小朋友",
+                "pos": "名词",
+                "level": null
+            },
+            {
+                "word": "犹豫",
+                "pos": "动词",
+                "level": null
+            }
+        ],
+        "created_at": "2025-04-15T11:53:30.685196+00:00"
+    },
+    {
+        "story_id": "c6e6bdba-595e-48a6-851c-544626c4dd5c",
+        "title": "小(ADJ) |玉米(N) |的(AUX) |跳舞(V) |梦(N)",
+        "content": "一个(NUM) |夏天(N) |的(AUX) |晚上(N) |，|没有(V) |风(N) |，|也(ADV) |没有(V) |雨(N) |，|天空(N) |上(上) |有(V) |很多(NUM) |星星(N) |。|一(NUM) |个(QTY) |特别(ADV) |的(AUX) |小(ADJ) |玉米(N) |长(V) |出来(V) |了(AUX) |。|它(PRON) |心里(N) |想(V) |：“|如果(CONJ) |我(PRON) |可以(AUX) |跳舞(V) |，|那(PRON) |就(ADV) |太(ADV) |好(ADJ) |了(AUX) |！”|它(PRON) |真的(ADV) |很(ADV) |想(V) |跳舞(V) |。|但是(CONJ) |，|它(PRON) |一直(ADV) |不(ADV) |敢(V) |把(PREP) |心里(N) |的(AUX) |想法(N) |说(V) |出来(V) |。|因为(CONJ) |它(PRON) |害怕(V) |大家(PRON) |会(AUX) |笑(V) |它(PRON) |，|更(ADV) |害怕(V) |自己(PRON) |的(AUX) |梦想(N) |不能(AUX) |实现(V) |。|所以(CONJ) |，|每(QTY) |个(QTY) |晚上(N) |，|小(ADJ) |玉米(N) |都(ADV) |只能(ADV) |一个(NUM) |人(N) |想(V) |自己(PRON) |跳舞(V) |的(AUX) |样子(N) |。|有(V) |一(NUM) |天(N) |，|一(NUM) |只(QTY) |从(PREP) |很(ADV) |远(ADJ) |的(AUX) |地方(N) |回来(V) |的(AUX) |田鼠(N) |告诉(V) |它(PRON) |远方(N) |的(AUX) |故事(N) |。|那些(PRON) |很(ADV) |特别(ADJ) |，|又(ADV) |很(ADV) |神奇(ADJ) |的(AUX) |事(N) |情(N) |，|让(V) |小(ADJ) |玉米(N) |觉得(V) |很(ADV) |吃惊(V) |。|田鼠(N) |说(V) |：“|在(PREP) |很(ADV) |远(ADJ) |的(AUX) |地方(N) |，|有(V) |一(NUM) |个(QTY) |玉米(N) |跳舞(V) |机(N) |，|可以(AUX) |让(V) |小(ADJ) |玉米(N) |穿(V) |上(PREP) |漂亮(ADJ) |的(AUX) |裙子(N) |，|还(ADV) |可以(AUX) |学会(V) |很(ADV) |好(ADJ) |看(ADJ) |的(AUX) |舞蹈(N) |。”|小(ADJ) |玉米(N) |听(V) |了(AUX) |，|觉得(V) |很(ADV) |激动(ADJ) |，|它(PRON) |比(PREP) |任何(PRON) |时候(N) |都(ADV) |更(ADV) |想(V) |学会(V) |跳舞(V) |了(AUX) |。|终于(ADV) |，|在(PREP) |一(NUM) |天(N) |的(AUX) |晚上(N) |，|小(ADJ) |玉米(N) |披(V) |着(AUX) |像(V) |水(N) |一样(ADJ) |的(AUX) |月光(N) |，|走(V) |上(PREP) |了(AUX) |追寻(V) |梦想(N) |的(AUX) |路(N) |。|但是(CONJ) |，|追(V) |梦(N) |的(AUX) |路(N) |不(ADV) |容易(ADJ) |，|到处(ADV) |都(ADV) |是(V) |困难(ADJ) |和(CONJ) |危险(N) |。|但是(CONJ) |小(ADJ) |玉米(N) |没有(V) |害怕(V) |，|为了(PREP) |实现(V) |跳舞(V) |的(AUX) |梦想(N) |，|它(PRON) |要(AUX) |一直(ADV) |走(V) |下去(V) |。|终于(ADV) |，|在(PREP) |一(NUM) |个(QTY) |月(N) |后(后) |，|小(ADJ) |玉米(N) |找到(V) |了(AUX) |跳舞(V) |机(N) |。“|梦想(N) |马上(ADV) |就(ADV) |可以(AUX) |实现(V) |了(AUX) |！”|它(PRON) |很(ADV) |着急(ADJ) |地(ADV) |跳(V) |了(AUX) |上去(V) |。|但是(CONJ) |，|跳舞(V) |机(N) |里面(N) |的(AUX) |高温(N) |和(CONJ) |压力(N) |，|让(V) |很(ADV) |小(ADJ) |的(AUX) |它(PRON) |觉得(V) |很(ADV) |痛苦(ADJ) |。|但是(CONJ) |一(NUM) |个(QTY) |月(N) |都(ADV) |已经(ADV) |走(V) |过来(V) |了(AUX) |，|不能(AUX) |在(PREP) |这个(PRON) |时候(N) |放弃(V) |。“|嘭(UNKNOWN) |”|的(AUX) |一(NUM) |声(QTY) |，|小(ADJ) |玉米(N) |变(V) |成(V) |了(AUX) |穿(V) |着(AUX) |漂亮(ADJ) |裙子(N) |，|还(ADV) |会(AUX) |跳舞(V) |的(AUX) |爆米花(N) |！|所以(CONJ) |，|小朋友(N) |们(们) |，|只要(CONJ) |心里(N) |有(V) |梦想(N) |，|就(ADV) |一定(ADV) |要(AUX) |坚持(V) |下去(V) |。|不要(AUX) |犹豫(V) |，|不要(AUX) |害怕(V) |，|才(ADV) |有(V) |可能(AUX) |实现(V) |梦想(N) |。",
+        "vocabulary_level": 300,
+        "scene_id": "83729cd9-fc4f-4fa9-9992-c495ecf97fc1",
+        "scene_name": "追梦",
+        "word_count": 301,
+        "new_word_rate": 0.15282392026578073,
+        "key_words": [
+            {
+                "word": "月光",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "高温",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "压力",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "爆米花",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "追寻",
+                "part_of_speech": "V"
+            },
+            {
+                "word": "披",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "天空",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "有",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "很多",
+                "pos": "NUM",
+                "level": null
+            },
+            {
+                "word": "玉米",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "出来",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "心里",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "真的",
+                "pos": "ADV",
+                "level": null
+            },
+            {
+                "word": "敢",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "想法",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "说",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "会",
+                "pos": "AUX",
+                "level": null
+            },
+            {
+                "word": "梦想",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "实现",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "只能",
+                "pos": "ADV",
+                "level": null
+            },
+            {
+                "word": "远",
+                "pos": "ADJ",
+                "level": null
+            },
+            {
+                "word": "田鼠",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "远方",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "那些",
+                "pos": "PRON",
+                "level": null
+            },
+            {
+                "word": "神奇",
+                "pos": "ADJ",
+                "level": null
+            },
+            {
+                "word": "事",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "让",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "机",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "穿",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "学会",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "舞蹈",
+                "pos": "N",
+                "level": 328
+            },
+            {
+                "word": "披",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "像",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "月光",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "追寻",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "路",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "追",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "梦",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "危险",
+                "pos": "N",
+                "level": 319
+            },
+            {
+                "word": "要",
+                "pos": "AUX",
+                "level": null
+            },
+            {
+                "word": "下去",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "找到",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "上去",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "里面",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "高温",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "痛苦",
+                "pos": "ADJ",
+                "level": null
+            },
+            {
+                "word": "过来",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "嘭",
+                "pos": "UNKNOWN",
+                "level": null
+            },
+            {
+                "word": "成",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "爆米花",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "小朋友",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "犹豫",
+                "pos": "V",
+                "level": null
+            }
+        ],
+        "created_at": "2025-04-15T12:29:41.454937+00:00"
+    }
 ]

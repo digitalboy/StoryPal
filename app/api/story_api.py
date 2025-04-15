@@ -8,6 +8,7 @@ from app.services.word_service import WordService
 from app.services.scene_service import SceneService
 from app.utils.literacy_calculator import LiteracyCalculator
 from app.services.ai_service_factory import AIServiceFactory  # 导入 AIServiceFactory
+from app.models.story_model import StoryModel  # 确保导入 StoryModel
 import logging
 
 story_api = Blueprint("story_api", __name__, url_prefix="/api/v1/stories")
@@ -38,7 +39,7 @@ def generate_story():
         key_word_ids = data.get("key_word_ids", [])
         new_word_rate_tolerance = data.get("new_word_rate_tolerance")
         story_word_count_tolerance = data.get("story_word_count_tolerance")
-        ai_service_name = data.get("ai_service", "deepseek")  # 默认使用 deepseek
+        ai_service_name = data.get("ai_service", "gemini")  # 默认使用 gemini
         multiplier = data.get("multiplier")  # 获取倍率参数， 允许为空
 
         # 验证参数是否存在
@@ -173,4 +174,85 @@ def generate_story():
         )
     except Exception as e:
         logging.error(f"Error generating story: {e}")
+        return handle_error(500, f"Internal server error: {str(e)}")
+
+
+@story_api.route("/rewrite", methods=["POST"])
+@api_key_required
+def rewrite_story_endpoint():
+    """
+    改写现有故事到目标级别
+    """
+    try:
+        data = request.get_json()
+        if not data:
+            return handle_error(400, "Missing request body")
+
+        original_story_id = data.get("original_story_id")
+        target_level = data.get("target_level")
+        story_type = data.get("story_type", 2)  # 默认为 2 (中文绘本)
+        ai_service_name = data.get("ai_service", "gemini")  # 默认使用 gemini
+
+        # --- 参数验证 ---
+        if not original_story_id:
+            return handle_error(400, "Missing required field: 'original_story_id'")
+        if not target_level:
+            return handle_error(400, "Missing required field: 'target_level'")
+
+        if not isinstance(original_story_id, str):
+            return handle_error(
+                400, "Invalid field type: 'original_story_id' must be a string"
+            )
+        if not isinstance(target_level, int):
+            return handle_error(
+                400, "Invalid field type: 'target_level' must be an integer"
+            )
+        if not isinstance(story_type, int) or story_type not in [1, 2]:
+            return handle_error(400, "Invalid field value: 'story_type' must be 1 or 2")
+        if not 1 <= target_level <= 300:  # 假设级别范围
+            return handle_error(
+                400, "Validation failed: 'target_level' must be between 1 and 300"
+            )
+        # --- 参数验证结束 ---
+
+        try:
+            # 创建 AI 服务对象
+            ai_service = AIServiceFactory.create_ai_service(
+                ai_service_name=ai_service_name,
+            )
+        except ValueError as e:
+            return handle_error(400, str(e))
+
+        # 初始化依赖
+        # word_service 和 scene_service 已在蓝图级别初始化
+        literacy_calculator = LiteracyCalculator(word_service)
+
+        story_service = StoryService(
+            word_service=word_service,
+            scene_service=scene_service,
+            literacy_calculator=literacy_calculator,
+            ai_service=ai_service,
+        )
+
+        # 调用服务层进行改写
+        rewritten_story: StoryModel = story_service.rewrite_story(
+            original_story_id=original_story_id,
+            target_level=target_level,
+            story_type=story_type,
+        )
+
+        if rewritten_story:
+            return jsonify(
+                {
+                    "code": 200,
+                    "message": "Story rewritten successfully",
+                    "data": rewritten_story.to_dict(),
+                }
+            )
+        else:
+            # rewrite_story 内部已记录详细错误，这里返回通用错误
+            return handle_error(500, "Failed to rewrite story")
+
+    except Exception as e:
+        logging.exception(f"Error rewriting story: {e}")  # 使用 exception 记录堆栈信息
         return handle_error(500, f"Internal server error: {str(e)}")

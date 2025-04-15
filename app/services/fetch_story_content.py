@@ -1,87 +1,118 @@
 import requests
+import logging
 import json
 import argparse
+from typing import Optional, Dict, Any
 
-# API 基础 URL
-BASE_URL = "http://106.52.130.188:8889/content/getContentListById"
+# 配置日志
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-def get_story_details(story_id: str, story_type: int = 2):
+# 外部 API 基础 URL
+EXTERNAL_API_BASE_URL = "http://106.52.130.188:8889"
+
+
+def get_story_details(story_id: str, story_type: int = 2) -> Optional[Dict[str, Any]]:
     """
-    根据故事 ID 和类型从 API 获取故事详情并处理文本内容。
+    从外部 API 获取指定 ID 和类型的故事详情。
 
     Args:
-        story_id (str): 故事的唯一 ID。
-        story_type (int, optional): 类型，默认为 2 (中文绘本)。
-                                    1: 英文绘本, 2: 中文绘本。
+        story_id: 故事的唯一 ID。
+        story_type: 故事类型 (默认为 2，表示中文绘本)。
 
     Returns:
-        dict: 包含 storyId, storyLevel, storyName, text 的字典，
-              如果出错则返回 None。
-              text 是合并后的段落内容，跳过了与标题相同的首段。
+        包含故事详情的字典 (storyName, text, storyLevel) 或在出错时返回 None。
     """
-    api_url = f"{BASE_URL}/{story_type}/{story_id}"
-    print(f"正在请求 URL: {api_url}")
+    list_url = (
+        f"{EXTERNAL_API_BASE_URL}/content/getContentListById/{story_type}/{story_id}"
+    )
+    logger.info(f"Fetching story details from: {list_url}")
 
     try:
-        response = requests.get(api_url, timeout=10)  # 设置超时
-        response.raise_for_status()  # 如果状态码不是 2xx，则抛出 HTTPError
+        response = requests.get(list_url, timeout=10)  # 设置超时
 
-        data = response.json()
-
-        # 检查 API 返回的 code
-        if data.get("code") != 200:
-            print(f"API 返回错误: code={data.get('code')}, msg={data.get('msg')}")
+        # 检查 HTTP 响应状态码
+        if response.status_code != 200:
+            logger.error(
+                f"Failed to fetch story {story_id}. Status code: {response.status_code}, Response: {response.text}"
+            )
             return None
 
-        story_data = data.get("data")
-        if not story_data or not isinstance(story_data, dict):
-            print("API 返回的数据格式无效或 data 字段为空。")
+        # 解析 JSON 响应
+        try:
+            data = response.json()
+            # 检查 API 返回的业务代码
+            if data.get("code") != 200:
+                logger.error(
+                    f"API error for story {story_id}. Code: {data.get('code')}, Message: {data.get('msg')}"
+                )
+                return None
+
+            # 直接获取 data 字段，预期是一个字典
+            story_data = data.get("data")
+
+            # 检查 story_data 是否存在且为字典
+            if not story_data or not isinstance(story_data, dict):
+                logger.error(
+                    f"Invalid or missing 'data' field in API response for story {story_id} from {list_url}. Response: {data}"
+                )
+                return None
+
+            # （可选但推荐）验证返回的 storyId 是否与请求的一致
+            if story_data.get("storyId") != story_id:
+                logger.warning(
+                    f"Returned storyId '{story_data.get('storyId')}' does not match requested storyId '{story_id}' from {list_url}"
+                )
+                # 根据业务需求决定是否返回 None 或继续处理
+                # return None
+
+            # 提取并合并段落文本
+            paragraphs = story_data.get("paragraphs", [])
+            # 忽略 sequenceOrder 为 0 的标题段落
+            story_text = " ".join(
+                p.get("text", "") for p in paragraphs if p.get("sequenceOrder", -1) != 0
+            ).strip()
+
+            # 检查提取的数据是否有效
+            story_name = story_data.get("storyName")
+            story_level = story_data.get("storyLevel")
+
+            if not story_name or not story_text or story_level is None:
+                logger.warning(
+                    f"Missing essential data (storyName, text, or storyLevel) in response for story {story_id}. Data: {story_data}"
+                )
+                # 根据业务需求决定是否返回 None
+                # return None
+
+            return {
+                "storyName": story_name,
+                "text": story_text,
+                "storyLevel": story_level,
+            }
+
+        except json.JSONDecodeError:
+            logger.exception(
+                f"Failed to decode JSON response for story {story_id} from {list_url}"
+            )
+            return None
+        except Exception as e:  # 捕获处理数据时可能出现的其他错误
+            logger.exception(f"Error processing data for story {story_id}: {e}")
             return None
 
-        # 提取基本信息
-        storyId = story_data.get("storyId")
-        storyLevel = story_data.get("storyLevel")
-        storyName = story_data.get("storyName", "").strip() # 获取并去除首尾空格
-        paragraphs = story_data.get("paragraphs", [])
-
-        if not storyId or storyLevel is None or not paragraphs:
-            print("API 返回的数据缺少必要的字段 (storyId, storyLevel, paragraphs)。")
-            return None
-
-        # 按 sequenceOrder 排序段落
-        paragraphs.sort(key=lambda p: p.get("sequenceOrder", float('inf')))
-
-        # 合并文本，跳过与标题相同的首段
-        merged_text_parts = []
-        for p in paragraphs:
-            seq_order = p.get("sequenceOrder")
-            text = p.get("text", "").strip() # 获取并去除首尾空格
-
-            # 如果是第一个段落 (sequenceOrder=0) 且内容与故事名相同，则跳过
-            if seq_order == 0 and text == storyName:
-                print(f"跳过与标题相同的段落 0: '{text}'")
-                continue
-
-            merged_text_parts.append(text)
-
-        final_text = "".join(merged_text_parts)
-
-        return {
-            "storyId": storyId,
-            "storyLevel": storyLevel,
-            "storyName": storyName, # 返回处理过的 storyName
-            "text": final_text,
-        }
-
+    except requests.exceptions.Timeout:
+        logger.error(
+            f"Request timed out when fetching story {story_id} from {list_url}"
+        )
+        return None
     except requests.exceptions.RequestException as e:
-        print(f"请求 API 时发生错误: {e}")
+        logger.exception(f"Request failed when fetching story {story_id}: {e}")
         return None
-    except json.JSONDecodeError:
-        print("解析 API 响应 JSON 时发生错误。")
+    except Exception as e:  # 捕获意料之外的错误
+        logger.exception(
+            f"An unexpected error occurred in get_story_details for story {story_id}: {e}"
+        )
         return None
-    except Exception as e:
-        print(f"处理数据时发生未知错误: {e}")
-        return None
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="根据故事 ID 获取并处理故事内容。")

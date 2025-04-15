@@ -49,4 +49,11 @@ class SceneModel(BaseModel):
         Returns:
             SceneModel: 场景模型对象.
         """
-        return cls(**data)
+        # 映射 JSON 中的 scene_id 到模型的 id
+        scene_id = data.get("scene_id")
+        return cls(
+            scene_id=scene_id,  # 使用 scene_id 初始化 id
+            name=data.get("name"),
+            description=data.get("description"),
+            created_at=data.get("created_at"),
+        )
