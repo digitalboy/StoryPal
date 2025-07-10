@@ -1,0 +1,59 @@
+# 工作流名称
+name: Deploy to Production Server
+
+# 触发器：当有代码推送到 main 分支时触发
+on:
+  push:
+    branches:
+      - main
+
+# 作业：定义一个名为 deploy 的作业
+jobs:
+  deploy:
+    # 运行环境：使用最新的 Ubuntu 系统
+    runs-on: ubuntu-latest
+
+    # 作业步骤
+    steps:
+      - name: Deploy to server via SSH
+        # 使用社区提供的 SSH Action
+        uses: appleboy/ssh-action@master
+        with:
+          # 从 GitHub Secrets 中获取服务器连接信息
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          # 要在服务器上执行的脚本
+          script: |
+            # 定义项目目录
+            export PROJECT_PATH=/root/StroyPal
+            
+            # 检查项目目录是否存在，如果不存在则从 GitHub 克隆
+            if [ ! -d "$PROJECT_PATH" ]; then
+              echo "Cloning repository..."
+              git clone https://github.com/${{ github.repository }}.git "$PROJECT_PATH"
+            fi
+            
+            # 进入项目目录
+            cd $PROJECT_PATH
+            
+            # 拉取最新的代码
+            echo "Pulling latest code..."
+            git pull
+            
+            # 将存储在 GitHub Secret 中的 .env 内容写入服务器上的 .env 文件
+            # 这是为了确保服务器上的配置与期望的一致
+            echo "Creating .env file..."
+            echo "${{ secrets.ENV_FILE_CONTENT }}" > .env
+            
+            # 使用 Docker Compose 启动服务
+            # --build: 强制重新构建镜像
+            # -d: 在后台运行
+            echo "Starting application with Docker Compose..."
+            docker-compose up --build -d
+            
+            # 清理不再使用的 Docker 镜像，以释放磁盘空间
+            echo "Cleaning up old Docker images..."
+            docker image prune -f
+            
+            echo "Deployment successful!"
