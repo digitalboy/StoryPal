@@ -26,4 +26,4 @@ EXPOSE 5000
 # -w 4: 使用 4 个 worker 进程
 # -b 0.0.0.0:5000: 绑定到所有网络接口的 5000 端口
 # app:app: 运行 app.py 文件中的 app 实例
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"]
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:create_app()"]

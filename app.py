@@ -9,4 +9,5 @@ app = create_app()
 
 if __name__ == "__main__":
     # 启动 Flask 应用
+    app = create_app()
     app.run(debug=Config.DEBUG)
