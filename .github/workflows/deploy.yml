@@ -50,7 +50,7 @@ jobs:
             # --build: 强制重新构建镜像
             # -d: 在后台运行
             echo "Starting application with Docker Compose..."
-            docker-compose up --build -d
+            docker compose up --build -d
             
             # 清理不再使用的 Docker 镜像，以释放磁盘空间
             echo "Cleaning up old Docker images..."
