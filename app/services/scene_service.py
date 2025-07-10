@@ -40,6 +40,14 @@ class SceneService:
         """
         return self.scenes.get(scene_id)
 
+    def get_all_scenes(self) -> List[SceneModel]:
+        """
+        获取所有场景。
+        Returns:
+            List[SceneModel]: 包含所有场景模型对象的列表。
+        """
+        return list(self.scenes.values())
+
     def create_scene(self, name: str, description: str) -> SceneModel:
         """
         创建场景。

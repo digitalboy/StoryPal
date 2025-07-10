@@ -1,0 +1,23 @@
+# 使用 Docker Compose V2+ 语法
+version: '3.8'
+
+services:
+  web:
+    # 使用当前目录下的 Dockerfile 进行构建
+    build: .
+    # 为构建的镜像命名
+    image: storypal-app
+    # 容器名称
+    container_name: storypal_web
+    # 加载 .env 文件中的环境变量
+    env_file:
+      - .env
+    # 端口映射：将主机的 5000 端口映射到容器的 5000 端口
+    ports:
+      - "5000:5000"
+    # 卷挂载：将本地的 app/data 目录挂载到容器中
+    # 这可以确保数据持久化，即使容器被删除，数据文件也不会丢失
+    volumes:
+      - ./app/data:/app/app/data
+    # 设置容器重启策略
+    restart: unless-stopped

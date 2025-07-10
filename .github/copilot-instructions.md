@@ -14,3 +14,4 @@
 
 生产环境： Linux（Ubantu 22.04），Docker，python 3.12-silm
 
+docker compose v2

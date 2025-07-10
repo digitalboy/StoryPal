@@ -12,6 +12,39 @@ scene_api = Blueprint("scene_api", __name__, url_prefix="/api/v1/scenes")
 scene_service = SceneService()
 
 
+@scene_api.route("", methods=["GET"])
+@api_key_required
+def get_all_scenes():
+    """
+    获取所有场景
+    """
+    try:
+        scenes = scene_service.get_all_scenes()
+        scenes_data = [
+            {
+                "scene_id": scene.id,
+                "name": scene.name,
+                "description": scene.description,
+                "created_at": (
+                    scene.created_at.isoformat()
+                    if hasattr(scene.created_at, "isoformat")
+                    else scene.created_at
+                ),
+            }
+            for scene in scenes
+        ]
+        return jsonify(
+            {
+                "code": 200,
+                "message": "Scenes retrieved successfully",
+                "data": scenes_data,
+            }
+        )
+    except Exception as e:
+        logging.error(f"Error getting all scenes: {e}")
+        return handle_error(500, f"Internal server error: {str(e)}")
+
+
 @scene_api.route("", methods=["POST"])
 @api_key_required
 def create_scene():
