@@ -22,7 +22,7 @@ jobs:
           # 从 GitHub Secrets 中获取服务器连接信息
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
-          password: ${{ secrets.SERVER_PASSWORD }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
           # 要在服务器上执行的脚本
           script: |
             # 定义项目目录
