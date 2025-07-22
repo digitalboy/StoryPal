@@ -1,90 +1,58 @@
-# 文件名: .github/workflows/deploy.yml
-# 描述: 融合了 Git 部署策略的最终版 CI/CD 工作流
+# 工作流名称
+name: Deploy to Production Server
 
-name: Deploy to Production Server (Git Strategy)
-
+# 触发器：当有代码推送到 main 分支时触发
 on:
   push:
     branches:
       - main
+
+# 作业：定义一个名为 deploy 的作业
 jobs:
   deploy:
+    # 运行环境：使用最新的 Ubuntu 系统
     runs-on: ubuntu-latest
 
+    # 作业步骤
     steps:
-      # 我们不再需要在 Actions 环境中检出代码，因为所有操作都在服务器上进行
-      # - name: Checkout code
-      #   uses: actions/checkout@v4
-
-      - name: Deploy to server using Git
+      - name: Deploy to server via SSH
+        # 使用社区提供的 SSH Action
         uses: appleboy/ssh-action@master
         with:
-          # 从 GitHub Secrets 中读取服务器连接信息
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          
+          # 从 GitHub Secrets 中获取服务器连接信息
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
           # 要在服务器上执行的脚本
           script: |
-            # 1. 定义项目路径和仓库 URL
-            # 这是你希望项目在服务器上存放的绝对路径
-            PROJECT_PATH="/data/www/hpr" 
-            # ${{ github.repository }} 是一个 GitHub 内置变量，会自动替换为 "YourUsername/YourRepoName"
-            REPO_URL="https://github.com/${{ github.repository }}.git"
+            # 定义项目目录
+            export PROJECT_PATH=/root/StroyPal
             
-            # 2. 检查并安装 Git (以防万一)
-            if ! command -v git &> /dev/null
-            then
-                echo "Git not found, installing..."
-                # 根据你的服务器系统选择安装命令 (yum 用于 CentOS/Alibaba Cloud Linux, apt-get 用于 Ubuntu/Debian)
-                # sudo yum install git -y
-                # 或者
-                # sudo apt-get update && sudo apt-get install git -y
-            fi
-
-            # 3. 检查项目目录是否存在，如果不存在则从 GitHub 克隆
+            # 检查项目目录是否存在，如果不存在则从 GitHub 克隆
             if [ ! -d "$PROJECT_PATH" ]; then
-              echo "Project directory not found. Cloning repository to $PROJECT_PATH..."
-              # 使用 -p 选项确保父目录存在
-              mkdir -p "$(dirname "$PROJECT_PATH")"
-              git clone "$REPO_URL" "$PROJECT_PATH"
+              echo "Cloning repository..."
+              git clone https://github.com/${{ github.repository }}.git "$PROJECT_PATH"
             fi
             
-            # 4. 进入项目目录
-            # 这个 cd 命令现在肯定会成功
-            cd "$PROJECT_PATH"
+            # 进入项目目录
+            cd $PROJECT_PATH
             
-            # 5. 拉取最新的代码
-            echo "Pulling latest code from main branch..."
-            # git reset --hard HEAD # 可选：丢弃服务器上任何本地的、未经提交的修改
-            git pull origin main
+            # 拉取最新的代码
+            echo "Pulling latest code..."
+            git pull
             
-            # 6. 安全地创建 .env.docker 文件
-            # 我们将使用 docker-compose 所需的环境变量写入 .env.docker
-            # 这会覆盖掉旧的文件，确保配置总是最新的
-            echo "Creating/Updating .env.docker file with production values..."
-            cat > .env.docker << EOF
-            DASHSCOPE_API_KEY=${{ secrets.DASHSCOPE_API_KEY }}
-            DATABASE_URL="postgresql://ideaflow:ideaflow-1qaz2wsx@postgres:5432/hrp-0705"
-            NEO4J_URI="neo4j://neo4j:7687"
-            NEO4J_USER="neo4j"
-            NEO4J_PASSWORD="ideaflow-1qaz2wsx"
-            QDRANT_HOST="qdrant"
-            QDRANT_PORT=6333
-            QDRANT_KEY="ideaflow-1qaz2wsx"
-            QDRANT_COLLECTION_NAME="hpr_knowledge_base_v1"
-            REDIS_HOST="redis"
-            REDIS_PORT=6379
-            EOF
-
-            # 7. 使用 Docker Compose 启动或更新服务
-            echo "Starting/Updating application with Docker Compose..."
-            # --build: 如果 Dockerfile 或代码有变，则重新构建镜像
+            # 将存储在 GitHub Secret 中的 .env 内容写入服务器上的 .env 文件
+            # 这是为了确保服务器上的配置与期望的一致
+            echo "Creating .env file..."
+            echo "${{ secrets.ENV_FILE_CONTENT }}" > .env
+            
+            # 使用 Docker Compose 启动服务
+            # --build: 强制重新构建镜像
             # -d: 在后台运行
-            # --remove-orphans: 移除在 docker-compose.yml 中已不存在的服务的容器
-            docker compose up --build -d --remove-orphans
+            echo "Starting application with Docker Compose..."
+            docker compose up --build -d
             
-            # 8. 清理不再使用的 Docker 镜像
+            # 清理不再使用的 Docker 镜像，以释放磁盘空间
             echo "Cleaning up old Docker images..."
             docker image prune -f
             
