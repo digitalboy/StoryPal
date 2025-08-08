@@ -25,7 +25,7 @@ class GeminiService(AIService):
         self.client = genai.Client(api_key=self.api_key)
 
         # 模型选择
-        self.model = "gemini-2.0-flash"  
+        self.model = "gemini-2.5-flash"  
 
         self.logger = logging.getLogger(__name__)
 

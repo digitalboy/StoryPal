@@ -3956,5 +3956,142 @@
             }
         ],
         "created_at": "2025-04-15T12:29:41.454937+00:00"
+    },
+    {
+        "story_id": "d90e2ad8-8208-4f09-821b-443dcc288376",
+        "title": "诗人和花草树木",
+        "content": "一个(NUM) |诗人(N) |走(V) |到(PREP) |了(AUX) |田野(N) |上(PREP) |。|他(PRON) |很(ADV) |喜欢(V) |这里(PRON) |，|觉得(V) |这里(PRON) |很(ADV) |美(ADJ) |。|他(PRON) |在(PREP) |听(V) |心里(N) |的(AUX) |声音(N) |。|\n\n花(N) |看(V) |到(PREP) |他(PRON) |来(V) |了(AUX) |，|各种各样(ADJ) |的(AUX) |花(N) |，|为了(PREP) |欢迎(V) |他(PRON) |，|都(ADV) |在(PREP) |摇(V) |。|有的(PRON) |花(N) |轻轻(ADV) |地(AUX) |向(PREP) |他(PRON) |行礼(V) |，|说(V) |：“|看(V) |，|我们(PRON) |的(AUX) |朋友(N) |走(V) |过来(V) |了(AUX) |！|”|\n\n树(N) |也(ADV) |看(V) |到(PREP) |他(PRON) |了(AUX) |。|这些(PRON) |树(N) |很(ADV) |高(ADJ) |很(ADV) |大(ADJ) |，|它们(PRON) |的(AUX) |声音(N) |变得(V) |很(ADV) |低(ADJ) |。|它们(PRON) |像(V) |老人(N) |一样(ADJ) |，|向(PREP) |他(PRON) |行礼(V) |，|低下(V) |头(N) |，|小声(ADV) |说(V) |：“|是(V) |他(PRON) |！|是(V) |这个(PRON) |人(N) |来(V) |了(AUX) |！|”",
+        "vocabulary_level": 300,
+        "scene_id": "f9a41ca9-f6b7-48f6-bd24-61080edd3a4f",
+        "scene_name": "田野",
+        "word_count": 87,
+        "new_word_rate": 0.20689655172413793,
+        "key_words": [
+            {
+                "word": "诗人",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "田野",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "声音",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "各种各样",
+                "part_of_speech": "ADJ"
+            },
+            {
+                "word": "轻轻",
+                "part_of_speech": "ADV"
+            },
+            {
+                "word": "行礼",
+                "part_of_speech": "V"
+            },
+            {
+                "word": "老人",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "低下",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "诗人",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "到",
+                "pos": "PREP",
+                "level": null
+            },
+            {
+                "word": "田野",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "这里",
+                "pos": "PRON",
+                "level": null
+            },
+            {
+                "word": "心里",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "摇",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "有的",
+                "pos": "PRON",
+                "level": null
+            },
+            {
+                "word": "轻轻",
+                "pos": "ADV",
+                "level": null
+            },
+            {
+                "word": "行礼",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "说",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "我们",
+                "pos": "PRON",
+                "level": null
+            },
+            {
+                "word": "过来",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "它们",
+                "pos": "PRON",
+                "level": null
+            },
+            {
+                "word": "变得",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "像",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "老人",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "低下",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "小声",
+                "pos": "ADV",
+                "level": null
+            }
+        ],
+        "created_at": "2025-08-04T07:42:10.123560+00:00"
     }
 ]
