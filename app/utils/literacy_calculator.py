@@ -1,6 +1,7 @@
 # app/utils/literacy_calculator.py
 import re
 from typing import List, Tuple, Set, Dict, Union
+from app.services.word_service import WordService
 import logging
 import string
 
@@ -10,7 +11,7 @@ class LiteracyCalculator:
     生词率计算器 (基于词级别和词性)
     """
 
-    def __init__(self, word_service):
+    def __init__(self, word_service: WordService):
         if not word_service:
             raise ValueError("word_service cannot be None")
         self.word_service = word_service
@@ -51,33 +52,23 @@ class LiteracyCalculator:
             ValueError: 如果 words.json 文件中存在词，但是没有词性或词性无法映射。
         """
         known_words: Set[Tuple[str, str]] = set()
-        if not self.word_service.words:
-            return known_words
+        known_word_models = self.word_service.get_words_below_level(target_level)
 
-        for word_model in self.word_service.words.values():
-            if (
-                word_model.chaotong_level is not None  # 增加判断
-                and isinstance(word_model.chaotong_level, int)  # 增加判断
-                and word_model.chaotong_level < target_level
-            ):  # **已改回 < target_level**
-                if not word_model.part_of_speech:
-                    self.logger.error(f"word {word_model.word} 不存在词性")
-                    raise ValueError(
-                        f"词 {word_model.word} 缺少词性，请检查 words.json 文件"
-                    )
-                # 将中文词性转换为英文缩写
-                pos_abbreviation = self.inverse_pos_mapping.get(
-                    word_model.part_of_speech
+        for word_model in known_word_models:
+            if not word_model.part_of_speech:
+                self.logger.error(f"word {word_model.word} 不存在词性")
+                raise ValueError(f"词 {word_model.word} 缺少词性，请检查数据库")
+            # 将中文词性转换为英文缩写
+            pos_abbreviation = self.inverse_pos_mapping.get(word_model.part_of_speech)
+            if not pos_abbreviation:
+                self.logger.error(
+                    f"无法将词性 '{word_model.part_of_speech}' (来自词 '{word_model.word}') 映射为英文缩写。"
                 )
-                if not pos_abbreviation:
-                    self.logger.error(
-                        f"无法将词性 '{word_model.part_of_speech}' (来自词 '{word_model.word}') 映射为英文缩写。"
-                    )
-                    # 可以选择抛出错误或记录并跳过
-                    # raise ValueError(f"无法映射词性: {word_model.part_of_speech}")
-                    continue  # 跳过无法映射的词性
+                # 可以选择抛出错误或记录并跳过
+                # raise ValueError(f"无法映射词性: {word_model.part_of_speech}")
+                continue  # 跳过无法映射的词性
 
-                known_words.add((word_model.word, pos_abbreviation))  # 存储英文缩写
+            known_words.add((word_model.word, pos_abbreviation))  # 存储英文缩写
 
         self.logger.debug(
             f"target_level: {target_level}, loaded known_words count: {len(known_words)}"
@@ -117,15 +108,14 @@ class LiteracyCalculator:
 
                 # 直接使用英文缩写 pos 与 known_words 集合比较
                 if (word, pos) not in known_words:
-                    # 获取词汇信息
-                    word_model = next(
-                        (
-                            wm
-                            for wm in self.word_service.words.values()
-                            if wm.word.lower() == word
-                        ),
-                        None,
-                    )
+                    # 将词性缩写转换为中文全称以查询数据库
+                    full_pos = self.pos_mapping.get(pos)
+                    word_model = None
+                    if full_pos:
+                        # 修复了仅按单词文本查找的错误，现在同时匹配词性
+                        word_model = self.word_service.get_word_by_text_and_pos(
+                            word, full_pos
+                        )
 
                     if word_model:
                         chaotong_level = word_model.chaotong_level

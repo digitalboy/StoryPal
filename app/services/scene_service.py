@@ -1,8 +1,9 @@
 # app/services/scene_service.py
 import logging
-from typing import List
+from typing import List, Optional
 import uuid
 
+from sqlalchemy import or_
 from app.database import SessionLocal
 from app.models.scene_model import SceneModel
 
@@ -30,13 +31,55 @@ class SceneService:
         finally:
             db.close()
 
-    def get_all_scenes(self) -> List[SceneModel]:
+    def get_all_scenes(
+        self,
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+        page: int = 1,
+        page_size: int = 10,
+    ) -> List[SceneModel]:
         """
-        从数据库获取所有场景。
+        从数据库获取所有场景，支持按名称和描述进行模糊搜索和分页。
         """
         db = SessionLocal()
         try:
-            return db.query(SceneModel).all()
+            query = db.query(SceneModel)
+            filters = []
+            if name:
+                filters.append(SceneModel.name.ilike(f"%{name}%"))
+            if description:
+                filters.append(SceneModel.description.ilike(f"%{description}%"))
+
+            if filters:
+                query = query.filter(or_(*filters))
+
+            return (
+                query.order_by(SceneModel.created_at.desc())
+                .offset((page - 1) * page_size)
+                .limit(page_size)
+                .all()
+            )
+        finally:
+            db.close()
+
+    def get_total_scenes(
+        self, name: Optional[str] = None, description: Optional[str] = None
+    ) -> int:
+        """
+        获取场景总数，支持按名称和描述进行模糊搜索。
+        """
+        db = SessionLocal()
+        try:
+            query = db.query(SceneModel)
+            filters = []
+            if name:
+                filters.append(SceneModel.name.ilike(f"%{name}%"))
+            if description:
+                filters.append(SceneModel.description.ilike(f"%{description}%"))
+
+            if filters:
+                query = query.filter(or_(*filters))
+            return query.count()
         finally:
             db.close()
 

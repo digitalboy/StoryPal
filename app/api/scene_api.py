@@ -4,7 +4,7 @@ from app.services.scene_service import SceneService
 from app.utils.error_handling import handle_error
 from app.utils.api_key_auth import api_key_required
 from app.config import Config
-import logging
+import logging, math
 
 scene_api = Blueprint("scene_api", __name__, url_prefix="/api/v1/scenes")
 
@@ -16,28 +16,45 @@ scene_service = SceneService()
 @api_key_required
 def get_all_scenes():
     """
-    获取所有场景
+    获取所有场景，支持模糊搜索和分页
     """
     try:
-        scenes = scene_service.get_all_scenes()
+        name = request.args.get("name")
+        description = request.args.get("description")
+        try:
+            page = int(request.args.get("page", 1))
+            page_size = int(request.args.get("page_size", 10))
+        except (ValueError, TypeError):
+            return handle_error(400, "page and page_size must be integers.")
+
+        scenes = scene_service.get_all_scenes(
+            name=name, description=description, page=page, page_size=page_size
+        )
+        total = scene_service.get_total_scenes(name=name, description=description)
+
         scenes_data = [
             {
                 "scene_id": scene.id,
                 "name": scene.name,
                 "description": scene.description,
                 "created_at": (
-                    scene.created_at.isoformat()
-                    if hasattr(scene.created_at, "isoformat")
-                    else scene.created_at
+                    scene.created_at.isoformat() if scene.created_at else None
                 ),
             }
             for scene in scenes
         ]
+
         return jsonify(
             {
                 "code": 200,
                 "message": "Scenes retrieved successfully",
-                "data": scenes_data,
+                "data": {
+                    "scenes": scenes_data,
+                    "total": total,
+                    "page": page,
+                    "page_size": page_size,
+                    "total_pages": math.ceil(total / page_size) if page_size > 0 else 0,
+                },
             }
         )
     except Exception as e:
