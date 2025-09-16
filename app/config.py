@@ -10,7 +10,7 @@ class Config:
     API_KEY = os.getenv("API_KEY")
     DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-    
+
     # 如果是开发环境，可以设置 DEBUG = True
     DEBUG = os.getenv("DEBUG", False) == "True"
     # 配置其他
@@ -33,11 +33,11 @@ class Config:
         BASE_DIR, "..", os.getenv("SCENES_FILE_PATH", "app/data/scenes.json")
     )
 
-    STORIES_FILE_PATH = os.path.join(  
+    STORIES_FILE_PATH = os.path.join(
         BASE_DIR,
         "..",
-        os.getenv("STORIES_FILE_PATH", "app/data/stories.json"),  
-    )  
+        os.getenv("STORIES_FILE_PATH", "app/data/stories.json"),
+    )
 
 
 def get_api_key_from_config():

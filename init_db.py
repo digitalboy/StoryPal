@@ -44,9 +44,13 @@ def init_db():
                         scene = SceneModel.from_dict(scene_data)
                         db.add(scene)
                     db.commit()
-                logger.info(f"'scenes' table populated with {len(scenes_data)} records.")
+                logger.info(
+                    f"'scenes' table populated with {len(scenes_data)} records."
+                )
             except FileNotFoundError:
-                logger.warning(f"{Config.SCENES_FILE_PATH} not found, skipping scene population.")
+                logger.warning(
+                    f"{Config.SCENES_FILE_PATH} not found, skipping scene population."
+                )
         else:
             logger.info("'scenes' table already populated. Skipping.")
 
