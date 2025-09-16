@@ -11,6 +11,11 @@ class Config:
     DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
+    # 数据库连接
+    DATABASE_URL = os.getenv(
+        "DATABASE_URL", "postgresql://user:password@localhost/storypal"
+    )
+
     # 如果是开发环境，可以设置 DEBUG = True
     DEBUG = os.getenv("DEBUG", False) == "True"
     # 配置其他

@@ -1,43 +1,35 @@
 # app/models/word_model.py
 from typing import List, Dict, Optional
-from app.models.base_model import BaseModel
+from app.database import Base
+from sqlalchemy import Column, String, Integer, Float, DateTime
+import uuid
+from datetime import datetime, timezone
 
 
-class WordModel(BaseModel):
+class WordModel(Base):
     """
     词语数据模型。
     """
 
-    def __init__(
-        self,
-        word_id: str = None,
-        word: str = None,
-        chaotong_level: int = None,
-        hsk_level: Optional[float] = None,
-        part_of_speech: str = None,
-        created_at: str = None,
-    ):
-        """
-        初始化方法。
-        Args:
-            word_id (str, optional): 词语的唯一ID，如果为None，则自动生成UUID.
-            word (str): 词语.
-            chaotong_level (int): 超童级别，取值范围 1-100.
-            hsk_level (float): HSK级别.
-            part_of_speech (str): 词性
-            created_at (str, optional): 模型的创建时间，如果为None，则设置为当前时间.
-        """
-        super().__init__(id=word_id, created_at=created_at)
-        self.word = word
-        self.chaotong_level = chaotong_level
-        self.hsk_level = hsk_level
-        self.part_of_speech = part_of_speech
+    __tablename__ = "words"
+
+    id = Column(String, primary_key=True, index=True)
+    word = Column(String, nullable=False, index=True)
+    chaotong_level = Column(Integer)
+    hsk_level = Column(Float)
+    part_of_speech = Column(String)
+    created_at = Column(
+        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
+    )
+    updated_at = Column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+    )
 
     def to_dict(self) -> Dict:
         """
         将模型对象转换为字典。
-        Returns:
-            dict: 模型对象的字典表示。
         """
         return {
             "word_id": self.id,
@@ -45,17 +37,13 @@ class WordModel(BaseModel):
             "chaotong_level": self.chaotong_level,
             "hsk_level": self.hsk_level,
             "part_of_speech": self.part_of_speech,
-            "created_at": self.created_at,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
         }
 
     @classmethod
     def from_dict(cls, data: Dict):
         """
         从字典创建模型对象。
-        Args:
-            data (dict): 模型对象的字典表示。
-        Returns:
-            WordModel: 词语模型对象。
         """
         chaotong_level = data.get("chaotong_level")
         if chaotong_level is not None:
@@ -64,7 +52,7 @@ class WordModel(BaseModel):
             except (ValueError, TypeError):
                 chaotong_level = None  # 或者设置默认值，或者抛出异常
         return cls(
-            word_id=data.get("word_id"),
+            id=data.get("word_id") or str(uuid.uuid4()),
             word=data.get("word"),
             chaotong_level=chaotong_level,
             hsk_level=data.get("hsk_level"),

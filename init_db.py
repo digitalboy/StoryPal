@@ -3,7 +3,7 @@ import logging
 from app.database import engine, SessionLocal, Base
 from app.models.word_model import WordModel
 from app.models.scene_model import SceneModel
-from app.models.story_model import StoryModel  # 导入以确保表被创建
+from app.models.story_model import StoryModel
 from app.config import Config
 
 logging.basicConfig(level=logging.INFO)
@@ -15,7 +15,7 @@ def init_db():
     初始化数据库：创建表并从 JSON 文件填充初始数据。
     """
     logger.info("Creating database tables...")
-    # Base.metadata.create_all 会找到所有继承自 Base 的子类并创建对应的表
+    # Base.metadata.drop_all(bind=engine)  # 可选: 用于开发中彻底重建
     Base.metadata.create_all(bind=engine)
     logger.info("Database tables created.")
 
@@ -53,6 +53,28 @@ def init_db():
                 )
         else:
             logger.info("'scenes' table already populated. Skipping.")
+
+        # 填充 stories 表
+        if db.query(StoryModel).count() == 0:
+            logger.info(
+                f"Populating 'stories' table from {Config.STORIES_FILE_PATH}..."
+            )
+            try:
+                with open(Config.STORIES_FILE_PATH, "r", encoding="utf-8") as f:
+                    stories_data = json.load(f)
+                    for story_data in stories_data:
+                        story = StoryModel.from_dict(story_data)
+                        db.add(story)
+                    db.commit()
+                logger.info(
+                    f"'stories' table populated with {len(stories_data)} records."
+                )
+            except FileNotFoundError:
+                logger.warning(
+                    f"{Config.STORIES_FILE_PATH} not found, skipping story population."
+                )
+        else:
+            logger.info("'stories' table already populated. Skipping.")
 
     finally:
         db.close()

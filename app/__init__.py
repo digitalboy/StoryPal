@@ -1,6 +1,12 @@
 # app/__init__.py
 from flask import Flask, jsonify, send_from_directory
 import logging
+
+# 导入所有模型以防止 SQLAlchemy 在服务实例化时出现循环依赖问题
+from app.models.word_model import WordModel  # noqa: F401
+from app.models.scene_model import SceneModel  # noqa: F401
+from app.models.story_model import StoryModel  # noqa: F401
+from app.models.original_story_model import OriginalStoryModel  # noqa: F401
 from app.utils.error_handling import handle_error
 from app.api.scene_api import scene_api
 from app.api.word_api import word_api

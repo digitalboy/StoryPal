@@ -1,11 +1,7 @@
-# Web Framework
-flask
-
-# For loading .env files
+Flask
 python-dotenv
-
-# API Clients
+SQLAlchemy
+psycopg2-binary
 openai
+google-generativeai
 requests
-google-genai
-gunicorn
