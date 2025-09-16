@@ -19,7 +19,6 @@ class StoryModel(Base):
     content = Column(String, nullable=False)
     vocabulary_level = Column(Integer)
     scene_id = Column(String, ForeignKey("scenes.id"), index=True)
-    scene_name = Column(String)
     word_count = Column(Integer)
     new_word_rate = Column(Float)
     key_words = Column(JSON)
@@ -45,7 +44,7 @@ class StoryModel(Base):
             "content": self.content,
             "vocabulary_level": self.vocabulary_level,
             "scene_id": self.scene_id,
-            "scene_name": self.scene_name,
+            "scene_name": self.scene.name if self.scene else None,
             "word_count": self.word_count,
             "new_word_rate": self.new_word_rate,
             "key_words": self.key_words,
@@ -64,7 +63,6 @@ class StoryModel(Base):
             content=data.get("content"),
             vocabulary_level=data.get("vocabulary_level"),
             scene_id=data.get("scene_id"),
-            scene_name=data.get("scene_name"),
             word_count=data.get("word_count"),
             new_word_rate=data.get("new_word_rate"),
             key_words=data.get("key_words", []),

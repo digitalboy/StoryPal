@@ -4,11 +4,11 @@ import logging
 from typing import List
 from jinja2 import Environment, FileSystemLoader
 from app.config import Config
-from app.models.story_model import StoryModel  
+from app.models.story_model import StoryModel
 from app.services.word_service import WordService
 from app.services.scene_service import SceneService
 from app.utils.literacy_calculator import LiteracyCalculator
-from app.services.ai_service import AIService  
+from app.services.ai_service import AIService
 
 # import logging
 from enum import Enum
@@ -88,12 +88,16 @@ class StoryService:
             "scene_name": scene.name,
             "scene_description": scene.description,
             "vocabulary_level": vocabulary_level,
-            "story_word_count_min": story_word_count - story_word_count_tolerance
-            if story_word_count_tolerance is not None
-            else story_word_count,
-            "story_word_count_max": story_word_count + story_word_count_tolerance
-            if story_word_count_tolerance is not None
-            else story_word_count,
+            "story_word_count_min": (
+                story_word_count - story_word_count_tolerance
+                if story_word_count_tolerance is not None
+                else story_word_count
+            ),
+            "story_word_count_max": (
+                story_word_count + story_word_count_tolerance
+                if story_word_count_tolerance is not None
+                else story_word_count
+            ),
             "new_word_rate": new_word_rate,
             "key_words": json.dumps(key_words, ensure_ascii=False),
         }
@@ -138,14 +142,13 @@ class StoryService:
                 ai_key_words_raw = (
                     ai_response.get("key_words") if ai_response.get("key_words") else []
                 )
-                
+
                 # 调用 LiteracyCalculator 计算词数、生词率和生词列表
                 word_count, new_word_rate, unknown_words_raw = (
                     self.literacy_calculator.calculate_vocabulary_rate(
                         content, vocabulary_level
                     )
                 )
-                
 
                 story = StoryModel(
                     story_id=None,
@@ -153,7 +156,6 @@ class StoryService:
                     content=content,
                     vocabulary_level=vocabulary_level,
                     scene_id=scene_id,
-                    scene_name=scene.name,
                     word_count=word_count,
                     new_word_rate=new_word_rate,
                     key_words=ai_key_words_raw,  # 直接使用原始列表
@@ -296,7 +298,6 @@ class StoryService:
                 content=content,
                 vocabulary_level=target_level,
                 scene_id=scene_model.id,
-                scene_name=scene_model.name,
                 key_words=ai_key_words_raw,  # 直接使用原始列表
                 word_count=word_count,  # 直接使用分析结果
                 new_word_rate=new_word_rate,  # 直接使用分析结果
