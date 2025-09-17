@@ -51,8 +51,3 @@ def create_app():
         return handle_error(5001, "Internal server error")
 
     return app
-
-
-if __name__ == "__main__":
-    app = create_app()
-    app.run(debug=True)
