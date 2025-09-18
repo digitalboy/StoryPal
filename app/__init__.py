@@ -11,6 +11,7 @@ from app.utils.error_handling import handle_error
 from app.api.scene_api import scene_api
 from app.api.word_api import word_api
 from app.api.story_api import story_api
+from app.api.original_story_api import original_story_api
 
 
 def create_app():
@@ -28,6 +29,7 @@ def create_app():
     app.register_blueprint(word_api)
     app.register_blueprint(scene_api)
     app.register_blueprint(story_api)
+    app.register_blueprint(original_story_api)
 
     # 添加根路由
     @app.route("/", methods=["GET"])

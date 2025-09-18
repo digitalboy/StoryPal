@@ -1,0 +1,203 @@
+openapi: 3.1.0
+info:
+  title: 旧有故事 (Original Story) API
+  version: 1.0.0
+  description: 用于查询从外部同步的旧有故事数据的 API。
+servers:
+  - url: /api/v1
+tags:
+  - name: OriginalStory
+    description: 旧有故事查询
+
+paths:
+  /original-stories:
+    get:
+      tags:
+        - OriginalStory
+      summary: 根据级别获取故事列表
+      description: 根据故事级别（level）进行筛选，并对结果进行分页。
+      operationId: get_stories_by_level
+      parameters:
+        - name: level
+          in: query
+          description: 故事的级别
+          required: true
+          schema:
+            type: integer
+            example: 20
+        - name: page
+          in: query
+          description: 页码
+          required: false
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: page_size
+          in: query
+          description: 每页数量
+          required: false
+          schema:
+            type: integer
+            default: 10
+            minimum: 1
+      responses:
+        "200":
+          description: 成功获取故事列表
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "Original stories retrieved successfully"
+                  data:
+                    type: object
+                    properties:
+                      stories:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/OriginalStory"
+                      total:
+                        type: integer
+                        description: 匹配条件的总故事数
+                        example: 2
+                      page:
+                        type: integer
+                        description: 当前页码
+                        example: 1
+                      page_size:
+                        type: integer
+                        description: 每页数量
+                        example: 10
+                      total_pages:
+                        type: integer
+                        description: 总页数
+                        example: 1
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - ApiKeyAuth: []
+
+  /original-stories/{story_id}:
+    get:
+      tags:
+        - OriginalStory
+      summary: 获取单个旧有故事
+      description: 根据故事 ID 获取单个旧有故事的详细信息。
+      operationId: get_story_by_id
+      parameters:
+        - name: story_id
+          in: path
+          required: true
+          description: 要获取的故事的唯一 ID
+          schema:
+            type: string
+            example: "603e0e132dcc613d8d8156fc"
+      responses:
+        "200":
+          description: 成功获取故事
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "Original story retrieved successfully"
+                  data:
+                    $ref: "#/components/schemas/OriginalStory"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - ApiKeyAuth: []
+
+components:
+  schemas:
+    OriginalStory:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 故事的唯一ID
+          example: "603e0e132dcc613d8d8156fc"
+        name:
+          type: string
+          description: 故事名称
+          example: "Between "
+        level:
+          type: integer
+          description: 故事级别
+          example: 20
+        content:
+          type: string
+          description: 故事的完整内容
+          example: "See between two walls."
+        created_at:
+          type: string
+          format: date-time
+          description: 创建时间
+          example: "2025-01-15T10:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: 更新时间
+          example: "2025-01-15T10:35:00Z"
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        data:
+          type: "null"
+
+  responses:
+    BadRequest:
+      description: 请求参数错误
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Unauthorized:
+      description: 未授权
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    NotFound:
+      description: 资源未找到
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    InternalServerError:
+      description: 服务器内部错误
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: "API Key 认证，在请求头中添加 'Authorization: Bearer <YOUR_API_KEY>'。"

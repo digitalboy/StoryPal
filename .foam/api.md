@@ -53,7 +53,7 @@
 
   ```json
   {
-    "vocabulary_level": "integer", // 目标词汇级别（1-853）
+    "vocabulary_level": "integer", // 目标词汇级别（1-350）
     "scene_id": "string", // 场景ID（UUID）
     "story_word_count": "integer", // 故事词数
     "new_word_rate": "float", // 目标生词率（0-1）
@@ -302,7 +302,7 @@
 - **Headers**:
   - `Authorization: Bearer <API_KEY>`
 - **Query Parameters**:
-  - `chaotong_level`: 超童级别（1-583），可选
+  - `chaotong_level`: 超童级别（1-350），可选
   - `part_of_speech`: 词性，可选
   - `page`: 页码（默认 1），可选
   - `page_size`: 每页数量（默认 10），可选
@@ -363,7 +363,9 @@
       "total": 2
     }
   }
-```
+  ```
+
+````
 
 ---
 
@@ -384,9 +386,9 @@
 
   ```json
   {
-    "target_level": "integer" // 目标级别（1-853）
+    "target_level": "integer" // 目标级别（1-350）
   }
-  ```
+````
 
 #### 响应
 
@@ -422,19 +424,19 @@
 
 - **响应**:
   `json
-  {
-      "code": 200,
-      "message": "Story adjusted successfully",
-      "data": {
-          "story_id": "550e8400-e29b-41d4-a716-446655440002",
-           "content": "更新后的故事内容，词汇难度升级。",
-          "vocabulary_level": 50,
-          "new_word_rate": 0.1,
-          "new_words": 2,
-          "key_words": []
-      }
-  }
-    `
+{
+    "code": 200,
+    "message": "Story adjusted successfully",
+    "data": {
+        "story_id": "550e8400-e29b-41d4-a716-446655440002",
+         "content": "更新后的故事内容，词汇难度升级。",
+        "vocabulary_level": 50,
+        "new_word_rate": 0.1,
+        "new_words": 2,
+        "key_words": []
+    }
+}
+  `
 
 ---
 

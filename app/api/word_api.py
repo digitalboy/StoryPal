@@ -51,9 +51,9 @@ def get_words():
         try:
             if chaotong_level:
                 chaotong_level = int(chaotong_level)
-                if not 1 <= chaotong_level <= 100:
+                if not 1 <= chaotong_level <= 350:
                     return handle_error(
-                        400, "Invalid chaotong_level, must be between 1 and 100"
+                        400, "Invalid chaotong_level, must be between 1 and 350"
                     )
             else:
                 chaotong_level = None  # 允许为空
@@ -65,9 +65,9 @@ def get_words():
         try:
             if below_level:
                 below_level = int(below_level)
-                if not 1 <= below_level <= 100:
+                if not 1 <= below_level <= 350:
                     return handle_error(
-                        400, "Invalid below_level, must be between 1 and 100"
+                        400, "Invalid below_level, must be between 1 and 350"
                     )
             else:
                 below_level = None  # 允许为空

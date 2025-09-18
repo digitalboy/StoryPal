@@ -1,0 +1,304 @@
+openapi: 3.1.0
+info:
+  title: 词汇 (Word) API
+  version: 1.0.0
+  description: 用于管理和查询词汇数据的 API。
+servers:
+  - url: /api/v1
+tags:
+  - name: Word
+    description: 词汇管理
+
+paths:
+  /words:
+    get:
+      tags:
+        - Word
+      summary: 获取词语列表
+      description: 根据筛选、排序和分页条件获取词语列表。
+      operationId: get_words
+      parameters:
+        - name: chaotong_level
+          in: query
+          description: 超童级别 (1-350)
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 350
+        - name: part_of_speech
+          in: query
+          description: 词性 (例如, '名词', '动词')
+          required: false
+          schema:
+            type: string
+        - name: below_level
+          in: query
+          description: 获取所有低于此级别的词汇 (1-350)。与 `chaotong_level` 参数互斥。
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 350
+        - name: page
+          in: query
+          description: 页码
+          required: false
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: page_size
+          in: query
+          description: 每页数量
+          required: false
+          schema:
+            type: integer
+            default: 10
+            minimum: 1
+        - name: sort_by
+          in: query
+          description: 排序字段
+          required: false
+          schema:
+            type: string
+            enum: [part_of_speech, chaotong_level]
+        - name: sort_order
+          in: query
+          description: 排序顺序
+          required: false
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: asc
+      responses:
+        "200":
+          description: 成功获取词语列表
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Words retrieved successfully
+                  data:
+                    type: object
+                    properties:
+                      words:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Word"
+                      total:
+                        type: integer
+                        description: 匹配条件的总词数
+                        example: 150
+                      page:
+                        type: integer
+                        description: 当前页码
+                        example: 1
+                      page_size:
+                        type: integer
+                        description: 每页数量
+                        example: 10
+                      total_pages:
+                        type: integer
+                        description: 总页数
+                        example: 15
+        "400":
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: 未授权
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: 服务器内部错误
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+        - ApiKeyAuth: []
+    post:
+      tags:
+        - Word
+      summary: 创建新词汇
+      description: 添加一个新词汇到数据库。如果词汇（词语和词性的组合）已存在，则返回已存在的词汇。
+      operationId: create_word
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - word
+                - chaotong_level
+                - part_of_speech
+              properties:
+                word:
+                  type: string
+                  description: 词语本身
+                  example: "测试"
+                chaotong_level:
+                  type: integer
+                  description: 超童级别
+                  example: 101
+                part_of_speech:
+                  type: string
+                  description: 词性
+                  example: "动词"
+                hsk_level:
+                  type: number
+                  description: HSK 级别 (可选)
+                  example: 3.0
+      responses:
+        "200":
+          description: 词汇创建成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Word created successfully
+                  data:
+                    $ref: "#/components/schemas/Word"
+        "400":
+          description: 请求体缺失或字段无效
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: 未授权
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: 服务器内部错误
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+        - ApiKeyAuth: []
+
+  /words/{word_id}:
+    delete:
+      tags:
+        - Word
+      summary: 删除词汇
+      description: 根据词汇 ID 删除一个词汇。
+      operationId: delete_word
+      parameters:
+        - name: word_id
+          in: path
+          required: true
+          description: 要删除的词汇的唯一 ID
+          schema:
+            type: string
+            format: uuid
+            example: "9288f6ab-8767-42b0-afcc-87b57d53d13e"
+      responses:
+        "200":
+          description: 词汇删除成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Word deleted successfully
+                  data:
+                    type: "null"
+                    example: null
+        "401":
+          description: 未授权
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: 词汇未找到
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: 服务器内部错误
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+        - ApiKeyAuth: []
+
+components:
+  schemas:
+    Word:
+      type: object
+      properties:
+        word_id:
+          type: string
+          format: uuid
+          description: 词汇的唯一ID
+          example: "9288f6ab-8767-42b0-afcc-87b57d53d13e"
+        word:
+          type: string
+          description: 词语
+          example: "你们"
+        chaotong_level:
+          type: integer
+          description: 超童级别
+          example: 1
+        hsk_level:
+          type: number
+          description: HSK 级别
+          example: 1.0
+        part_of_speech:
+          type: string
+          description: 词性
+          example: "代词"
+        created_at:
+          type: string
+          format: date-time
+          description: 创建时间
+          example: "2025-01-15T10:30:00Z"
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 错误码
+        message:
+          type: string
+          description: 错误信息
+        data:
+          type: "null"
+          description: 数据字段，错误时为 null
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: "API Key 认证，在请求头中添加 'Authorization: Bearer <YOUR_API_KEY>'。"

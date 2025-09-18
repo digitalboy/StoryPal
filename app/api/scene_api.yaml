@@ -1,0 +1,360 @@
+openapi: 3.1.0
+info:
+  title: 场景 (Scene) API
+  version: 1.0.0
+  description: 用于管理和查询故事场景数据的 API。
+servers:
+  - url: /api/v1
+tags:
+  - name: Scene
+    description: 场景管理
+
+paths:
+  /scenes:
+    get:
+      tags:
+        - Scene
+      summary: 获取场景列表
+      description: 根据名称和描述进行模糊搜索，并对结果进行分页。
+      operationId: get_all_scenes
+      parameters:
+        - name: name
+          in: query
+          description: 按场景名称进行模糊搜索
+          required: false
+          schema:
+            type: string
+            example: "童话"
+        - name: description
+          in: query
+          description: 按场景描述进行模糊搜索
+          required: false
+          schema:
+            type: string
+            example: "小片段"
+        - name: page
+          in: query
+          description: 页码
+          required: false
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: page_size
+          in: query
+          description: 每页数量
+          required: false
+          schema:
+            type: integer
+            default: 10
+            minimum: 1
+      responses:
+        "200":
+          description: 成功获取场景列表
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "Scenes retrieved successfully"
+                  data:
+                    type: object
+                    properties:
+                      scenes:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Scene"
+                      total:
+                        type: integer
+                        description: 匹配条件的总场景数
+                        example: 5
+                      page:
+                        type: integer
+                        description: 当前页码
+                        example: 1
+                      page_size:
+                        type: integer
+                        description: 每页数量
+                        example: 10
+                      total_pages:
+                        type: integer
+                        description: 总页数
+                        example: 1
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - ApiKeyAuth: []
+
+    post:
+      tags:
+        - Scene
+      summary: 创建新场景
+      description: 添加一个新场景到数据库。如果场景名称已存在，则返回已存在的场景。
+      operationId: create_scene
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - description
+              properties:
+                name:
+                  type: string
+                  description: 场景名称
+                  example: "购物"
+                description:
+                  type: string
+                  description: 场景描述
+                  example: "学习如何在商店购物。"
+      responses:
+        "200":
+          description: 场景创建成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "Scene created successfully"
+                  data:
+                    type: object
+                    properties:
+                      scene_id:
+                        type: string
+                        format: uuid
+                        example: "a1b2c3d4-e5f6-7890-1234-567890abcdef"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - ApiKeyAuth: []
+
+  /scenes/{scene_id}:
+    get:
+      tags:
+        - Scene
+      summary: 获取单个场景
+      description: 根据场景 ID 获取单个场景的详细信息。
+      operationId: get_scene
+      parameters:
+        - name: scene_id
+          in: path
+          required: true
+          description: 要获取的场景的唯一 ID
+          schema:
+            type: string
+            format: uuid
+            example: "f0e9d8c7-b6a5-4321-9876-543210fedcba"
+      responses:
+        "200":
+          description: 成功获取场景
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "Scene retrieved successfully"
+                  data:
+                    $ref: "#/components/schemas/Scene"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - ApiKeyAuth: []
+
+    put:
+      tags:
+        - Scene
+      summary: 更新场景
+      description: 根据场景 ID 更新一个已存在的场景。
+      operationId: update_scene
+      parameters:
+        - name: scene_id
+          in: path
+          required: true
+          description: 要更新的场景的唯一 ID
+          schema:
+            type: string
+            format: uuid
+            example: "f0e9d8c7-b6a5-4321-9876-543210fedcba"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - description
+              properties:
+                name:
+                  type: string
+                  description: 新的场景名称
+                  example: "购物中心"
+                description:
+                  type: string
+                  description: 新的场景描述
+                  example: "学习如何在购物中心购物和交流。"
+      responses:
+        "200":
+          description: 场景更新成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "Scene updated successfully"
+                  data:
+                    type: "null"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - ApiKeyAuth: []
+
+    delete:
+      tags:
+        - Scene
+      summary: 删除场景
+      description: 根据场景 ID 删除一个场景。
+      operationId: delete_scene
+      parameters:
+        - name: scene_id
+          in: path
+          required: true
+          description: 要删除的场景的唯一 ID
+          schema:
+            type: string
+            format: uuid
+            example: "f0e9d8c7-b6a5-4321-9876-543210fedcba"
+      responses:
+        "200":
+          description: 场景删除成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "Scene deleted successfully"
+                  data:
+                    type: "null"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - ApiKeyAuth: []
+
+components:
+  schemas:
+    Scene:
+      type: object
+      properties:
+        scene_id:
+          type: string
+          format: uuid
+          description: 场景的唯一ID
+          example: "f0e9d8c7-b6a5-4321-9876-543210fedcba"
+        name:
+          type: string
+          description: 场景名称
+          example: "问路"
+        description:
+          type: string
+          description: 场景描述
+          example: "学习如何用中文问路。"
+        created_at:
+          type: string
+          format: date-time
+          description: 创建时间
+          example: "2025-01-14T12:18:05.010428+00:00"
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 错误码
+        message:
+          type: string
+          description: 错误信息
+        data:
+          type: "null"
+          description: 数据字段，错误时为 null
+
+  responses:
+    BadRequest:
+      description: 请求参数错误
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Unauthorized:
+      description: 未授权
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    NotFound:
+      description: 资源未找到
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    InternalServerError:
+      description: 服务器内部错误
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: "API Key 认证，在请求头中添加 'Authorization: Bearer <YOUR_API_KEY>'。"

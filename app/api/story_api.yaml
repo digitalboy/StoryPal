@@ -1,0 +1,264 @@
+openapi: 3.1.0
+info:
+  title: 故事 (Story) API
+  version: 1.0.0
+  description: 用于生成和改写故事的 API。
+servers:
+  - url: /api/v1
+tags:
+  - name: Story
+    description: 故事生成与改写
+
+paths:
+  /stories/generate:
+    post:
+      tags:
+        - Story
+      summary: 生成故事
+      description: 根据用户指定的参数生成符合要求的故事。
+      operationId: generate_story
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - vocabulary_level
+                - scene_id
+                - story_word_count
+                - new_word_rate
+              properties:
+                vocabulary_level:
+                  type: integer
+                  description: 目标词汇级别 (1-350)
+                  example: 35
+                  minimum: 1
+                  maximum: 350
+                scene_id:
+                  type: string
+                  format: uuid
+                  description: 场景ID
+                  example: "f0e9d8c7-b6a5-4321-9876-543210fedcba"
+                story_word_count:
+                  type: integer
+                  description: 故事目标词数
+                  example: 120
+                new_word_rate:
+                  type: number
+                  format: float
+                  description: 目标生词率 (0-1)
+                  example: 0.05
+                  minimum: 0
+                  maximum: 1
+                key_word_ids:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  description: 重点词汇ID列表 (可选)
+                  example: ["a1b2c3d4-e5f6-7890-1234-567890abcdef"]
+                new_word_rate_tolerance:
+                  type: number
+                  format: float
+                  description: 生词率容差值 (可选)
+                  example: 0.02
+                story_word_count_tolerance:
+                  type: integer
+                  description: 故事字数容差值 (可选)
+                  example: 20
+                ai_service:
+                  type: string
+                  description: 使用的AI服务 (可选, 默认 "gemini")
+                  example: "gemini"
+                  default: "gemini"
+                multiplier:
+                  type: number
+                  description: 已学词汇量的倍率，用于限制故事最大字数 (可选, 默认 1.2)
+                  example: 1.5
+                  default: 1.2
+      responses:
+        "200":
+          description: 成功生成故事
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StoryResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - ApiKeyAuth: []
+
+  /stories/rewrite:
+    post:
+      tags:
+        - Story
+      summary: 改写故事
+      description: 根据给定的故事ID和目标级别，改写一个新故事。
+      operationId: rewrite_story
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - original_story_id
+                - target_level
+              properties:
+                original_story_id:
+                  type: string
+                  description: 原始故事的ID
+                  example: "603e0e132dcc613d8d8156fc"
+                target_level:
+                  type: integer
+                  description: 目标词汇级别 (1-350)
+                  example: 50
+                  minimum: 1
+                  maximum: 350
+                story_type:
+                  type: integer
+                  description: "故事类型 (1: 英文绘本, 2: 中文绘本) (可选, 默认 2)"
+                  example: 2
+                  enum: [1, 2]
+                  default: 2
+                ai_service:
+                  type: string
+                  description: 使用的AI服务 (可选, 默认 "gemini")
+                  example: "gemini"
+                  default: "gemini"
+      responses:
+        "200":
+          description: 成功改写故事
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StoryResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - ApiKeyAuth: []
+
+components:
+  schemas:
+    StoryResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: "Story generated successfully"
+        data:
+          $ref: "#/components/schemas/Story"
+
+    Story:
+      type: object
+      properties:
+        story_id:
+          type: string
+          format: uuid
+          description: 故事的唯一ID
+        title:
+          type: string
+          description: 故事标题
+        content:
+          type: string
+          description: 故事内容
+        vocabulary_level:
+          type: integer
+          description: 故事的词汇级别
+        scene_id:
+          type: string
+          format: uuid
+          description: 故事的场景ID
+        story_word_count:
+          type: integer
+          description: 故事的词数
+        new_word_rate:
+          type: number
+          format: float
+          description: 故事的生词率
+        new_words_count:
+          type: integer
+          description: 故事的生词数量
+        key_words:
+          type: array
+          items:
+            type: object
+            properties:
+              word_id:
+                type: string
+                format: uuid
+              word:
+                type: string
+              pinyin:
+                type: array
+                items:
+                  type: string
+              definition:
+                type: array
+                items:
+                  type: string
+              part_of_speech:
+                type: string
+              example:
+                type: array
+                items:
+                  type: string
+        created_at:
+          type: string
+          format: date-time
+          description: 创建时间
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        data:
+          type: "null"
+
+  responses:
+    BadRequest:
+      description: 请求参数错误
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Unauthorized:
+      description: 未授权
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    NotFound:
+      description: 资源未找到
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    InternalServerError:
+      description: 服务器内部错误
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: "API Key 认证，在请求头中添加 'Authorization: Bearer <YOUR_API_KEY>'。"

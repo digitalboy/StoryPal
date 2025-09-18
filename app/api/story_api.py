@@ -73,9 +73,9 @@ def generate_story():
             )
 
         # 验证参数取值范围
-        if not 1 <= vocabulary_level <= 300:
+        if not 1 <= vocabulary_level <= 350:
             return handle_error(
-                400, "Validation failed: 'vocabulary_level' must be between 1 and 300"
+                400, "Validation failed: 'vocabulary_level' must be between 1 and 350"
             )
         if not 0 <= new_word_rate <= 1:
             return handle_error(
@@ -173,7 +173,7 @@ def generate_story():
             }
         )
     except Exception as e:
-        logging.error(f"Error generating story: {e}")
+        logging.exception(f"Error generating story: {e}")
         return handle_error(500, f"Internal server error: {str(e)}")
 
 
@@ -209,9 +209,9 @@ def rewrite_story_endpoint():
             )
         if not isinstance(story_type, int) or story_type not in [1, 2]:
             return handle_error(400, "Invalid field value: 'story_type' must be 1 or 2")
-        if not 1 <= target_level <= 300:  # 假设级别范围
+        if not 1 <= target_level <= 350:  # 假设级别范围
             return handle_error(
-                400, "Validation failed: 'target_level' must be between 1 and 300"
+                400, "Validation failed: 'target_level' must be between 1 and 350"
             )
         # --- 参数验证结束 ---
 
