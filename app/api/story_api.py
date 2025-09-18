@@ -173,8 +173,17 @@ def generate_story():
             }
         )
     except Exception as e:
-        logging.exception(f"Error generating story: {e}")
-        return handle_error(500, f"Internal server error: {str(e)}")
+        error_str = str(e).lower()
+        # 检查是否为 AI 服务连接或超时错误
+        if "disconnected" in error_str or "timed out" in error_str:
+            logging.error(f"AI service connection error during story generation: {e}")
+            return handle_error(
+                503,
+                "AI service is currently unavailable or timed out. Please try again later.",
+            )
+
+        logging.exception(f"An unexpected error occurred during story generation: {e}")
+        return handle_error(500, f"An internal server error occurred: {e}")
 
 
 @story_api.route("/rewrite", methods=["POST"])
@@ -254,5 +263,14 @@ def rewrite_story_endpoint():
             return handle_error(500, "Failed to rewrite story")
 
     except Exception as e:
-        logging.exception(f"Error rewriting story: {e}")  # 使用 exception 记录堆栈信息
-        return handle_error(500, f"Internal server error: {str(e)}")
+        error_str = str(e).lower()
+        # 检查是否为 AI 服务连接或超时错误
+        if "disconnected" in error_str or "timed out" in error_str:
+            logging.error(f"AI service connection error during story rewrite: {e}")
+            return handle_error(
+                503,
+                "AI service is currently unavailable or timed out. Please try again later.",
+            )
+
+        logging.exception(f"An unexpected error occurred during story rewrite: {e}")
+        return handle_error(500, f"An internal server error occurred: {e}")

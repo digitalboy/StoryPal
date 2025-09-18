@@ -1,0 +1,61 @@
+[
+    {
+        "story_id": null,
+        "title": "高兴的一天",
+        "content": "一个(NUM) |人(N) |走(V) |到(PREP) |外面(N) |。|他(PRON) |看(V) |着(AUX) |，|心(N) |里(N) |很(ADV) |高兴(ADJ) |。|\n花(N) |们(AUX) |看(V) |见(V) |他(PRON) |来(V) |了(AUX) |。|很(ADV) |多(NUM) |花(N) |，|有(V) |红(ADJ) |的(AUX) |，|有(V) |蓝(ADJ) |的(AUX) |，|都(ADV) |很(ADV) |漂亮(ADJ) |。|它们(PRON) |在(PREP) |说(V) |：|“|你(PRON) |来(V) |了(AUX) |！”|\n大(ADJ) |树(N) |们(AUX) |也(ADV) |看(V) |见(V) |他(PRON) |了(AUX) |。|它们(PRON) |也(ADV) |很(ADV) |高兴(ADJ) |。|它们(PRON) |说(V) |：|“|是(V) |他(PRON) |，|他(PRON) |来(V) |了(AUX) |！”|",
+        "vocabulary_level": 300,
+        "scene_id": "506a5a60-250e-475c-90c6-00ed02953954",
+        "scene_name": null,
+        "word_count": 56,
+        "new_word_rate": 0.16071428571428573,
+        "key_words": [],
+        "unknown_words": [
+            {
+                "word": "一个",
+                "pos": "NUM",
+                "level": null
+            },
+            {
+                "word": "到",
+                "pos": "PREP",
+                "level": null
+            },
+            {
+                "word": "里",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "见",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "多",
+                "pos": "NUM",
+                "level": null
+            },
+            {
+                "word": "有",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "蓝",
+                "pos": "ADJ",
+                "level": null
+            },
+            {
+                "word": "它们",
+                "pos": "PRON",
+                "level": null
+            },
+            {
+                "word": "说",
+                "pos": "V",
+                "level": null
+            }
+        ],
+        "created_at": null
+    }
+]
