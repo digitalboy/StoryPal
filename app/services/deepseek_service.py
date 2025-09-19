@@ -1,7 +1,7 @@
 # app/services/deepseek_service.py
 import json
 import logging
-from typing import List, Dict
+from typing import Dict
 from openai import OpenAI
 from app.config import Config
 from app.services.ai_service import AIService

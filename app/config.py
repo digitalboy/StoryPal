@@ -10,6 +10,7 @@ class Config:
     API_KEY = os.getenv("API_KEY")
     DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+    QWEN_API_KEY = os.getenv("QWEN_API_KEY")
 
     # 数据库连接
     DATABASE_URL = os.getenv(

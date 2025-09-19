@@ -200,7 +200,7 @@ def rewrite_story_endpoint():
         original_story_id = data.get("original_story_id")
         target_level = data.get("target_level")
         story_type = data.get("story_type", 2)  # 默认为 2 (中文绘本)
-        ai_service_name = data.get("ai_service", "gemini")  # 默认使用 gemini
+        ai_service_name = data.get("ai_service", "qwen")  
 
         # --- 参数验证 ---
         if not original_story_id:

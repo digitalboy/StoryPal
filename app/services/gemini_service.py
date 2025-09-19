@@ -1,11 +1,13 @@
 # app/services/gemini_service.py
 import json
 import logging
-from typing import List, Dict
+from typing import Dict
 from app.config import Config
 from app.services.ai_service import AIService
-import os
+
 from google import genai  # 正确的引入方式
+from google.genai import types
+from httpx import RemoteProtocolError, TimeoutException
 
 
 class GeminiService(AIService):
@@ -20,9 +22,21 @@ class GeminiService(AIService):
                 "Gemini API 密钥不能为空，请在 .env 文件中配置 GEMINI_API_KEY"
             )
 
+        retry_options = types.HttpRetryOptions(
+            attempts=3,
+            initial_delay=5.0,  # 初始延迟 5 秒
+            max_delay=240.0,  # 最大延迟 240 秒
+            exp_base=2.0,  # 指数基数
+        )
+
+        timeout_milliseconds = 240 * 1000
+
+        http_options = types.HttpOptions(
+            timeout=timeout_milliseconds, retry_options=retry_options
+        )
 
         # 使用 genai.Client 初始化 Gemini 客户端
-        self.client = genai.Client(api_key=self.api_key)
+        self.client = genai.Client(api_key=self.api_key, http_options=http_options)
 
         # 模型选择
         self.model = "gemini-2.5-flash"  
@@ -55,6 +69,14 @@ class GeminiService(AIService):
                 )
                 raise Exception(f"Gemini AI 服务返回无效的 JSON 格式: {e}")
 
+        except RemoteProtocolError as e:
+            self.logger.error(
+                f"Gemini AI 服务连接在响应前被关闭: {e}。这可能是由于请求过大或服务器端超时。"
+            )
+            raise Exception(f"Gemini AI service connection was closed prematurely: {e}")
+        except TimeoutException as e:
+            self.logger.error(f"调用 Gemini AI 服务超时: {e}")
+            raise Exception(f"Gemini AI service timed out: {e}")
         except Exception as e:
             self.logger.error(f"Gemini AI 服务调用失败: {e}")
             raise Exception(f"Gemini AI 服务调用失败: {e}")

@@ -36,10 +36,14 @@ class LiteracyCalculator:
             "PN": "专有名词",
             "IDIOM": "成语",
             "PREP": "介词",
+            "L": "方位词",  # 新增：方位词 (Localizer)
             "UNKNOWN": "UNKNOWN",  # 保持 UNKNOWN 不变
         }
         # 添加反向词性映射 (中文 -> 英文缩写)
         self.inverse_pos_mapping = {v: k for k, v in self.pos_mapping.items()}
+        self.inverse_pos_mapping["特殊名词"] = (
+            "PN"  # 将“特殊名词”映射到“专有名词”的缩写
+        )
 
     def _load_known_words(self, target_level: int) -> Set[Tuple[str, str]]:
         """

@@ -2,6 +2,7 @@
 from app.services.ai_service import AIService
 from app.services.deepseek_service import DeepseekService
 from app.services.gemini_service import GeminiService
+from app.services.qwen_service import QwenService
 
 
 class AIServiceFactory:
@@ -14,7 +15,7 @@ class AIServiceFactory:
         """
         创建 AI 服务对象
         Args:
-            ai_service_name (str): AI 服务名称 (例如 deepseek, gemini)
+            ai_service_name (str): AI 服务名称 (例如 deepseek, gemini, qwen)
         Returns:
             AIService: AI 服务对象
         Raises:
@@ -24,5 +25,7 @@ class AIServiceFactory:
             return DeepseekService()
         elif ai_service_name == "gemini":
             return GeminiService()
+        elif ai_service_name == "qwen":
+            return QwenService()
         else:
             raise ValueError(f"无效的 AI 服务名称: {ai_service_name}")
