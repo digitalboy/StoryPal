@@ -30,10 +30,31 @@ class DeepseekService(AIService):
             response = self.client.chat.completions.create(
                 model="deepseek-chat",
                 messages=[{"role": "user", "content": prompt}],
-                response_format={"type": "json_object"},  
+                response_format={"type": "json_object"},
             )
             ai_message = response.choices[0].message.content
             return json.loads(ai_message)
         except Exception as e:
             self.logger.error(f"Deepseek AI 服务调用失败: {e}")
             raise Exception(f"Deepseek AI 服务调用失败: {e}")
+
+    def generate_text(self, prompt: str) -> str:
+        """
+        使用 Deepseek AI 生成纯文本
+        Args:
+            prompt (str): 提示语
+        Returns:
+            str: AI 生成的文本
+        """
+        try:
+            response = self.client.chat.completions.create(
+                model="deepseek-chat",
+                messages=[{"role": "user", "content": prompt}],
+            )
+            ai_message = response.choices[0].message.content
+            if ai_message is None:
+                raise Exception("Deepseek AI 服务返回了空内容。")
+            return ai_message
+        except Exception as e:
+            self.logger.error(f"Deepseek AI 服务调用失败 (generate_text): {e}")
+            raise Exception(f"Deepseek AI 服务调用失败 (generate_text): {e}")

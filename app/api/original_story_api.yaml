@@ -127,6 +127,46 @@ paths:
       security:
         - ApiKeyAuth: []
 
+  /original-stories/process-all:
+    post:
+      tags:
+        - OriginalStory
+      summary: 批量处理故事
+      description: 触发一个后台任务，对所有未处理的原始故事进行AI分词和生词率计算。这是一个异步操作，会立即返回。
+      operationId: process_all_stories
+      requestBody:
+        description: (可选) 指定用于处理的AI服务。
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ai_service:
+                  type: string
+                  description: AI服务的名称 (例如 "gemini", "deepseek")。默认为 "gemini"。
+                  example: "gemini"
+      responses:
+        "202":
+          description: 已接受请求，后台任务已启动
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 202
+                  message:
+                    type: string
+                    example: "Story processing has been initiated."
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - ApiKeyAuth: []
+
 components:
   schemas:
     OriginalStory:
@@ -148,6 +188,17 @@ components:
           type: string
           description: 故事的完整内容
           example: "See between two walls."
+        tokenized_content:
+          type: string
+          nullable: true
+          description: 分词和词性标注后的内容
+          example: "他(PRON)|走(V)|到(PREP)|田野(N)|上(L)|。"
+        unknown_word_ratio:
+          type: number
+          format: float
+          nullable: true
+          description: 生词（不在`words`表中的词）的比例
+          example: 0.15
         created_at:
           type: string
           format: date-time

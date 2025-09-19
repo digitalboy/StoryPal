@@ -1,7 +1,7 @@
 # app/services/word_service.py
 import logging
 import uuid
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Set, Tuple
 
 from app.database import SessionLocal
 from app.models.word_model import WordModel
@@ -184,5 +184,18 @@ class WordService:
                 self.logger.info(f"Deleted word from DB: ID={word_id}")
                 return True
             return False
+        finally:
+            db.close()
+
+    def get_all_words_as_set(self) -> Set[Tuple[str, str]]:
+        """
+        获取所有词汇，并以 (词, 词性) 的元组形式存入一个集合中以便快速查找。
+        注意：这里的词性是数据库中存储的中文词性。
+        """
+        db = SessionLocal()
+        try:
+            all_words = db.query(WordModel.word, WordModel.part_of_speech).all()
+            # a set of (word, part_of_speech_in_chinese)
+            return {(word, pos) for word, pos in all_words if word and pos}
         finally:
             db.close()

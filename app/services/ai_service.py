@@ -21,3 +21,14 @@ class AIService(ABC):
             Dict: 包含故事标题、内容和关键词的字典
         """
         pass
+
+    @abstractmethod
+    def generate_text(self, prompt: str) -> str:
+        """
+        根据 prompt 生成纯文本
+        Args:
+            prompt (str): 提示语
+        Returns:
+            str: AI 生成的文本
+        """
+        pass

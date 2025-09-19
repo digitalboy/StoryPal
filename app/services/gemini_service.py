@@ -39,7 +39,7 @@ class GeminiService(AIService):
         self.client = genai.Client(api_key=self.api_key, http_options=http_options)
 
         # 模型选择
-        self.model = "gemini-2.5-flash"  
+        self.model = "gemini-2.5-flash"
 
         self.logger = logging.getLogger(__name__)
 
@@ -80,3 +80,23 @@ class GeminiService(AIService):
         except Exception as e:
             self.logger.error(f"Gemini AI 服务调用失败: {e}")
             raise Exception(f"Gemini AI 服务调用失败: {e}")
+
+    def generate_text(self, prompt: str) -> str:
+        """
+        使用 Gemini AI 生成纯文本
+        Args:
+            prompt (str): 提示语
+        Returns:
+            str: AI 生成的文本
+        """
+        try:
+            # 发送 prompt 给 Gemini 模型
+            response = self.client.models.generate_content(
+                model=self.model,
+                contents=[prompt],
+            )
+            ai_message = response.text
+            return ai_message
+        except Exception as e:
+            self.logger.error(f"Gemini AI 服务调用失败 (generate_text): {e}")
+            raise Exception(f"Gemini AI 服务调用失败 (generate_text): {e}")

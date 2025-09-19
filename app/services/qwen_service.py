@@ -45,3 +45,26 @@ class QwenService(AIService):
         except Exception as e:
             self.logger.error(f"Qwen AI 服务调用失败: {e}")
             raise Exception(f"Qwen AI 服务调用失败: {e}")
+
+    def generate_text(self, prompt: str) -> str:
+        """
+        使用 Qwen AI 生成纯文本
+        Args:
+            prompt (str): 提示语
+        Returns:
+            str: AI 生成的文本
+        """
+        try:
+            completion = self.client.chat.completions.create(
+                model=self.model,
+                messages=[{"role": "user", "content": prompt}],
+                # 根据通义千问文档，非流式调用建议禁用思考过程
+                extra_body={"enable_thinking": False},
+            )
+            ai_message = completion.choices[0].message.content
+            if ai_message is None:
+                raise Exception("Qwen AI 服务返回了空内容。")
+            return ai_message
+        except Exception as e:
+            self.logger.error(f"Qwen AI 服务调用失败 (generate_text): {e}")
+            raise Exception(f"Qwen AI 服务调用失败 (generate_text): {e}")

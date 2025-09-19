@@ -43,6 +43,8 @@ def get_stories_by_level():
                 "name": story.name,
                 "level": story.level,
                 "content": story.content,
+                "tokenized_content": story.tokenized_content,
+                "unknown_word_ratio": story.unknown_word_ratio,
                 "created_at": (
                     story.created_at.isoformat() if story.created_at else None
                 ),
@@ -89,6 +91,8 @@ def get_story_by_id(story_id):
                         "name": story.name,
                         "level": story.level,
                         "content": story.content,
+                        "tokenized_content": story.tokenized_content,
+                        "unknown_word_ratio": story.unknown_word_ratio,
                         "created_at": (
                             story.created_at.isoformat() if story.created_at else None
                         ),
@@ -102,4 +106,28 @@ def get_story_by_id(story_id):
             return handle_error(404, "Original story not found")
     except Exception as e:
         logging.error(f"Error getting original story by id: {e}")
+        return handle_error(500, f"Internal server error: {str(e)}")
+
+
+@original_story_api.route("/process-all", methods=["POST"])
+@api_key_required
+def process_all_stories():
+    """
+    触发一个后台任务，对所有未处理的原始故事进行分词和生词率计算。
+    """
+    try:
+        # 可以在请求体中指定AI服务，如果需要的话
+        data = request.get_json() or {}
+        ai_service_name = data.get("ai_service", "gemini")
+
+        original_story_service.start_processing_stories(ai_service_name)
+
+        return (
+            jsonify(
+                {"code": 202, "message": "Story processing has been initiated."}
+            ),
+            202,
+        )
+    except Exception as e:
+        logging.error(f"Error initiating story processing: {e}", exc_info=True)
         return handle_error(500, f"Internal server error: {str(e)}")
