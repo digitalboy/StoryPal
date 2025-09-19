@@ -2,7 +2,7 @@
 import logging
 import re
 import threading
-from typing import List, Optional, Set, Tuple
+import string
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from jinja2 import Environment, FileSystemLoader
@@ -11,6 +11,7 @@ from app.database import SessionLocal
 from app.models.original_story_model import OriginalStoryModel
 from app.services.ai_service_factory import AIServiceFactory
 from app.services.word_service import WordService
+from typing import List, Optional, Set, Tuple
 from app.utils.literacy_calculator import LiteracyCalculator
 
 
@@ -31,6 +32,11 @@ class OriginalStoryService:
         self.logger = logging.getLogger(__name__)
         self.logger.info("OriginalStoryService initialized to work with the database.")
         self.template_env = Environment(loader=FileSystemLoader("app/prompts"))
+        # 定义一个包含中英文标点符号的集合，用于在计算生词率时进行过滤
+        self.punctuation = set(
+            string.punctuation
+            + "！？｡。＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃《》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰–—‘'‛“”„‟…⋯᠁"
+        )
 
     def get_story_by_id(self, story_id: str) -> Optional[OriginalStoryModel]:
         """
@@ -109,6 +115,8 @@ class OriginalStoryService:
         """
         处理单个故事的完整逻辑，设计为在单个工作线程中运行。
         """
+        import time
+
         # 每个工作线程创建自己的数据库会话和AI服务实例
         db: Session = SessionLocal()
         ai_service = AIServiceFactory.create_ai_service(ai_service_name)
@@ -116,6 +124,7 @@ class OriginalStoryService:
         try:
             story = (
                 db.query(OriginalStoryModel)
+                .with_for_update()  # 添加行锁，防止并发问题
                 .filter(OriginalStoryModel.id == story_id)
                 .first()
             )
@@ -123,6 +132,12 @@ class OriginalStoryService:
                 self.logger.error(f"工作线程无法找到故事 ID: {story_id}")
                 return
 
+            # 再次检查是否已被其他线程处理
+            if story.tokenized_content is not None:
+                self.logger.info(f"故事 ID {story_id} 已被其他线程处理，跳过。")
+                return
+
+            start_time = time.time()
             # 步骤 1: 提取内容并生成 Prompt
             if not story.content or not story.content.strip():
                 self.logger.warning(f"故事 ID {story.id} 内容为空，跳过处理。")
@@ -141,7 +156,9 @@ class OriginalStoryService:
 
             # 步骤 3: 计算比例
             tokens = self._parse_tokenized_string(story.tokenized_content)
-            word_tokens = [t for t in tokens if t[1] is not None]
+            word_tokens = [
+                t for t in tokens if t[1] is not None and t[0] not in self.punctuation
+            ]
             total_word_count = len(word_tokens)
             unknown_word_count = 0
 
@@ -155,8 +172,9 @@ class OriginalStoryService:
 
             # 步骤 4: 更新数据库
             db.commit()
+            processing_time = time.time() - start_time
             self.logger.info(
-                f"故事 ID {story.id} 处理完成。生词率: {story.unknown_word_ratio:.2%}"
+                f"故事 ID {story.id} 处理完成。耗时: {processing_time:.2f}s. 生词率: {story.unknown_word_ratio:.2%}"
             )
 
         except Exception as e:

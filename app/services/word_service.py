@@ -89,6 +89,16 @@ class WordService:
         finally:
             db.close()
 
+    def get_words_at_or_above_level(self, level: int) -> List[WordModel]:
+        """
+        从数据库获取指定级别及以上的所有词汇。
+        """
+        db = SessionLocal()
+        try:
+            return db.query(WordModel).filter(WordModel.chaotong_level >= level).all()
+        finally:
+            db.close()
+
     def get_key_words_by_ids(self, key_word_ids: List[str]) -> List[Dict]:
         """
         根据 key_word_ids 从数据库获取重点词汇的详细信息。
