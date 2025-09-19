@@ -57,5 +57,231 @@
             }
         ],
         "created_at": null
+    },
+    {
+        "story_id": null,
+        "title": "诗人和花朵",
+        "content": "他(PRON) |走(V) |到(PREP) |田野(N) |上(L) |。|他(PRON) |看(V) |见(V) |了(AUX) |很多(NUM) |花(N) |，|有(ADV) |红(ADJ) |的(AUX) |，|有(ADV) |蓝(ADJ) |的(AUX) |，|还有(ADV) |金(ADJ) |黄(ADJ) |的(AUX) |。|花(N) |们(PRON) |摇(V) |动(V) |着(AUX) |自(PRON) |己(PRON) |的(AUX) |小(QTY) |花束(N) |，|像(PREP) |在(PREP) |向(PREP) |他(PRON) |招(V) |手(V) |。|有的(ADJ) |低(V) |下(V) |头(N) |，|像(PREP) |在(PREP) |行(V) |礼(N) |；|有的(ADJ) |扭(V) |动(V) |身(N) |体(N) |，|像(PREP) |在(PREP) |跳舞(V) |。|她们(PRON) |说(V) |：|“|瞧(V) |！|我们(PRON) |的(AUX) |情人(N) |来(V) |了(AUX) |！|”| |大(ADJ) |树(N) |们(PRON) |也(ADV) |在(PREP) |风(N) |里(PREP) |轻轻(ADV) |摆(V) |动(V) |，|像(PREP) |老(ADJ) |人(N) |在(PREP) |鞠(V) |躬(V) |。|他们(PRON) |轻(ADV) |声(ADV) |说(V) |：|“|是他(PRON) |！|这(DET) |想(V) |象(V) |力(N) |很(ADV) |强(ADJ) |的(AUX) |人(N) |来(V) |了(AUX) |！|”|",
+        "vocabulary_level": 300,
+        "scene_id": "7de13113-a46d-4eb5-ab3d-f0cc0e52deaa",
+        "scene_name": null,
+        "word_count": 92,
+        "new_word_rate": 0.42391304347826086,
+        "key_words": [
+            {
+                "word": "情人",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "想象",
+                "part_of_speech": "V"
+            },
+            {
+                "word": "力量",
+                "part_of_speech": "N"
+            },
+            {
+                "word": "鞠躬",
+                "part_of_speech": "V"
+            }
+        ],
+        "unknown_words": [
+            {
+                "word": "到",
+                "pos": "PREP",
+                "level": null
+            },
+            {
+                "word": "田野",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "见",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "很多",
+                "pos": "NUM",
+                "level": null
+            },
+            {
+                "word": "有",
+                "pos": "ADV",
+                "level": null
+            },
+            {
+                "word": "蓝",
+                "pos": "ADJ",
+                "level": null
+            },
+            {
+                "word": "还有",
+                "pos": "ADV",
+                "level": null
+            },
+            {
+                "word": "金",
+                "pos": "ADJ",
+                "level": null
+            },
+            {
+                "word": "们",
+                "pos": "PRON",
+                "level": null
+            },
+            {
+                "word": "摇",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "动",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "己",
+                "pos": "PRON",
+                "level": null
+            },
+            {
+                "word": "小",
+                "pos": "QTY",
+                "level": null
+            },
+            {
+                "word": "花束",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "像",
+                "pos": "PREP",
+                "level": null
+            },
+            {
+                "word": "招",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "手",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "有的",
+                "pos": "ADJ",
+                "level": null
+            },
+            {
+                "word": "低",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "行",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "扭",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "身",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "体",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "她们",
+                "pos": "PRON",
+                "level": null
+            },
+            {
+                "word": "说",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "瞧",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "我们",
+                "pos": "PRON",
+                "level": null
+            },
+            {
+                "word": "情人",
+                "pos": "N",
+                "level": null
+            },
+            {
+                "word": "里",
+                "pos": "PREP",
+                "level": null
+            },
+            {
+                "word": "轻轻",
+                "pos": "ADV",
+                "level": null
+            },
+            {
+                "word": "摆",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "鞠",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "躬",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "轻",
+                "pos": "ADV",
+                "level": null
+            },
+            {
+                "word": "声",
+                "pos": "ADV",
+                "level": null
+            },
+            {
+                "word": "是他",
+                "pos": "PRON",
+                "level": null
+            },
+            {
+                "word": "这",
+                "pos": "DET",
+                "level": null
+            },
+            {
+                "word": "象",
+                "pos": "V",
+                "level": null
+            },
+            {
+                "word": "强",
+                "pos": "ADJ",
+                "level": null
+            }
+        ],
+        "created_at": null
     }
 ]
