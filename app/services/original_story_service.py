@@ -209,6 +209,24 @@ class OriginalStoryService:
             self.logger.info(f"已知词汇库加载完毕，共 {len(known_words_set)} 个词。")
 
             # 2. 获取所有待处理的故事ID列表 (非常轻量)
+            self.logger.info("正在从数据库查询故事统计信息...")
+            total_story_count = db.query(OriginalStoryModel.id).count()
+            tokenized_story_count = (
+                db.query(OriginalStoryModel.id)
+                .filter(OriginalStoryModel.tokenized_content.isnot(None))
+                .count()
+            )
+
+            if total_story_count > 0:
+                tokenized_percentage = (
+                    tokenized_story_count / total_story_count
+                ) * 100
+                self.logger.info(
+                    f"故事总数: {total_story_count}, 已分词: {tokenized_story_count} ({tokenized_percentage:.2f}%)"
+                )
+            else:
+                self.logger.info("数据库中没有故事。")
+
             self.logger.info("正在从数据库查询待处理的故事ID...")
             story_ids_to_process = (
                 db.query(OriginalStoryModel.id)
