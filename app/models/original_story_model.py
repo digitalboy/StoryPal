@@ -1,6 +1,6 @@
 # app/models/original_story_model.py
 from app.database import Base
-from sqlalchemy import Column, String, Integer, DateTime, Text, Float
+from sqlalchemy import Column, String, Integer, DateTime, Text, Float, JSON
 from datetime import datetime, timezone
 
 
@@ -17,6 +17,7 @@ class OriginalStoryModel(Base):
     content = Column(Text)
     tokenized_content = Column(Text, nullable=True)
     unknown_word_ratio = Column(Float, nullable=True)
+    unknown_words = Column(JSON, nullable=True)
     created_at = Column(
         DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
     )
