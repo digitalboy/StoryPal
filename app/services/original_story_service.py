@@ -54,12 +54,18 @@ class OriginalStoryService:
         finally:
             db.close()
 
-    def start_processing_stories(self, ai_service_name: str = "gemini"):
+    def start_processing_stories(
+        self,
+        ai_service_name: str = "gemini",
+        start_level: Optional[int] = None,
+        end_level: Optional[int] = None,
+    ):
         """
         在后台线程中启动对所有原始故事的分词和生词率计算。
         新逻辑：此任务会检查所有故事，按level排序。
         - 如果故事未分词，则进行分词和计算。
         - 如果故事已分词，则根据最新的词汇库重新计算生词率和生词列表。
+        - 支持按 start_level 和 end_level 筛选要处理的故事。
         """
         with self._processing_status["lock"]:
             if self._processing_status["is_running"]:
@@ -68,17 +74,13 @@ class OriginalStoryService:
 
             self._processing_status["is_running"] = True
             self._processing_status["processed"] = 0
-            # 预先计算总数
-            db = SessionLocal()
-            try:
-                total_stories = db.query(OriginalStoryModel.id).count()
-                self._processing_status["total"] = total_stories
-            finally:
-                db.close()
+            # 预先计算总数 - 现在移到后台任务中，因为它依赖于 level 范围
+            self._processing_status["total"] = 0
 
         self.logger.info("Starting background task for story processing.")
         thread = threading.Thread(
-            target=self._process_all_stories_task_manager, args=(ai_service_name,)
+            target=self._process_all_stories_task_manager,
+            args=(ai_service_name, start_level, end_level),
         )
         thread.daemon = True
         thread.start()
@@ -202,15 +204,22 @@ class OriginalStoryService:
             db.close()  # 确保会话在任何情况下都被关闭
 
     def _process_all_stories_task_manager(
-        self, ai_service_name: str, num_workers: int = 2
+        self,
+        ai_service_name: str,
+        start_level: Optional[int] = None,
+        end_level: Optional[int] = None,
+        num_workers: int = 2,
     ):
         """
         后台任务管理器（生产者），负责分发任务给多个工作线程（消费者）。
         新逻辑: 严格按level升序处理，并引入背压机制。
+        支持按 start_level 和 end_level 筛选。
         """
         db: Session = SessionLocal()
         try:
-            self.logger.info("后台任务管理器启动。")
+            self.logger.info(
+                f"后台任务管理器启动。处理范围: start_level={start_level}, end_level={end_level}"
+            )
 
             # 1. 准备共享的只读资源
             self.logger.info("正在加载已知词汇库...")
@@ -224,10 +233,16 @@ class OriginalStoryService:
                     known_words_set.add((word, pos_abbr))
             self.logger.info(f"已知词汇库加载完毕，共 {len(known_words_set)} 个词。")
 
-            # 2. 获取故事总数和所有级别
-            total_stories = db.query(OriginalStoryModel.id).count()
+            # 2. 根据 level 范围获取故事总数和所有级别
+            base_query = db.query(OriginalStoryModel)
+            if start_level is not None:
+                base_query = base_query.filter(OriginalStoryModel.level >= start_level)
+            if end_level is not None:
+                base_query = base_query.filter(OriginalStoryModel.level <= end_level)
+
+            total_stories = base_query.count()
             distinct_levels_result = (
-                db.query(OriginalStoryModel.level)
+                base_query.with_entities(OriginalStoryModel.level)
                 .distinct()
                 .order_by(OriginalStoryModel.level.asc())
                 .all()

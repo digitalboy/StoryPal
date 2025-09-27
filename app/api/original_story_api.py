@@ -114,18 +114,29 @@ def get_story_by_id(story_id):
 def process_all_stories():
     """
     触发一个后台任务，对所有未处理的原始故事进行分词和生词率计算。
+    支持可选参数 start_level 和 end_level 来指定处理范围。
     """
     try:
         # 可以在请求体中指定AI服务，如果需要的话
         data = request.get_json() or {}
         ai_service_name = data.get("ai_service", "gemini")
+        start_level = data.get("start_level")
+        end_level = data.get("end_level")
 
-        original_story_service.start_processing_stories(ai_service_name)
+        # 参数类型校验
+        if start_level is not None and not isinstance(start_level, int):
+            return handle_error(400, "start_level must be an integer.")
+        if end_level is not None and not isinstance(end_level, int):
+            return handle_error(400, "end_level must be an integer.")
+
+        original_story_service.start_processing_stories(
+            ai_service_name=ai_service_name,
+            start_level=start_level,
+            end_level=end_level,
+        )
 
         return (
-            jsonify(
-                {"code": 202, "message": "Story processing has been initiated."}
-            ),
+            jsonify({"code": 202, "message": "Story processing has been initiated."}),
             202,
         )
     except Exception as e:
