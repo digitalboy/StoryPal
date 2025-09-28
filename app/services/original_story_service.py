@@ -4,6 +4,7 @@ import re
 import threading
 import string
 import time  # 修复：导入 time 模块
+from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from jinja2 import Environment, FileSystemLoader
@@ -56,7 +57,7 @@ class OriginalStoryService:
 
     def start_processing_stories(
         self,
-        ai_service_name: str = "gemini",
+        ai_service_name: str = "qwen",
         start_level: Optional[int] = None,
         end_level: Optional[int] = None,
     ):
@@ -270,7 +271,7 @@ class OriginalStoryService:
                 with ThreadPoolExecutor(max_workers=num_workers) as executor:
                     futures = {}
                     last_id = ""
-                    batch_size = 10
+                    batch_size = 20
 
                     while True:
                         # 背压机制：如果待处理任务过多，则暂停获取
@@ -316,7 +317,7 @@ class OriginalStoryService:
 
                         # 新增：在每次获取批次后都强制休眠，以平滑数据库负载，避免查询风暴。
                         # 这是解决CPU 100%问题的关键应用层优化。
-                        time.sleep(0.5)
+                        time.sleep(0.1)
 
                     # 等待当前级别的所有任务完成
                     self.logger.info(f"Level {level}: 所有任务已提交，等待处理完成...")
@@ -346,6 +347,74 @@ class OriginalStoryService:
                 self._processing_status["is_running"] = False
             db.close()
             self.logger.info("后台任务管理器的数据库会话已关闭。")
+
+    def get_unknown_words_summary(
+        self, start_level: Optional[int] = None, end_level: Optional[int] = None
+    ) -> dict:
+        """
+        统计指定级别范围内所有故事的未知词汇。
+
+        Args:
+            start_level (Optional[int]): 起始级别（包含）。
+            end_level (Optional[int]): 结束级别（包含）。
+
+        Returns:
+            dict: 包含 "total_unknown_words" 和 "word_counts" 的字典。
+                  "word_counts" 是一个列表，每个元素包含 "word", "pos", "count"。
+        """
+        db = SessionLocal()
+        try:
+            self.logger.info(
+                f"开始统计未知词汇，范围: start_level={start_level}, end_level={end_level}"
+            )
+            query = db.query(OriginalStoryModel.unknown_words).filter(
+                OriginalStoryModel.unknown_words.isnot(None)
+            )
+
+            if start_level is not None:
+                query = query.filter(OriginalStoryModel.level >= start_level)
+            if end_level is not None:
+                query = query.filter(OriginalStoryModel.level <= end_level)
+
+            # all() 会将所有结果加载到内存中
+            results = query.all()
+
+            word_counter = Counter()
+            total_unknown_words = 0
+
+            # results 是一个元组列表，例如 [([{'word': 'a', 'pos': 'b'}],), ...]
+            for (word_list,) in results:
+                if not word_list:
+                    continue
+
+                total_unknown_words += len(word_list)
+                # 将列表中的字典转换为 (word, pos) 元组，以便 Counter 统计
+                word_tuples = [
+                    (item.get("word"), item.get("pos")) for item in word_list
+                ]
+                word_counter.update(word_tuples)
+
+            # 将 Counter 对象转换为更易于JSON序列化的列表格式
+            word_counts = [
+                {"word": word, "pos": pos, "count": count}
+                for (word, pos), count in word_counter.items()
+            ]
+
+            # 按数量降序排序
+            word_counts.sort(key=lambda x: x["count"], reverse=True)
+
+            summary = {
+                "total_unknown_words": total_unknown_words,
+                "unique_word_count": len(word_counts),
+                "word_counts": word_counts,
+            }
+            self.logger.info(
+                f"未知词汇统计完成。总生词数: {total_unknown_words}, 去重后生词数: {len(word_counts)}"
+            )
+            return summary
+
+        finally:
+            db.close()
 
     def get_stories_by_level(
         self,

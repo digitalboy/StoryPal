@@ -119,7 +119,7 @@ def process_all_stories():
     try:
         # 可以在请求体中指定AI服务，如果需要的话
         data = request.get_json() or {}
-        ai_service_name = data.get("ai_service", "gemini")
+        ai_service_name = data.get("ai_service", "qwen")
         start_level = data.get("start_level")
         end_level = data.get("end_level")
 
@@ -141,4 +141,49 @@ def process_all_stories():
         )
     except Exception as e:
         logging.error(f"Error initiating story processing: {e}", exc_info=True)
+        return handle_error(500, f"Internal server error: {str(e)}")
+
+
+@original_story_api.route("/unknown-words-summary", methods=["GET"])
+@api_key_required
+def get_unknown_words_summary():
+    """
+    获取并统计所有故事中的未知词汇。
+    支持按 level 范围进行筛选。
+    """
+    try:
+        start_level_str = request.args.get("start_level")
+        end_level_str = request.args.get("end_level")
+
+        start_level = None
+        end_level = None
+
+        try:
+            if start_level_str:
+                start_level = int(start_level_str)
+            if end_level_str:
+                end_level = int(end_level_str)
+        except (ValueError, TypeError):
+            return handle_error(400, "start_level and end_level must be integers.")
+
+        summary_data = original_story_service.get_unknown_words_summary(
+            start_level=start_level, end_level=end_level
+        )
+
+        # 将 start_level 和 end_level 添加到响应数据中
+        response_data = {
+            "start_level": start_level,
+            "end_level": end_level,
+            **summary_data,  # 使用字典解包合并统计数据
+        }
+
+        return jsonify(
+            {
+                "code": 200,
+                "message": "Unknown words summary retrieved successfully",
+                "data": response_data,
+            }
+        )
+    except Exception as e:
+        logging.error(f"Error getting unknown words summary: {e}", exc_info=True)
         return handle_error(500, f"Internal server error: {str(e)}")
