@@ -2,12 +2,12 @@ openapi: 3.1.0
 info:
   title: 旧有故事 (Original Story) API
   version: 1.0.0
-  description: 用于查询从外部同步的旧有故事数据的 API。
+  description: 用于查询和处理从外部同步的旧有故事数据的 API。
 servers:
   - url: /api/v1
 tags:
   - name: OriginalStory
-    description: 旧有故事查询
+    description: 旧有故事的查询与处理
 
 paths:
   /original-stories:
@@ -132,10 +132,10 @@ paths:
       tags:
         - OriginalStory
       summary: 批量处理故事
-      description: 触发一个后台任务，对所有未处理的原始故事进行AI分词和生词率计算。这是一个异步操作，会立即返回。
+      description: 触发一个后台任务，对指定范围内的故事进行AI分词和生词率计算。这是一个异步操作，会立即返回。
       operationId: process_all_stories
       requestBody:
-        description: (可选) 指定用于处理的AI服务。
+        description: (可选) 指定处理参数。
         required: false
         content:
           application/json:
@@ -144,8 +144,22 @@ paths:
               properties:
                 ai_service:
                   type: string
-                  description: AI服务的名称 (例如 "gemini", "deepseek")。默认为 "gemini"。
-                  example: "gemini"
+                  description: AI服务的名称 (例如 "qwen", "gemini")。
+                  default: "qwen"
+                  example: "qwen"
+                start_level:
+                  type: integer
+                  description: 处理的起始级别（包含）。如果为空，则从最低级别开始。
+                  example: 10
+                end_level:
+                  type: integer
+                  description: 处理的结束级别（包含）。如果为空，则处理到最高级别。
+                  example: 20
+                force_retokenize:
+                  type: boolean
+                  description: 是否强制对已分词的故事重新进行AI分词。
+                  default: false
+                  example: true
       responses:
         "202":
           description: 已接受请求，后台任务已启动
@@ -160,6 +174,55 @@ paths:
                   message:
                     type: string
                     example: "Story processing has been initiated."
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+      security:
+        - ApiKeyAuth: []
+
+  /original-stories/unknown-words-summary:
+    get:
+      tags:
+        - OriginalStory
+      summary: 获取未知词汇统计
+      description: 统计指定级别范围内所有故事中的未知词汇及其出现频率。
+      operationId: get_unknown_words_summary
+      parameters:
+        - name: start_level
+          in: query
+          description: 统计的起始级别（包含）。如果为空，则从最低级别开始。
+          required: false
+          schema:
+            type: integer
+            example: 10
+        - name: end_level
+          in: query
+          description: 统计的结束级别（包含）。如果为空，则统计到最高级别。
+          required: false
+          schema:
+            type: integer
+            example: 20
+      responses:
+        "200":
+          description: 成功获取未知词汇统计信息
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "Unknown words summary retrieved successfully"
+                  data:
+                    $ref: "#/components/schemas/UnknownWordsSummary"
+        "400":
+          $ref: "#/components/responses/BadRequest"
         "401":
           $ref: "#/components/responses/Unauthorized"
         "500":
@@ -199,6 +262,18 @@ components:
           nullable: true
           description: 生词（不在`words`表中的词）的比例
           example: 0.15
+        unknown_words:
+          type: array
+          nullable: true
+          description: 故事中的未知词汇列表
+          items:
+            type: object
+            properties:
+              word:
+                type: string
+              pos:
+                type: string
+          example: [{ "word": "彷徨", "pos": "V" }]
         created_at:
           type: string
           format: date-time
@@ -209,6 +284,47 @@ components:
           format: date-time
           description: 更新时间
           example: "2025-01-15T10:35:00Z"
+
+    UnknownWordsSummary:
+      type: object
+      description: 未知词汇的统计信息
+      properties:
+        start_level:
+          type: integer
+          nullable: true
+          description: 本次统计的起始级别
+          example: 10
+        end_level:
+          type: integer
+          nullable: true
+          description: 本次统计的结束级别
+          example: 20
+        total_unknown_words:
+          type: integer
+          description: 在指定范围内找到的未知词汇总数（未去重）
+          example: 150
+        unique_word_count:
+          type: integer
+          description: 去重后的未知词汇数量
+          example: 85
+        word_counts:
+          type: array
+          description: 每个未知词汇的详细统计列表，按出现次数降序排列
+          items:
+            type: object
+            properties:
+              word:
+                type: string
+                description: 未知词汇本体
+                example: "彷徨"
+              pos:
+                type: string
+                description: 该词汇的词性
+                example: "V"
+              count:
+                type: integer
+                description: 该词汇在指定范围内出现的总次数
+                example: 5
 
     Error:
       type: object

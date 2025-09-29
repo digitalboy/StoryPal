@@ -39,7 +39,7 @@ class GeminiService(AIService):
         self.client = genai.Client(api_key=self.api_key, http_options=http_options)
 
         # 模型选择
-        self.model = "gemini-2.5-flash"
+        self.model = "gemini-2.5-flash-lite-preview-09-2025"
 
         self.logger = logging.getLogger(__name__)
 

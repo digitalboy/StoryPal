@@ -60,6 +60,7 @@ class OriginalStoryService:
         ai_service_name: str = "qwen",
         start_level: Optional[int] = None,
         end_level: Optional[int] = None,
+        force_retokenize: bool = False,
     ):
         """
         在后台线程中启动对所有原始故事的分词和生词率计算。
@@ -67,6 +68,7 @@ class OriginalStoryService:
         - 如果故事未分词，则进行分词和计算。
         - 如果故事已分词，则根据最新的词汇库重新计算生词率和生词列表。
         - 支持按 start_level 和 end_level 筛选要处理的故事。
+        - 支持 force_retokenize 参数强制重新分词。
         """
         with self._processing_status["lock"]:
             if self._processing_status["is_running"]:
@@ -81,7 +83,7 @@ class OriginalStoryService:
         self.logger.info("Starting background task for story processing.")
         thread = threading.Thread(
             target=self._process_all_stories_task_manager,
-            args=(ai_service_name, start_level, end_level),
+            args=(ai_service_name, start_level, end_level, force_retokenize),
         )
         thread.daemon = True
         thread.start()
@@ -125,6 +127,7 @@ class OriginalStoryService:
         story_id: str,  # 接收故事ID
         ai_service_name: str,
         known_words_set: Set[Tuple[str, str]],
+        force_retokenize: bool,
     ):
         """
         处理单个故事的完整逻辑，设计为在单个工作线程中运行。
@@ -145,13 +148,20 @@ class OriginalStoryService:
             tokenized_content = ""
 
             # 步骤 1: 获取分词内容
-            if story.tokenized_content is not None:
+            # 如果不强制重新分词，且已有分词内容，则直接使用
+            if story.tokenized_content is not None and not force_retokenize:
                 # 使用已有的分词内容
                 self.logger.info(f"故事 ID {story.id} 使用已有分词内容进行重新计算。")
                 tokenized_content = story.tokenized_content
             else:
-                # 执行AI分词
-                self.logger.info(f"故事 ID {story.id} 开始执行AI分词。")
+                # 执行AI分词（全新分词或强制重新分词）
+                log_message = (
+                    f"故事 ID {story.id} 开始执行AI分词（强制刷新）。"
+                    if force_retokenize
+                    else f"故事 ID {story.id} 开始执行AI分词。"
+                )
+                self.logger.info(log_message)
+
                 if not story.content or not story.content.strip():
                     self.logger.warning(f"故事 ID {story.id} 内容为空，跳过处理。")
                     story.tokenized_content = ""
@@ -209,6 +219,7 @@ class OriginalStoryService:
         ai_service_name: str,
         start_level: Optional[int] = None,
         end_level: Optional[int] = None,
+        force_retokenize: bool = False,
         num_workers: int = 2,
     ):
         """
@@ -219,7 +230,7 @@ class OriginalStoryService:
         db: Session = SessionLocal()
         try:
             self.logger.info(
-                f"后台任务管理器启动。处理范围: start_level={start_level}, end_level={end_level}"
+                f"后台任务管理器启动。处理范围: start_level={start_level}, end_level={end_level}, force_retokenize={force_retokenize}"
             )
 
             # 1. 准备共享的只读资源
@@ -307,6 +318,7 @@ class OriginalStoryService:
                                 story_id,
                                 ai_service_name,
                                 known_words_set,
+                                force_retokenize,
                             )
                             futures[future] = story_id
 
