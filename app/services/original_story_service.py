@@ -271,7 +271,7 @@ class OriginalStoryService:
                 with ThreadPoolExecutor(max_workers=num_workers) as executor:
                     futures = {}
                     last_id = ""
-                    batch_size = 20
+                    batch_size = 10
 
                     while True:
                         # 背压机制：如果待处理任务过多，则暂停获取
