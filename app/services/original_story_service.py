@@ -16,6 +16,7 @@ from app.services.ai_service_factory import AIServiceFactory
 from app.services.word_service import WordService
 from typing import List, Optional, Set, Tuple
 from app.utils.literacy_calculator import LiteracyCalculator
+from app.utils.text_parser import parse_tokenized_string  # 导入新的解析函数
 
 
 class OriginalStoryService:
@@ -93,45 +94,19 @@ class OriginalStoryService:
         prompt = template.render(data)
         return prompt
 
-    def _parse_tokenized_string(self, text: str) -> List[Tuple[str, Optional[str]]]:
-        """
-        解析AI返回的分词字符串，例如 "他(PRON)|走(V)|到(PREP)|。"，
-        返回一个 (词, 词性) 的元组列表。
-        标点符号的词性为 None。
-        """
-        if not text:
-            return []
-
-        # 正则表达式匹配 "词(词性)"
-        pattern = re.compile(r"(.+?)\(([A-Z]+)\)")
-
-        tokens = []
-        parts = text.split("|")
-        for part in parts:
-            part = part.strip()
-            if not part:
-                continue
-
-            match = pattern.fullmatch(part)
-            if match:
-                word, pos = match.groups()
-                tokens.append((word.strip(), pos.strip()))
-            else:
-                # 如果正则不匹配，认为它是一个没有词性的词（如标点）
-                tokens.append((part, None))
-
-        return tokens
+    # _parse_tokenized_string 方法已被移除，因为它的功能已移至 app/utils/text_parser.py
 
     def _process_single_story(
         self,
         story_id: str,  # 接收故事ID
         ai_service_name: str,
-        known_words_set: Set[Tuple[str, str]],
+        literacy_calculator: LiteracyCalculator,  # 直接接收计算器实例
         force_retokenize: bool,
     ):
         """
         处理单个故事的完整逻辑，设计为在单个工作线程中运行。
         新逻辑: 每个线程创建和管理自己的数据库会话，并使用 get() 加锁。
+        生词率计算完全委托给 LiteracyCalculator。
         """
         db: Session = SessionLocal()  # 每个线程创建自己的会话
         ai_service = None  # 仅在需要时初始化
@@ -148,13 +123,10 @@ class OriginalStoryService:
             tokenized_content = ""
 
             # 步骤 1: 获取分词内容
-            # 如果不强制重新分词，且已有分词内容，则直接使用
             if story.tokenized_content is not None and not force_retokenize:
-                # 使用已有的分词内容
                 self.logger.info(f"故事 ID {story.id} 使用已有分词内容进行重新计算。")
                 tokenized_content = story.tokenized_content
             else:
-                # 执行AI分词（全新分词或强制重新分词）
                 log_message = (
                     f"故事 ID {story.id} 开始执行AI分词（强制刷新）。"
                     if force_retokenize
@@ -165,9 +137,10 @@ class OriginalStoryService:
                 if not story.content or not story.content.strip():
                     self.logger.warning(f"故事 ID {story.id} 内容为空，跳过处理。")
                     story.tokenized_content = ""
+                    story.word_count = 0
                     story.unknown_word_ratio = 0.0
                     story.unknown_words = []
-                    db.commit()  # 提交空内容的处理结果
+                    db.commit()
                     return
 
                 prompt = self._get_prompt(
@@ -178,28 +151,26 @@ class OriginalStoryService:
                 tokenized_content = tokenized_content_from_ai.strip()
                 story.tokenized_content = tokenized_content
 
-            # 步骤 2: 计算比例
-            tokens = self._parse_tokenized_string(tokenized_content)
-            word_tokens = [
-                t for t in tokens if t[1] is not None and t[0] not in self.punctuation
-            ]
-            total_word_count = len(word_tokens)
-            unknown_word_count = 0
-            unknown_words_list = []
-
-            if total_word_count > 0:
-                for word, pos in word_tokens:
-                    if (word, pos) not in known_words_set:
-                        unknown_word_count += 1
-                        unknown_words_list.append({"word": word, "pos": pos})
-                story.unknown_word_ratio = unknown_word_count / total_word_count
+            # 步骤 2: 使用 LiteracyCalculator 计算所有指标
+            if tokenized_content:
+                (
+                    word_count,
+                    unknown_word_ratio,
+                    unknown_words,
+                ) = literacy_calculator.calculate_vocabulary_rate(
+                    tokenized_content,
+                    story.level,
+                    use_full_dictionary=True,  # <-- 关键修改：为原始故事启用全词库模式
+                )
+                story.word_count = word_count
+                story.unknown_word_ratio = unknown_word_ratio
+                story.unknown_words = unknown_words
             else:
+                story.word_count = 0
                 story.unknown_word_ratio = 0.0
+                story.unknown_words = []
 
-            # 步骤 3: 更新对象属性
-            story.unknown_words = unknown_words_list
-
-            # 步骤 4: 提交事务
+            # 步骤 3: 提交事务
             db.commit()
 
             processing_time = time.time() - start_time
@@ -234,16 +205,10 @@ class OriginalStoryService:
             )
 
             # 1. 准备共享的只读资源
-            self.logger.info("正在加载已知词汇库...")
+            self.logger.info("正在初始化生词率计算器...")
             word_service = WordService()
             literacy_calculator = LiteracyCalculator(word_service)
-            all_words_chinese_pos = word_service.get_all_words_as_set()
-            known_words_set: Set[Tuple[str, str]] = set()
-            for word, chinese_pos in all_words_chinese_pos:
-                pos_abbr = literacy_calculator.inverse_pos_mapping.get(chinese_pos)
-                if pos_abbr:
-                    known_words_set.add((word, pos_abbr))
-            self.logger.info(f"已知词汇库加载完毕，共 {len(known_words_set)} 个词。")
+            self.logger.info("生词率计算器初始化完毕。")
 
             # 2. 根据 level 范围获取故事总数和所有级别
             base_query = db.query(OriginalStoryModel)
@@ -317,7 +282,7 @@ class OriginalStoryService:
                                 self._process_single_story,
                                 story_id,
                                 ai_service_name,
-                                known_words_set,
+                                literacy_calculator,  # 传递计算器实例
                                 force_retokenize,
                             )
                             futures[future] = story_id
