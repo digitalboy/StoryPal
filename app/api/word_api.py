@@ -3,6 +3,7 @@ from flask import Blueprint, request, jsonify
 from app.services.word_service import WordService
 from app.utils.error_handling import handle_error
 from app.utils.api_key_auth import api_key_required
+from app.utils.literacy_calculator import POS_MAPPING  # 导入官方词性映射
 import logging
 import math
 
@@ -162,6 +163,14 @@ def create_word():
         if not part_of_speech:
             return handle_error(400, "Missing required field: part_of_speech")
 
+        # 关键修复：验证 part_of_speech 是否在官方定义的枚举中
+        if part_of_speech not in POS_MAPPING:
+            valid_tags = ", ".join(POS_MAPPING.keys())
+            return handle_error(
+                400,
+                f"Invalid 'part_of_speech'. Must be one of: {valid_tags}",
+            )
+
         # 类型验证
         if not isinstance(word, str):
             return handle_error(400, "Invalid field type: 'word' must be a string")
@@ -176,22 +185,31 @@ def create_word():
         if hsk_level is not None and not isinstance(hsk_level, (int, float)):
             return handle_error(400, "Invalid field type: 'hsk_level' must be a number")
 
-        new_word = word_service.create_word(
+        # 调用 upsert 方法
+        word_object, status = word_service.upsert_word(
             word=word,
             chaotong_level=chaotong_level,
             part_of_speech=part_of_speech,
             hsk_level=hsk_level,
         )
 
-        return jsonify(
-            {
-                "code": 200,
+        if status == "created":
+            response = {
+                "code": 201,
                 "message": "Word created successfully",
-                "data": new_word.to_dict(),
+                "data": word_object.to_dict(),
             }
-        )
+            return jsonify(response), 201
+        else:  # status == 'updated'
+            response = {
+                "code": 200,
+                "message": "Word updated successfully",
+                "data": word_object.to_dict(),
+            }
+            return jsonify(response), 200
+
     except Exception as e:
-        logging.error(f"Error creating word: {e}")
+        logging.error(f"Error creating or updating word: {e}")
         return handle_error(500, f"Internal server error: {str(e)}")
 
 

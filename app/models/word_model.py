@@ -2,7 +2,7 @@
 from typing import List, Dict, Optional
 from app.database import Base
 from sqlalchemy import Column, String, Integer, Float, DateTime
-import uuid
+import uuid  # 导入 uuid 模块
 from datetime import datetime, timezone
 
 
@@ -13,7 +13,8 @@ class WordModel(Base):
 
     __tablename__ = "words"
 
-    id = Column(String, primary_key=True, index=True)
+    # 关键修复：为 id 列添加一个默认值生成器
+    id = Column(String, primary_key=True, index=True, default=lambda: str(uuid.uuid4()))
     word = Column(String, nullable=False, index=True)
     chaotong_level = Column(Integer)
     hsk_level = Column(Float)

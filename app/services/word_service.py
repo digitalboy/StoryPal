@@ -125,7 +125,7 @@ class WordService:
         self, text: str, part_of_speech: str
     ) -> Optional[WordModel]:
         """
-        根据文本和词性从数据库获取词语信息。
+        根据词语文本和中文词性查找词汇。
         """
         db = SessionLocal()
         try:
@@ -136,6 +136,17 @@ class WordService:
                 )
                 .first()
             )
+        finally:
+            db.close()
+
+    def get_all_words(self) -> List[WordModel]:
+        """
+        获取数据库中所有的词汇记录，不进行分页。
+        主要用于生词率计算等需要全量词汇表的场景。
+        """
+        db = SessionLocal()
+        try:
+            return db.query(WordModel).all()
         finally:
             db.close()
 
@@ -178,6 +189,61 @@ class WordService:
             db.refresh(new_word)
             self.logger.info(f"Created new word in DB: {word} ({part_of_speech})")
             return new_word
+        finally:
+            db.close()
+
+    def upsert_word(
+        self,
+        word: str,
+        chaotong_level: int,
+        part_of_speech: str,
+        hsk_level: Optional[float],
+    ) -> Tuple[WordModel, str]:
+        """
+        更新或插入一个词汇 (Upsert)。
+        如果词汇（由 word 和 part_of_speech 定义）已存在，则更新它。
+        如果不存在，则创建它。
+
+        Returns:
+            一个元组 (WordModel, status)，其中 status 是 'created' 或 'updated'。
+        """
+        db = SessionLocal()
+        try:
+            # 检查词汇是否已存在
+            existing_word = (
+                db.query(WordModel)
+                .filter(
+                    WordModel.word == word, WordModel.part_of_speech == part_of_speech
+                )
+                .first()
+            )
+
+            if existing_word:
+                # 更新现有词汇
+                self.logger.info(
+                    f"词汇 '{word}' ({part_of_speech}) 已存在，执行更新操作。"
+                )
+                existing_word.chaotong_level = chaotong_level
+                existing_word.hsk_level = hsk_level
+                # updated_at 会通过 onupdate 自动更新
+                db.commit()
+                db.refresh(existing_word)
+                return existing_word, "updated"
+            else:
+                # 创建新词汇
+                self.logger.info(
+                    f"词汇 '{word}' ({part_of_speech}) 不存在，执行创建操作。"
+                )
+                new_word = WordModel(
+                    word=word,
+                    chaotong_level=chaotong_level,
+                    part_of_speech=part_of_speech,
+                    hsk_level=hsk_level,
+                )
+                db.add(new_word)
+                db.commit()
+                db.refresh(new_word)
+                return new_word, "created"
         finally:
             db.close()
 

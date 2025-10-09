@@ -6,6 +6,29 @@ import logging
 import string
 from app.utils.text_parser import parse_tokenized_string  # 导入新的解析函数
 
+# 将词性映射提升为模块级常量，以便在整个应用中复用
+POS_MAPPING = {
+    "N": "名词",
+    "PN": "专有名词",
+    "V": "动词",
+    "ADJ": "形容词",
+    "ADV": "副词",
+    "NUM": "数词",
+    "QTY": "量词",
+    "PRON": "代词",
+    "PREP": "介词",
+    "CONJ": "连词",
+    "AUX": "助词",
+    "L": "方位词",
+    "DET": "限定词",
+    "IDIOM": "成语",
+    "PHR": "短语",
+    "INT": "叹词",
+    "UNKNOWN": "未知",
+}
+# 创建一个反向映射，用于从中文词性查找英文缩写
+INVERSE_POS_MAPPING = {v: k for k, v in POS_MAPPING.items()}
+
 
 class LiteracyCalculator:
     """
@@ -14,35 +37,16 @@ class LiteracyCalculator:
 
     def __init__(self, word_service: WordService):
         if not word_service:
-            raise ValueError("word_service cannot be None")
+            raise ValueError("WordService instance is required.")
         self.word_service = word_service
         self.logger = logging.getLogger(__name__)
         self.punctuation = set(
             string.punctuation
             + "！？｡。＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃《》「」『』【】〔〕〖〗〘㙀〙〚〛〜〝〞〟〰–—‘'‛“”„‟…⋯᠁"
         )
-        # 添加词性映射 (英文缩写 -> 中文)
-        self.pos_mapping = {
-            "N": "名词",
-            "PN": "专有名词",
-            "V": "动词",
-            "ADJ": "形容词",
-            "ADV": "副词",
-            "NUM": "数词",
-            "QTY": "量词",
-            "PRON": "代词",
-            "PREP": "介词",
-            "CONJ": "连词",
-            "AUX": "助词",
-            "L": "方位词",
-            "DET": "限定词",
-            "IDIOM": "成语",
-            "PHR": "短语",
-            "INT": "叹词",
-            "UNKNOWN": "未知",  # 新增：未知词性
-        }
-        # 创建一个反向映射，用于从中文词性查找英文缩写
-        self.inverse_pos_mapping = {v: k for k, v in self.pos_mapping.items()}
+        # 实例属性直接引用模块级常量
+        self.pos_mapping = POS_MAPPING
+        self.inverse_pos_mapping = INVERSE_POS_MAPPING
 
     def _load_known_words(self, target_level: int) -> Set[Tuple[str, str]]:
         """
@@ -108,13 +112,25 @@ class LiteracyCalculator:
 
         if use_full_dictionary:
             # 全词库模式：加载所有词汇作为已知词
-            self.logger.debug("使用全词库模式计算生词率。")
-            all_word_models = self.word_service.get_words()  # 获取所有词
+            self.logger.debug("使用全词库模式计算生词率，正在加载全量词典...")
+            all_word_models = self.word_service.get_all_words()
             for word_model in all_word_models:
-                pos_abbr = self.inverse_pos_mapping.get(
-                    word_model.part_of_speech, "UNKNOWN"
-                )
+                # 关键修复：数据库中已是英文缩写，不再需要 inverse_pos_mapping 进行转换。
+                # 直接使用数据库的值，并进行清洗和校验。
+                pos_abbr = "UNKNOWN"
+                if word_model.part_of_speech:
+                    cleaned_pos = word_model.part_of_speech.strip().upper()
+                    # 确保词性是官方定义的标签之一，否则视为 UNKNOWN
+                    if cleaned_pos in self.pos_mapping:
+                        pos_abbr = cleaned_pos
+                    else:
+                        self.logger.warning(
+                            f"数据库中词 '{word_model.word}' 的词性 '{cleaned_pos}' 不是一个有效的官方标签，已视为 UNKNOWN。"
+                        )
+
                 known_words_set.add((word_model.word.lower(), pos_abbr))
+
+            self.logger.debug(f"全量词典加载完毕，共 {len(known_words_set)} 个词条。")
         else:
             # 级别相关模式：按 target_level 加载词汇
             self.logger.debug(
