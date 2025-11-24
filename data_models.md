@@ -4,21 +4,21 @@
 
 ## 1. 整体架构概述
 
-项目目前采用了一种**基于内存模型和 JSON 文件存储**的轻量级架构。其核心思想如下：
+项目目前采用了一种**基于 SQLAlchemy ORM 和 PostgreSQL 数据库**的现代化架构。其核心思想如下：
 
-1.  **模型定义**: 在 `app/models/` 目录下，通过 Python 类定义了应用的核心数据实体（如 `Word`, `Scene`, `Story`）。这些类不仅包含数据属性，还提供了序列化和反序列化的方法。
-2.  **数据持久化**: 所有数据以 JSON 文件的形式存储在 `app/data/` 目录中。每个 JSON 文件对应一种数据模型，存储了该模型所有实例的列表。
-3.  **数据加载**: 服务（Services）在应用启动时，会读取相应的 JSON 文件，将数据完整加载到内存中，并转换为对应的模型对象列表或字典。
+1.  **模型定义**: 在 `app/models/` 目录下，通过 SQLAlchemy ORM 类定义了应用的核心数据实体（如 `Word`, `Scene`, `Story`）。这些类不仅包含数据属性，还通过关系映射实现表间关联。
+2.  **数据持久化**: 所有数据存储在 PostgreSQL 数据库中。每个模型类对应数据库中的一张表，通过 SQLAlchemy ORM 进行数据操作。
+3.  **数据访问**: 服务（Services）通过 SQLAlchemy Session 与数据库交互，执行查询、更新等操作，无需将数据加载到内存中。
 4.  **业务操作**:
-    - **读操作**: 如查询、过滤等，直接在内存中的对象列表上进行，速度非常快。
-    - **写操作**: 如创建、更新、删除，首先修改内存中的对象列表，然后将整个列表**完整地**写回 JSON 文件，以实现数据持久化。
+    - **读操作**: 如查询、过滤等，通过 SQLAlchemy 查询接口直接从数据库获取。
+    - **写操作**: 如创建、更新、删除，通过 SQLAlchemy Session 将变更持久化到数据库。
 
-`JSONStorage` 工具类 (`app/utils/json_storage.py`) 封装了对 JSON 文件的读写操作，为服务层提供了统一的持久化接口。
+数据库连接通过 `app/database.py` 中的 `SessionLocal` 进行管理，为服务层提供了统一的持久化接口。
 
 **数据流**:
-`API 层 -> 服务层 -> (内存模型操作) -> JSONStorage -> JSON 文件`
+`API 层 -> 服务层 -> (数据库操作) -> SQLAlchemy Session -> PostgreSQL 数据库`
 
-这种架构简单直接，适合项目初期快速迭代和原型验证。但其在性能、并发和数据一致性方面的局限性也十分明显，不适合生产环境的规模化应用。
+这种架构具备生产环境所需的性能、并发和数据一致性能力，支持大规模应用。
 
 ## 2. 核心数据模型详解
 
@@ -73,70 +73,65 @@
 
 ## 3. 持久化层分析
 
-### 3.1 `JSONStorage` (`app/utils/json_storage.py`)
+### 3.1 SQLAlchemy ORM (`app/database.py`)
 
-这是一个通用的 JSON 文件读写工具，实现了基本的 CRUD 功能。
+项目使用 SQLAlchemy 作为 ORM 工具，实现了与 PostgreSQL 数据库的交互。
 
-- **`_load()`**: 在初始化时调用，读取整个 JSON 文件到 `self.data` (一个字典列表)。它包含对文件不存在、文件为空或格式错误等情况的健壮性处理。
-- **`_save()`**: 一个内部方法，使用 `json.dump()` 将 `self.data` 的全部内容写回文件。**这是当前架构的主要性能瓶颈**，因为任何微小的改动都会导致整个文件的重写。
-- **`add(item)`**: 将一个新项（字典）追加到 `self.data` 列表，并立即调用 `_save()`。
-- **`update(item_id, updated_item)`**: 遍历列表找到对应 ID 的项，替换它，然后调用 `_save()`。
-- **`delete(item_id)`**: 遍历列表移除对应 ID 的项，然后调用 `_save()`。
+- **`engine`**: 通过 `create_engine` 创建与 PostgreSQL 数据库的连接。
+- **`SessionLocal`**: 提供线程安全的数据库会话，用于执行 CRUD 操作。
+- **`Base`**: 所有模型继承的基础类，提供统一的 ORM 功能。
 
-### 3.2 数据文件 (`app/data/*.json`)
+### 3.2 数据库表结构
 
-- `words.json`: 词汇表，数据量较大，目前是只读的。
-- `scenes.json`: 场景列表，支持完整的 CRUD 操作。
-- `stories.json`: 生成的故事历史记录，目前只支持追加（`add`）操作。
+- `words` 表: 词汇表，包含 `id`, `word`, `chaotong_level`, `hsk_level`, `part_of_speech`, `created_at`, `updated_at` 等字段。
+- `scenes` 表: 场景表，包含 `id`, `name`, `description`, `created_at`, `updated_at` 等字段。
+- `stories` 表: 生成的故事表，包含 `id`, `title`, `content`, `vocabulary_level`, `scene_id`, `word_count`, `new_word_rate`, `key_words`, `unknown_words`, `created_at`, `updated_at` 等字段。
 
 ## 4. 服务层集成方式
 
-服务层是连接 API 和数据模型的桥梁。
+服务层是连接 API 和数据库的桥梁。
 
 ### 4.1 `WordService`
 
-- **数据加载**: 在 `__init__` 方法中**直接读取** `words.json` 文件，而不是通过 `JSONStorage`。这与 `SceneService` 的实现方式不一致。
-- **操作模式**: 将所有词汇加载到内存字典 `self.words` 中。所有查询、过滤操作（如 `get_words_below_level`）都是对这个内存字典进行的，因此速度很快。
-- **写操作**: 目前 `WordService` **不提供**任何写操作的接口。
+- **数据访问**: 通过 SQLAlchemy Session 与数据库交互，无需将数据加载到内存。
+- **操作模式**: 所有查询、过滤操作（如 `get_words_below_level`）都通过 SQLAlchemy 查询接口直接从数据库执行。
+- **写操作**: `WordService` 提供完整的 CRUD 操作接口，通过 SQLAlchemy Session 持久化到数据库。
 
 ### 4.2 `SceneService`
 
-- **数据加载**: 使用 `JSONStorage` 来加载 `scenes.json`，并将数据转换为 `SceneModel` 对象，存储在内存字典 `self.scenes` 中。
-- **操作模式**: 提供了完整的 CRUD 接口（`create_scene`, `update_scene`, `delete_scene`）。每次写操作都会调用 `_save_scenes` 方法，通过 `JSONStorage` 将**所有场景数据**重新写入文件。
+- **数据访问**: 使用 SQLAlchemy Session 与数据库交互，无需将数据加载到内存。
+- **操作模式**: 提供了完整的 CRUD 接口（`create_scene`, `update_scene`, `delete_scene`）。每次写操作都通过 SQLAlchemy Session 持久化到数据库。
 
 ### 4.3 `StoryService`
 
-- **数据加载**: 它不直接加载故事数据，而是依赖 `WordService` 和 `SceneService` 提供所需的基础数据（如已知词汇、场景信息）。
-- **操作模式**: 核心方法 `generate_story` 和 `rewrite_story` 在完成业务逻辑后，会创建一个 `StoryModel` 实例。
-- **数据写入**: 使用 `JSONStorage` 实例 (`self.story_storage`) 的 `add` 方法，将新生成的故事（转换为字典后）**追加**到 `stories.json` 文件中。
+- **数据访问**: 通过 SQLAlchemy Session 与数据库交互，获取所需的词汇和场景数据。
+- **操作模式**: 核心方法 `generate_story` 和 `rewrite_story` 在完成业务逻辑后，将 `StoryModel` 实例通过 SQLAlchemy Session 持久化到数据库。
+- **数据写入**: 新生成的故事通过 SQLAlchemy Session 存储到 `stories` 表中。
 
-## 5. 结论与迁移建议
+## 5. 结论
 
-当前的数据模型和持久化架构清晰地反映了项目初期的设计目标：**简单、快速、易于实现**。它成功地支撑了核心业务逻辑的开发和验证。
+当前的数据模型和持久化架构采用了现代化的 SQLAlchemy ORM 和 PostgreSQL 数据库技术，能够满足生产环境对**性能、数据一致性和可扩展性**的要求。
 
-然而，正如项目计划（`README.md`）和本次分析所揭示的，该架构存在明显的局限性，无法满足生产环境对**性能、数据一致性和可扩展性**的要求。
+**架构优势：**
 
-**迁移到 PostgreSQL 的建议：**
+1.  **ORM 支持**: 使用 `SQLAlchemy` 作为对象关系映射（ORM）工具，将 Python 模型类（如 `WordModel`, `SceneModel`）无缝映射到数据库表，避免了编写大量的原生 SQL 语句。
 
-1.  **引入 ORM**: 推荐使用 `SQLAlchemy` 作为对象关系映射（ORM）工具。它能将 Python 模型类（如 `WordModel`, `SceneModel`）无缝映射到数据库表，从而避免编写大量的原生 SQL 语句。
+2.  **模型关系**:
 
-2.  **重构模型**:
+    - 所有模型继承自 `BaseModel`，与 `SQLAlchemy` 的 `declarative_base` 结合，具有统一的列定义和类型。
+    - 模型之间定义了清晰的关系，例如 `StoryModel` 和 `SceneModel` 之间的多对一关系。
 
-    - `BaseModel` 可以保留，但需要与 `SQLAlchemy` 的 `declarative_base` 结合，添加列（Column）定义和类型。
-    - 需要定义模型之间的关系，例如 `StoryModel` 和 `SceneModel` 之间的多对一关系。
+3.  **数据访问层**:
 
-3.  **重构数据访问层**:
+    - 通过 `app/database.py` 中的 `SessionLocal` 进行数据库会话管理，处理数据库的连接、事务和关闭。
 
-    - `JSONStorage` 将被废弃。
-    - 需要创建一个新的数据库会话（Session）管理机制，来处理数据库的连接、事务和关闭。可以将其封装在一个新的工具类或使用 `Flask-SQLAlchemy` 扩展来简化管理。
+4.  **服务层**:
 
-4.  **重构服务层**:
+    - `WordService`, `SceneService`, `StoryService` 不再需要从文件加载数据到内存。
+    - 所有的数据操作（CRUD）通过 SQLAlchemy Session 对数据库进行查询和操作。
+      - 例如，`scene_service.get_all_scenes()` 使用 `db.session.query(SceneModel).all()`。
+      - `scene_service.create_scene()` 使用 `db.session.add(scene)` 和 `db.session.commit()`。
 
-    - `WordService`, `SceneService`, `StoryService` 的 `__init__` 方法不再需要从 JSON 文件加载全部数据。
-    - 所有的数据操作（CRUD）都需要重写，将对内存列表的操作改为通过 SQLAlchemy Session 对数据库进行查询和操作。
-      - 例如，`scene_service.get_all_scenes()` 将从 `self.scenes.values()` 变为 `db.session.query(SceneModel).all()`。
-      - `scene_service.create_scene()` 将从 `self.scenes[scene.id] = scene` 和 `_save_scenes()` 变为 `db.session.add(scene)` 和 `db.session.commit()`。
+5.  **数据迁移**: 如需从 JSON 文件迁移数据，可编写脚本读取 `app/data/` 目录下的 JSON 文件，并使用 ORM 模型将数据插入到 PostgreSQL 数据库中。
 
-5.  **数据迁移**: 需要编写一次性的迁移脚本，读取 `app/data/` 目录下的所有 JSON 文件，并使用新的 ORM 模型将数据插入到 PostgreSQL 数据库中。
-
-总之，从 JSON 迁移到 PostgreSQL 是一次必要的架构升级。这将为平台未来的功能扩展（如更复杂的数据分析、用户系统等）和性能提升奠定坚实的基础。
+总之，当前的 PostgreSQL 实现为平台提供了生产环境所需的性能和可扩展性，并为未来的功能扩展（如更复杂的数据分析、用户系统等）奠定了坚实的基础。
